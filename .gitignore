@@ -4,3 +4,5 @@ VikingQuiz.UI/node_modules/
 bin
 obj
 .vs/
+/.vs/config/applicationhost.config
+/.vs/config
