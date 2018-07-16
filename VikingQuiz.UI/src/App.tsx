@@ -5,16 +5,16 @@ import axios from 'axios';
 import logo from './logo.svg';
 
 class App extends React.Component<any, any> {
-  constructor(props: any){
+  constructor(props: any) {
     super(props);
     this.state = { MyData: [] };
-    
-  this.init();
-}
-  public init(){
+
+    this.init();
+  }
+  public init() {
     axios.get("http://localhost:60151/api/values").then(Response => {
       global.console.log(Response.data);
-      this.setState({MyData:Response.data }) ;
+      this.setState({ MyData: Response.data });
     });
   }
 

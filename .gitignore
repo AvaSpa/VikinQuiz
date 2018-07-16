@@ -1,1 +1,6 @@
 VikingQuiz.UI/node_modules/
+/VikingQuiz.Api/bin
+/VikingQuiz.Api/obj
+bin
+obj
+.vs/
