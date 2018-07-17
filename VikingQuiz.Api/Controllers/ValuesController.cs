@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-// Dragos was here!!
+// Louisa was here!!
 namespace VikingQuiz.Api.Controllers
      // hello world
 {
