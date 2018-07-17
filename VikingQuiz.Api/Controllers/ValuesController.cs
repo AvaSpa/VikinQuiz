@@ -11,6 +11,7 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        // comentariu
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
