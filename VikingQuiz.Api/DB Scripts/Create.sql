@@ -1,6 +1,7 @@
 ﻿IF db_id('VikinQuiz') is not null
 	DROP Database VikinQuiz
 CREATE Database VikinQuiz
+GO
 Use VikinQuiz
 
 CREATE TABLE Users(
