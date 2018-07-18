@@ -30,3 +30,10 @@ CREATE TABLE Games
 	QuizId INT REFERENCES Quizzes(Id),
 	GameDate Date NOT NULL
 )
+CREATE TABLE Answers (
+	ID int NOT NULL,
+	Text nvarchar(250),
+	QuestionID int,
+	PRIMARY KEY(ID),
+	FOREIGN KEY(QuestionID) REFERENCES Questions(ID)
+)
