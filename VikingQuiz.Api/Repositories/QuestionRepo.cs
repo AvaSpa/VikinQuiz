@@ -39,7 +39,7 @@ namespace VikingQuiz.Api.Repositories
             Question qq = ctx.Question.Find(id);
             if (qq != null)
             {
-                ctx.Game.Remove(qq);
+                ctx.Question.Remove(qq);
                 ctx.SaveChanges();
             }
             else
