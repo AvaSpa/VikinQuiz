@@ -1,9 +1,8 @@
-﻿IF db_id('VikingQuiz') is not null
-	DROP Database VikingQuiz
+﻿IF db_id('VikinQuiz') is not null
+	DROP Database VikinQuiz
+CREATE Database VikinQuiz
+Use VikinQuiz
 
-CREATE Database VikingQuiz
-Use VikingQuiz
-GO
 CREATE TABLE Users(
 	Id int PRIMARY KEY IDENTITY,
 	Username nvarchar(100),
