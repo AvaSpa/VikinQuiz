@@ -12,32 +12,51 @@ CREATE TABLE Users(
 CREATE TABLE Quizzes
 (
 	Id INT PRIMARY KEY IDENTITY,
-	Title VARCHAR(100) NOT NULL,
-	PictureURL VARCHAR(max) NOT NULL,
+	Title nvarchar(100) NOT NULL,
+	PictureURL varchar(max) NOT NULL,
 	UserId INT REFERENCES Users(Id)
-)
+);
 CREATE TABLE Questions
 (
 	Id INT PRIMARY KEY IDENTITY,
-	Text VARCHAR(200) NOT NULL,
+	Text nvarchar(200) NOT NULL,
 	CorrectAnsId INT NOT NULL
-)
+);
 CREATE TABLE QuizzQuestion
 (
 	QuizzId INT REFERENCES Quizzes(Id),
 	QuestionId INT REFERENCES Questions(Id),
 	Primary Key(QuizzId, QuestionId)
-)
+);
 CREATE TABLE Games
 (
 	Id INT Primary Key IDENTITY,
 	QuizId INT REFERENCES Quizzes(Id),
 	GameDate Date NOT NULL
-)
+);
+
+CREATE TABLE Players(
+	Id int PRIMARY KEY IDENTITY,
+	PictureURL varchar(max) NOT NULL,
+	Name nvarchar(50)
+);
+
+CREATE TABLE PlayerGame(
+	Pid int REFERENCES Players(Id),
+	Gid int REFERENCES Games(Id),
+	Score int,
+	PRIMARY KEY (Pid, Gid)
+);
+
+CREATE TABLE Sesions(
+	Id int PRIMARY KEY IDENTITY,
+	UserId int REFERENCES Users(Id),
+	Token varchar(max),
+	ExpTime int
+);
+
 CREATE TABLE Answers (
-	ID int NOT NULL,
+	ID int PRIMARY KEY IDENTITY,
 	Text nvarchar(250),
-	QuestionID int,
-	PRIMARY KEY(ID),
-	FOREIGN KEY(QuestionID) REFERENCES Questions(ID)
-)
+	QuestionID int FOREIGN KEY REFERENCES Questions(ID)
+);
