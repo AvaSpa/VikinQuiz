@@ -15,15 +15,15 @@ namespace VikingQuiz.Api.Models
         {
         }
 
-        public virtual DbSet<Answer> Answer { get; set; }
-        public virtual DbSet<Game> Game { get; set; }
-        public virtual DbSet<Player> Player { get; set; }
-        public virtual DbSet<PlayerGame> PlayerGame { get; set; }
-        public virtual DbSet<Question> Question { get; set; }
-        public virtual DbSet<Quiz> Quiz { get; set; }
-        public virtual DbSet<QuizQuestion> QuizQuestion { get; set; }
-        public virtual DbSet<Sesion> Sesion { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<PlayerGame> PlayerGames { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Quiz> Quizzes { get; set; }
+        public virtual DbSet<QuizQuestion> QuizQuestions { get; set; }
+        public virtual DbSet<Sesion> Sesions { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
