@@ -1,4 +1,6 @@
-﻿DROP Database VikingQuiz
+﻿IF db_id('VikingQuiz') is not null
+	DROP Database VikingQuiz
+
 CREATE Database VikingQuiz
 Use VikingQuiz
 GO
