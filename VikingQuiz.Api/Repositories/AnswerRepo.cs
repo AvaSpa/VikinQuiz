@@ -28,7 +28,9 @@ namespace VikingQuiz.Api.Repositories
             {
                 ctx.Answer.Remove(ans);
                 ctx.SaveChanges();
-            }        
+            }
+            else
+                throw new Exception("Answer not found!")
         }
 
         public void UpdateAnswer(Answer ans)
@@ -40,13 +42,15 @@ namespace VikingQuiz.Api.Repositories
                 existingAnswer.QuestionId = ans.QuestionId;
                 existingAnswer.QuestionId = ans.QuestionId;
                 ctx.SaveChanges();
-            }    
+            }
+            else
+                throw new Exception("Answer not found!")
         }
 
        
-        public IQueryable<Answer> GetAllAnswers()
+        public List<Answer> GetAllAnswers()
         {
-            return ctx.Answer;
+            return ctx.Answer.ToList();
         }
 
         public Answer GetAnswerById(int id)
