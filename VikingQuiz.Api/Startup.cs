@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using VikingQuiz.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +16,7 @@ namespace VikingQuiz.Api
         {
             Configuration = configuration;
         }
+        //optionsBuilder.UseSqlServer(@"Server=(local);Database=VikinQuiz;Trusted_Connection=True;");
 
         public IConfiguration Configuration { get; }
 
@@ -28,9 +26,8 @@ namespace VikingQuiz.Api
             services.AddCors();
             services.AddMvc();
 
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
-    services.AddDbContext<VikinQuiz>(options => options.UseSqlServer(connection));
-
+            var connection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
+            services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

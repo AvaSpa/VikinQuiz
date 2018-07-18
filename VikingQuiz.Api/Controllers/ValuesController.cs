@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using VikingQuiz.Api.Models;
 
 
 namespace VikingQuiz.Api.Controllers
@@ -11,14 +12,25 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        Models.VikinQuiz ctx = new Models.VikinQuiz();
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly VikinQuizContext _context;
+
+        public ValuesController(VikinQuizContext context)
         {
-            var users = ctx.User.Select(u => u.Username).ToList();
-            return users;
-            //return new string[] { "value1", "value3" };
+            _context = context;
+        }
+        // comentariu
+        // GET api/values
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value3" };
+        //}
+
+        [HttpGet]
+        public User GetUser()
+        {
+            var user = _context.User.FirstOrDefault(u => u.Username == "andi");
+            return user;
         }
 
         // GET api/values/5
