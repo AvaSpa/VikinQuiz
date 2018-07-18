@@ -4,61 +4,59 @@ CREATE Database VikinQuiz
 GO
 Use VikinQuiz
 
-CREATE TABLE Users(
+CREATE TABLE [User](
 	Id int PRIMARY KEY IDENTITY,
 	Username nvarchar(100),
 	Email nvarchar(100),
 	Pass nvarchar(100),
 	PictureURL nvarchar(max)
 );
-CREATE TABLE Quizzes
+CREATE TABLE Quiz
 (
 	Id INT PRIMARY KEY IDENTITY,
 	Title nvarchar(100) NOT NULL,
 	PictureURL varchar(max) NOT NULL,
-	UserId INT REFERENCES Users(Id)
+	UserId INT REFERENCES [User](Id)
 );
-CREATE TABLE Questions
+CREATE TABLE Question
 (
 	Id INT PRIMARY KEY IDENTITY,
 	Text nvarchar(200) NOT NULL,
 	CorrectAnsId INT NOT NULL
 );
-CREATE TABLE QuizzQuestion
-(
-	QuizzId INT REFERENCES Quizzes(Id),
-	QuestionId INT REFERENCES Questions(Id),
+CREATE TABLE QuizQuestion(
+	QuizzId INT REFERENCES Quiz(Id),
+	QuestionId INT REFERENCES Question(Id),
 	Primary Key(QuizzId, QuestionId)
 );
-CREATE TABLE Games
-(
+CREATE TABLE Game(
 	Id INT Primary Key IDENTITY,
-	QuizId INT REFERENCES Quizzes(Id),
+	QuizId INT REFERENCES Quiz(Id),
 	GameDate Date NOT NULL
 );
 
-CREATE TABLE Players(
+CREATE TABLE Player(
 	Id int PRIMARY KEY IDENTITY,
 	PictureURL varchar(max) NOT NULL,
 	Name nvarchar(50)
 );
 
 CREATE TABLE PlayerGame(
-	Pid int REFERENCES Players(Id),
-	Gid int REFERENCES Games(Id),
+	Pid int REFERENCES Player(Id),
+	Gid int REFERENCES Game(Id),
 	Score int,
 	PRIMARY KEY (Pid, Gid)
 );
 
-CREATE TABLE Sesions(
+CREATE TABLE Sesion(
 	Id int PRIMARY KEY IDENTITY,
-	UserId int REFERENCES Users(Id),
+	UserId int REFERENCES [User](Id),
 	Token varchar(max),
 	ExpTime int
 );
 
-CREATE TABLE Answers (
+CREATE TABLE Answer(
 	ID int PRIMARY KEY IDENTITY,
 	Text nvarchar(250),
-	QuestionID int FOREIGN KEY REFERENCES Questions(ID)
+	QuestionID int FOREIGN KEY REFERENCES Question(ID)
 );
