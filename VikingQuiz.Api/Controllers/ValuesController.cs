@@ -6,17 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 
 namespace VikingQuiz.Api.Controllers
-     // hello world
+// hello world
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        // comentariu
+        Models.VikinQuiz ctx = new Models.VikinQuiz();
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value3" };
+            var users = ctx.User.Select(u => u.Username).ToList();
+            return users;
+            //return new string[] { "value1", "value3" };
         }
 
         // GET api/values/5
