@@ -29,8 +29,8 @@ namespace VikingQuiz.Api.Repositories
                 ctx.Player.Remove(player);
                 ctx.SaveChanges();
             }
-            else 
-                throw new Exception("Player not found!")
+            else
+                throw new Exception("Player not found!");
         }
 
         public void UpdatePlayer(Player player)
@@ -44,7 +44,7 @@ namespace VikingQuiz.Api.Repositories
                 ctx.SaveChanges();
             }
             else
-                throw new Exception("Player not found!")
+                throw new Exception("Player not found!");
         }
 
         public List<Player> GetAllPlayers()

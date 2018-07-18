@@ -30,7 +30,7 @@ namespace VikingQuiz.Api.Repositories
                 ctx.SaveChanges();
             }
             else
-                throw new Exception("Answer not found!")
+                throw new Exception("Answer not found!");
         }
 
         public void UpdateAnswer(Answer ans)
@@ -44,7 +44,7 @@ namespace VikingQuiz.Api.Repositories
                 ctx.SaveChanges();
             }
             else
-                throw new Exception("Answer not found!")
+                throw new Exception("Answer not found!");
         }
 
 
