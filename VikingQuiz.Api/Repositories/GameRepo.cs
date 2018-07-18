@@ -8,9 +8,9 @@ namespace VikingQuiz.Api.Repositories
 {
     public class GameRepo
     {
-        private VikinQuiz ctx;
+        private VikinQuizContext ctx;
 
-        public GameRepo(VikinQuiz ctx)
+        public GameRepo(VikinQuizContext ctx)
         {
             this.ctx = ctx;
         }
