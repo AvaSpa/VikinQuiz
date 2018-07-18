@@ -47,7 +47,7 @@ namespace VikingQuiz.Api.Repositories
                 throw new Exception("Answer not found!")
         }
 
-       
+
         public List<Answer> GetAllAnswers()
         {
             return ctx.Answer.ToList();
@@ -64,3 +64,4 @@ namespace VikingQuiz.Api.Repositories
         }
 
     }
+}
