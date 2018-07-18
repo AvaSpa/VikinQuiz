@@ -7,7 +7,7 @@ using VikingQuiz.Api.Models;
 
 
 namespace VikingQuiz.Api.Controllers
-     // hello world
+// hello world
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
