@@ -16,7 +16,6 @@ namespace VikingQuiz.Api
         {
             Configuration = configuration;
         }
-        //optionsBuilder.UseSqlServer(@"Server=(local);Database=VikinQuiz;Trusted_Connection=True;");
 
         public IConfiguration Configuration { get; }
 
@@ -26,7 +25,7 @@ namespace VikingQuiz.Api
             services.AddCors();
             services.AddMvc();
 
-            var connection = @"Server=(local);Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(connection));
         }
 
