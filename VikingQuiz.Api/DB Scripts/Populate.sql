@@ -10,17 +10,17 @@ DELETE FROM Quiz
 DELETE FROM [User]
 
 
-DBCC CHECKIDENT ('Game', RESEED, 0);
+DBCC CHECKIDENT ('Game', RESEED, 1);
 GO
-DBCC CHECKIDENT ('Player', RESEED, 0);
+DBCC CHECKIDENT ('Player', RESEED, 1);
 GO
-DBCC CHECKIDENT ('Answer', RESEED, 0);
+DBCC CHECKIDENT ('Answer', RESEED, 1);
 GO
-DBCC CHECKIDENT ('Question', RESEED, 0);
+DBCC CHECKIDENT ('Question', RESEED, 1);
 GO
-DBCC CHECKIDENT ('Quiz', RESEED, 0);
-GO
-DBCC CHECKIDENT ('User', RESEED, 0);
+DBCC CHECKIDENT ('Quiz', RESEED, 1);
+GO								 
+DBCC CHECKIDENT ('User', RESEED, 1);
 GO
 
 INSERT INTO [User] VALUES ('andi', 'andiabrudan@yahoo.com', '1234', 'https://andi.com/profile.jpg');
