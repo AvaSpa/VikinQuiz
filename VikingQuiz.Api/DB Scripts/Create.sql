@@ -1,4 +1,8 @@
-﻿CREATE TABLE Users(
+﻿DROP Database VikingQuiz
+CREATE Database VikingQuiz
+Use VikingQuiz
+GO
+CREATE TABLE Users(
 	Id int PRIMARY KEY IDENTITY,
 	Username nvarchar(100),
 	Email nvarchar(100),
