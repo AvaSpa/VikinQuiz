@@ -4,16 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace VikingQuiz.Api.Controllers
+     // hello world
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        // comentariu
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "value1", "value3" };
         }
 
         // GET api/values/5
@@ -40,5 +43,8 @@ namespace VikingQuiz.Api.Controllers
         public void Delete(int id)
         {
         }
+
+
+        //Test Louisa
     }
 }
