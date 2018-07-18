@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>Page Title</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous">
+
+      <style>
+         body {
+            padding: 10px;
+         }
+
+         .hidden {
+            display: none;
+         }
+      </style>
+
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+      <form class="col-m-6">
+         <div class="form-group">
+            <label  for="username">Username:</label>
+            <input required type="text" name="username" id="username" class="form-control"  pattern=".{3,24}" maxlength="24">
+   
+            <div class="error-messages-container">
+               <div class="hidden" data-display-on="valueMissing">
+                  This field is required
+               </div>
+               <div class="hidden" data-display-on="patternMismatch">
+                  patternMismatch
+               </div>
+               <div class="hidden" data-display-on="tooLong tooShort">
+                  TooLong TooShort
+               </div>
+            </div>
+         </div>
+
+         <div class="form-group">
+            <label  for="email">Email:</label>
+            <input required type="email" name="email" id="email" class="form-control">
+   
+            <div class="error-messages-container">
+               <div class="hidden" data-display-on="valueMissing">
+                  This field is required
+               </div>
+               <div class="hidden" data-display-on="typeMismatch">
+                  The email is an incorrect format.
+               </div>
+            </div>
+         </div>
+         
+         <div class="form-group">
+            <label  for="password">Password:</label>
+            <input  required type="password" name="password" id="password" class="form-control"  pattern=".{3,24}" maxlength="24">
+   
+            <div class="error-messages-container">
+               <div class="hidden" data-display-on="valueMissing">
+                  This field is required
+               </div>
+               <div class="hidden" data-display-on="passwordNotMatching">
+                  passwords do not match
+               </div>
+               <div class="hidden" data-display-on="patternMismatch">
+                  TooLong TooShort
+               </div>
+            </div>
+         </div>
+
+         <div class="form-group">
+            <label  for="confirmPassword">Comfirm Password:</label>
+            <input required type="password" name="confirmPassword" id="confirmPassword" class="form-control" pattern=".{3,24}" maxlength="24">
+            <div class="error-messages-container">
+               <div class="hidden" data-display-on="valueMissing">
+                  This field is required
+               </div>
+            </div>
+         </div>
+   
+         
+         <input type="submit">
+
+      </form>
+
+   
+   
+   
+   <script src="main.js"></script>
+</body>
+</html>
