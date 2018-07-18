@@ -4,11 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-<<<<<<< HEAD
-// Andi was here!!
-=======
-// Louisa was here!!
->>>>>>> 8e5ec7fd00f87d918a2934f93683938d90a04b53
+
 namespace VikingQuiz.Api.Controllers
      // hello world
 {
