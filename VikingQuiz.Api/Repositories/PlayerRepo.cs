@@ -40,7 +40,6 @@ namespace VikingQuiz.Api.Repositories
             {
                 existingPlayer.Name = player.Name;
                 existingPlayer.PictureUrl = player.PictureUrl;
-                existingPlayer.PlayerGame = player.PlayerGame;
                 ctx.SaveChanges();
             }
             else
