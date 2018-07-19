@@ -10,7 +10,7 @@ namespace VikingQuiz.Api.Mappers
 {
     public class QuestionToViewMapper : IEntityMapper<Question, QuestionViewModel>
     {
-        publicQuestionViewModel Map(Question question)
+        public QuestionViewModel Map(Question question)
         {
             var result = new QuestionViewModel
             {

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace VikingQuiz.Api.ViewModels
 {
-    public class PlayerViewModel
+    public class QuestionViewModel
     {
         public string Text { get; set; }
 
-        public int CorrectAndId { get; set; }
+        public int CorrectAnsId { get; set; }
     }
 }
