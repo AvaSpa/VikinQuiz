@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace VikingQuiz.Api.ViewModels
+{
+    public class AnswerViewModel
+    {
+        public int ID { get; set; }
+        public string Text { get; set; }
+    }
+}
