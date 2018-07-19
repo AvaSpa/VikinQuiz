@@ -11,5 +11,12 @@ namespace VikingQuiz.Api.Models
         public int? ExpTime { get; set; }
 
         public User User { get; set; }
+
+        //functions:
+
+        public string GenerateToken()
+        {
+            return Id + "t";
+        }
     }
 }

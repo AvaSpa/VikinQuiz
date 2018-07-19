@@ -52,6 +52,16 @@ namespace VikingQuiz.Api.Repositories
             return ctx.Sesion.Find(id);
         }
 
+        public Sesion GetByToken(string token)
+        {
+            return ctx.Sesion.SingleOrDefault(t => t.Token == token);
+        }
+
+        public bool ExistsByToken(string token)
+        {
+            return ctx.Sesion.Any(t => t.Token == token);
+        }
+
         public List<Sesion> GetAll()
         {
             return ctx.Sesion.ToList();
