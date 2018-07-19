@@ -38,7 +38,7 @@ namespace VikingQuiz.Api.Models
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Answer)
                     .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK__Answer__Question__4D94879B");
+                    .HasConstraintName("FK__Answer__Question__398D8EEE");
             });
 
             modelBuilder.Entity<Game>(entity =>
@@ -48,7 +48,7 @@ namespace VikingQuiz.Api.Models
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.Game)
                     .HasForeignKey(d => d.QuizId)
-                    .HasConstraintName("FK__Game__QuizId__4222D4EF");
+                    .HasConstraintName("FK__Game__QuizId__2E1BDC42");
             });
 
             modelBuilder.Entity<Player>(entity =>
@@ -69,13 +69,13 @@ namespace VikingQuiz.Api.Models
                     .WithMany(p => p.PlayerGame)
                     .HasForeignKey(d => d.Gid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlayerGame__Gid__47DBAE45");
+                    .HasConstraintName("FK__PlayerGame__Gid__33D4B598");
 
                 entity.HasOne(d => d.P)
                     .WithMany(p => p.PlayerGame)
                     .HasForeignKey(d => d.Pid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlayerGame__Pid__46E78A0C");
+                    .HasConstraintName("FK__PlayerGame__Pid__32E0915F");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -99,7 +99,7 @@ namespace VikingQuiz.Api.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Quiz)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Quiz__UserId__398D8EEE");
+                    .HasConstraintName("FK__Quiz__UserId__25869641");
             });
 
             modelBuilder.Entity<QuizQuestion>(entity =>
@@ -110,13 +110,13 @@ namespace VikingQuiz.Api.Models
                     .WithMany(p => p.QuizQuestion)
                     .HasForeignKey(d => d.QuestionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__QuizQuest__Quest__3F466844");
+                    .HasConstraintName("FK__QuizQuest__Quest__2B3F6F97");
 
                 entity.HasOne(d => d.Quizz)
                     .WithMany(p => p.QuizQuestion)
                     .HasForeignKey(d => d.QuizzId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__QuizQuest__Quizz__3E52440B");
+                    .HasConstraintName("FK__QuizQuest__Quizz__2A4B4B5E");
             });
 
             modelBuilder.Entity<Sesion>(entity =>
@@ -126,7 +126,7 @@ namespace VikingQuiz.Api.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Sesion)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Sesion__UserId__4AB81AF0");
+                    .HasConstraintName("FK__Sesion__UserId__36B12243");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -136,6 +136,8 @@ namespace VikingQuiz.Api.Models
                 entity.Property(e => e.Pass).HasMaxLength(100);
 
                 entity.Property(e => e.PictureUrl).HasColumnName("PictureURL");
+
+                entity.Property(e => e.Token).HasMaxLength(100);
 
                 entity.Property(e => e.Username).HasMaxLength(100);
             });

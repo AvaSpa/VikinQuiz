@@ -24,7 +24,7 @@ namespace VikingQuiz.Api.Repositories
         public void Update(Sesion s)
         {
             Sesion old = ctx.Sesion.Find(s.Id);
-            if(old != null)
+            if (old != null)
             {
                 old.Token = s.Token;
                 old.UserId = s.UserId;

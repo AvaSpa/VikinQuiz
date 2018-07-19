@@ -10,7 +10,7 @@ using VikingQuiz.Api.Repositories;
 namespace VikingQuiz.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController: Controller
+    public class UsersController : Controller
     {
         private readonly UserRepo userRepo;
 

@@ -16,6 +16,8 @@ namespace VikingQuiz.Api.Models
         public string Email { get; set; }
         public string Pass { get; set; }
         public string PictureUrl { get; set; }
+        public string Token { get; set; }
+        public bool? IsConfirmed { get; set; }
 
         public ICollection<Quiz> Quiz { get; set; }
         public ICollection<Sesion> Sesion { get; set; }

@@ -23,7 +23,7 @@ namespace VikingQuiz.Api.Repositories
         public void UpdateUser(User user)
         {
             User foundUser = ctx.User.Find(user.Id);
-            if(foundUser == null)
+            if (foundUser == null)
             {
                 throw new Exception("No user with this id");
             }
@@ -32,6 +32,8 @@ namespace VikingQuiz.Api.Repositories
             foundUser.Pass = user.Pass;
             foundUser.PictureUrl = user.PictureUrl;
             foundUser.Username = user.Username;
+            foundUser.Token = user.Token;
+            foundUser.IsConfirmed = user.IsConfirmed;
 
             ctx.SaveChanges();
         }
@@ -47,7 +49,7 @@ namespace VikingQuiz.Api.Repositories
             ctx.User.Remove(foundUser);
             ctx.SaveChanges();
         }
-        
+
         public User GetUserById(int id)
         {
             User foundUser = ctx.User.Find(id);

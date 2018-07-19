@@ -28,7 +28,7 @@ namespace VikingQuiz.Api.Repositories
                 throw new Exception("No quiz with this id");
             }
 
-            foundQuiz.Title = quiz.Title ;
+            foundQuiz.Title = quiz.Title;
             foundQuiz.PictureUrl = quiz.PictureUrl;
             foundQuiz.UserId = quiz.UserId;
 
