@@ -8,7 +8,7 @@ namespace VikingQuiz.Api.ViewModels
     public class UserViewModel
     {
         public int Id { get; set; }
-        public string Userame { get; set; }
+        public string Username { get; set; }
         public string Email { get; set; }
         public string PictureUrl { get; set; }
     }
