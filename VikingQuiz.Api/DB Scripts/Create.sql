@@ -9,7 +9,9 @@ CREATE TABLE [User](
 	Username nvarchar(100),
 	Email nvarchar(100),
 	Pass nvarchar(100),
-	PictureURL nvarchar(max)
+	PictureURL nvarchar(max),
+	Token nvarchar(100),
+	IsConfirmed bit
 );
 CREATE TABLE Quiz
 (
