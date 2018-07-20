@@ -14,6 +14,7 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new UserViewModel
             {
+                Password = user.Pass,
                 Username = user.Username,
                 Email = user.Email,
                 Id = user.Id,
@@ -29,6 +30,7 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new User
             {
+                Pass = userViewModel.Password,
                 Username = userViewModel.Username,
                 Email = userViewModel.Email,
                 Id = userViewModel.Id,

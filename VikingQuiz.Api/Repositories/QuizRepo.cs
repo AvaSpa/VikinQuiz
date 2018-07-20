@@ -14,13 +14,13 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = ctx;
         }
 
-        public void createQuiz(Quiz quiz)
+        public void CreateQuiz(Quiz quiz)
         {
             ctx.Add(quiz);
             ctx.SaveChanges();
         }
 
-        public void updateQuiz(Quiz quiz)
+        public void UpdateQuiz(Quiz quiz)
         {
             Quiz foundQuiz = ctx.Quiz.Find(quiz.Id);
             if (foundQuiz == null)
@@ -35,7 +35,7 @@ namespace VikingQuiz.Api.Repositories
             ctx.SaveChanges();
         }
 
-        public void deleteQuiz(int id)
+        public void DeleteQuiz(int id)
         {
             Quiz foundQuiz = ctx.Quiz.Find(id);
             if (foundQuiz == null)
@@ -47,7 +47,7 @@ namespace VikingQuiz.Api.Repositories
             ctx.SaveChanges();
         }
 
-        public Quiz getQuizById(int id)
+        public Quiz GetQuizById(int id)
         {
             Quiz foundQuiz = ctx.Quiz.Find(id);
             if (foundQuiz == null)
@@ -58,7 +58,7 @@ namespace VikingQuiz.Api.Repositories
             return foundQuiz;
         }
 
-        public IEnumerable<Quiz> getAll()
+        public IEnumerable<Quiz> GetAll()
         {
             return ctx.Quiz.ToList();
         }
