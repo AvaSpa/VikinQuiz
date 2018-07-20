@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VikingQuiz.Api.Models;
+using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api.Repositories
 {
@@ -15,6 +16,14 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = ctx;
         }
 
+        public User Authenticate(LoginViewModel login)
+        {
+            return ctx.User
+                .Where(u => u.Username == login.username)
+                .Where(u => u.Pass == login.password)
+                .FirstOrDefault();
+        }
+
         public User CreateUser(User user)
         {
             ctx.Add(user);
@@ -24,8 +33,7 @@ namespace VikingQuiz.Api.Repositories
 
         public User UpdateUser(User user)
         {
-            User foundUser = ctx.User.Where(x => x.Id == user.Id)
-                .FirstOrDefault();
+            User foundUser = ctx.User.FirstOrDefault(x => x.Id == user.Id);
             if (foundUser == null)
             {
                 return null;
