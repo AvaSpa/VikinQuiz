@@ -27,9 +27,9 @@ CREATE TABLE Question
 	CorrectAnsId INT NOT NULL
 );
 CREATE TABLE QuizQuestion(
-	QuizzId INT REFERENCES Quiz(Id),
+	QuizId INT REFERENCES Quiz(Id),
 	QuestionId INT REFERENCES Question(Id),
-	Primary Key(QuizzId, QuestionId)
+	Primary Key(QuizId, QuestionId)
 );
 CREATE TABLE Game(
 	Id INT Primary Key IDENTITY,

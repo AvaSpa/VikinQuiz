@@ -14,18 +14,19 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = ctx;
         }
 
-        public void CreateQuiz(Quiz quiz)
+        public Quiz CreateQuiz(Quiz quiz)
         {
             ctx.Add(quiz);
             ctx.SaveChanges();
+            return quiz;
         }
 
-        public void UpdateQuiz(Quiz quiz)
+        public Quiz UpdateQuiz(Quiz quiz)
         {
-            Quiz foundQuiz = ctx.Quiz.Find(quiz.Id);
+            Quiz foundQuiz = ctx.Quiz.Where(x => x.Id == quiz.Id).FirstOrDefault();
             if (foundQuiz == null)
             {
-                throw new Exception("No quiz with this id");
+                return null;
             }
 
             foundQuiz.Title = quiz.Title;
@@ -33,27 +34,28 @@ namespace VikingQuiz.Api.Repositories
             foundQuiz.UserId = quiz.UserId;
 
             ctx.SaveChanges();
+            return quiz;
         }
 
         public void DeleteQuiz(int id)
         {
-            Quiz foundQuiz = ctx.Quiz.Find(id);
-            if (foundQuiz == null)
+            Quiz quiz = new Quiz
             {
-                throw new Exception("No quiz with this id in the database");
-            }
-
-            ctx.Quiz.Remove(foundQuiz);
+                Id = id
+            };
+            var games = ctx.Game.Where(x => x.QuizId == id).ToList();
+            ctx.Game.RemoveRange(games);
+            var quizquestions = ctx.QuizQuestion.Where(x => x.QuizId == id).ToList();
+            ctx.QuizQuestion.RemoveRange(quizquestions);
+            ctx.Quiz.Remove(quiz);
             ctx.SaveChanges();
         }
 
         public Quiz GetQuizById(int id)
         {
-            Quiz foundQuiz = ctx.Quiz.Find(id);
-            if (foundQuiz == null)
-            {
-                throw new Exception("No quiz with this id in the database");
-            }
+            Quiz foundQuiz = ctx.Quiz.Where(x => x.Id == id)
+                .Select(x => new Quiz { Id = x.Id, Title = x.Title, UserId = x.UserId, PictureUrl = x.PictureUrl})
+                .FirstOrDefault();
 
             return foundQuiz;
         }

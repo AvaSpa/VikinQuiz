@@ -104,7 +104,7 @@ namespace VikingQuiz.Api.Models
 
             modelBuilder.Entity<QuizQuestion>(entity =>
             {
-                entity.HasKey(e => new { e.QuizzId, e.QuestionId });
+                entity.HasKey(e => new { e.QuizId, e.QuestionId });
 
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.QuizQuestion)
@@ -112,9 +112,9 @@ namespace VikingQuiz.Api.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__QuizQuest__Quest__2B3F6F97");
 
-                entity.HasOne(d => d.Quizz)
+                entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.QuizQuestion)
-                    .HasForeignKey(d => d.QuizzId)
+                    .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__QuizQuest__Quizz__2A4B4B5E");
             });

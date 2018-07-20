@@ -5,10 +5,10 @@ namespace VikingQuiz.Api.Models
 {
     public partial class QuizQuestion
     {
-        public int QuizzId { get; set; }
+        public int QuizId { get; set; }
         public int QuestionId { get; set; }
 
         public Question Question { get; set; }
-        public Quiz Quizz { get; set; }
+        public Quiz Quiz { get; set; }
     }
 }
