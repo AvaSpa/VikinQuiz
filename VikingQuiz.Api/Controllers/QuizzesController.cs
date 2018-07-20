@@ -10,7 +10,8 @@ using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api.Controllers
 {
-    public class QuizzesController
+    [Route("api/[controller]")]
+    public class QuizzesController: Controller
     {
         private readonly QuizRepo quizRepo;
         private readonly QuizViewModelToEntityMapper vmToEntityMapper;
@@ -24,36 +25,54 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<QuizViewModel> GetAll()
+        public IActionResult GetAll()
         {
             var quizzes = quizRepo.GetAll();
-            return quizzes.Select(user => this.entityToVmMapper.Map(user));
+            return Ok(quizzes.Select(quiz => this.entityToVmMapper.Map(quiz)));
         }
 
         [HttpGet("{id}")]
-        public QuizViewModel Get(int id)
+        public IActionResult Get(int id)
         {
-            try
+            Quiz quiz = quizRepo.GetQuizById(id);
+            if(quiz == null)
             {
-                return this.entityToVmMapper.Map(quizRepo.GetQuizById(id));
+                return NotFound("Quiz doesn't exist");
             }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            QuizViewModel quizVm = this.entityToVmMapper.Map(quiz);
+            return Ok(quizVm);
         }
 
         [HttpPost]
-        public /*ActionResult*/ void Add([FromBody]QuizViewModel quiz)
+        public IActionResult Add([FromBody]QuizViewModel quiz)
         {
-            try
+            quiz.Id = null;
+            Quiz qiz = quizRepo.CreateQuiz(vmToEntityMapper.Map(quiz));
+            if (qiz == null)
             {
-                quizRepo.CreateQuiz(vmToEntityMapper.Map(quiz));
+                return BadRequest("Quiz couldn't be created");
             }
-            catch (Exception ex)
+            QuizViewModel quizVm = entityToVmMapper.Map(qiz);
+            return Created($"/{quizVm.Id}", quizVm);
+        }
+
+        [HttpPut]
+        public IActionResult Update([FromBody]QuizViewModel quiz)
+        {
+            Quiz qiz = quizRepo.UpdateQuiz(vmToEntityMapper.Map(quiz));
+            if (qiz == null)
             {
-                //return new HttpStatusCodeResult(200);
+                return NotFound("Quiz doesn't exist");
             }
+            QuizViewModel quizVm = entityToVmMapper.Map(qiz);
+            return Accepted($"/{quizVm.Id}", quizVm);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            quizRepo.DeleteQuiz(id);
+            return Ok();
         }
     }
 }

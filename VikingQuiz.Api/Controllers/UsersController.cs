@@ -25,26 +25,26 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<UserViewModel> GetAll()
+        public IActionResult GetAll()
         {
             var users = userRepo.GetAll();
-            return users.Select(user => this.entityToVmMapper.Map(user));
+            return Ok(users.Select(user => this.entityToVmMapper.Map(user)));
         }
 
         [HttpGet("{id}")]
-        public UserViewModel Get(int id)
+        public IActionResult Get(int id)
         {
             User user = userRepo.GetUserById(id);
             if(user == null)
             {
-                return null;
+                return NotFound("User doesn't exist");
             }
             UserViewModel userVm = this.entityToVmMapper.Map(user);
-            return userVm;
+            return Ok(userVm);
         }
 
         [HttpPost]
-        public ActionResult Add([FromBody]UserViewModel user)
+        public IActionResult Add([FromBody]UserViewModel user)
         {
             user.Id = null;
             User usr = userRepo.CreateUser(vmToEntityMapper.Map(user));
@@ -57,8 +57,7 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpPut]
-
-        public ActionResult Update([FromBody]UserViewModel user)
+        public IActionResult Update([FromBody]UserViewModel user)
         {
             User usr = userRepo.UpdateUser(vmToEntityMapper.Map(user));
             if (usr == null)
@@ -70,7 +69,7 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             userRepo.DeleteUser(id);
             return Ok();
