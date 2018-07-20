@@ -21,5 +21,12 @@ namespace VikingQuiz.Api.Models
 
         public ICollection<Quiz> Quiz { get; set; }
         public ICollection<Sesion> Sesion { get; set; }
+
+
+
+        public string GenerateToken()
+        {
+            return Id + "token";
+        }
     }
 }

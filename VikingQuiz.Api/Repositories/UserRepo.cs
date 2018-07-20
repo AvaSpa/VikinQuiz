@@ -68,5 +68,21 @@ namespace VikingQuiz.Api.Repositories
         {
             return ctx.User.ToList();
         }
+
+        public void Activate(string token)
+        {
+            User user = ctx.User.Single(u => u.Token == token);
+            user.IsConfirmed = true;
+            ctx.SaveChanges();
+        }
+
+        public User AssignToken(int id)
+        {
+            User user = ctx.User.Single(u => u.Id == id);
+            user.IsConfirmed = false;
+            user.Token = user.GenerateToken();
+            ctx.SaveChanges();
+            return user;
+        }
     }
 }
