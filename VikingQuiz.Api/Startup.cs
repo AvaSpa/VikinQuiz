@@ -22,7 +22,14 @@ namespace VikingQuiz.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
             services.AddMvc();
 
             var connection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
@@ -36,11 +43,12 @@ namespace VikingQuiz.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("CorsPolicy");
 
-            app.UseCors(builder =>
-                builder.AllowAnyOrigin()
-                    .AllowAnyHeader()
-            );
+            //app.UseCors(builder =>
+            //    builder.AllowAnyOrigin()
+            //        .AllowAnyHeader()
+            //);
 
 
             app.UseMvc();
