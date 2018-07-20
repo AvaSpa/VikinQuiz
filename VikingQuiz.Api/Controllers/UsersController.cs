@@ -14,14 +14,14 @@ namespace VikingQuiz.Api.Controllers
     public class UsersController : Controller
     {
         private readonly UserRepo userRepo;
-        private readonly UserViewModelToEntityMapper vmToEntityMapper;
-        private readonly UserToViewModelMapper entityToVmMapper;
+        private readonly IEntityMapper<UserViewModel, User> vmToEntityMapper;
+        private readonly IEntityMapper<User, UserViewModel> entityToVmMapper;
 
-        public UsersController(VikinQuizContext context)
+        public UsersController(UserRepo userRepo, IEntityMapper<UserViewModel, User> vmToEntityMapper, IEntityMapper<User, UserViewModel> entityToVmMapper)
         {
-            userRepo = new UserRepo(context);
-            vmToEntityMapper = new UserViewModelToEntityMapper();
-            entityToVmMapper = new UserToViewModelMapper();
+            this.userRepo = userRepo;
+            this.vmToEntityMapper = vmToEntityMapper;//new UserViewModelToEntityMapper();
+            this.entityToVmMapper = entityToVmMapper;//new UserToViewModelMapper();
         }
 
         [HttpGet]
