@@ -7,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VikingQuiz.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using VikingQuiz.Api.Repositories;
+using VikingQuiz.Api.Mappers;
+using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api
 {
@@ -34,6 +37,12 @@ namespace VikingQuiz.Api
 
             var connection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(connection));
+
+            services.AddScoped<UserRepo, UserRepo>();
+            services.AddScoped<SessionRepo, SessionRepo>();
+            services.AddScoped<IEntityMapper<UserViewModel, User>, UserViewModelToEntityMapper>();
+            services.AddScoped<IEntityMapper<User, UserViewModel>, UserToViewModelMapper>();
+            services.AddScoped<IEntityMapper<Sesion, SesionViewModel>, SesionToViewModelMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

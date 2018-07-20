@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using VikingQuiz.Api.Mappers;
@@ -14,11 +15,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api")]
     public class EmailController : Controller
     {
+        private readonly string fromAddress = "noreply.vikings@gmail.com";
+        private readonly string password = "1234Vikings";
         private readonly UserRepo userRepo;
 
-        public EmailController(VikinQuizContext context)
+        public EmailController(UserRepo userRepo)
         {
-            userRepo = new UserRepo(context);
+            this.userRepo = userRepo;
         }
 
         [HttpGet]
@@ -34,18 +37,25 @@ namespace VikingQuiz.Api.Controllers
             User user = userRepo.AssignToken(id);
 
             MailMessage mail = new MailMessage("andiabrudan@yahoo.com", user.Email);
-            SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential("andiabrudan@yahoo.com", "bvobrjpgrzkymetf");
-            client.Host = "smtp.mail.yahoo.com";
-            client.EnableSsl = true;
-            mail.Subject = "Register your account";
-            mail.Body = "Click the following link to register your account\n\n";
-            mail.Body += "http://localhost:60151/api/token?t=" + user.Token;
 
-            client.Send(mail);
+            SmtpClient client = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress, password)
+            };
+
+            using (MailMessage message = new MailMessage(fromAddress, user.Email)
+            {
+                Subject = "Register your account",
+                Body = "Click the following link to register your account\n\nhttp://localhost:60151/api/token?t=" + user.Token
+            })
+            {
+                client.Send(message);
+            }
         }
 
         [Route("token")]
@@ -55,5 +65,9 @@ namespace VikingQuiz.Api.Controllers
             userRepo.Activate(t);
             return "validation worked";
         }
+
+        //[Route("resend")]
+        //[HttpGet("{}")]
+        //public void ResetPassword() { }
     }
 }
