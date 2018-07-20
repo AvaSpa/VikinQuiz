@@ -15,13 +15,13 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = ctx;
         }
 
-        public void Create(Question q)
+        public void AddQuestion(Question q)
         {
-            ctx.Add(q);
+            ctx.Question.Add(q);
             ctx.SaveChanges();
         }
 
-        public void Update(Question q)
+        public void UpdateQuestion(Question q)
         {
             Question qq = ctx.Question.Find(q.Id);
             if (qq != null)
@@ -34,7 +34,7 @@ namespace VikingQuiz.Api.Repositories
                 throw new Exception("Question not found!");
         }
 
-        public void Delete(int id)
+        public void DeleteQuestion(int id)
         {
             Question qq = ctx.Question.Find(id);
             if (qq != null)
