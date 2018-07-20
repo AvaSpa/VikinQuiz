@@ -50,14 +50,14 @@ namespace VikingQuiz.Api.Controllers
         [HttpPut("{id}")]
         public GameViewModel UpdateGame(int id, [FromBody]GameViewModel game)
         {
-            Game g = new Game()
+            Game gm = new Game()
             {
                 Id = id,
                 QuizId = game.QuizId,
                 GameDate = Convert.ToDateTime(game.GameDate)
             };
-            gameRepo.Update(g);
-            return mapper.Map(g);
+            gameRepo.Update(gm);
+            return mapper.Map(gm);
         }
 
         [HttpDelete("{id}")]

@@ -50,5 +50,10 @@ namespace VikingQuiz.Api.Repositories
         {
             return ctx.Game.ToList();
         }
+
+        public Game GetGameById(int id)
+        {
+            return ctx.Game.Find(id);
+        }
     }
 }

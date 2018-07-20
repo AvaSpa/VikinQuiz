@@ -44,13 +44,13 @@ namespace VikingQuiz.Api.Controllers
                 Text = answer.Text,
                 QuestionId = answer.QuestionId
             };
-
+        
             answerRepo.AddAnswer(ans);
             return mapper.Map(ans);
 
         }
 
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public AnswerViewModel UpdateAnswer(int id, [FromBody]AnswerViewModel answer)
         {
             Answer ans = new Answer()
