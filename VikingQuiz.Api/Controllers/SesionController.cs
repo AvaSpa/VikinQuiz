@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -11,6 +12,7 @@ using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api.Controllers
 {
+    [Route("api/[controller]")]
     public class SesionController : Controller
     {
         private readonly SessionRepo sessionRepo;
@@ -29,9 +31,9 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public Sesion GetSession(int id)
+        public SesionViewModel GetSession(int id)
         {
-            return sessionRepo.GetSesion(id);
+            return mapper.Map(sessionRepo.GetSesion(id));
         }
 
         [HttpGet("{token}")]

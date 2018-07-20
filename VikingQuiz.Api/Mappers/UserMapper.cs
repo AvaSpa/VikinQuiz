@@ -14,7 +14,7 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new UserViewModel
             {
-                Userame = user.Username,
+                Username = user.Username,
                 Email = user.Email,
                 Id = user.Id,
                 PictureUrl = user.PictureUrl
@@ -29,7 +29,7 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new User
             {
-                Username = userViewModel.Userame,
+                Username = userViewModel.Username,
                 Email = userViewModel.Email,
                 Id = userViewModel.Id,
                 PictureUrl = userViewModel.PictureUrl

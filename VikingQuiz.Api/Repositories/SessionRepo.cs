@@ -46,7 +46,6 @@ namespace VikingQuiz.Api.Repositories
                 throw new Exception("Session not found!");
         }
 
-
         public Sesion GetSesion(int id)
         {
             return ctx.Sesion.Find(id);

@@ -16,7 +16,8 @@ namespace VikingQuiz.Api.Mappers
                 var result = new AnswerViewModel
                 {
                     Id = entity.Id,
-                    Text = entity.Text
+                    Text = entity.Text,
+                    QuestionId = entity.QuestionId
                 };
 
                 return result;
@@ -30,7 +31,8 @@ namespace VikingQuiz.Api.Mappers
                 var result = new Answer
                 {
                     Id = entity.Id,
-                    Text = entity.Text
+                    Text = entity.Text,
+                    QuestionId = entity.QuestionId
                 };
 
                 return result;

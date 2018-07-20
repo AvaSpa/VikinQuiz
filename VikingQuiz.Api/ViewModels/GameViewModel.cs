@@ -9,5 +9,6 @@ namespace VikingQuiz.Api.ViewModels
     {
         public int Id { get; set; }
         public string GameDate { get; set; }
+        public int? QuizId { get; set; }
     }
 }
