@@ -16,12 +16,11 @@ class Facebook extends React.Component {
    responseFacebook = (response) => { // response --> fb login data
       if (response.status !== "unknown") {
          $.ajax({
-            url: "", // url of the request
+            url: "http://localhost:60151/api/facebook", // url of the request
             type: "POST",
-            contentType: "text/plain",
-            data: JSON.stringify(response), // request body
-            dataType: "json",
-            crossDomain: true,
+            dataType : "json",
+            contentType: "application/json",
+            data: JSON.stringify(new FacebookMessage(response.email, response.name, response.picture.data.url)), // request body
             beforeSent: function(res) {
             },
             success: function (res) { // runs only if the response is succesful
@@ -43,7 +42,7 @@ class Facebook extends React.Component {
          fbContent = null;
       } else {
          fbContent = (<FacebookLogin
-            appId="426789224472011"
+            appId="1691716487610141"
             autoLoad={true}
             fields="name,email,picture"
             onClick={this.componentClicked}
@@ -57,6 +56,14 @@ class Facebook extends React.Component {
 
       );
    }
+}
+
+class FacebookMessage{
+      constructor(email, name, pictureUrl){
+            this.email = email;
+            this.name = name;
+            this.pictureUrl = pictureUrl;
+      };
 }
 
 export default Facebook;
