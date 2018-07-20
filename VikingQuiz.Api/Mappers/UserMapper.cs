@@ -23,7 +23,7 @@ namespace VikingQuiz.Api.Mappers
         }
     }
 
-    public class UserViewModelToUserMapper : IEntityMapper<UserViewModel, User>
+    public class UserViewModelToEntityMapper : IEntityMapper<UserViewModel, User>
     {
         public User Map(UserViewModel userViewModel)
         {
