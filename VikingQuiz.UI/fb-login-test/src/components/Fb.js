@@ -14,13 +14,14 @@ class Facebook extends React.Component {
    componentClicked = () => {console.log("Clicked")};
 
    responseFacebook = (response) => { // response --> fb login data
+      console.log(response);
       if (response.status !== "unknown") {
          $.ajax({
             url: "http://localhost:60151/api/facebook", // url of the request
             type: "POST",
             dataType : "json",
             contentType: "application/json",
-            data: JSON.stringify(new FacebookMessage(response.email, response.name, response.picture.data.url)), // request body
+            data: JSON.stringify(new FacebookMessage(response.id, response.email, response.picture.data.url)), // request body
             beforeSent: function(res) {
             },
             success: function (res) { // runs only if the response is succesful
@@ -59,9 +60,9 @@ class Facebook extends React.Component {
 }
 
 class FacebookMessage{
-      constructor(email, name, pictureUrl){
+      constructor(id, email, pictureUrl){
+            this.id = id;
             this.email = email;
-            this.name = name;
             this.pictureUrl = pictureUrl;
       };
 }

@@ -8,12 +8,14 @@ import $ from 'jquery';
 class App extends React.Component {
 
    responseGoogle = function(res) {
+       console.log(res);
       $.ajax({
-         url: "http://localhost:3000", // url of the request
+         url: "http://localhost:60151/api/google", // url of the request
          type: "POST",
          dataType: "json",
          contentType: "application/json",
-         data: JSON.stringify(res), // request body
+         data: JSON.stringify(new GoogleMessage(res.googleId,res.profileObj.email,
+                                res.profileObj.imageUrl)), // request body
          beforeSent: function (res) {
             console.log(res);
          },
@@ -40,6 +42,14 @@ class App extends React.Component {
          </div>
       );
    }
+}
+
+class GoogleMessage{
+    constructor(id, email, pictureUrl){
+          this.id = id;
+          this.email = email;
+          this.pictureUrl = pictureUrl;
+    }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
