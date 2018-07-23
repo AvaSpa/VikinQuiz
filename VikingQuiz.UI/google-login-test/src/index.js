@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import GoogleLogin from 'react-google-login';
 import registerServiceWorker from './registerServiceWorker';
+import $ from 'jquery';
 
 class App extends React.Component {
 
