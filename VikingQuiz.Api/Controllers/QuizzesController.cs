@@ -14,8 +14,8 @@ namespace VikingQuiz.Api.Controllers
     public class QuizzesController: Controller
     {
         private readonly QuizRepo quizRepo;
-        private readonly QuizViewModelToEntityMapper vmToEntityMapper;
-        private readonly QuizToViewModelMapper entityToVmMapper;
+        private readonly IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper;
+        private readonly IEntityMapper<Quiz, QuizViewModel> entityToVmMapper;
 
         public QuizzesController(VikinQuizContext context)
         {

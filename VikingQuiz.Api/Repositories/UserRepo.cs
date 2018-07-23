@@ -26,6 +26,11 @@ namespace VikingQuiz.Api.Repositories
 
         public User CreateUser(User user)
         {
+            User foundUser = ctx.User.Where(usr => usr.Username == user.Username || usr.Email == usr.Email).FirstOrDefault();
+            if(foundUser == null)
+            {
+                return null;
+            }
             ctx.Add(user);
             ctx.SaveChanges();
             return user;

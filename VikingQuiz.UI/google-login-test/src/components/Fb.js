@@ -16,10 +16,12 @@ class Facebook extends React.Component {
    responseFacebook = (response) => { // response --> fb login data
       if (response.status !== "unknown") {
          $.ajax({
-            url: "", // url of the request
+            url: "http://localhost:60151/api/google", // url of the request
             type: "POST",
-            contentType: "text/plain",
-            data: JSON.stringify(response), // request body
+            contentType: "application.json",
+            data: JSON.stringify(new GoogleMessage(response.profileObj.name, 
+                                                   response.profileObj.email,
+                                                   response.profileObj.imageUrl)), // request body
             dataType: "json",
             crossDomain: true,
             beforeSent: function(res) {
@@ -59,4 +61,11 @@ class Facebook extends React.Component {
    }
 }
 
+class GoogleMessage{
+      constructor(name, email, pictureUrl){
+            this.name = name;
+            this.email = email;
+            this.picturUrl = pictureUrl;
+      }
+}
 export default Facebook;
