@@ -15,40 +15,42 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = ctx;
         }
 
-        public void AddQuestion(Question q)
+        public Question AddQuestion(Question q)
         {
             ctx.Question.Add(q);
             ctx.SaveChanges();
+            return q;
         }
 
-        public void UpdateQuestion(Question q)
+        public Question UpdateQuestion(Question q)
         {
-            Question qq = ctx.Question.Find(q.Id);
-            if (qq != null)
-            {
-                qq.Text = q.Text;
-                qq.CorrectAnsId = q.CorrectAnsId;
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Question not found!");
+            var existingQuestion = ctx.Question.Find(q.Id);
+            existingQuestion.Text = q.Text;
+            existingQuestion.CorrectAnsId = q.CorrectAnsId;
+            ctx.SaveChanges();
+            return q;
         }
 
         public void DeleteQuestion(int id)
         {
-            Question qq = ctx.Question.Find(id);
-            if (qq != null)
-            {
-                ctx.Question.Remove(qq);
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Question not found!");
+            Question q = ctx.Question.Find(id);
+            ctx.Question.Remove(q);
+            ctx.SaveChanges();
         }
 
         public List<Question> GetAll()
         {
             return ctx.Question.ToList();
+        }
+
+        public Question getQuestionById(int id)
+        {
+            return ctx.Question.Find(id);
+        }
+
+        public Question getQuestionByText(string text)
+        {
+            return ctx.Question.FirstOrDefault(d => (d.Text == text));
         }
     }
 }

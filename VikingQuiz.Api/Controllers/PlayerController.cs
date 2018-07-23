@@ -14,22 +14,25 @@ namespace VikingQuiz.Api.Controllers
     public class PlayerController : Controller
     {
         private readonly PlayerRepo playerRepo;
-        private IEntityMapper<Player, PlayerViewModel> mapper;
+        private IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
+        private IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
 
-        public PlayerController(VikinQuizContext context)
+        public PlayerController(PlayerRepo playerRepo, IEntityMapper<Player, PlayerViewModel> entityToVmMapper, IEntityMapper<PlayerViewModel, Player> vmToEntityMapper)
         {
-            playerRepo = new PlayerRepo(context);
-            mapper = new PlayerToViewMapper();
+            this.playerRepo = playerRepo;
+            this.entityToVmMapper = entityToVmMapper;
+            this.vmToEntityMapper = vmToEntityMapper;
         }
 
         [HttpGet]
-        public List<PlayerViewModel> GetPlayer()
+        public IActionResult GetPlayer()
         {
-            return playerRepo.GetAllPlayers().Select(p => mapper.Map(p)).ToList();
+            var result = playerRepo.GetAllPlayers().Select(s => entityToVmMapper.Map(s)).ToList();
+            return Ok(result);
         }
 
         [HttpPost]
-        public PlayerViewModel CreatePlayer([FromBody]PlayerViewModel player)
+        public IActionResult CreatePlayer([FromBody]PlayerViewModel player)
         {
             Player p = new Player()
             {
@@ -37,12 +40,17 @@ namespace VikingQuiz.Api.Controllers
                 Name = player.Name
             };
 
-           playerRepo.AddPlayer(p);
-            return mapper.Map(p);
+            Player newPlayer = playerRepo.AddPlayer(p);
+            if(newPlayer == null)
+            {
+                return BadRequest("Player couldn't be created");
+            }
+            PlayerViewModel playerVm = entityToVmMapper.Map(p);
+            return Ok(playerVm);
         }
 
         [HttpPut("{id}")]
-        public PlayerViewModel UpdatePlayer(int id, [FromBody]PlayerViewModel player)
+        public IActionResult UpdatePlayer(int id, [FromBody]PlayerViewModel player)
         {
             Player p = new Player()
             {
@@ -51,14 +59,20 @@ namespace VikingQuiz.Api.Controllers
                 Name = player.Name
             };
 
-            playerRepo.UpdatePlayer(p);
-            return mapper.Map(p);
+            Player updatedPlayer = playerRepo.UpdatePlayer(p);
+            if (updatedPlayer == null)
+            {
+                return BadRequest("Player couldn't be updated");
+            }
+            PlayerViewModel playerVm = entityToVmMapper.Map(updatedPlayer);
+            return Ok(playerVm);
         }
 
         [HttpDelete("{id}")]
-        public void DeletePlayer(int id)
+        public IActionResult DeletePlayer(int id)
         {
             playerRepo.DeletePlayer(id);
+            return Ok();
         }
 
     }

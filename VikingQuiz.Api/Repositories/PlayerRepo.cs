@@ -15,35 +15,27 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = context;
         }
 
-        public void AddPlayer(Player player)
+        public Player AddPlayer(Player player)
         {
             ctx.Player.Add(player);
             ctx.SaveChanges();
+            return player;
         }
 
         public void DeletePlayer(int id)
         {
             Player player = ctx.Player.Find(id);
-            if (player != null)
-            {
-                ctx.Player.Remove(player);
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Player not found!");
+            ctx.Player.Remove(player);
+            ctx.SaveChanges();
         }
 
-        public void UpdatePlayer(Player player)
+        public Player UpdatePlayer(Player player)
         {
             var existingPlayer = ctx.Player.Find(player.Id);
-            if (existingPlayer != null)
-            {
-                existingPlayer.Name = player.Name;
-                existingPlayer.PictureUrl = player.PictureUrl;
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Player not found!");
+            existingPlayer.PictureUrl = player.PictureUrl;
+            existingPlayer.Name = player.Name;
+            ctx.SaveChanges();
+            return player;
         }
 
         public List<Player> GetAllPlayers()

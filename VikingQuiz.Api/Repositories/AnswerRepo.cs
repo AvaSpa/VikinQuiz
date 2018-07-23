@@ -34,7 +34,6 @@ namespace VikingQuiz.Api.Repositories
             var existingAnswer = ctx.Answer.Find(ans.Id);
             existingAnswer.Text = ans.Text;
             existingAnswer.QuestionId = ans.QuestionId;
-            existingAnswer.QuestionId = ans.QuestionId;
             ctx.SaveChanges();
             return ans;
         }
