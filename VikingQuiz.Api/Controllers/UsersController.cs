@@ -20,8 +20,8 @@ namespace VikingQuiz.Api.Controllers
         public UsersController(UserRepo userRepo, IEntityMapper<UserViewModel, User> vmToEntityMapper, IEntityMapper<User, UserViewModel> entityToVmMapper)
         {
             this.userRepo = userRepo;
-            this.vmToEntityMapper = vmToEntityMapper;//new UserViewModelToEntityMapper();
-            this.entityToVmMapper = entityToVmMapper;//new UserToViewModelMapper();
+            this.vmToEntityMapper = vmToEntityMapper;
+            this.entityToVmMapper = entityToVmMapper;
         }
 
         [HttpGet]

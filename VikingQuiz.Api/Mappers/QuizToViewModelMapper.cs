@@ -21,19 +21,4 @@ namespace VikingQuiz.Api.Mappers
             return result;
         }
     }
-
-    public class QuizViewModelToEntityMapper : IEntityMapper<QuizViewModel, Quiz>
-    {
-        public Quiz Map(QuizViewModel quizViewModel)
-        {
-            var result = new Quiz
-            {
-                Title = quizViewModel.Title,
-                Id = quizViewModel.Id,
-                PictureUrl = quizViewModel.PictureUrl,
-                UserId = quizViewModel.UserId
-            };
-            return result;
-        }
-    }
 }
