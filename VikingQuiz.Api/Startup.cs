@@ -54,10 +54,15 @@ namespace VikingQuiz.Api
             services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(connection));
 
             services.AddScoped<UserRepo, UserRepo>();
-            services.AddScoped<SessionRepo, SessionRepo>();
+            services.AddScoped<AnswerRepo, AnswerRepo>();
+            services.AddScoped<GameRepo, GameRepo>();
             services.AddScoped<IEntityMapper<UserViewModel, User>, UserViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<User, UserViewModel>, UserToViewModelMapper>();
             services.AddScoped<IEntityMapper<Sesion, SesionViewModel>, SesionToViewModelMapper>();
+            services.AddScoped<IEntityMapper<Answer, AnswerViewModel>, AnswerToViewModelMapper>();
+            services.AddScoped<IEntityMapper<AnswerViewModel, Answer>, AnswerViewModelToEntityMapper>();
+            services.AddScoped<IEntityMapper<Game, GameViewModel>, GameToViewMapper>();
+            services.AddScoped<IEntityMapper<GameViewModel, Game>, GameViewModelToPlayerMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,36 +15,28 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = context;
         }
 
-        public void AddAnswer(Answer answer)
+        public Answer AddAnswer(Answer answer)
         {
             ctx.Answer.Add(answer);
             ctx.SaveChanges();
+            return answer;
         }
 
         public void DeleteAnswer(int id)
         {
             Answer ans = ctx.Answer.Find(id);
-            if (ans != null)
-            {
-                ctx.Answer.Remove(ans);
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Answer not found!");
+            ctx.Answer.Remove(ans);
+            ctx.SaveChanges();
         }
 
-        public void UpdateAnswer(Answer ans)
+        public Answer UpdateAnswer(Answer ans)
         {
             var existingAnswer = ctx.Answer.Find(ans.Id);
-            if (existingAnswer != null)
-            {
-                existingAnswer.Text = ans.Text;
-                existingAnswer.QuestionId = ans.QuestionId;
-                existingAnswer.QuestionId = ans.QuestionId;
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Answer not found!");
+            existingAnswer.Text = ans.Text;
+            existingAnswer.QuestionId = ans.QuestionId;
+            existingAnswer.QuestionId = ans.QuestionId;
+            ctx.SaveChanges();
+            return ans;
         }
 
 
@@ -65,3 +57,4 @@ namespace VikingQuiz.Api.Repositories
 
     }
 }
+

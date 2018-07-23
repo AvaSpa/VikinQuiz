@@ -15,35 +15,32 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = ctx;
         }
 
-        public void Create(Game g)
+        public Game Create(Game g)
         {
             ctx.Add(g);
             ctx.SaveChanges();
+            return g;
         }
 
-        public void Update(Game g)
+        public Game Update(Game g)
         {
             Game gg = ctx.Game.Find(g.Id);
-            if (gg != null)
-            {
-                gg.QuizId = g.QuizId;
-                gg.GameDate = g.GameDate;
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Game not found!");
+            gg.QuizId = g.QuizId;
+            gg.GameDate = g.GameDate;
+            ctx.SaveChanges();
+            return g;
         }
 
         public void Delete(int id)
         {
-            Game g = ctx.Game.Find(id);
-            if (g != null)
+            Game gm = new Game
             {
-                ctx.Game.Remove(g);
-                ctx.SaveChanges();
-            }
-            else
-                throw new Exception("Game not found!");
+                Id = id,
+            };
+            var playerGame = ctx.PlayerGame.Where(x => x.Gid == id).ToList();
+            ctx.PlayerGame.RemoveRange(playerGame);
+            ctx.Game.Remove(gm);
+            ctx.SaveChanges();
         }
 
         public List<Game> GetAll()
@@ -57,3 +54,4 @@ namespace VikingQuiz.Api.Repositories
         }
     }
 }
+

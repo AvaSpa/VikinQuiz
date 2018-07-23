@@ -15,40 +15,55 @@ namespace VikingQuiz.Api.Controllers
     public class GameController : Controller
     {
         private readonly GameRepo gameRepo;
-        private IEntityMapper<Game, GameViewModel> mapper;
+        private IEntityMapper<Game, GameViewModel> entityToVmMapper;
+        private IEntityMapper<GameViewModel, Game> vmToEntityMapper;
 
-        public GameController(VikinQuizContext context)
+        public GameController(GameRepo gameRepo, IEntityMapper<Game, GameViewModel> entityToVmMapper, IEntityMapper<GameViewModel, Game> vmToEntityMapper)
         {
-            gameRepo = new GameRepo(context);
-            mapper = new GameToViewMapper();
+            this.gameRepo = gameRepo;
+            this.entityToVmMapper = entityToVmMapper;
+            this.vmToEntityMapper = vmToEntityMapper;
         }
 
         [HttpGet]
-        public List<GameViewModel> GetGame()
+        public IActionResult GetGame()
         {
-            return gameRepo.GetAll().Select(s => mapper.Map(s)).ToList();
+            var result = gameRepo.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public GameViewModel GetAnswerById(int id)
+        public IActionResult GetAnswerById(int id)
         {
-            return mapper.Map(gameRepo.GetGameById(id));
+            Game foundGame = gameRepo.GetGameById(id);
+            if (foundGame == null)
+            {
+                return NotFound("Game doesn't exist");
+            }
+            GameViewModel gameVm = entityToVmMapper.Map(foundGame);
+            return Ok(gameVm);
         }
 
         [HttpPost]
-        public GameViewModel CreateGame([FromBody]GameViewModel game)
+        public IActionResult CreateGame([FromBody]GameViewModel game)
         {
             Game g = new Game()
             {
                 QuizId = game.QuizId,
                 GameDate = Convert.ToDateTime(game.GameDate)
             };
-            gameRepo.Create(g);
-            return mapper.Map(g);
+
+            Game newGame = gameRepo.Create(g);
+            if (newGame == null)
+            {
+                return BadRequest("Game couldn't be created");
+            }
+            GameViewModel gameVm = entityToVmMapper.Map(g);
+            return Ok(gameVm);
         }
 
         [HttpPut("{id}")]
-        public GameViewModel UpdateGame(int id, [FromBody]GameViewModel game)
+        public IActionResult UpdateGame(int id, [FromBody]GameViewModel game)
         {
             Game gm = new Game()
             {
@@ -56,15 +71,23 @@ namespace VikingQuiz.Api.Controllers
                 QuizId = game.QuizId,
                 GameDate = Convert.ToDateTime(game.GameDate)
             };
-            gameRepo.Update(gm);
-            return mapper.Map(gm);
+
+            Game updatedGame = gameRepo.Update(gm);
+            if (updatedGame == null)
+            {
+                return BadRequest("Game couldn't be updated");
+            }
+            GameViewModel gameVm = entityToVmMapper.Map(gm);
+            return Ok(gameVm);
         }
 
         [HttpDelete("{id}")]
-        public void DeleteGame(int id)
+        public IActionResult DeleteGame(int id)
         {
             gameRepo.Delete(id);
+            return Ok();
         }
 
     }
 }
+

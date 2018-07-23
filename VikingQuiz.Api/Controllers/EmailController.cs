@@ -12,7 +12,7 @@ using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api.Controllers
 {
-    [Route("api")]
+    [Route("api/[controller]")]
     public class EmailController : Controller
     {
         private readonly string fromAddress = "noreply.vikings@gmail.com";
