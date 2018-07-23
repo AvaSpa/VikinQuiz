@@ -13,8 +13,8 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new Quiz
             {
-                Title = quizViewModel.Title,
                 Id = quizViewModel.Id,
+                Title = quizViewModel.Title,
                 PictureUrl = quizViewModel.PictureUrl,
                 UserId = quizViewModel.UserId
             };

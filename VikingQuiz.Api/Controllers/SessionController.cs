@@ -17,16 +17,11 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class SessionController : Controller
     {
-        private readonly SessionRepo sessionRepo;
         private readonly UserRepo userRepo;
         private readonly IConfiguration _config;
 
-        public SessionController(
-            SessionRepo sessionRepo,
-            UserRepo userRepo,
-            IConfiguration configuration)
+        public SessionController(UserRepo userRepo, IConfiguration configuration)
         {
-            this.sessionRepo = sessionRepo;
             this._config = configuration;
             this.userRepo = userRepo;
         }
@@ -51,7 +46,11 @@ namespace VikingQuiz.Api.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             //new Claim(ClaimTypes.NameIdentifier)
-            var claims = new List<Claim> { new Claim("test1", "test2") };
+            //new Claim(ClaimTypes.na)
+            var claims = new List<Claim> {
+                new Claim("username", user.Username),
+                new Claim("email", user.Email)
+            };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Issuer"], expires: DateTime.Now.AddHours(2), signingCredentials: creds, claims: claims);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

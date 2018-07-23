@@ -10,52 +10,52 @@ DELETE FROM Quiz
 DELETE FROM [User]
 
 
-DBCC CHECKIDENT ('Game', RESEED, 0);
+DBCC CHECKIDENT ('Game', RESEED,	1);
 GO
-DBCC CHECKIDENT ('Player', RESEED, 0);
+DBCC CHECKIDENT ('Player', RESEED,	1);
 GO
-DBCC CHECKIDENT ('Answer', RESEED, 0);
+DBCC CHECKIDENT ('Answer', RESEED,	1);
 GO
-DBCC CHECKIDENT ('Question', RESEED, 0);
+DBCC CHECKIDENT ('Question', RESEED,1);
 GO
-DBCC CHECKIDENT ('Quiz', RESEED, 0);
-GO								 
-DBCC CHECKIDENT ('User', RESEED, 0);
+DBCC CHECKIDENT ('Quiz', RESEED,	1);
+GO
+DBCC CHECKIDENT ('User', RESEED,	1);
 GO
 
-INSERT INTO [User](Username, Email, Pass, PictureURL) VALUES ('andi', 'andiabrudan@yahoo.com', '1234', 'https://andi.com/profile.jpg');
-INSERT INTO [User](Username, Email, Pass, PictureURL) VALUES ('bob', 'dillabn@google.com', '1234', 'https://bob.com/profile.jpg');
-INSERT INTO [User](Username, Email, Pass, PictureURL) VALUES ('marian', 'marian@yahoo.com', '0000', 'https://marian.com/profile.jpg');
+INSERT INTO [User](Username, Email, Pass, PictureURL, LastModified, IsConfirmed) VALUES ('andi', 'andiabrudan@yahoo.com', '1234', 'https://andi.com/profile.jpg', '2000-01-01', 1);
+INSERT INTO [User](Username, Email, Pass, PictureURL, LastModified, IsConfirmed) VALUES ('bob', 'dillabn@google.com', '1234', 'https://bob.com/profile.jpg', '2000-01-01', 1);
+INSERT INTO [User](Username, Email, Pass, PictureURL, LastModified, IsConfirmed) VALUES ('marian', 'marian@yahoo.com', '0000', 'https://marian.com/profile.jpg', '2000-01-01', 1);
 
-INSERT INTO Quiz VALUES ('Sql quiz', 'https://marian.com/sqlquiz.jpg', 1);
-INSERT INTO Quiz VALUES ('Who wants to be a milionaire', 'https://million.com/million.jpg', 2);
-INSERT INTO Quiz VALUES ('Viking Quiz', 'https://vikings.com/picture.jpg', 2);
-INSERT INTO Quiz VALUES ('Do you know your dog', 'https://dogs.com/puppy.jpg', 3);
+INSERT INTO Quiz VALUES ('Sql quiz', 'https://marian.com/sqlquiz.jpg', 1, '2000-01-01');
+INSERT INTO Quiz VALUES ('Who wants to be a milionaire', 'https://million.com/million.jpg', 2, '2000-01-01');
+INSERT INTO Quiz VALUES ('Viking Quiz', 'https://vikings.com/picture.jpg', 2, '2000-01-01');
+INSERT INTO Quiz VALUES ('Do you know your dog', 'https://dogs.com/puppy.jpg', 3, '2000-01-01');
 
-INSERT INTO Question VALUES ('What is the sintax to create a table', 1);
-INSERT INTO Question VALUES ('What is the sintax to remove a table', 6);
-INSERT INTO Question VALUES ('What is the sintax to modify a table', 10);
-INSERT INTO Question VALUES ('What is the sintax to add new records into a table', 16);
+INSERT INTO Question VALUES ('What is the sintax to create a table', 1, '2000-01-01');
+INSERT INTO Question VALUES ('What is the sintax to remove a table', 6, '2000-01-01');
+INSERT INTO Question VALUES ('What is the sintax to modify a table', 10, '2000-01-01');
+INSERT INTO Question VALUES ('What is the sintax to add new records into a table', 16, '2000-01-01');
 
-INSERT INTO Answer VALUES ('CREATE TABLE', 1);
-INSERT INTO Answer VALUES ('ALTER TABLE', 1);
-INSERT INTO Answer VALUES ('DELETE TABLE', 1);
-INSERT INTO Answer VALUES ('UPDATE TABLE', 1);
+INSERT INTO Answer VALUES ('CREATE TABLE', 1, '2000-01-01');
+INSERT INTO Answer VALUES ('ALTER TABLE' , 1, '2000-01-01');
+INSERT INTO Answer VALUES ('DELETE TABLE', 1, '2000-01-01');
+INSERT INTO Answer VALUES ('UPDATE TABLE', 1, '2000-01-01');
 
-INSERT INTO Answer VALUES ('UPDATE TABLE', 2);
-INSERT INTO Answer VALUES ('DELETE TABLE', 2);
-INSERT INTO Answer VALUES ('ALTER TABLE', 2);
-INSERT INTO Answer VALUES ('CREATE TABLE', 2);
+INSERT INTO Answer VALUES ('UPDATE TABLE', 2, '2000-01-01');
+INSERT INTO Answer VALUES ('DELETE TABLE', 2, '2000-01-01');
+INSERT INTO Answer VALUES ('ALTER TABLE' , 2, '2000-01-01');
+INSERT INTO Answer VALUES ('CREATE TABLE', 2, '2000-01-01');
 
-INSERT INTO Answer VALUES ('UPDATE TABLE', 3);
-INSERT INTO Answer VALUES ('ALTER TABLE', 3);
-INSERT INTO Answer VALUES ('CREATE TABLE', 3);
-INSERT INTO Answer VALUES ('DELETE TABLE', 3);
+INSERT INTO Answer VALUES ('UPDATE TABLE', 3, '2000-01-01');
+INSERT INTO Answer VALUES ('ALTER TABLE' , 3, '2000-01-01');
+INSERT INTO Answer VALUES ('CREATE TABLE', 3, '2000-01-01');
+INSERT INTO Answer VALUES ('DELETE TABLE', 3, '2000-01-01');
 
-INSERT INTO Answer VALUES ('CREATE TABLE', 4);
-INSERT INTO Answer VALUES ('DELETE TABLE', 4);
-INSERT INTO Answer VALUES ('ALTER TABLE', 4);
-INSERT INTO Answer VALUES ('INSERT INTO', 4);
+INSERT INTO Answer VALUES ('CREATE TABLE', 4, '2000-01-01');
+INSERT INTO Answer VALUES ('DELETE TABLE', 4, '2000-01-01');
+INSERT INTO Answer VALUES ('ALTER TABLE' , 4, '2000-01-01');
+INSERT INTO Answer VALUES ('INSERT INTO' , 4, '2000-01-01');
 
 
 INSERT INTO QuizQuestion VALUES (1,1);

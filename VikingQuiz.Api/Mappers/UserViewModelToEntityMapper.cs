@@ -14,10 +14,10 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new User
             {
+                Id = userViewModel.Id,
                 Pass = userViewModel.Password,
                 Username = userViewModel.Username,
                 Email = userViewModel.Email,
-                Id = userViewModel.Id,
                 PictureUrl = userViewModel.PictureUrl
             };
             return result;

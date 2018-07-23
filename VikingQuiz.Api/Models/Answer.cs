@@ -8,6 +8,7 @@ namespace VikingQuiz.Api.Models
         public int Id { get; set; }
         public string Text { get; set; }
         public int? QuestionId { get; set; }
+        public DateTime? LastModified { get; set; }
 
         public Question Question { get; set; }
     }
