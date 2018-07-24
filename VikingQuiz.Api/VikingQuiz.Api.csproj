@@ -1,8 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\FacebookController.cs" />
+    <Compile Remove="Controllers\GoogleController.cs" />
+    <Compile Remove="Controllers\SessionController.cs" />
+    <Compile Remove="Utilities\TokenGenerator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\FacebookController.cs.orig" />
+    <None Remove="Controllers\GoogleController.cs.orig" />
+    <None Remove="Controllers\SessionController.cs.orig" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />

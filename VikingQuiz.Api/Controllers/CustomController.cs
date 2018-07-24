@@ -46,5 +46,16 @@ namespace VikingQuiz.Api.Controllers
                     }
             }
         }
+
+
+        // GET api/<controller>
+        [HttpGet]
+        public int Get()
+        {
+            Random random = new Random();
+            int number = random.Next(1, 6);
+            return number;
+        }
     }
+
 }

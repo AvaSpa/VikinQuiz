@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
+<<<<<<< HEAD
+=======
+using VikingQuiz.Api.Utilities;
+>>>>>>> 4d9d7d69ec42ae7df5248d67d6c7a130ff1e1bc3
 using VikingQuiz.Api.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,12 +28,13 @@ namespace VikingQuiz.Api.Controllers
             this.repo = new UserRepo(ctx);
         }
         [HttpPost]
-        public IActionResult GetData([FromBody]GoogleViewModel content)
+        public IActionResult Login([FromBody]GoogleViewModel content)
         {
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(content.Id);
             var base64Id = System.Convert.ToBase64String(plainTextBytes);
             User user = new User
             {
+<<<<<<< HEAD
                 Id = null,
                 Username = base64Id,
                 Email = content.Email,
@@ -42,6 +47,17 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest("The user is already registered");
             }
             return Ok(content);
+=======
+                Username = base64Id,
+                Email = content.Email,
+                Pass = null,
+                PictureUrl = content.PictureUrl,
+                IsConfirmed = true
+            };
+            this.repo.CreateUser(user);
+            string str = TokenGenerator.BuildToken(user, _config);
+            return Ok(new { token = str });
+>>>>>>> 4d9d7d69ec42ae7df5248d67d6c7a130ff1e1bc3
         }
     }
 }

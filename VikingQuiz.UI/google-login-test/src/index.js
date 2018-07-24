@@ -3,11 +3,29 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import GoogleLogin from 'react-google-login';
 import registerServiceWorker from './registerServiceWorker';
+import $ from 'jquery';
 
 class App extends React.Component {
 
    responseGoogle = function(res) {
-      console.log(res);
+       console.log(res);
+      $.ajax({
+         url: "http://localhost:60151/api/google", // url of the request
+         type: "POST",
+         dataType: "json",
+         contentType: "application/json",
+         data: JSON.stringify(new GoogleMessage(res.googleId,res.profileObj.email,
+                                res.profileObj.imageUrl)), // request body
+         beforeSent: function (res) {
+            console.log(res);
+         },
+         success: function (res) { // runs only if the response is succesful
+            console.log(res);
+         },
+         complete: function (res) {
+            console.log(res);
+         }
+      });
    }
 
    render() {
@@ -22,6 +40,14 @@ class App extends React.Component {
          </div>
       );
    }
+}
+
+class GoogleMessage{
+    constructor(id, email, pictureUrl){
+          this.id = id;
+          this.email = email;
+          this.pictureUrl = pictureUrl;
+    }
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -24,12 +24,6 @@ namespace VikingQuiz.Api.Controllers
             this.userRepo = userRepo;
         }
 
-        [HttpGet]
-        public string something()
-        {
-            return "hello";
-        }
-
         [Route("email")]
         [HttpGet("{id:int}")]
         public void SendEmail(int id)
