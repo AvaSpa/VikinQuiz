@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,11 @@ namespace VikingQuiz.Api.Controllers
         private readonly UserRepo userRepo;
         private readonly IEntityMapper<UserViewModel, User> vmToEntityMapper;
         private readonly IEntityMapper<User, UserViewModel> entityToVmMapper;
+        private readonly IConfiguration _config;
 
-        public UsersController(UserRepo userRepo, IEntityMapper<UserViewModel, User> vmToEntityMapper, IEntityMapper<User, UserViewModel> entityToVmMapper)
+        public UsersController(UserRepo userRepo, IEntityMapper<UserViewModel, User> vmToEntityMapper, IEntityMapper<User, UserViewModel> entityToVmMapper, IConfiguration configuration)
         {
+            this._config = configuration;
             this.userRepo = userRepo;
             this.vmToEntityMapper = vmToEntityMapper;
             this.entityToVmMapper = entityToVmMapper;
@@ -46,8 +49,12 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult Add([FromBody]UserViewModel user)
         {
-            user.Id = null;
-            User usr = userRepo.CreateUser(vmToEntityMapper.Map(user));
+            User usr = userRepo.CreateUser(new User {
+                Username = user.Username,
+                Pass = user.Password,
+                Email = user.Email,
+                PictureUrl = user.PictureUrl
+            });
             if(usr == null)
             {
                 return BadRequest("User couldn't be created");

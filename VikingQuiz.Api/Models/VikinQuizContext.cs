@@ -22,7 +22,6 @@ namespace VikingQuiz.Api.Models
         public virtual DbSet<Question> Question { get; set; }
         public virtual DbSet<Quiz> Quiz { get; set; }
         public virtual DbSet<QuizQuestion> QuizQuestion { get; set; }
-        public virtual DbSet<Sesion> Sesion { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,6 +30,8 @@ namespace VikingQuiz.Api.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.LastModified).HasColumnType("date");
+
                 entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
 
                 entity.Property(e => e.Text).HasMaxLength(250);
@@ -38,7 +39,7 @@ namespace VikingQuiz.Api.Models
                 entity.HasOne(d => d.Question)
                     .WithMany(p => p.Answer)
                     .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK__Answer__Question__398D8EEE");
+                    .HasConstraintName("FK__Answer__Question__37A5467C");
             });
 
             modelBuilder.Entity<Game>(entity =>
@@ -48,7 +49,7 @@ namespace VikingQuiz.Api.Models
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.Game)
                     .HasForeignKey(d => d.QuizId)
-                    .HasConstraintName("FK__Game__QuizId__2E1BDC42");
+                    .HasConstraintName("FK__Game__QuizId__2F10007B");
             });
 
             modelBuilder.Entity<Player>(entity =>
@@ -69,17 +70,19 @@ namespace VikingQuiz.Api.Models
                     .WithMany(p => p.PlayerGame)
                     .HasForeignKey(d => d.Gid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlayerGame__Gid__33D4B598");
+                    .HasConstraintName("FK__PlayerGame__Gid__34C8D9D1");
 
                 entity.HasOne(d => d.P)
                     .WithMany(p => p.PlayerGame)
                     .HasForeignKey(d => d.Pid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlayerGame__Pid__32E0915F");
+                    .HasConstraintName("FK__PlayerGame__Pid__33D4B598");
             });
 
             modelBuilder.Entity<Question>(entity =>
             {
+                entity.Property(e => e.LastModified).HasColumnType("date");
+
                 entity.Property(e => e.Text)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -87,6 +90,8 @@ namespace VikingQuiz.Api.Models
 
             modelBuilder.Entity<Quiz>(entity =>
             {
+                entity.Property(e => e.LastModified).HasColumnType("date");
+
                 entity.Property(e => e.PictureUrl)
                     .IsRequired()
                     .HasColumnName("PictureURL")
@@ -99,7 +104,7 @@ namespace VikingQuiz.Api.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Quiz)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Quiz__UserId__25869641");
+                    .HasConstraintName("FK__Quiz__UserId__267ABA7A");
             });
 
             modelBuilder.Entity<QuizQuestion>(entity =>
@@ -110,28 +115,24 @@ namespace VikingQuiz.Api.Models
                     .WithMany(p => p.QuizQuestion)
                     .HasForeignKey(d => d.QuestionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__QuizQuest__Quest__2B3F6F97");
+                    .HasConstraintName("FK__QuizQuest__Quest__2C3393D0");
 
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.QuizQuestion)
                     .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__QuizQuest__Quizz__2A4B4B5E");
-            });
-
-            modelBuilder.Entity<Sesion>(entity =>
-            {
-                entity.Property(e => e.Token).IsUnicode(false);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Sesion)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Sesion__UserId__36B12243");
+                    .HasConstraintName("FK__QuizQuest__QuizI__2B3F6F97");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasIndex(e => e.Email)
+                    .HasName("UQ__User__A9D10534AB60BBF2")
+                    .IsUnique();
+
                 entity.Property(e => e.Email).HasMaxLength(100);
+
+                entity.Property(e => e.LastModified).HasColumnType("date");
 
                 entity.Property(e => e.Pass).HasMaxLength(100);
 

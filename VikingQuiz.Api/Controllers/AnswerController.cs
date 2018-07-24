@@ -16,55 +16,41 @@ namespace VikingQuiz.Api.Controllers
     {
 
         private readonly AnswerRepo answerRepo;
-        private IEntityMapper<Answer, AnswerViewModel> entityToVmMapper;
-        private IEntityMapper<AnswerViewModel, Answer> vmToEntityMapper;
+        private IEntityMapper<Answer, AnswerViewModel> mapper;
 
-        public AnswerController(AnswerRepo answerRepo, IEntityMapper<Answer, AnswerViewModel> entityToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToEntityMapper)
+        public AnswerController(AnswerRepo answerRepo, IEntityMapper<Answer, AnswerViewModel> mapper)
         {
             this.answerRepo = answerRepo;
-            this.entityToVmMapper = entityToVmMapper;
-            this.vmToEntityMapper = vmToEntityMapper;
+            this.mapper = mapper;
         }
-
         [HttpGet]
-        public IActionResult GetAnswer()
+        public List<AnswerViewModel> GetAnswer()
         {
-            var result = answerRepo.GetAllAnswers().Select(s => entityToVmMapper.Map(s)).ToList();
-            return Ok(result);
+            return answerRepo.GetAllAnswers().Select(s => mapper.Map(s)).ToList();
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetAnswerById(int id)
+        public AnswerViewModel GetAnswerById(int id)
         {
-            Answer ans = answerRepo.GetAnswerById(id);
-            if (ans == null)
-            {
-                return NotFound("Answer doesn't exist");
-            }
-            AnswerViewModel ansVm = this.entityToVmMapper.Map(ans);
-            return Ok(ansVm);
+            return mapper.Map(answerRepo.GetAnswerById(id));
         }
         
         [HttpPost]
-        public IActionResult CreateAnswer([FromBody]AnswerViewModel answer)
+        public AnswerViewModel CreateAnswer([FromBody]AnswerViewModel answer)
         {
             Answer ans = new Answer
             {
                 Text = answer.Text,
                 QuestionId = answer.QuestionId
             };
+        
+            answerRepo.AddAnswer(ans);
+            return mapper.Map(ans);
 
-            Answer newAnswer = answerRepo.AddAnswer(ans);
-            if (newAnswer == null)
-            {
-                return BadRequest("Answer couldn't be created");
-            }
-            AnswerViewModel answerVm = entityToVmMapper.Map(ans);
-            return Ok(answerVm);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateAnswer(int id, [FromBody]AnswerViewModel answer)
+        public AnswerViewModel UpdateAnswer(int id, [FromBody]AnswerViewModel answer)
         {
             Answer ans = new Answer()
             {
@@ -73,20 +59,15 @@ namespace VikingQuiz.Api.Controllers
                 QuestionId = answer.QuestionId
             };
 
-            Answer updatedAnswer = answerRepo.UpdateAnswer(ans);
-            if (updatedAnswer == null)
-            {
-                return BadRequest("Answer couldn't be updated");
-            }
-            AnswerViewModel answerVm = entityToVmMapper.Map(updatedAnswer);
-            return Ok(answerVm);
+            answerRepo.UpdateAnswer(ans);
+            return mapper.Map(ans);
+
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteAnswer(int id)
+        public void DeleteAnswer(int id)
         {
             answerRepo.DeleteAnswer(id);
-            return Ok();
         }
     }
 }

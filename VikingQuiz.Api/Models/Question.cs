@@ -14,6 +14,7 @@ namespace VikingQuiz.Api.Models
         public int Id { get; set; }
         public string Text { get; set; }
         public int CorrectAnsId { get; set; }
+        public DateTime? LastModified { get; set; }
 
         public ICollection<Answer> Answer { get; set; }
         public ICollection<QuizQuestion> QuizQuestion { get; set; }

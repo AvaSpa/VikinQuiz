@@ -17,11 +17,11 @@ namespace VikingQuiz.Api.Controllers
         private readonly IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper;
         private readonly IEntityMapper<Quiz, QuizViewModel> entityToVmMapper;
 
-        public QuizzesController(VikinQuizContext context)
+        public QuizzesController(QuizRepo quizRepo, IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper, IEntityMapper<Quiz, QuizViewModel> entityToVmMapper)
         {
-            quizRepo = new QuizRepo(context);
-            vmToEntityMapper = new QuizViewModelToEntityMapper();
-            entityToVmMapper = new QuizToViewModelMapper();
+            this.quizRepo = quizRepo;
+            this.vmToEntityMapper = vmToEntityMapper;
+            this.entityToVmMapper = entityToVmMapper;
         }
 
         [HttpGet]
@@ -46,8 +46,11 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult Add([FromBody]QuizViewModel quiz)
         {
-            quiz.Id = null;
-            Quiz qiz = quizRepo.CreateQuiz(vmToEntityMapper.Map(quiz));
+            Quiz qiz = quizRepo.CreateQuiz(new Quiz {
+                Title = quiz.Title,
+                PictureUrl = quiz.PictureUrl,
+                UserId = quiz.UserId
+            });
             if (qiz == null)
             {
                 return BadRequest("Quiz couldn't be created");

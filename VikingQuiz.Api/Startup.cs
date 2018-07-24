@@ -53,16 +53,21 @@ namespace VikingQuiz.Api
             var connection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(connection));
 
-            services.AddScoped<UserRepo, UserRepo>();
             services.AddScoped<AnswerRepo, AnswerRepo>();
             services.AddScoped<GameRepo, GameRepo>();
+            services.AddScoped<PlayerRepo, PlayerRepo>();
+            services.AddScoped<QuestionRepo, QuestionRepo>();
+            services.AddScoped<QuizRepo, QuizRepo>();
+            services.AddScoped<UserRepo, UserRepo>();
             services.AddScoped<IEntityMapper<UserViewModel, User>, UserViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<User, UserViewModel>, UserToViewModelMapper>();
-            services.AddScoped<IEntityMapper<Sesion, SesionViewModel>, SesionToViewModelMapper>();
             services.AddScoped<IEntityMapper<Answer, AnswerViewModel>, AnswerToViewModelMapper>();
-            services.AddScoped<IEntityMapper<AnswerViewModel, Answer>, AnswerViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<Game, GameViewModel>, GameToViewMapper>();
-            services.AddScoped<IEntityMapper<GameViewModel, Game>, GameViewModelToPlayerMapper>();
+            services.AddScoped<IEntityMapper<Player, PlayerViewModel>, PlayerToViewMapper>();
+            services.AddScoped<IEntityMapper<Question, QuestionViewModel>, QuestionToViewMapper>();
+            services.AddScoped<IEntityMapper<QuizViewModel, Quiz>, QuizViewModelToEntityMapper>();
+            services.AddScoped<IEntityMapper<Quiz, QuizViewModel>, QuizToViewModelMapper>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
