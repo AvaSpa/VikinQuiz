@@ -44,7 +44,7 @@ namespace VikingQuiz.Api.Controllers
             AnswerViewModel ansVm = this.entityToVmMapper.Map(ans);
             return Ok(ansVm);
         }
-
+        
         [HttpPost]
         public IActionResult CreateAnswer([FromBody]AnswerViewModel answer)
         {
