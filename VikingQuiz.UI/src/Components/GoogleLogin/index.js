@@ -22,7 +22,12 @@ class GoogleLoginButton extends React.Component {
 
       if( response.hasOwnProperty("error") && response.error === "popup_closed_by_user") {
          this.props.onPopupClosed();
-      } 
+      }
+
+      for (let msg in fbMessage) {
+         if (response[msg] === null) return null;
+      }
+      
       else if(response.hasOwnProperty("googleId") ) {
          this.props.onResponseSuccesful();
 
@@ -31,7 +36,7 @@ class GoogleLoginButton extends React.Component {
             new GoogleMessage(response)
          )
             .then(ctx.props.onPostSuccess) // post succesful
-            .catch(ctx.props.onPostSuccess); // post failure
+            .catch(ctx.props.onPostError); // post failure
       }
    }
 
@@ -42,7 +47,7 @@ class GoogleLoginButton extends React.Component {
                style={{}}
                className={this.props.btnClassName}
                clientId={this.props.clientId}
-               buttonText={<i className="icon-google"></i>}
+               buttonText={this.props.btnText}
 
                onSuccess={this.responseGoogle}
                onFailure={this.responseGoogle}
