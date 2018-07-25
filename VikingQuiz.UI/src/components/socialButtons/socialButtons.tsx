@@ -1,10 +1,14 @@
 import * as React from 'react';
+
 import axios from 'axios';
+
 import FacebookLogin from 'react-facebook-login';
+
 import GoogleLogin from 'react-google-login';
 
 
-class PostMessage {
+
+class PostMessage { // POST message to server creator
    public name: string;
    public email: string;
    public pictureUrl: string;
@@ -21,11 +25,28 @@ class PostMessage {
          this.pictureUrl = socialResData.picture.data.url || null;
       }
    }
-
 }
 
-function popupClosedCondition(response : any, type : any) {
-   const facebookCloseCondition = response.hasOwnProperty("status") && response.status === "unknown";
+interface IPropsSocialButton {
+   clientId: string;
+   type: string;
+   
+   onPopupClosed: any;
+   onPopupOpen: any;
+   onResponseSuccesful: any;
+
+   onPostError: any;
+   onPostSuccess: any;
+   postURL: string;
+   btnClassName: string;
+
+   btnText: any;
+   containerClassName: string;
+}
+
+
+function popupClosedCondition(response : any, type : string) {
+   const facebookCloseCondition = response.hasOwnProperty("status") && (response.status === "unknown" || response.status === undefined);
    const googleCloseCondition = response.hasOwnProperty("error") && response.error === "popup_closed_by_user";
    let returnBool = false;
 
@@ -38,7 +59,7 @@ function popupClosedCondition(response : any, type : any) {
    return returnBool;
 }
 
-function dataExists(response : any, type : any) {
+function dataExists(response : any, type : string) {
    const facebookDataExists = response.hasOwnProperty("userID") && type === "facebook";
    const googleDataExists = response.hasOwnProperty("googleId") && type === "google";;
 
@@ -48,28 +69,27 @@ function dataExists(response : any, type : any) {
 
 
 // wrapped for the GoogleLogin
-function SocialButton(props : any) {
+function SocialButton(props: IPropsSocialButton) {
    const type : string = props.type;
    let buttonData : any;
 
    function socialResponse(response: any) {
-
       console.log(response);
-      
-      if(popupClosedCondition(response, type)) {
+
+      if(popupClosedCondition(response, type)) { // popup trigger
          props.onPopupClosed();
       }
 
-      if (dataExists(response, type)) {
+      if (dataExists(response, type)) { // data existance (by format) checker
          props.onResponseSuccesful(response);
          const message = new PostMessage(response, type);
 
-         axios.post(
+         axios.post( // request with recieve data
             props.postURL,
             message
          )
-            .then(props.onPostSuccess)
-            .catch(props.onPostError);
+            .then(props.onPostSuccess) // server success trigger
+            .catch(props.onPostError); // server failure trigger
 
 
       }
@@ -112,6 +132,27 @@ function SocialButton(props : any) {
 }
 
 export default SocialButton;
+
+/* 
+   PROPS:
+         clientId: string -> the id of the app
+         type: string -> "google" or "facebook"
+
+         onPopupClosed
+         onPopupOpen
+         onResponseSuccesful
+         onPostError
+         onPostSuccess
+            --> function handlers for its own events
+
+
+         postURL: string -> url to send social button response data (after succesful login)
+
+         btnClassName: string -> classname of the button itself
+         btnText: string or JSX expression -> what's inside the button itself
+         containerClassName: string -> class of the social button container
+
+*/
 
 // Example Usage
 /* 
@@ -156,7 +197,7 @@ ReactDOM.render(
          postURL={"http://localhost:8080/error"}
          btnClassName="btn btn-primary"
          btnText={"FB Login"}
-         containerClassName="social-button google-button"
+         containerClassName="social-button facebook-button"
 
       />
       </div>
