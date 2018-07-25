@@ -16,10 +16,10 @@ namespace VikingQuiz.Api.Controllers
     {
 
         private readonly AnswerRepo answerRepo;
-        private AnswerToViewModelMapper entityToVmMapper;
-        private AnswerViewModelToEntityMapper vmToEntityMapper;
+        private readonly IEntityMapper<Answer, AnswerViewModel> entityToVmMapper;
+        private readonly IEntityMapper<AnswerViewModel, Answer> vmToEntityMapper;
 
-        public AnswerController(AnswerRepo answerRepo, AnswerToViewModelMapper entityToVmMapper, AnswerViewModelToEntityMapper vmToEntityMapper)
+        public AnswerController(AnswerRepo answerRepo, IEntityMapper<Answer, AnswerViewModel> entityToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToEntityMapper)
         {
             this.answerRepo = answerRepo;
             this.entityToVmMapper = entityToVmMapper;
