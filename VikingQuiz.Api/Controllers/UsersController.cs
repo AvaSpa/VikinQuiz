@@ -9,6 +9,9 @@ using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.ViewModels;
 using VikingQuiz.Api.Validators;
+using System.Security.Claims;
+using VikingQuiz.Api.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -29,6 +32,7 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpGet]
+        //[Authorize]
         public IActionResult GetAll()
         {
             var users = userRepo.GetAll();

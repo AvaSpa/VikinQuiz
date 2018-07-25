@@ -1,32 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
-<<<<<<< HEAD
-=======
 using VikingQuiz.Api.Utilities;
->>>>>>> 4d9d7d69ec42ae7df5248d67d6c7a130ff1e1bc3
 using VikingQuiz.Api.ViewModels;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VikingQuiz.Api.Controllers
 {
     [Route("api/[controller]")]
     public class GoogleController : Controller
     {
-        private readonly IConfiguration _config;
+        private readonly AuthenticationService authService;
         private readonly UserRepo repo;
 
         public GoogleController(VikinQuizContext ctx, IConfiguration configuration)
         {
-            this._config = configuration;
+            this.authService = new AuthenticationService(configuration);
             this.repo = new UserRepo(ctx);
         }
+
         [HttpPost]
         public IActionResult Login([FromBody]GoogleViewModel content)
         {
@@ -34,20 +26,6 @@ namespace VikingQuiz.Api.Controllers
             var base64Id = System.Convert.ToBase64String(plainTextBytes);
             User user = new User
             {
-<<<<<<< HEAD
-                Id = null,
-                Username = base64Id,
-                Email = content.Email,
-                Pass = null,
-                PictureUrl = content.PictureUrl
-            };
-            User foundUser = this.repo.CreateUser(user);
-            if(foundUser == null)
-            {
-                return BadRequest("The user is already registered");
-            }
-            return Ok(content);
-=======
                 Username = base64Id,
                 Email = content.Email,
                 Pass = null,
@@ -55,9 +33,8 @@ namespace VikingQuiz.Api.Controllers
                 IsConfirmed = true
             };
             this.repo.CreateUser(user);
-            string str = TokenGenerator.BuildToken(user, _config);
+            string str = this.authService.Authenticate(user);
             return Ok(new { token = str });
->>>>>>> 4d9d7d69ec42ae7df5248d67d6c7a130ff1e1bc3
         }
     }
 }

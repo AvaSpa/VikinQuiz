@@ -13,6 +13,7 @@ using VikingQuiz.Api.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using VikingQuiz.Api.Utilities;
 
 namespace VikingQuiz.Api
 {
@@ -36,6 +37,7 @@ namespace VikingQuiz.Api
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters {
@@ -48,6 +50,7 @@ namespace VikingQuiz.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+
             services.AddMvc();
 
             var connection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
@@ -59,6 +62,7 @@ namespace VikingQuiz.Api
             services.AddScoped<QuestionRepo, QuestionRepo>();
             services.AddScoped<QuizRepo, QuizRepo>();
             services.AddScoped<UserRepo, UserRepo>();
+            services.AddScoped<AuthenticationService, AuthenticationService>();
             services.AddScoped<IEntityMapper<UserViewModel, User>, UserViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<User, UserViewModel>, UserToViewModelMapper>();
             services.AddScoped<IEntityMapper<Answer, AnswerViewModel>, AnswerToViewModelMapper>();
