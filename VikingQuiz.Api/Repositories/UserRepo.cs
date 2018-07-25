@@ -23,11 +23,6 @@ namespace VikingQuiz.Api.Repositories
 
         public User CreateUser(User user)
         {
-            User foundUser = ctx.User.Where(usr => usr.Username == user.Username || usr.Email == user.Email).FirstOrDefault();
-            if(foundUser != null)
-            {
-                return null;
-            }
             ctx.Add(user);
             ctx.SaveChanges();
             return user;
@@ -74,6 +69,16 @@ namespace VikingQuiz.Api.Repositories
             User user = ctx.User.FirstOrDefault(u => u.Id == id);
             user.IsConfirmed = false;
             user.Token = user.GenerateToken();
+            ctx.SaveChanges();
+            return user;
+        }
+
+        public User AssignRandomPhoto(User user)
+        {
+            Random random = new Random();
+            int number = random.Next(1, 6);
+            User foundUser = ctx.User.FirstOrDefault(x => x.Id == user.Id);
+            foundUser.PictureUrl = number + ".png";
             ctx.SaveChanges();
             return user;
         }

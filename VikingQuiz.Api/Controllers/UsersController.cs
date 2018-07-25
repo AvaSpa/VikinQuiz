@@ -8,10 +8,10 @@ using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.ViewModels;
-using VikingQuiz.Api.Validators;
 using System.Security.Claims;
 using VikingQuiz.Api.Utilities;
 using Microsoft.AspNetCore.Authorization;
+
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -54,29 +54,28 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult Add([FromBody]UserViewModel user)
         {
-            UserValidation userValidator = new UserValidation
-            {
-                Username = user.Username,
-                Email = user.Email,
-                Pass = user.Password
-            };
 
-            if (!TryValidateModel(userValidator))
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors })
     .ToArray());
             }
 
-            User usr = userRepo.CreateUser(new User {
+            User usr = new User {
                 Username = user.Username,
                 Pass = user.Password,
                 Email = user.Email,
                 PictureUrl = user.PictureUrl
-            });
-            if(usr == null)
+            };
+
+            User newusr = userRepo.CreateUser(usr);
+
+            if(newusr == null)
             {
                 return BadRequest("User couldn't be created");
             }
+
+            userRepo.AssignRandomPhoto(newusr);
             UserViewModel userVm = entityToVmMapper.Map(usr);
             return Created($"/{userVm.Id}", userVm);
         }
