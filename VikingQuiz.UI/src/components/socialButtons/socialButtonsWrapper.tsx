@@ -12,7 +12,10 @@ function SocialButtonsWrapper(props: any) {
          <div className="text-center wrapper-text">{props.wrapperMessage}</div>
          <div className="col-xs-12 col-sm-6" >
             <FacebookLoginButton
+
                clientId={props.clientIds.facebook}
+               postURL={props.postURLs.faceook}
+
                onResponseFailure={props.onResponseFailure}
                onResponseSuccesful={props.onResponseSuccesful}
 
@@ -22,13 +25,13 @@ function SocialButtonsWrapper(props: any) {
                onPostError={props.onPostError}
                onPostSuccess={props.onPostSuccess}
 
-               postURL={props.urls.faceook}
 
             />
          </div>
          <div className="col-xs-12 col-sm-6">
             <GoogleLoginButton
                clientId={props.clientIds.google}
+               postURL={props.postURLs.google}
 
                onResponseFailure={props.onResponseFailure}
                onResponseSuccesful={props.onResponseSuccesful}
@@ -38,7 +41,6 @@ function SocialButtonsWrapper(props: any) {
 
                onPostError={props.onPostError}
                onPostSuccess={props.onPostSuccess}
-               postURL={props.URLs.google}
 
             />
          </div>

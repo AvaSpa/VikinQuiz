@@ -1,6 +1,13 @@
-@font-face{
-  font-family: "DK Lemon Yellow Sun";
-  src: url('DK Lemon Yellow Sun.otf');
+@import url('fonts/fonts.css'); 
+@import url('fonts/fontello-embedded.css'); 
+html {
+   
+   height: 100%;
+}
+
+body {
+   background: url('./media/logo.png') no-repeat left bottom/300px 100px, url('./media/background.png');
+   color: white;
 }
 
 .App {

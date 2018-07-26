@@ -10,7 +10,7 @@
      "no-console": false,
      "object-literal-sort-keys": false,
      "only-arrow-functions": false,
-     "ordere-imports": [
+     "ordered-imports": [
         true,
         {
            "import-sources-order": "any",

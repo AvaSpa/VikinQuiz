@@ -1,5 +1,5 @@
 
-
+.social-button:first-of-type { margin-bottom: 0.8em; }
 
 .google-button button.icon-google {
    padding-right: 0.5em;
@@ -8,23 +8,19 @@
 
 .google-button button { background:  hsl(221, 44%, 41%); }
 .google-button button:hover { background: hsl(221, 35%, 41%); }
-
 .google-button button:active { background: hsl(221, 33%, 41%); }
 .google-button button:focus { background: hsl(221, 31%, 41%); }
 .google-button button:active:focus { background: hsl(221, 30%, 41%); }
-
 .google-button button:disabled {
    background: hsl(221, 27%, 41%);; 
    cursor: not-allowed;
 }
 
 .facebook-button button { background: hsl(7, 71%, 55%); }
-.facebook-button button:hover { background: hsl(7, 62%, 55%);; }
-
-.facebook-button button:active { background: hsl(7, 58%, 55%);; }
-.facebook-button button:focus { background: hsl(7, 54%, 55%);; }
-.facebook-button button:active:focus { background: hsl(7, 50%, 55%);; }
-
+.facebook-button button:hover { background: hsl(7, 62%, 55%); }
+.facebook-button button:active { background: hsl(7, 58%, 55%); }
+.facebook-button button:focus { background: hsl(7, 54%, 55%); }
+.facebook-button button:active:focus { background: hsl(7, 50%, 55%); }
 .facebook-button button:disabled {
    background: hsl(7, 45%, 55%);; 
    cursor: not-allowed;
