@@ -7,8 +7,10 @@
       // only show the first error message matching the array of types
       // must be used on a ".container < [data-display-on="value"]" type of HTML elements
 
-      var i, j, msg,
-         messages = errorMessagesContainer.find("[data-display-on]");
+      var i;
+      var j;
+      var msg;
+      var messages = errorMessagesContainer.find("[data-display-on]");
 
       if (typesToShow.length) {
          // only show the ones who match the list
