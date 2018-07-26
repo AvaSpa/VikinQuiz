@@ -4,19 +4,12 @@ import './Buttons.css';
 class HomeButton extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
-        this.state = {
-            //
-        }
     }
 
     public render() {
         return (
             <button className="homeButton" onClick={this.handleClick} />
         );
-    }
-
-    public componentDidMount(){
-        //
     }
 
     public handleClick() {

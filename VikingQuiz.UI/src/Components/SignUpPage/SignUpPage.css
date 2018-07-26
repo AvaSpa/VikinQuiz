@@ -1,0 +1,18 @@
+.signupmsg{
+    margin: 0 auto 2% auto;
+    background-color: #f0cc04;
+    height: 10%;
+    color: #115057;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: 'dk_lemon_yellow_sunregular';
+}
+
+.form-container{
+    margin: auto;
+    border: 2px solid rgb(93, 185, 197);;
+}
+
+.checkbutton{
+    margin-top: 10%;
+}
