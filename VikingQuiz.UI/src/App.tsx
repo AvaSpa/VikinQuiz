@@ -1,5 +1,5 @@
 import * as React from 'react';
-import FormComponent from 'src/components/FormComponent/FormComponent';
+import FormComponent from 'src/Components/FormComponent/FormComponent';
 import InputData from './entities/InputData';
 import './App.css';
 import logo from './logo.svg';
