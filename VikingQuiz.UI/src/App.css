@@ -5,7 +5,7 @@ html {
 }
 
 body {
-   background: url('./media/logo.png') no-repeat left bottom/300px 100px, url('./media/background.png');
+   background: url('./media/background.png');
    color: white;
 }
 

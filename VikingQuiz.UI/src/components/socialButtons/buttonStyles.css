@@ -85,3 +85,16 @@
    font-family: 'dk_lemon_yellow_sunregular', sans-serif;
    font-size: 2em;
 }
+
+
+@media screen and (max-height: 800px){
+    .social-buttons-container .wrapper-text {
+        margin-bottom: 0.4em;
+        font-size: 1.6em;
+     }
+
+     .social-button button {
+         height: 35px;
+         font-size: 13px;
+     }
+}

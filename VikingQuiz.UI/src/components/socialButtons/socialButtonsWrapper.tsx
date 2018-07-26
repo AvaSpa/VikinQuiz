@@ -10,7 +10,7 @@ function SocialButtonsWrapper(props: any) {
    return (
       <div className='row container-fluid social-buttons-container'>
          <div className="text-center wrapper-text">{props.wrapperMessage}</div>
-         <div className="col-xs-12 col-sm-6" >
+         <div className="col-xs-6" >
             <FacebookLoginButton
                clientId={props.clientIds.facebook}
                onResponseFailure={props.onResponseFailure}
@@ -26,7 +26,7 @@ function SocialButtonsWrapper(props: any) {
 
             />
          </div>
-         <div className="col-xs-12 col-sm-6">
+         <div className="col-xs-6">
             <GoogleLoginButton
                clientId={props.clientIds.google}
                postURL={props.postURLs.google}

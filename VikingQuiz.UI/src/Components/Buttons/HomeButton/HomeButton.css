@@ -1,9 +1,8 @@
 .homeButton {
     border-radius: 50%;
     border: none;
-    max-width:150px;
+    width:150px;
     height:150px;
-    width: 50%;
     background: transparent url(./../../../media/home.png) no-repeat;
     background-size: 100%;
     position: relative; 
@@ -12,4 +11,11 @@
 .homeButton:active {
     transition: All 1s ease;
     transform: translateY(4px);
+}
+
+@media screen and (max-height: 800px){
+    .homeButton{
+        width: 100px;
+        height: 100px;
+    }
 }
