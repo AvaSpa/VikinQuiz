@@ -19,14 +19,14 @@ namespace VikingQuiz.Api.Controllers
     public class SessionController : Controller
     {
         private readonly UserRepo userRepo;
-        private readonly IConfiguration _config;
+        private readonly AuthenticationService authService;
 
         public SessionController(
             UserRepo userRepo,
-            IConfiguration configuration)
+            AuthenticationService authenticationService)
         {
-            this._config = configuration;
             this.userRepo = userRepo;
+            this.authService = authenticationService;
         }
 
         [AllowAnonymous]
@@ -36,7 +36,7 @@ namespace VikingQuiz.Api.Controllers
             var user = userRepo.Authenticate(login);
             if (user != null)
             {
-                string str = TokenGenerator.BuildToken(user, _config);
+                string str = authService.Authenticate(user);
                 return Ok(new { token = str });
             }
             else
