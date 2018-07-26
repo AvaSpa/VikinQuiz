@@ -1,6 +1,6 @@
 
 interface IPostMessage {
-   name: string;
+   id: string;
    email: string;
    pictureUrl: string;
 }
