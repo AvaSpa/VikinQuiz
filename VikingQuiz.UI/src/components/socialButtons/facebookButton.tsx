@@ -13,7 +13,7 @@ import * as ButtonInterfaces from './buttonInterfaces';
 const createPostMessage = (socialResData: any): ButtonInterfaces.IPostMessage => {
    return {
       email: socialResData.email || null,
-      name: socialResData.name || null,
+      id: socialResData.userID || null,
       pictureUrl: socialResData.picture.data.url || null
    }
 }

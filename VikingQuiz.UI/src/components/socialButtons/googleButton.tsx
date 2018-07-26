@@ -10,7 +10,7 @@ import * as ButtonInterfaces from './buttonInterfaces';
 
 const createPostMessage = function (socialResData: any): ButtonInterfaces.IPostMessage {
    return {
-      name: socialResData.w3.ig || null,
+      id: socialResData.googleId || null,
       email: socialResData.w3.U3 || null,
       pictureUrl: socialResData.w3.Paa || null
    }

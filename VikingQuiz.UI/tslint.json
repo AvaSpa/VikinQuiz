@@ -11,7 +11,11 @@
      "object-literal-sort-keys": false,
      "only-arrow-functions": false,
      "ordered-imports": [
+<<<<<<< HEAD
         false,
+=======
+        true,
+>>>>>>> 358dc729e3ec0d8c0f9a3945e324222916c25678
         {
            "import-sources-order": "any",
            "named-imports-order": "case-insensitive"

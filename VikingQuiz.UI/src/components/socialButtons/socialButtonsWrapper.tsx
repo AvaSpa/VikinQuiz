@@ -22,13 +22,14 @@ function SocialButtonsWrapper(props: any) {
                onPostError={props.onPostError}
                onPostSuccess={props.onPostSuccess}
 
-               postURL={props.urls.faceook}
+               postURL={props.postURLs.faceook}
 
             />
          </div>
          <div className="col-xs-12 col-sm-6">
             <GoogleLoginButton
                clientId={props.clientIds.google}
+               postURL={props.postURLs.google}
 
                onResponseFailure={props.onResponseFailure}
                onResponseSuccesful={props.onResponseSuccesful}
@@ -38,7 +39,6 @@ function SocialButtonsWrapper(props: any) {
 
                onPostError={props.onPostError}
                onPostSuccess={props.onPostSuccess}
-               postURL={props.URLs.google}
 
             />
          </div>
