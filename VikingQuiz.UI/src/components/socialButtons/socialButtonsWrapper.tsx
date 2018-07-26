@@ -6,13 +6,13 @@ import GoogleLoginButton from './googleButton';
 import './buttonStyles.css';
 
 
-function SocialButtonsWrapper(props : any) {
+function SocialButtonsWrapper(props: any) {
    return (
       <div className='row container-fluid social-buttons-container'>
          <div className="text-center wrapper-text">{props.wrapperMessage}</div>
          <div className="col-xs-12 col-sm-6" >
             <FacebookLoginButton
-               clientId={"426789224472011"}
+               clientId={props.clientIds.facebook}
                onResponseFailure={props.onResponseFailure}
                onResponseSuccesful={props.onResponseSuccesful}
 
@@ -22,13 +22,13 @@ function SocialButtonsWrapper(props : any) {
                onPostError={props.onPostError}
                onPostSuccess={props.onPostSuccess}
 
-               postURL={"http://localhost:8080/"}
+               postURL={props.urls.faceook}
 
             />
          </div>
          <div className="col-xs-12 col-sm-6">
             <GoogleLoginButton
-               clientId={"973616639194-in3pvi0r75qp73f0d92m034r0nq71iqm.apps.googleusercontent.com"}
+               clientId={props.clientIds.google}
 
                onResponseFailure={props.onResponseFailure}
                onResponseSuccesful={props.onResponseSuccesful}
@@ -38,7 +38,7 @@ function SocialButtonsWrapper(props : any) {
 
                onPostError={props.onPostError}
                onPostSuccess={props.onPostSuccess}
-               postURL={"http://localhost:8080/"}
+               postURL={props.URLs.google}
 
             />
          </div>
@@ -97,4 +97,3 @@ ReactDOM.render(
 registerServiceWorker();
 
 */
-
