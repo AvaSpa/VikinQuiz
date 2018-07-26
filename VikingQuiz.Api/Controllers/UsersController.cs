@@ -36,7 +36,8 @@ namespace VikingQuiz.Api.Controllers
         public IActionResult GetAll()
         {
             var users = userRepo.GetAll();
-            return Ok(users.Select(user => this.entityToVmMapper.Map(user)));
+            var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
