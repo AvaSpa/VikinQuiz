@@ -1,5 +1,6 @@
 import * as React from 'react';
-import FormComponent from './Components/FormComponent/FormComponent';
+import FormComponent from 'src/components/FormComponent/FormComponent';
+import InputData from './entities/InputData';
 import './App.css';
 import logo from './logo.svg';
 
@@ -18,7 +19,7 @@ class App extends React.Component<any, any> {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="container-fluid">
-          <FormComponent />
+          <FormComponent inputs={[new InputData("232", "text", "label", "error")]}/>
         </div>
       </div>
     );
