@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './FormComponent.css';
 import FormInput from './FormInput/FormInput';
-import InputData from '../../entities/InputData';
+import InputData from 'src/entities/InputData';
 
 
 
@@ -52,22 +52,14 @@ class FormComponent extends React.Component<IState, IProps> {
 
   public render() {
     return (
-      <div className="row">
-        <form className="col-md-4 col-md-offset-4">
-          <div className="form-container">
-            <div className="form-body">
-              {this.state.inputs.map((input: InputData) => 
-                this.renderInput(input)
-              )}
-              {/* <FormInput InputId="user-name" InputType="text" InputLabel="Name" ErrorMessage="" ShowError={false}/>
-              <FormInput InputId="user-email" InputType="email" InputLabel="Email" ErrorMessage="invalid email" ShowError={true}/>
-              <FormInput InputId="user-password" InputType="password" InputLabel="Password" ErrorMessage="" ShowError={false}/>
-              <FormInput InputId="user-confpass" InputType="password" InputLabel="Confirm Password" ErrorMessage="passwords do not match" ShowError={true}/> */}
-            </div>
-          </div>
-        </form>
+      <div className="form-body">
+        {this.state.inputs.map((input: InputData) => this.renderInput(input))}
       </div>
-      
+      // <div className="form-body">
+      //   <FormInput InputId="user-name" InputType="text" InputLabel="Name" ErrorMessage="" ShowError={false}/>
+      //   <FormInput InputId="user-email" InputType="email" InputLabel="Email" ErrorMessage="invalid email" ShowError={true}/>
+      //   <FormInput InputId="user-password" InputType="password" InputLabel="Password" ErrorMessage="" ShowError={false}/>
+      //   <FormInput InputId="user-confpass" InputType="password" InputLabel="Confirm Password" ErrorMessage="passwords do not match" ShowError={true}/>
     );
   }
 }

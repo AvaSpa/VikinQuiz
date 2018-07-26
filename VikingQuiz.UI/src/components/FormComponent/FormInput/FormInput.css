@@ -1,5 +1,5 @@
 .formgroup{
-    position: relative;
+    position: relative; /*for position:absolute to work*/
     display: block;
     text-align: left;
     margin-top: 20px;
@@ -8,21 +8,21 @@
 
 .formlabel{
     margin: 0;
-    font-family: 'DK Lemon Yellow Sun';
+    font-family: 'dk_lemon_yellow_sunregular';
     font-size: 24px;
     font-weight: 300;
-    color: aqua;
+    color: rgb(93, 185, 197);
 }
 
 .formerror{
-    position: absolute;
+    position: absolute; /*important! otherwise element will take up space when shown*/
     right: 0;
-    color: crimson;
+    color: orangered;
     text-align: right;
+    font-family: 'Arial Narrow';
 }
 
 .formgroup .myinput{
     width: 100%;
-    border: 2px solid aqua;
-    color: #000;
+    border: 2px solid rgb(93, 185, 197);;
 }
