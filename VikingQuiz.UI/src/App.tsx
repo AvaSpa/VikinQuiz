@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import SignUpPage from 'src/components/SignUpPage/SignUpPage';
+import SignUpPage from 'src/Components/SignUpPage/SignUpPage';
 
 
 class App extends React.Component<{}, {}> {

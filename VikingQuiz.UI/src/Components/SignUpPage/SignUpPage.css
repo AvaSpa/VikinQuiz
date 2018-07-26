@@ -6,18 +6,44 @@
     font-size: 30px;
     font-weight: 600;
     font-family: 'dk_lemon_yellow_sunregular';
+    text-align: center;
 }
 
 .form-container{
     margin: auto;
-    border: 2px solid rgb(93, 185, 197);;
-}
-
-.checkbutton{
-    margin-top: 2em;
+    border: 2px solid rgb(93, 185, 197);
+    text-align: center;
 }
 
 .register-form footer{
     width: 100;
     height: 50;
+}
+
+.submitButton {
+    margin-top: 2em;
+    border-radius: 50%;
+    border: none;
+    width:70px;
+    height:70px;
+    background: transparent url(./../../media/checkmark.png) no-repeat;
+    background-size: 100%;
+}
+
+.submitButton:active {
+    transition: All 1s ease;
+    transform: translateY(4px);
+}
+
+#footer{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+@media screen and (max-height: 800px){
+    .submitButton{
+        width:50px;
+        height:50px;
+    }
 }

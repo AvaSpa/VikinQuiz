@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './Buttons.css';
+import '../Buttons.css';
 
 class SignUpButton extends React.Component<any, any> {
     constructor(props: any) {
@@ -8,12 +8,8 @@ class SignUpButton extends React.Component<any, any> {
 
     public render() {
         return (
-            <button className="switchButton" onClick={this.handleClick} > SIGN UP </button>
+            <button className="signupButton" onClick={this.props.click} > SIGN UP </button>
         );
-    }
-
-    public handleClick() {
-        alert("Button Clicked");
     }
 }
 

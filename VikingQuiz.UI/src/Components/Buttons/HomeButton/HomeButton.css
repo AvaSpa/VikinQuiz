@@ -5,7 +5,9 @@
     height:150px;
     background: transparent url(./../../../media/home.png) no-repeat;
     background-size: 100%;
-    position: relative; 
+    position: relative;
+    margin: 0 auto;
+    display: block;
 }
 
 .homeButton:active {

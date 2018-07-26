@@ -3,30 +3,21 @@ import './FormComponent.css';
 import FormInput from './FormInput/FormInput';
 import InputData from 'src/entities/InputData';
 
-
-
-interface IProps{
-  inputs: InputData[];
-}
-
-interface IState{
-  inputs: InputData[];
-}
-
-class FormComponent extends React.Component<IState, IProps> {
+class FormComponent extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      inputs: []
+      inputs: this.props.inputs,
+      url: this.props.url
     }
   }
 
-  public componentWillMount(){
-    this.setState({
-      inputs: this.props.inputs
-    });
-  }
+  // public componentWillMount(){
+  //   this.setState({
+  //     inputs: this.props.inputs
+  //   });
+  // }
 
   public changeValueHandler(id: string, event: any){
     const inputsCopy: InputData[] = this.state.inputs.slice();
@@ -35,6 +26,21 @@ class FormComponent extends React.Component<IState, IProps> {
     this.setState({
       inputs: inputsCopy
     })
+  }
+
+  public getFormData(): any{
+    const data: any = {};
+    this.state.inputs.forEach((input: InputData) => {
+      data[input.name] = input.value;
+    });
+    return data;
+  }
+
+  public submitDataHandler = () => {
+    const url: string = this.state.url;
+    const formData: any = this.getFormData();
+
+    this.props.onSubmit(url, formData);
   }
 
   public renderInput(input: InputData){
@@ -49,17 +55,12 @@ class FormComponent extends React.Component<IState, IProps> {
     )
   }
 
-
   public render() {
     return (
       <div className="form-body">
         {this.state.inputs.map((input: InputData) => this.renderInput(input))}
+        <button className="submitButton" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
       </div>
-      // <div className="form-body">
-      //   <FormInput InputId="user-name" InputType="text" InputLabel="Name" ErrorMessage="" ShowError={false}/>
-      //   <FormInput InputId="user-email" InputType="email" InputLabel="Email" ErrorMessage="invalid email" ShowError={true}/>
-      //   <FormInput InputId="user-password" InputType="password" InputLabel="Password" ErrorMessage="" ShowError={false}/>
-      //   <FormInput InputId="user-confpass" InputType="password" InputLabel="Confirm Password" ErrorMessage="passwords do not match" ShowError={true}/>
     );
   }
 }
