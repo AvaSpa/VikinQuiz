@@ -10,8 +10,8 @@
      "no-console": false,
      "object-literal-sort-keys": false,
      "only-arrow-functions": false,
-     "ordere-imports": [
-        true,
+     "ordered-imports": [
+        false,
         {
            "import-sources-order": "any",
            "named-imports-order": "case-insensitive"
