@@ -1,0 +1,27 @@
+.formgroup{
+    position: relative;
+    display: block;
+    text-align: left;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.formlabel{
+    margin: 0;
+    font-family: 'DK Lemon Yellow Sun';
+    font-size: 24px;
+    font-weight: 300;
+    color: aqua;
+}
+
+.formerror{
+    position: absolute;
+    right: 0;
+    color: crimson;
+    text-align: right;
+}
+
+.formgroup .myinput{
+    width: 100%;
+    border: 2px solid aqua;
+}

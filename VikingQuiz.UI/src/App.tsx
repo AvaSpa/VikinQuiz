@@ -1,21 +1,12 @@
 import * as React from 'react';
+import FormComponent from './Components/FormComponent/FormComponent';
 import './App.css';
-
-import axios from 'axios';
 import logo from './logo.svg';
 
 class App extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = { MyData: [] };
-
-    this.init();
-  }
-  public init() {
-    axios.get("http://localhost:60151/api/values").then(Response => {
-      global.console.log(Response.data);
-      this.setState({ MyData: Response.data });
-    });
   }
 
 
@@ -26,9 +17,9 @@ class App extends React.Component<any, any> {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          Values: {this.state.MyData}
-        </p>
+        <div className="container-fluid">
+          <FormComponent />
+        </div>
       </div>
     );
   }
