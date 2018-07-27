@@ -18,7 +18,7 @@ namespace VikingQuiz.Api.Repositories
 
         public User Authenticate(LoginViewModel login)
         {
-            return ctx.User.FirstOrDefault(u => (u.Username == login.username || u.Email == login.username) && u.Pass == login.password);
+            return ctx.User.FirstOrDefault(u => (u.Username == login.Email || u.Email == login.Email) && u.Pass == login.Password);
         }
 
         public User CreateUser(User user)

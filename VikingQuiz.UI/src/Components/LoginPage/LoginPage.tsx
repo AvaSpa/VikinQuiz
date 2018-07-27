@@ -5,7 +5,6 @@ import HomeButton from '../Buttons/HomeButton/HomeButton';
 
 import InputData from '../../entities/InputData';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
-import UserDto from '../../entities/UserDto';
 import axios from '../../../node_modules/axios';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
 
@@ -26,12 +25,14 @@ class LoginPage extends React.Component<any, any> {
   
   
     public userDataHandler(url: string, formData: any){
-        console.log("url: " + url);
-        console.log("formData: " + formData, formData);
-    
-        const body: UserDto = new UserDto(formData.Username, formData.Password, formData.Email);
-    
-        console.log(body);
+        if(!url || !formData){
+            return;
+        }
+
+        const body: any = {
+            email: formData.Email,
+            password: formData.Password 
+        }
     
         axios.post(url, body)
         .then((res: any) => console.log(res))
@@ -58,7 +59,7 @@ class LoginPage extends React.Component<any, any> {
                               <LoginFormComponent inputs={[
                                 new InputData('user-email', 'email', 'Email', 'invalid email', 'Email'),
                                 new InputData('user-password', 'password', 'Password', '', 'Password'),
-                                ]} url="http://localhost:60151/api/users" buttonName="" onSubmit={this.userDataHandler} />
+                                ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler} />
                               <div className="socials">
                               <SocialButtonsWrapper 
                                     postURLs={{

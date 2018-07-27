@@ -25,6 +25,10 @@ class SignUpPage extends React.Component<{}, {}> {
   }
 
   public userDataHandler(url: string, formData: any){
+    if(!url || !formData){
+        return;
+    }
+
     const body: UserDto = new UserDto(formData.Username, formData.Password, formData.Email);
 
     axios.post(url, body)
