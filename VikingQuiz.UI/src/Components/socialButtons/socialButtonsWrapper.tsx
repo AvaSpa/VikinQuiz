@@ -22,7 +22,7 @@ function SocialButtonsWrapper(props: any) {
                onPostError={props.onPostError}
                onPostSuccess={props.onPostSuccess}
 
-               postURL={props.postURLs.faceook}
+               postURL={props.postURLs.facebook}
 
             />
          </div>

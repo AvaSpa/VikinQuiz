@@ -10,12 +10,12 @@ using VikingQuiz.Api.ViewModels;
 namespace vikingquiz.api.controllers
 {
     [Route("api/[controller]")]
-    public class facebookcontroller : Controller
+    public class FacebookController : Controller
     {
         private readonly AuthenticationService authService;
         private readonly UserRepo repo;
 
-        public facebookcontroller(VikinQuizContext ctx, IConfiguration configuration)
+        public FacebookController(VikinQuizContext ctx, IConfiguration configuration)
         {
             this.authService = new AuthenticationService(configuration);
             this.repo = new UserRepo(ctx);
