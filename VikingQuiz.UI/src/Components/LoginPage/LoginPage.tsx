@@ -58,7 +58,7 @@ class LoginPage extends React.Component<any, any> {
                         <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                           <div className="form-container">
                               <LoginFormComponent inputs={[
-                                new InputData('user-email', 'email', 'Email', 'invalid email', 'Email'),
+                                new InputData('user-email', 'email', 'Email', '', 'Email'),
                                 new InputData('user-password', 'password', 'Password', '', 'Password'),
                                 ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler} />
                               <div className="socials">
