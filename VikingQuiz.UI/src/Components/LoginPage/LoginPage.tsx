@@ -162,7 +162,7 @@ class LoginPage extends React.Component<any, any> {
                                         google: 'http://localhost:60151/api/google'
                                     }}
                                     clientIds={{
-                                        facebook: "426789224472011",
+                                        facebook: "1691716487610141",
                                         google: "973616639194-in3pvi0r75qp73f0d92m034r0nq71iqm.apps.googleusercontent.com"
                                     }}
                                     wrapperMessage={"Log In Using"}
