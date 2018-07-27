@@ -1,6 +1,23 @@
 import * as React from 'react';
+import './LoginPage.css'
 import SignUpButton from '../Buttons/LoginSignUpButtons/SignUpButton';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
+import FormComponent from 'src/components/FormComponent/FormComponent';
+
+import InputData from '../../entities/InputData';
+import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
+import UserDto from '../../entities/UserDto';
+import axios from '../../../node_modules/axios';
+
+function popupClosedHandler(): void { console.log("Popup closed"); }
+function popupOpenHandler(): void { console.log("Popup opened"); }
+ 
+function postSuccesful(res: any): void { console.dir("Post succesful", res); }
+function postError(res: any): void { console.dir("Post NOT succesful", res); }
+ 
+function responseSuccesfulHandler(res: any): void { console.log("Response succesful", res); }
+function responseFailureHandler(): void { console.dir("Response failed"); }
+
 
 class LoginPage extends React.Component<any, any> {
     constructor(props: any) {
@@ -8,6 +25,20 @@ class LoginPage extends React.Component<any, any> {
     }
   
   
+    public userDataHandler(url: string, formData: any){
+        console.log("url: " + url);
+        console.log("formData: " + formData, formData);
+    
+        const body: UserDto = new UserDto(formData.Username, formData.Password, formData.Email);
+    
+        console.log(body);
+    
+        axios.post(url, body)
+        .then((res: any) => console.log(res))
+        .catch((error: any) => console.log(error));
+    }
+
+
     public render() {
       return (
           <div className="registerform">
@@ -16,29 +47,43 @@ class LoginPage extends React.Component<any, any> {
                   <HomeButton />
                   <div className="row">
                       <div className="col-md-4 col-md-offset-4">
-                          <div className="signupmsg">
+                          <div className="loginmsg">
                               LOG IN
                           </div>
                       </div>
                   </div>
-                  {/* <div className="row">
+                   <div className="row">
                       <div className="col-md-4 col-md-offset-4">
                           <div className="form-container">
                               <FormComponent inputs={[
-                                  new InputData('user-name', 'text', 'Name', ''),
-                                  new InputData('user-email', 'email', 'Email', 'invalid email'),
-                                  new InputData('user-password', 'password', 'Password', ''),
-                                  new InputData('user-confpass', 'password', 'Confirm Password', 'passwords do not match')
-                                  ]}/>
-                              <div className="checkbutton">
-                                  <SubmitButton />
-                              </div>
+                                new InputData('user-email', 'email', 'Email', 'invalid email', 'Email'),
+                                new InputData('user-password', 'password', 'Password', '', 'Password'),
+                                ]} url="http://localhost:60151/api/users" buttonName="" onSubmit={this.userDataHandler} />
                               <div className="socials">
-                                  SIGN UP WITH
-                              </div>
+                              <SocialButtonsWrapper 
+                                    postURLs={{
+                                        facebook: 'http://localhost:8080/',
+                                        google: 'http://localhost:8080/'
+                                    }}
+                                    clientIds={{
+                                        facebook: "426789224472011",
+                                        google: "973616639194-in3pvi0r75qp73f0d92m034r0nq71iqm.apps.googleusercontent.com"
+                                    }}
+                                    wrapperMessage={"Login Using"}
+                            
+                                    onResponseFailure={responseFailureHandler}
+                                    onResponseSuccesful={responseSuccesfulHandler}
+                            
+                                    onPopupClosed={popupClosedHandler}
+                                    onPopupOpen={popupOpenHandler}
+                            
+                                    onPostError={postError}
+                                    onPostSuccess={postSuccesful}
+                                />
+                            </div>
                           </div>
                       </div>
-                  </div> */}
+                  </div> *
               </div>
           </div>
         

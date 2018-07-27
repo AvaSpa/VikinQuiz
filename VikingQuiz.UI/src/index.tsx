@@ -4,11 +4,9 @@ import registerServiceWorker from './registerServiceWorker';
  
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import './App';
-
 import './fonts/fontello-embedded.css';
 import './fonts/fonts.css';
-import SignUpPage from './Components/SignUpPage/SignUpPage';
+import App from './App';
  
 // import SocialButtonsWrapper from './Components/socialButtons/socialButtonsWrapper';
 // import SignUpPage from './Components/SignUpPage/SignUpPage';
@@ -26,7 +24,7 @@ import SignUpPage from './Components/SignUpPage/SignUpPage';
  
 ReactDOM.render(
    (
-       <SignUpPage />
+       <App />
     //   <SocialButtonsWrapper
     //      postURLs={{
     //         facebook: 'http://localhost:60151/api/facebook',
