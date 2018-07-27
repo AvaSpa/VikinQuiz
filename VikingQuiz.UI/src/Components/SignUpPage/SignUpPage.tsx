@@ -8,6 +8,7 @@ import LoginButton from '../Buttons/LoginSignUpButtons/LoginButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import BottomLogo from '../BottomLogo/BottomLogo';
 import UserDto from '../../entities/UserDto';
+import { Redirect } from 'react-router-dom';
 // import register from '../../registerServiceWorker';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
@@ -24,7 +25,8 @@ class SignUpPage extends React.Component<{}, any> {
       super(props);
 
       this.state = {
-          serverMessage: ''
+          serverMessage: '',
+          redirect: false
       }
    }
 
@@ -42,11 +44,14 @@ class SignUpPage extends React.Component<{}, any> {
         console.log(res);
         const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
         axios.get(emailUrl);
+        comp.setState({
+            redirect: true
+        });
     })
     .catch((error: any) => {
         comp.setState({
         serverMessage: error.response.data
-        })
+        });
         setTimeout(()=>comp.setState({
             serverMessage: ''
         }), 5000);  
@@ -86,6 +91,9 @@ class SignUpPage extends React.Component<{}, any> {
    }
 
    public render() {
+        if(this.state.redirect){
+        return (<Redirect push={true} to="/login"/>);
+      }
       return (
          <div className="register-form">
             <div className="container">
@@ -210,8 +218,8 @@ class SignUpPage extends React.Component<{}, any> {
                         <div className="socials">
                            <SocialButtonsWrapper
                               postURLs={{
-                                 facebook: 'http://localhost:8080/',
-                                 google: 'http://localhost:8080/'
+                                facebook: 'http://localhost:60151/api/facebook',
+                                google: 'http://localhost:60151/api/google'
                               }}
                               clientIds={{
                                  facebook: "426789224472011",

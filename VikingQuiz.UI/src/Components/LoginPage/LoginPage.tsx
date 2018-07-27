@@ -9,6 +9,7 @@ import axios from '../../../node_modules/axios';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
 import BottomLogo from '../BottomLogo/BottomLogo';
 import { setTimeout } from 'timers';
+import { Redirect } from 'react-router-dom';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -25,7 +26,8 @@ class LoginPage extends React.Component<any, any> {
       super(props);
 
       this.state = {
-          serverMessage: ''
+          serverMessage: '',
+          redirect: false
       }
     }
   
@@ -43,7 +45,13 @@ class LoginPage extends React.Component<any, any> {
         }
     
         axios.post(url, body)
-        .then((res: any) => console.log(res))
+        .then((res: any) => {
+                console.log("success");
+                comp.setState({
+                    redirect: true
+                });
+            }
+        )
         .catch((error: any) => {
             console.dir(error.response);
             comp.setState({
@@ -57,6 +65,9 @@ class LoginPage extends React.Component<any, any> {
 
 
     public render() {
+      if(this.state.redirect){
+        return (<Redirect push={true} to="/redirect"/>);
+      }
       return (
           <div className="registerform">
               <div className="container">
