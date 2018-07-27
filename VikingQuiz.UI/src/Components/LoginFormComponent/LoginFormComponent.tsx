@@ -24,7 +24,7 @@ class LoginFormComponent extends FormComponent {
             
           </div>
         </div>
-        <button className="submitButton" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
+        <button disabled={!this.state.isValid} className="submitButton" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
       </div>
     );
   }

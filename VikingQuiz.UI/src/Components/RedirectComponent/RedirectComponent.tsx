@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './RedirectComponent.css';
 
 const redirectComponent: any = (props: any) => {
     return (
