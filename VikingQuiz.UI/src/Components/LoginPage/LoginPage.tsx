@@ -7,6 +7,7 @@ import InputData from '../../entities/InputData';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import axios from '../../../node_modules/axios';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
+import BottomLogo from '../BottomLogo/BottomLogo';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -70,7 +71,7 @@ class LoginPage extends React.Component<any, any> {
                                         facebook: "426789224472011",
                                         google: "973616639194-in3pvi0r75qp73f0d92m034r0nq71iqm.apps.googleusercontent.com"
                                     }}
-                                    wrapperMessage={"Login Using"}
+                                    wrapperMessage={"Log In Using"}
                             
                                     onResponseFailure={responseFailureHandler}
                                     onResponseSuccesful={responseSuccesfulHandler}
@@ -86,8 +87,8 @@ class LoginPage extends React.Component<any, any> {
                       </div>
                   </div>
               </div>
-          </div>
-        
+              <footer id="footer"><BottomLogo /></footer>
+          </div>   
       );
     }
   }

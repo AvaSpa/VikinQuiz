@@ -1,0 +1,33 @@
+.forget-pass{
+    font-family: 'dk_lemon_yellow_sunregular';
+    color:  #f0cc04;
+    font-size: 20px;
+    text-align: left;
+    padding: 0;
+}
+
+.forget-pass:hover { 
+    color: white;
+}
+
+a:visited { 
+    color: rgb(93, 185, 197);
+}
+
+.forget-remember{
+    margin-top: 20px;
+    justify-content: space-between; 
+}
+
+.custom-control{
+    text-align: right;
+    padding: 0;
+}
+
+.custom-control-label{
+    font-family: 'dk_lemon_yellow_sunregular';
+    color: white;
+    font-size: 20px;
+    margin-right: 10%;
+    
+}

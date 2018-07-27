@@ -18,32 +18,25 @@
 .checkbutton{
     margin-top: 10%;
 }
-#forgotPass{
-    font-family: 'dk_lemon_yellow_sunregular';
-    color:  #f0cc04;
-    font-size: 20px;
-    margin-top: 3%;
-    margin-left: 10%;
-    text-align: left;
+
+
+@media screen and (max-height: 800px){
+    .submitButton{
+        width:50px;
+        height:50px;
+	}
+
 }
 
-#remember{
-    font-family: 'dk_lemon_yellow_sunregular';
-    color: white;
-    font-size: 20px;
-    text-align: right;
-    margin-right: 10%;
+@media screen and (max-height: 900px) {
+	#footer {
+		position: relative;
+	}
 }
 
-#checkbox{
-    border-color: blue;
-    margin-left: 10px;
-}
-
-.tabel{
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 10px;
-    width: 80%;
-    background-color: #115057;
+@media screen and (max-width: 800px) {
+   #footer img {
+      left: 50%;
+      transform: translateX(-50%);
+   }
 }
