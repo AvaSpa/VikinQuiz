@@ -11,7 +11,7 @@
      "object-literal-sort-keys": false,
      "only-arrow-functions": false,
      "ordered-imports": [
-        true,
+        false,
         {
            "import-sources-order": "any",
            "named-imports-order": "case-insensitive"

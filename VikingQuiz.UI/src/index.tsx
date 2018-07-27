@@ -5,9 +5,10 @@ import registerServiceWorker from './registerServiceWorker';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App';
-import SignUpPage from './Components/SignUpPage/SignUpPage'
+
 import './fonts/fontello-embedded.css';
 import './fonts/fonts.css';
+import SignUpPage from './Components/SignUpPage/SignUpPage';
  
 // import SocialButtonsWrapper from './Components/socialButtons/socialButtonsWrapper';
 // import SignUpPage from './Components/SignUpPage/SignUpPage';
