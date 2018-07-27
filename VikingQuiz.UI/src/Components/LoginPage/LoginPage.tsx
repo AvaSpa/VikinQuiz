@@ -29,6 +29,28 @@ class LoginPage extends React.Component<any, any> {
       }
     }
   
+   public validator(inputs: any, validationRules: any, id: string, funcs: any) {
+      // validationRules, id, funcs
+        console.log(id);
+      const rules = validationRules[id];
+      const inputsCopy = funcs.getCopyOfInputs(inputs);
+      const inputItem = funcs.getItemById(id, inputs);
+      const item = inputsCopy[inputItem.index]
+
+
+      for (const rule of rules) {
+         // console.log(inputItem.value);
+         if (!rule.isValid(item.value, inputs, funcs)) {
+            // rules not vali
+
+            funcs.changeErrorMessageOf(id, rule.errorMessage);
+            return false;
+         }
+      }
+
+      funcs.changeErrorMessageOf(id, "");
+      return true;
+   }
   
     public userDataHandler = (url: string, formData: any) => {
         if(!url || !formData){
@@ -76,7 +98,52 @@ class LoginPage extends React.Component<any, any> {
                               <LoginFormComponent inputs={[
                                 new InputData('user-email', 'email', 'Email', '', 'Email', ''),
                                 new InputData('user-password', 'password', 'Password', '', 'Password', ''),
-                                ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler} />
+                                ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler} 
+                           validator={this.validator}
+                           validationRules={{
+                              "user-email": [
+                                 {
+                                    isValid(value: string, inputs: any, funcs: any) {
+                                       return value.length !== 0;
+                                    },
+                                    errorMessage: "Field required"
+                                 },
+                                 {
+                                    isValid(value: string, inputs: any, funcs: any) {
+                                       // email RegExp https://stackoverflow.com/questions/201323/how-to-validate-an-email-address-using-a-regular-expression
+                                       // /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+
+                                       const reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
+
+                                       return reg.test(value);
+
+                                    },
+                                    errorMessage: "Email format is invalid"
+                                 }
+                              ],
+                              "user-password": [
+                                 {
+                                    isValid(value: string, inputs: any, funcs: any) {
+                                       return value.length !== 0;
+                                    },
+                                    errorMessage: "Field required"
+                                 },
+                                 {
+                                    isValid(value: string, inputs: any, funcs: any) {
+                                       return value.length > 3;
+                                    },
+                                    errorMessage: "More than 3 characters"
+                                 },
+                                 {
+                                    isValid(value: string, inputs: any, funcs: any) {
+                                       return value.length < 20;
+                                    },
+                                    errorMessage: "Less than 20 characters"
+                                 }
+                              ]
+                           }}
+                                />
                               <div className="socials">
                               <SocialButtonsWrapper 
                                     postURLs={{
