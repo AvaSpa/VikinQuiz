@@ -44,6 +44,7 @@
    border: none;
    border-radius: 0;
    font-family: 'Arial Bold', sans-serif;
+   transition: all 0.2s linear;
 }
 
 /* .social-button button {
@@ -84,6 +85,7 @@
    text-transform: uppercase;
    font-family: 'dk_lemon_yellow_sunregular', sans-serif;
    font-size: 2em;
+   transition: all 0.2s linear;
 }
 
 

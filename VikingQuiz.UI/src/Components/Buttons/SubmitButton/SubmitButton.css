@@ -5,11 +5,14 @@
     height:70px;
     background: transparent url(./../../../media/checkmark.png) no-repeat;
     background-size: 100%;
+    transition: all 0.2s linear;
 }
 
+.submitButton:hover {
+    transform: translateY(3px);
+}
 .submitButton:active {
-    transition: All 1s ease;
-    transform: translateY(4px);
+    transform: translateY(5px);
 }
 
 @media screen and (max-height: 800px){

@@ -86,7 +86,7 @@ class SignUpPage extends React.Component<{}, {}> {
                     </div>
                 </div>
             </div>
-            <footer id="footer" className="pull-left"><BottomLogo /></footer>
+            <footer id="footer"><BottomLogo /></footer>
         </div>
       
     );

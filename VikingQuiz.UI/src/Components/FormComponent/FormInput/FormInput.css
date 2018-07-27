@@ -12,24 +12,38 @@
     font-size: 24px;
     font-weight: 300;
     color: rgb(93, 185, 197);
+    transition: all 0.2s linear;
 }
 
 .formerror{
-    position: absolute; /*important! otherwise element will take up space when shown*/
+    /* position: absolute; */ /*important! otherwise element will take up space when shown
+    */
+    height: 0; /* alternative, text will align properly to the size */ 
     right: 0;
     color: orangered;
     text-align: right;
     font-family: 'Arial Narrow';
+    transition: all 0.2s linear;
 }
 
 .formgroup .myinput{
-    width: 100%;
+   padding: 4px 3px;
+   height: 37px;
     border: 2px solid rgb(93, 185, 197);
-    color: black;
+    color: rgb(30, 30, 30);
+    font-size: 18px;
 }
 
 @media screen and (max-height: 800px){
     .formlabel{
         font-size: 20px;
+    }
+    .formerror{
+        font-size: 15px;
+    }
+}
+@media screen and (max-height: 600px){
+    .formerror{
+        font-size: 16px;
     }
 }

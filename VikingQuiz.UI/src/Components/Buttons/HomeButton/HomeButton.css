@@ -8,11 +8,14 @@
     position: relative;
     margin: 0 auto;
     display: block;
+    transition: all 0.2s linear;
 }
 
+.homeButton:hover {
+    transform: translateY(3px);
+}
 .homeButton:active {
-    transition: All 1s ease;
-    transform: translateY(4px);
+    transform: translateY(5px);
 }
 
 @media screen and (max-height: 800px){

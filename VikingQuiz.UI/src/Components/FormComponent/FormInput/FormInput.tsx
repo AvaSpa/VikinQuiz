@@ -3,9 +3,9 @@ import './FormInput.css';
 
 const formInput: any = (props: any) => {
     return (
-        <div className="formgroup">
+       <div className="formgroup col-xs-12">
         <label className="formlabel" htmlFor={props.InputId}>{props.InputLabel}</label>
-        <input id={props.InputId} name={props.name} className="myinput" type={props.InputType} onChange={props.changed}/>
+        <input id={props.InputId} name={props.name} className="myinput form-control" type={props.InputType} onChange={props.changed}/>
         <div className="formerror">{props.ErrorMessage}</div>
       </div>
     )

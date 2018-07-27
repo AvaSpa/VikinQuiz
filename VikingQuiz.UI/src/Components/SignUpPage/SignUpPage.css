@@ -1,17 +1,19 @@
 .signupmsg{
     margin: 0 auto 2% auto;
     background-color: #f0cc04;
-    height: 10%;
+    height: 1.4em;
     color: #115057;
     font-size: 30px;
     font-weight: 600;
     font-family: 'dk_lemon_yellow_sunregular';
-    text-align: center;
+	text-align: center;
+	user-select: none;
 }
 
 .form-container{
     margin: auto;
-    border: 2px solid rgb(93, 185, 197);
+	border: 2px solid rgb(93, 185, 197);
+	border-color: rgba(93, 185, 197, 0.7);
     text-align: center;
 }
 
@@ -28,22 +30,46 @@
     height:70px;
     background: transparent url(./../../media/checkmark.png) no-repeat;
     background-size: 100%;
+	transition: all 0.2s ease;
 }
 
+.submitButton:hover {
+    transform: translateY(3px);
+}
 .submitButton:active {
-    transition: All 1s ease;
-    transform: translateY(4px);
+    transform: translateY(5px);
 }
 
-#footer{
+#footer img{
     position: absolute;
     left: 0;
     bottom: 0;
+}
+#footer {
+   position: absolute;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   height: 71px;
 }
 
 @media screen and (max-height: 800px){
     .submitButton{
         width:50px;
         height:50px;
-    }
+	}
+
+}
+
+@media screen and (max-height: 900px) {
+	#footer {
+		position: relative;
+	}
+}
+
+@media screen and (max-width: 800px) {
+   #footer img {
+      left: 50%;
+      transform: translateX(-50%);
+   }
 }

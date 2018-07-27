@@ -8,9 +8,10 @@
     position: absolute; 
     top:20px; 
     right:40px;
+    text-transform: uppercase;
 }
 
 .switchButton:active {
-    transition: All 1s ease;
+    transition: All 0.2s linear;
     transform: translateY(4px);
 }

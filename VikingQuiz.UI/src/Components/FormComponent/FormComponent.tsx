@@ -57,7 +57,7 @@ class FormComponent extends React.Component<any, any> {
 
   public render() {
     return (
-      <div className="form-body">
+      <div className="form-body container-fluid">
         {this.state.inputs.map((input: InputData) => this.renderInput(input))}
         <button className="submitButton" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
       </div>

@@ -5,12 +5,20 @@
     font-size: 24px;
     color: #f0cc04;
     font-family: "dk_lemon_yellow_sunregular";
-    position:fixed; 
+    position: absolute; 
     top:20px; 
     right:40px;
+    transition: All 0.2s linear;
+    z-index: 10;
+
 }
 
 .switchButton:active {
-    transition: All 1s ease;
-    transform: translateY(4px);
+    transform: translateY(3px);
+    box-shadow: inset 0 0 12px 4px rgba(53, 53, 53, 0.149)
+}
+
+.switchButton:hover, .switchButton:active {
+    background: #f0cc04;
+    color: black;
 }
