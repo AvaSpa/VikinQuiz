@@ -19,16 +19,16 @@ a:visited {
     justify-content: space-between; 
 }
 
-.custom-control{
+.custom-control {
     text-align: right;
     padding: 0;
 }
 
 .custom-control-label{
-    font-family: 'dk_lemon_yellow_sunregular';
-    color: white;
-    font-size: 20px;
-    text-align: right;
+   font-family: 'dk_lemon_yellow_sunregular';
+   color: white;
+   font-size: 20px;
+   text-align: right;
 }
 
 .custom-control-label input[type="checkbox"] {
