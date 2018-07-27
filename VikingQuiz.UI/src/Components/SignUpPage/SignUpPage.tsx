@@ -25,15 +25,15 @@ class SignUpPage extends React.Component<{}, {}> {
   }
 
   public userDataHandler(url: string, formData: any){
-    console.log("url: " + url);
-    console.log("formData: " + formData, formData);
-
     const body: UserDto = new UserDto(formData.Username, formData.Password, formData.Email);
 
-    console.log(body);
-
     axios.post(url, body)
-    .then((res: any) => console.log(res))
+    .then((res: any) => {
+        console.log(res);
+        const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
+        console.log(emailUrl);
+        axios.get(emailUrl);
+    })
     .catch((error: any) => console.log(error));
   }
 
