@@ -63,8 +63,8 @@ class SignUpPage extends React.Component<{}, {}> {
                             <div className="socials">
                                 <SocialButtonsWrapper 
                                     postURLs={{
-                                        facebook: 'http://localhost:8080/',
-                                        google: 'http://localhost:8080/'
+                                        facebook: 'http://localhost:60151/api/facebook',
+                                        google: 'http://localhost:60151/api/google'
                                     }}
                                     clientIds={{
                                         facebook: "426789224472011",

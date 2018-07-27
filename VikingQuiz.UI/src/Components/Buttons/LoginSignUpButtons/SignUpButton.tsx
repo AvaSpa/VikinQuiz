@@ -1,5 +1,6 @@
 import * as React from 'react';
-import '../Buttons.css';
+import './Buttons.css';
+import {Link} from 'react-router-dom';
 
 class SignUpButton extends React.Component<any, any> {
     constructor(props: any) {
@@ -8,7 +9,9 @@ class SignUpButton extends React.Component<any, any> {
 
     public render() {
         return (
-            <button className="signupButton" onClick={this.props.click} > SIGN UP </button>
+            <Link to="/signup">
+            <button className="switchButton" > SIGN UP </button>
+            </Link>
         );
     }
 }

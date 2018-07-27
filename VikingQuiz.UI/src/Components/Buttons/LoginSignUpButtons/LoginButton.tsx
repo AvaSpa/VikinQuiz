@@ -1,5 +1,6 @@
 import * as React from 'react';
 import '../Buttons.css';
+import {Link} from 'react-router-dom';
 
 class LoginButton extends React.Component<any, any> {
     constructor(props: any) {
@@ -8,12 +9,10 @@ class LoginButton extends React.Component<any, any> {
 
     public render() {
         return (
-            <button className="switchButton" onClick={this.handleClick} > LOG IN </button>
+            <Link to="/login">
+            <button className="switchButton" > LOG IN </button>
+            </Link>
         );
-    }
-
-    public handleClick() {
-        alert("Button Clicked");
     }
 }
 

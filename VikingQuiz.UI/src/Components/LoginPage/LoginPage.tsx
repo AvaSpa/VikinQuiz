@@ -2,12 +2,12 @@ import * as React from 'react';
 import './LoginPage.css'
 import SignUpButton from '../Buttons/LoginSignUpButtons/SignUpButton';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
-import FormComponent from 'src/components/FormComponent/FormComponent';
 
 import InputData from '../../entities/InputData';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import UserDto from '../../entities/UserDto';
 import axios from '../../../node_modules/axios';
+import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -46,24 +46,24 @@ class LoginPage extends React.Component<any, any> {
                   <SignUpButton />
                   <HomeButton />
                   <div className="row">
-                      <div className="col-md-4 col-md-offset-4">
+                    <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                           <div className="loginmsg">
                               LOG IN
                           </div>
                       </div>
                   </div>
                    <div className="row">
-                      <div className="col-md-4 col-md-offset-4">
+                        <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                           <div className="form-container">
-                              <FormComponent inputs={[
+                              <LoginFormComponent inputs={[
                                 new InputData('user-email', 'email', 'Email', 'invalid email', 'Email'),
                                 new InputData('user-password', 'password', 'Password', '', 'Password'),
                                 ]} url="http://localhost:60151/api/users" buttonName="" onSubmit={this.userDataHandler} />
                               <div className="socials">
                               <SocialButtonsWrapper 
                                     postURLs={{
-                                        facebook: 'http://localhost:8080/',
-                                        google: 'http://localhost:8080/'
+                                        facebook: 'http://localhost:60151/api/facebook',
+                                        google: 'http://localhost:60151/api/google'
                                     }}
                                     clientIds={{
                                         facebook: "426789224472011",
@@ -83,7 +83,7 @@ class LoginPage extends React.Component<any, any> {
                             </div>
                           </div>
                       </div>
-                  </div> *
+                  </div>
               </div>
           </div>
         

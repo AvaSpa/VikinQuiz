@@ -1,3 +1,21 @@
 .form-body{
     margin: auto;
 }
+
+.submitButton {
+    margin-top: 2em;
+    border-radius: 50%;
+    border: none;
+    width:70px;
+    height:70px;
+    background: transparent url(./../../media/checkmark.png) no-repeat;
+    background-size: 100%;
+	transition: all 0.2s ease;
+}
+
+.submitButton:hover {
+    transform: translateY(3px);
+}
+.submitButton:active {
+    transform: translateY(5px);
+}
