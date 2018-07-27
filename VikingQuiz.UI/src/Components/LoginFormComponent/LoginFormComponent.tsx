@@ -12,9 +12,13 @@ class LoginFormComponent extends FormComponent {
     return (
       <div className="form-body container-fluid">
         {this.state.inputs.map((input: InputData) => this.renderInput(input))}
-        <a href="#" className="forget-pass">forgot password</a>
-        <label className="remember-me" htmlFor="rememberMe">remember me</label>
-        <input id="rememberMe" name="rememberMe" className="myinput form-control" type="checkbox"/>
+        <div className="forget-remember col-xs-12">
+          <a href="#" className="forget-pass col-xs-6">FORGOT PASSWORD</a>
+          <div className="custom-control custom-checkbox col-xs-6">
+            <label className="custom-control-label" htmlFor="rememberMe">REMEMBER ME</label>
+            <input className="custom-control-input" id="rememberMe" name="rememberMe" type="checkbox"/>   
+          </div>
+        </div>
         <button className="submitButton" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
       </div>
     );
