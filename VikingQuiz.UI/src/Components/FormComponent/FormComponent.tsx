@@ -39,6 +39,14 @@ class FormComponent extends React.Component<any, any> {
       if (this.getValidityState(true)) {
          this.props.onSubmit(url, formData);
       }
+
+      const validity = this.getValidityState(false);
+
+      if (validity !== this.state.isValid) {
+         this.setState({
+            isValid: validity
+         });
+      }
    }
 
    //   public changeErrorStateOfInput = (id : string, errorMessage : string) => {
@@ -75,19 +83,7 @@ class FormComponent extends React.Component<any, any> {
       }
    }
 
-   public getValidityState(checkAll: boolean) {
-      if (this.props.validator) {
-         if (checkAll) {
-            this.checkValidityOfAll()
-         }
-         for (const input of this.state.inputs) {
-            if (input.errorMessage !== '') {
-               return false;
-            }
-         }
-      }
-      return true;
-   }
+
 
 
    public renderInput(input: InputData) {
@@ -105,7 +101,7 @@ class FormComponent extends React.Component<any, any> {
 
 
    public changeErrorMessageOf = (id: string, errorMessage: string) => {
-
+      
       const inputsData = this.getItemById(id, this.state.inputs);
       if (this.state.inputs[inputsData.index].errorMessage !== errorMessage) {
          //   console.log(this.state.inputs);
@@ -139,7 +135,7 @@ class FormComponent extends React.Component<any, any> {
       }
 
       const validity = this.getValidityState(false);
-      // console.log(validity, this.state.isValid);
+      console.log(validity, this.state.isValid);
       //   console.log(validity, this.state.isValid);
       if (validity !== this.state.isValid) {
          this.setState({
@@ -148,6 +144,19 @@ class FormComponent extends React.Component<any, any> {
       }
    }
 
+   public getValidityState(checkAll: boolean) {
+      if (this.props.validator) {
+         if (checkAll) {
+            this.checkValidityOfAll()
+         }
+         for (const input of this.state.inputs) {
+            if (input.errorMessage !== '') {
+               return false;
+            }
+         }
+      }
+      return true;
+   }
 
 
    public render() {
