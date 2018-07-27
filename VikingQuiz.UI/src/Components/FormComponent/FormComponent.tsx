@@ -16,15 +16,12 @@ class FormComponent extends React.Component<any, any> {
 
 
    public changeValueHandler(id: string, event: any) {
-
-
       const inputsCopy: InputData[] = this.state.inputs.slice();
       const index: number = inputsCopy.findIndex((input) => input.id === id);
       inputsCopy[index].value = event.target.value;
       this.setState({
          inputs: inputsCopy
       })
-
    }
 
    public getFormData(): any {

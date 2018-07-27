@@ -40,7 +40,7 @@ namespace VikingQuiz.Api.Controllers
                 return Ok(new { token = str });
             }
             else
-                return Unauthorized();
+                return NotFound("No such user exists");
         }
     }
 }

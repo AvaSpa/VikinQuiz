@@ -8,6 +8,7 @@ import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import axios from '../../../node_modules/axios';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
 import BottomLogo from '../BottomLogo/BottomLogo';
+import { setTimeout } from 'timers';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -22,13 +23,19 @@ function responseFailureHandler(): void { console.dir("Response failed"); }
 class LoginPage extends React.Component<any, any> {
     constructor(props: any) {
       super(props);
+
+      this.state = {
+          serverMessage: ''
+      }
     }
   
   
-    public userDataHandler(url: string, formData: any){
+    public userDataHandler = (url: string, formData: any) => {
         if(!url || !formData){
             return;
         }
+
+        const comp: any = this;
 
         const body: any = {
             email: formData.Email,
@@ -37,7 +44,15 @@ class LoginPage extends React.Component<any, any> {
     
         axios.post(url, body)
         .then((res: any) => console.log(res))
-        .catch((error: any) => console.log(error));
+        .catch((error: any) => {
+            console.dir(error.response);
+            comp.setState({
+                serverMessage: error.response.data
+            })
+            setTimeout(()=>comp.setState({
+                serverMessage: ''
+            }), 5000);
+        });
     }
 
 
@@ -57,9 +72,10 @@ class LoginPage extends React.Component<any, any> {
                    <div className="row">
                         <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                           <div className="form-container">
+                              <p className="formerror server-message">{this.state.serverMessage}</p>
                               <LoginFormComponent inputs={[
-                                new InputData('user-email', 'email', 'Email', '', 'Email'),
-                                new InputData('user-password', 'password', 'Password', '', 'Password'),
+                                new InputData('user-email', 'email', 'Email', '', 'Email', ''),
+                                new InputData('user-password', 'password', 'Password', '', 'Password', ''),
                                 ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler} />
                               <div className="socials">
                               <SocialButtonsWrapper 

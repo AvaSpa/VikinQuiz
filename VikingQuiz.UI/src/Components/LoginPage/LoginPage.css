@@ -15,6 +15,10 @@
     border: 2px solid rgb(93, 185, 197);;
 }
 
+.server-message{
+    text-align: center;
+}
+
 .checkbutton{
     margin-top: 10%;
 }
