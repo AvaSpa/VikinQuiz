@@ -30,7 +30,7 @@ namespace VikingQuiz.Api.Controllers
         {
             User user = userRepo.AssignToken(id);
 
-            MailMessage mail = new MailMessage("andiabrudan@yahoo.com", user.Email);
+            MailMessage mail = new MailMessage(fromAddress, user.Email);
 
             SmtpClient client = new SmtpClient
             {
@@ -45,7 +45,7 @@ namespace VikingQuiz.Api.Controllers
             using (MailMessage message = new MailMessage(fromAddress, user.Email)
             {
                 Subject = "Register your account",
-                Body = "Click the following link to register your account\n\nhttp://localhost:60151/api/token?t=" + user.Token
+                Body = "Click the following link to register your account\n\nhttp://localhost:60151/api/email/token?t=" + user.Token
             })
             {
                 client.Send(message);
