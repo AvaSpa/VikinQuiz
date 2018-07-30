@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './App.css';
 import SignUpPage from 'src/Components/SignUpPage/SignUpPage';
-import { BrowserRouter , Route } from "react-router-dom";
+import { BrowserRouter , Route, Switch } from "react-router-dom";
 import LoginPage from './Components/LoginPage/LoginPage';
-import redirectComponent from './Components/RedirectComponent/RedirectComponent';
-
+import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
+import NotFoundComponent from './Components/NotFoundComponent/NotFoundComponent';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -15,10 +15,13 @@ class App extends React.Component<{}, {}> {
     return (
       <BrowserRouter>
         <div className="App">
+        <Switch>
           <Route exact={true} path="/" component={SignUpPage} />
-          <Route path="/signup" component={SignUpPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/redirect" component={redirectComponent} />
+          <Route exact={true} path="/signup" component={SignUpPage} />
+          <Route exact={true} path="/login" component={LoginPage} />
+          <Route exact={true} path="/redirect" component={RedirectComponent} />
+          <Route path="*" component={NotFoundComponent} />
+          </Switch>
         </div>
       </BrowserRouter>
     );
