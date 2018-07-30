@@ -12,6 +12,8 @@ import { setTimeout } from 'timers';
 import { Redirect } from 'react-router-dom';
 import { loginRules} from '../../entities/Validation/rules';
 
+import { apiUrl } from '../../constants';
+
 import {loginValidator} from '../../entities/Validation/validators';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
@@ -93,15 +95,15 @@ class LoginPage extends React.Component<any, any> {
                               <LoginFormComponent inputs={[
                                 new InputData('user-email', 'email', 'Email', '', 'Email', ''),
                                 new InputData('user-password', 'password', 'Password', '', 'Password', ''),
-                                ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler} 
+                                ]} url={apiUrl + "api/session"} buttonName="" onSubmit={this.userDataHandler} 
                            validator={loginValidator}
                            validationRules={loginRules}
                                 />
                               <div className="socials">
                               <SocialButtonsWrapper 
                                     postURLs={{
-                                        facebook: 'http://localhost:60151/api/facebook',
-                                        google: 'http://localhost:60151/api/google'
+                                        facebook: apiUrl + 'api/facebook',
+                                        google: apiUrl + 'api/google'
                                     }}
                                     clientIds={{
                                         facebook: "1691716487610141",

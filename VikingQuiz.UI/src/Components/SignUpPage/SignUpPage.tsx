@@ -13,6 +13,8 @@ import {signUpRules} from '../../entities/Validation/rules';
 // import register from '../../registerServiceWorker';
 import {signUpValidator} from '../../entities/Validation/validators';
 
+import { apiUrl } from '../../constants';
+
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
 
@@ -44,7 +46,7 @@ class SignUpPage extends React.Component<{}, any> {
     axios.post(url, body)
     .then((res: any) => {
         console.log(res);
-        const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
+        const emailUrl: string  = apiUrl + "api/email/" + res.data.id; 
         axios.get(emailUrl);
         comp.setState({
             redirect: true
@@ -90,7 +92,7 @@ class SignUpPage extends React.Component<{}, any> {
                               new InputData('user-password', 'password', 'Password', '', 'Password', ''),
                               new InputData('user-confpass', 'password', 'Confirm Password', '', 'ConfPassword', '')
                            ]}
-                           url="http://localhost:60151/api/users"
+                           url={apiUrl + "api/users"}
                            buttonName=""
                            onSubmit={this.userDataHandler}
                            validator={signUpValidator}
@@ -99,8 +101,8 @@ class SignUpPage extends React.Component<{}, any> {
                         <div className="socials">
                            <SocialButtonsWrapper
                               postURLs={{
-                                facebook: 'http://localhost:60151/api/facebook',
-                                google: 'http://localhost:60151/api/google'
+                                facebook: apiUrl + 'api/facebook',
+                                google: apiUrl + 'api/google'
                               }}
                               clientIds={{
                                  facebook: "1691716487610141",
