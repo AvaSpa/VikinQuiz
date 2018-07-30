@@ -15,7 +15,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "deploy -> 30/07/2017 11:14" };
         }
 
         // GET api/<controller>/5
