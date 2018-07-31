@@ -20,20 +20,20 @@ namespace VikingQuiz.Api.Controllers
     {
         private readonly UserRepo userRepo;
         private readonly AuthenticationService authService;
+        private readonly PasswordEncryptor encryptor;
 
-        public SessionController(
-            UserRepo userRepo,
-            AuthenticationService authenticationService)
+        public SessionController(UserRepo userRepo, AuthenticationService authenticationService, PasswordEncryptor encryptor)
         {
             this.userRepo = userRepo;
             this.authService = authenticationService;
+            this.encryptor = encryptor;
         }
 
         [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateToken([FromBody]LoginViewModel login)
         {
-            var user = userRepo.Authenticate(login);
+            User user = userRepo.Authenticate(login.Email, encryptor.Encrypt(login.Password));
             if (user != null)
             {
                 string str = authService.Authenticate(user);

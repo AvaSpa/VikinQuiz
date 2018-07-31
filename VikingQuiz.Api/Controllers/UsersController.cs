@@ -19,16 +19,14 @@ namespace VikingQuiz.Api.Controllers
     public class UsersController : Controller
     {
         private readonly UserRepo userRepo;
-        private readonly IEntityMapper<UserViewModel, User> vmToEntityMapper;
         private readonly IEntityMapper<User, UserViewModel> entityToVmMapper;
-        private readonly IConfiguration _config;
+        private readonly PasswordEncryptor encryptor;
 
-        public UsersController(UserRepo userRepo, IEntityMapper<UserViewModel, User> vmToEntityMapper, IEntityMapper<User, UserViewModel> entityToVmMapper, IConfiguration configuration)
+        public UsersController(UserRepo userRepo, IEntityMapper<User, UserViewModel> entityToVmMapper, PasswordEncryptor encryptor)
         {
-            this._config = configuration;
             this.userRepo = userRepo;
-            this.vmToEntityMapper = vmToEntityMapper;
             this.entityToVmMapper = entityToVmMapper;
+            this.encryptor = encryptor;
         }
 
         [HttpGet]
@@ -58,18 +56,16 @@ namespace VikingQuiz.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors })
-    .ToArray());
+                return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToArray());
             }
 
-            User usr = new User {
-                Username = user.Username,
-                Pass = user.Password,
-                Email = user.Email,
-                PictureUrl = user.PictureUrl
-            };
-
-            User newusr = userRepo.CreateUser(usr);
+            User newusr = userRepo.CreateUser(
+                new User{
+                    Username = user.Username,
+                    Pass = encryptor.Encrypt(user.Password),
+                    Email = user.Email,
+                    PictureUrl = user.PictureUrl
+                });
 
             if(newusr == null)
             {
@@ -77,19 +73,32 @@ namespace VikingQuiz.Api.Controllers
             }
 
             userRepo.AssignRandomPhoto(newusr);
-            UserViewModel userVm = entityToVmMapper.Map(usr);
+            UserViewModel userVm = entityToVmMapper.Map(newusr);
             return Created($"/{userVm.Id}", userVm);
         }
 
         [HttpPut]
         public IActionResult Update([FromBody]UserViewModel user)
         {
-            User usr = userRepo.UpdateUser(vmToEntityMapper.Map(user));
-            if (usr == null)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToArray());
+            }
+
+            if(!userRepo.ExistsById(user.Id))
             {
                 return NotFound("User doesn't exist");
             }
-            UserViewModel userVm = entityToVmMapper.Map(usr);
+
+            User updatedUser = userRepo.UpdateUser(
+                new User {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Pass = encryptor.Encrypt(user.Password),
+                    Email = user.Email,
+                    PictureUrl = user.PictureUrl
+                });
+            UserViewModel userVm = entityToVmMapper.Map(updatedUser);
             return Accepted($"/{userVm.Id}", userVm);
         }
 
