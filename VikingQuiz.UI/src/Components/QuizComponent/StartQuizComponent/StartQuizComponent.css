@@ -28,10 +28,15 @@
     display: none
 }
 
-.start-quiz .upload {
+.start-quiz .upload-label {
     text-align: left;
     margin-top: 5px;
     padding: 0 30px;
+}
+
+.start-quiz .upload-label label{
+    margin: 0;
+    height: 62px;
 }
 
 .start-quiz .label-photo-txt{
@@ -66,6 +71,11 @@
         height: 50px;
         position: relative;
         bottom: -12px;
+    }
+    
+    .start-quiz .upload-label label{
+        margin: 0;
+        height: 62px;
     }
     
     .start-quiz .label-photo-txt{
