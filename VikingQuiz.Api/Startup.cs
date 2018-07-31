@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VikingQuiz.Api.Utilities;
+using VikingQuiz.Api.Utilities.Password;
 
 namespace VikingQuiz.Api
 {
@@ -73,6 +74,8 @@ namespace VikingQuiz.Api
             services.AddScoped<IEntityMapper<Question, QuestionViewModel>, QuestionToViewMapper>();
             services.AddScoped<IEntityMapper<QuizViewModel, Quiz>, QuizViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<Quiz, QuizViewModel>, QuizToViewModelMapper>();
+            //password encryptor
+            services.AddScoped<PasswordEncryptor, SHA256Encryptor>();
 
         }
 
@@ -84,11 +87,6 @@ namespace VikingQuiz.Api
                 app.UseDeveloperExceptionPage();
             }
             app.UseCors("CorsPolicy");
-
-            //app.UseCors(builder =>
-            //    builder.AllowAnyOrigin()
-            //        .AllowAnyHeader()
-            //);
 
             app.UseAuthentication();
 
