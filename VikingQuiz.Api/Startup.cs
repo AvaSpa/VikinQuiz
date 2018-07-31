@@ -74,8 +74,6 @@ namespace VikingQuiz.Api
             services.AddScoped<IEntityMapper<Question, QuestionViewModel>, QuestionToViewMapper>();
             services.AddScoped<IEntityMapper<QuizViewModel, Quiz>, QuizViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<Quiz, QuizViewModel>, QuizToViewModelMapper>();
-            //password encryptor
-            services.AddScoped<PasswordEncryptor, SHA256Encryptor>();
 
         }
 

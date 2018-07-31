@@ -20,13 +20,11 @@ namespace VikingQuiz.Api.Controllers
     {
         private readonly UserRepo userRepo;
         private readonly IEntityMapper<User, UserViewModel> entityToVmMapper;
-        private readonly PasswordEncryptor encryptor;
 
-        public UsersController(UserRepo userRepo, IEntityMapper<User, UserViewModel> entityToVmMapper, PasswordEncryptor encryptor)
+        public UsersController(UserRepo userRepo, IEntityMapper<User, UserViewModel> entityToVmMapper)
         {
             this.userRepo = userRepo;
             this.entityToVmMapper = entityToVmMapper;
-            this.encryptor = encryptor;
         }
 
         [HttpGet]
@@ -62,7 +60,7 @@ namespace VikingQuiz.Api.Controllers
             User newusr = userRepo.CreateUser(
                 new User{
                     Username = user.Username,
-                    Pass = encryptor.Encrypt(user.Password),
+                    Pass = user.Password.SHA256Encrypt(),
                     Email = user.Email,
                     PictureUrl = user.PictureUrl
                 });
@@ -71,7 +69,6 @@ namespace VikingQuiz.Api.Controllers
             {
                 return BadRequest("User couldn't be created");
             }
-
             userRepo.AssignRandomPhoto(newusr);
             UserViewModel userVm = entityToVmMapper.Map(newusr);
             return Created($"/{userVm.Id}", userVm);
@@ -94,7 +91,7 @@ namespace VikingQuiz.Api.Controllers
                 new User {
                     Id = user.Id,
                     Username = user.Username,
-                    Pass = encryptor.Encrypt(user.Password),
+                    Pass = user.Password.SHA256Encrypt(),
                     Email = user.Email,
                     PictureUrl = user.PictureUrl
                 });
