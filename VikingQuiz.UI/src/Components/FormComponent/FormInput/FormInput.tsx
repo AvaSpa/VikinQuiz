@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './FormInput.css';
 
+
 const FormInput: any = (props: any) => {
   const defaultInputClass = 'vq-input form-control';
   const errorInputClass = props.ErrorMessage ? ' input-error' : '';
@@ -12,5 +13,4 @@ const FormInput: any = (props: any) => {
       </div>
     )
 }
-
 export default FormInput;
