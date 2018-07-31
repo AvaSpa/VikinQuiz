@@ -27,11 +27,15 @@
 }
 
 .formgroup .myinput{
-   padding: 4px 3px;
-   height: 37px;
-    border: 2px solid rgb(93, 185, 197);
+    padding: 4px 3px;
+    height: 37px;
+    border: 2px solid  rgb(93, 185, 197);
     color: rgb(30, 30, 30);
     font-size: 18px;
+}
+
+.my-error{
+    border: 2px solid  #FF9494 !important;
 }
 
 @media screen and (max-height: 800px){
