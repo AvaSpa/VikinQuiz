@@ -5,6 +5,7 @@ import SignUpPage from 'src/Components/SignUpPage/SignUpPage';
 import { BrowserRouter , Route, Switch } from "react-router-dom";
 import LoginPage from './Components/LoginPage/LoginPage';
 import NotFoundComponent from './Components/NotFoundComponent/NotFoundComponent';
+import StartGame from './Components/StartGame/StartGame';
 import BottomLogo from './Components/BottomLogo/BottomLogo';
 import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPasswordComponent/ResetPasswordComponent';
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
@@ -27,6 +28,7 @@ class App extends React.Component<{}, {}> {
           <Route exact={true} path="/myQuizzes" component={MyQuizesPage} />
           <Route exact={true} path="/editQuiz" component={NotFoundComponent} />
           <Route exact={true} path="/newQuiz" component={NotFoundComponent} />
+          <Route exact={true} path="/startgame" component={StartGame} />
           <Route exact={true} path="/forgot" component={SendEmailComponent} />
           <Route exact={true} path="/forgot/:token" component={ResetPasswordComponent} />
           <Route path="*" component={NotFoundComponent} />
