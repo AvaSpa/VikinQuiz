@@ -1,0 +1,59 @@
+.codeLabel{
+    position: relative;
+    font-size: 70px;
+    font-family: 'dk_lemon_yellow_sunregular';
+    text-align: center;
+}
+
+.homeButton{
+    top: 100px;
+    width: 250px;
+    height: 340px;
+}
+
+.code{
+    background-color: #ffffff;
+    color: #115057;
+    font-size: 50px;
+    font-family: 'dk_lemon_yellow_sunregular';
+    text-align: center;
+}
+
+#footer img{
+    position: absolute;
+    bottom: 0;
+}
+
+#footer {
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+   bottom: 0;
+}
+
+
+@media screen and (max-height: 800px){
+    .homeButton{
+        width:150px;
+        height:240px;
+    }
+    
+    .codeLabel{
+        position: relative;
+        font-size: 40px;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+    }
+    
+
+}
+
+@media screen and (max-height: 900px), screen and (max-width: 900px) {
+    #footer {
+         position: absolute;
+     }
+    #footer img {
+       left: 50%;
+       transform: translateX(-50%);
+    }
+ }
