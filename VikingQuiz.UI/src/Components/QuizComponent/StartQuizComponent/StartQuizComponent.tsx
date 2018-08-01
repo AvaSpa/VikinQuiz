@@ -10,7 +10,7 @@ interface IState{
 }
 
 interface IProps{
-    method: string
+    editMode: boolean
 }
 
 const initialTitle: string = 'add quiz title';
@@ -66,9 +66,9 @@ class StartQuizComponent extends React.Component<IProps, IState>{
                 <div className="col-md-5 col-xs-12">
                     <FormInput InputId="quizTitle" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler}/>
                 </div>
-                <div className="upload-label col-md-5 col-xs-9">
+                <div className="upload col-md-5 col-xs-9">
                     <input id="file-uploader" type="file" onChange={this.fileSelectHandler} ref={this.fileInput}/>
-                    <span className="label-photo-txt"> upload quiz photo</span>
+                    <span className="label-photo-txt"> { this.props.editMode ? "edit quiz photo" : "upload quiz photo"}</span>
                     <UploadButton click={this.uploadPhotoHandler} />
                 </div>
                 <div className="success-btn col-md-2 col-xs-3">
