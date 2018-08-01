@@ -6,7 +6,7 @@ class QuizComponent extends React.Component {
     public render(){
         return (
             <div className="quiz container">
-                <StartQuizComponent editMode={false} />
+                <StartQuizComponent editMode={true} />
             </div>
         )
     }

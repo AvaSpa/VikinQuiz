@@ -2,7 +2,7 @@
     font-family: 'dk_lemon_yellow_sunregular';
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-size: 27px;
 }
 
@@ -16,6 +16,7 @@
 .start-quiz #quizTitle{
     background-color: #00333E;
     border: 0;
+    border-radius: 0;
     color: #fff;
     line-height: 37px;
     font-size: 27px;
@@ -42,6 +43,15 @@
 .start-quiz .label-photo-txt{
     margin-right: 10px;
     font-weight: 400;
+}
+
+#preview-image {
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    border: 3px #fff solid;
+    box-sizing: content-box;
+    margin-left: 10px;
 }
 
  /* buttons */
