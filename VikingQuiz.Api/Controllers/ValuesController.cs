@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using VikingQuiz.Api.Utilities;
+using VikingQuiz.Api.ViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,18 +32,18 @@ namespace VikingQuiz.Api.Controllers
 
         [HttpPost]
         [RequestSizeLimit(5_000_000)]
-        public async Task<IActionResult> Post(List<IFormFile> files)
+        public async Task<IActionResult> Post(NewQuizViewModel quiz)
         {
-            if (files.Count == 0)
+            if (quiz.Files.Count == 0)
             {
                 return BadRequest("An image file needs to be provided");
             }
-            else if (files.Count > 1)
+            else if (quiz.Files.Count > 1)
             {
                 return BadRequest("Only one file can be uploaded.");
             }
 
-            long size = files.Sum(f => f.Length);
+            long size = quiz.Files.Sum(f => f.Length);
             if (size <= 0)
             {
                 return BadRequest("File must not be empty.");
@@ -51,7 +52,7 @@ namespace VikingQuiz.Api.Controllers
             var blobService = new AzureBlobService();
             await blobService.InitializeBlob();
 
-            var contentType = files[0].ContentType;
+            var contentType = quiz.Files[0].ContentType;
 
             if ( !(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg") )
             {
@@ -67,14 +68,14 @@ namespace VikingQuiz.Api.Controllers
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await files[0].CopyToAsync(stream);
+                await quiz.Files[0].CopyToAsync(stream);
             }
             
 
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
             await blobService.UploadPhoto(filePath, contentType);
-            return Ok(new { count = files.Count, size, filePath });
+            return Ok(new { count = quiz.Files.Count, size, filePath });
         }
 
 
