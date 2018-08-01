@@ -11,6 +11,7 @@ class StartGame extends React.Component<any, any> {
 
 
     public render() {
+        const displayedMessage = "YOUR CODE";
         const randomstring = require("randomstring");
         const code = randomstring.generate({
             length: 6,
@@ -26,7 +27,7 @@ class StartGame extends React.Component<any, any> {
                     </div>
                     <div className="row">
                         <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
-                            <div className="codeLabel"> YOUR CODE </div>
+                            <div className="code-label"> {displayedMessage} </div>
                         </div>
                     </div>
                     <div className="row">

@@ -10,7 +10,7 @@ class LoginButton extends React.Component<any, any> {
     public render() {
         return (
             <Link to="/login">
-            <button className="switchButton" > LOG IN </button>
+            <button className="switch-button" > LOG IN </button>
             </Link>
         );
     }
