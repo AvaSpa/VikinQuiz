@@ -5,7 +5,6 @@ import HomeButton from '../Buttons/HomeButton/HomeButton';
 
 import InputData from '../../entities/InputData';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
-import axios from '../../../node_modules/axios';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
 import BottomLogo from '../BottomLogo/BottomLogo';
 import { setTimeout } from 'timers';
@@ -15,6 +14,7 @@ import { loginRules} from '../../entities/Validation/rules';
 import { apiUrl } from '../../constants';
 
 import {loginValidator} from '../../entities/Validation/validators';
+import HttpService from '../../services/HttpService';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -29,6 +29,8 @@ function responseFailureHandler(): void { console.dir("Response failed"); }
 
 
 class LoginPage extends React.Component<any, any> {
+    private httpService: any = new HttpService();
+    
     constructor(props: any) {
       super(props);
 
@@ -52,7 +54,7 @@ class LoginPage extends React.Component<any, any> {
             password: formData.Password 
         }
     
-        axios.post(url, body)
+        this.httpService.post(url, body)
         .then((res: any) => {
                 console.log("success");
                 comp.setState({
@@ -61,7 +63,12 @@ class LoginPage extends React.Component<any, any> {
             }
         )
         .catch((error: any) => {
-            console.dir(error.response);
+            if(!error){
+                comp.setState({
+                    serverMessage: "Couldn't connect to the server"
+                });
+                return;
+            };
             comp.setState({
                 serverMessage: error.response.data
             })

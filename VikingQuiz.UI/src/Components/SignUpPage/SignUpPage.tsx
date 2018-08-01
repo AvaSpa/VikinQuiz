@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './SignUpPage.css'
-import axios from 'axios';
 import FormComponent from 'src/Components/FormComponent/FormComponent';
 import InputData from '../../entities/InputData';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
@@ -12,6 +11,7 @@ import { Redirect } from 'react-router-dom';
 import {signUpRules} from '../../entities/Validation/rules';
 // import register from '../../registerServiceWorker';
 import {signUpValidator} from '../../entities/Validation/validators';
+import HttpService from '../../services/HttpService';
 
 import { apiUrl } from '../../constants';
 
@@ -25,6 +25,8 @@ function responseSuccesfulHandler(res: any): void { console.log("Response succes
 function responseFailureHandler(): void { console.dir("Response failed"); }
 
 class SignUpPage extends React.Component<{}, any> {
+   private httpService: any = new HttpService();
+
    constructor(props: any) {
       super(props);
 
@@ -43,18 +45,24 @@ class SignUpPage extends React.Component<{}, any> {
 
     const body: UserDto = new UserDto(formData.Username, formData.Password, formData.Email);
 
-    axios.post(url, body)
+    this.httpService.post(url, body)
     .then((res: any) => {
         console.log(res);
         const emailUrl: string  = apiUrl + "api/email/" + res.data.id; 
-        axios.get(emailUrl);
+        this.httpService.get(emailUrl);
         comp.setState({
             redirect: true
         });
     })
     .catch((error: any) => {
+        if(!error){
+            comp.setState({
+                serverMessage: "Couldn't connect to the server"
+            });
+            return;
+        };
         comp.setState({
-        serverMessage: error.response.data
+            serverMessage: error.response.data
         });
         setTimeout(()=>comp.setState({
             serverMessage: ''
