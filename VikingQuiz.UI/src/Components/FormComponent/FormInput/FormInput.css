@@ -11,7 +11,7 @@
     font-family: 'dk_lemon_yellow_sunregular';
     font-size: 24px;
     font-weight: 300;
-    color: rgb(93, 185, 197);
+    color: #5DA9C5);
     transition: all 0.2s linear;
 }
 
@@ -20,21 +20,21 @@
     */
     height: 0; /* alternative, text will align properly to the size */ 
     right: 0;
-    color: orangered;
+    color: #FF4500;
     text-align: right;
     font-family: 'Arial Narrow';
     transition: all 0.2s linear;
 }
 
-.formgroup .myinput{
+.formgroup .vq-input{
     padding: 4px 3px;
     height: 37px;
-    border: 2px solid  rgb(93, 185, 197);
-    color: rgb(30, 30, 30);
+    border: 2px solid  #5DA9C5;
+    color: #1E1E1E;
     font-size: 18px;
 }
 
-.my-error{
+.input-error{
     border: 2px solid  #FF9494 !important;
 }
 
