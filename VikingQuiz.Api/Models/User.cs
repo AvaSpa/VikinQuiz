@@ -16,14 +16,9 @@ namespace VikingQuiz.Api.Models
         public string Pass { get; set; }
         public string PictureUrl { get; set; }
         public string Token { get; set; }
-        public bool IsConfirmed { get; set; }
+        public bool IsConfirmed { get; set; } = false;
         public DateTime? LastModified { get; set; }
 
         public ICollection<Quiz> Quiz { get; set; }
-
-        public string GenerateToken()
-        {
-            return Id + "tok";
-        }
     }
 }
