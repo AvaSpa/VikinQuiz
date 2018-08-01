@@ -8,7 +8,7 @@ class HomeButton extends React.Component<any, any> {
 
     public render() {
         return (
-            <button className="homeButton" onClick={this.handleClick} />
+            <button className="home-button" onClick={this.handleClick} />
         );
     }
 

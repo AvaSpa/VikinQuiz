@@ -1,4 +1,4 @@
-.switchButton {
+.switch-button {
     border: 2px solid #f0cc04;
     background-color: Transparent;
     padding: 4px 16px;
@@ -11,7 +11,7 @@
     text-transform: uppercase;
 }
 
-.switchButton:active {
+.switch-button:active {
     transition: All 0.2s linear;
     transform: translateY(4px);
 }

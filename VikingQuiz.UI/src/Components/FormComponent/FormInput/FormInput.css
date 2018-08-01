@@ -1,4 +1,4 @@
-.formgroup{
+.form-group{
     position: relative; /*for position:absolute to work*/
     display: block;
     text-align: left;
@@ -6,7 +6,7 @@
     font-size: 18px;
 }
 
-.formlabel{
+.form-label{
     margin: 0;
     font-family: 'dk_lemon_yellow_sunregular';
     font-size: 24px;
@@ -15,7 +15,7 @@
     transition: all 0.2s linear;
 }
 
-.formerror{
+.form-error{
     /* position: absolute; */ /*important! otherwise element will take up space when shown
     */
     height: 0; /* alternative, text will align properly to the size */ 
@@ -39,15 +39,15 @@
 }
 
 @media screen and (max-height: 800px){
-    .formlabel{
+    .form-label{
         font-size: 20px;
     }
-    .formerror{
+    .form-error{
         font-size: 15px;
     }
 }
 @media screen and (max-height: 600px){
-    .formerror{
+    .form-error{
         font-size: 16px;
     }
 }

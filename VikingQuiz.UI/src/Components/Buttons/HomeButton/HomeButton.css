@@ -1,4 +1,4 @@
-.homeButton {
+.home-button {
     border-radius: 50%;
     border: none;
     width:150px;
@@ -11,15 +11,15 @@
     transition: all 0.2s linear;
 }
 
-.homeButton:hover {
+.home-button:hover {
     transform: translateY(3px);
 }
-.homeButton:active {
+.home-button:active {
     transform: translateY(5px);
 }
 
 @media screen and (max-height: 800px){
-    .homeButton{
+    .home-button{
         width: 100px;
         height: 100px;
     }

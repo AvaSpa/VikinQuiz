@@ -1,11 +1,11 @@
-.codeLabel{
+.code-label{
     position: relative;
     font-size: 70px;
     font-family: 'dk_lemon_yellow_sunregular';
     text-align: center;
 }
 
-.homeButton{
+.home-button{
     top: 100px;
     width: 250px;
     height: 340px;
@@ -33,12 +33,12 @@
 
 
 @media screen and (max-height: 800px){
-    .homeButton{
+    .home-button{
         width:150px;
         height:240px;
     }
     
-    .codeLabel{
+    .code-label{
         position: relative;
         font-size: 40px;
         font-family: 'dk_lemon_yellow_sunregular';
