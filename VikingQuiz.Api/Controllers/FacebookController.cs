@@ -15,27 +15,26 @@ namespace vikingquiz.api.controllers
         private readonly AuthenticationService authenticationService;
         private readonly UserRepo repo;
 
-        public FacebookController(VikinQuizContext ctx, IConfiguration configuration, UserRepo userRepo)
+        public FacebookController(VikinQuizContext ctx, AuthenticationService service, UserRepo userRepo)
         {
-            this.authenticationService = new AuthenticationService(configuration, ctx);
+            this.authenticationService = service;
             this.repo = userRepo;
         }
         [HttpPost]
         public IActionResult Login([FromBody]FacebookViewModel content)
         {
-            var plaintextbytes = System.Text.Encoding.UTF8.GetBytes(content.Id);
-            var base64id = System.Convert.ToBase64String(plaintextbytes);
+            string base64Id = content.Id.Base64Encoder();
             User user = new User
             {
-                Username = base64id,
+                Username = base64Id,
                 Email = content.Email,
                 Pass = null,
                 PictureUrl = content.PictureUrl,
                 IsConfirmed = true
             };
             this.repo.CreateUser(user);
-            string str = this.authenticationService.Authenticate(user);
-            return Ok(new { token = str });
+            string userToken = this.authenticationService.GenerateTokenForUser(user);
+            return Ok(new { token = userToken });
         }
     }
 }
