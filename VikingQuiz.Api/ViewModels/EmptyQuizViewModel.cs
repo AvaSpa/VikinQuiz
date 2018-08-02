@@ -11,5 +11,6 @@ namespace VikingQuiz.Api.ViewModels
         public string Title { get; set; }
         public List<IFormFile> Files { get; set; }
         public int? UserId { get; set; }
+        public int? QuizId { get; set; }
     }
 }

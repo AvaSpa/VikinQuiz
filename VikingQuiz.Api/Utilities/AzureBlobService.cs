@@ -20,14 +20,19 @@ namespace VikingQuiz.Api.Utilities
         private CloudBlobClient blobClient;
         private ServiceProperties serviceProperties;
         private CloudBlobContainer userContainer;
+        public Uri urlPath;
 
-        public async Task InitializeBlob() // blob init
+        public async Task<bool> InitializeBlob() // blob init
         {
 
             //CloudUri = blobClient.BlobStorageUri.PrimaryUri.ToString();
 
 
             userContainer = blobClient.GetContainerReference("users"); // get container reference
+            if(!await userContainer.CreateIfNotExistsAsync())
+            {
+                return false;
+            }
             await userContainer.CreateIfNotExistsAsync(); // create that container if it does not exist
             // set permissions of the user container to be public
             BlobContainerPermissions permissions = new BlobContainerPermissions
@@ -36,6 +41,7 @@ namespace VikingQuiz.Api.Utilities
             };
             await userContainer.SetPermissionsAsync(permissions);
             serviceProperties = await SetServiceProperties();
+            return true;
 
         }
 
@@ -61,21 +67,29 @@ namespace VikingQuiz.Api.Utilities
         }
 
 
-        public async Task UploadPhoto(string path, string contentType)
+        public async Task<string> UploadPhoto(string path, string contentType)
         {
             var extension = contentType == "image/png" ? ".png" :
                             contentType == "image/jpeg" ? ".jpeg" :
                             contentType == "image/gif" ? ".gif" : null;
 
             string imgName = Guid.NewGuid().ToString() + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + extension;
+
             CloudBlockBlob cloudBlockBlob = userContainer.GetBlockBlobReference(imgName);
             cloudBlockBlob.Properties.ContentType = contentType;
+
             await cloudBlockBlob.UploadFromFileAsync(path);
+            return imgName;
         }
 
         public AzureBlobService()
         {
-            account = CloudStorageAccount.DevelopmentStorageAccount;
+            // use TryParse to check connection
+            //account = CloudStorageAccount.DevelopmentStorageAccount;
+            string storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=intershipwirtekblob;AccountKey=shTUho2siiIL/ifrGoABOPLJuqLB4UPnGqDMNYiSBiE7IeKxWTLzEtWCm2pgwuvAs5odaGllkGawS8KbdHCtyQ==;EndpointSuffix=core.windows.net";
+            account = CloudStorageAccount.Parse(storageConnectionString);
+            urlPath = account.BlobStorageUri.PrimaryUri;
+
             blobClient = account.CreateCloudBlobClient();
         }
     }
