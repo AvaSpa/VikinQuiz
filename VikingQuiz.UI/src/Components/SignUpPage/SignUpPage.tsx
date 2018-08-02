@@ -6,7 +6,6 @@ import InputData from '../../entities/InputData';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LoginButton from '../Buttons/LoginSignUpButtons/LoginButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
-import BottomLogo from '../BottomLogo/BottomLogo';
 import UserDto from '../../entities/UserDto';
 import { Redirect } from 'react-router-dom';
 import {signUpRules} from '../../entities/Validation/rules';
@@ -122,7 +121,6 @@ class SignUpPage extends React.Component<{}, any> {
                   </div>
                </div>
             </div>
-            <footer id="footer"><BottomLogo /></footer>
          </div>
 
       );

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './FormInput.css';
 
-const formInput: any = (props: any) => {
+const FormInput: any = (props: any) => {
     return (
        <div className="formgroup col-xs-12">
         <label className="formlabel" htmlFor={props.InputId}>{props.InputLabel}</label>
@@ -11,4 +11,4 @@ const formInput: any = (props: any) => {
     )
 }
 
-export default formInput;
+export default FormInput;
