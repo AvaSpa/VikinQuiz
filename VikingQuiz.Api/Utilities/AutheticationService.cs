@@ -14,10 +14,12 @@ namespace VikingQuiz.Api.Utilities
     public class AuthenticationService
     {
         private readonly IConfiguration _config;
+        private readonly VikinQuizContext context;
 
-        public AuthenticationService(IConfiguration config)
+        public AuthenticationService(IConfiguration config, VikinQuizContext context)
         {
             this._config = config;
+            this.context = context;
         }
         public string Authenticate(User user)
         {
@@ -26,6 +28,11 @@ namespace VikingQuiz.Api.Utilities
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Username), new Claim(ClaimTypes.Email, user.Email), new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Issuer"], expires: DateTime.Now.AddHours(2), signingCredentials: creds, claims: claims);
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public User Authenticate(string username, string password)
+        {
+            return context.User.FirstOrDefault(u => (u.Username == username || u.Email == username) && u.Pass == password);
         }
     }
 }

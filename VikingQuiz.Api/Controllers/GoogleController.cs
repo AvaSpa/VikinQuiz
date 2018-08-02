@@ -10,13 +10,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class GoogleController : Controller
     {
-        private readonly AuthenticationService authService;
+        private readonly AuthenticationService authenticationService;
         private readonly UserRepo repo;
 
-        public GoogleController(VikinQuizContext ctx, IConfiguration configuration)
+        public GoogleController(VikinQuizContext ctx, IConfiguration configuration, UserRepo userRepo)
         {
-            this.authService = new AuthenticationService(configuration);
-            this.repo = new UserRepo(ctx);
+            this.authenticationService = new AuthenticationService(configuration, ctx);
+            this.repo = userRepo;
         }
 
         [HttpPost]
@@ -33,7 +33,7 @@ namespace VikingQuiz.Api.Controllers
                 IsConfirmed = true
             };
             this.repo.CreateUser(user);
-            string str = this.authService.Authenticate(user);
+            string str = this.authenticationService.Authenticate(user);
             return Ok(new { token = str });
         }
     }

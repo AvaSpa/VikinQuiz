@@ -12,13 +12,13 @@ namespace vikingquiz.api.controllers
     [Route("api/[controller]")]
     public class FacebookController : Controller
     {
-        private readonly AuthenticationService authService;
+        private readonly AuthenticationService authenticationService;
         private readonly UserRepo repo;
 
-        public FacebookController(VikinQuizContext ctx, IConfiguration configuration)
+        public FacebookController(VikinQuizContext ctx, IConfiguration configuration, UserRepo userRepo)
         {
-            this.authService = new AuthenticationService(configuration);
-            this.repo = new UserRepo(ctx);
+            this.authenticationService = new AuthenticationService(configuration, ctx);
+            this.repo = userRepo;
         }
         [HttpPost]
         public IActionResult Login([FromBody]FacebookViewModel content)
@@ -34,7 +34,7 @@ namespace vikingquiz.api.controllers
                 IsConfirmed = true
             };
             this.repo.CreateUser(user);
-            string str = this.authService.Authenticate(user);
+            string str = this.authenticationService.Authenticate(user);
             return Ok(new { token = str });
         }
     }
