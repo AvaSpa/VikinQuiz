@@ -16,5 +16,4 @@ class SubmitButton extends React.Component<any, any> {
         alert("Button Clicked");
     }
 }
-
-export default SubmitButton;
+export default submitButton;
