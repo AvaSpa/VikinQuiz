@@ -10,6 +10,7 @@ import ConnectGame from './Components/StartGame/ConnectGame';
 import StartGame from './Components/StartGame/StartGame';
 import PlayGame from './Components/StartGame/PlayGame';
 import BottomLogo from './Components/BottomLogo/BottomLogo';
+// import QuizComponent from './Components/MyQuizComponent/QuizComponent';
 import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPasswordComponent/ResetPasswordComponent';
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
 
@@ -30,7 +31,8 @@ class App extends React.Component<{}, {}> {
           <Route exact={true} path="/login" component={LoginPage} />
           <Route exact={true} path="/myQuizzes" component={MyQuizesPage} />
           <Route exact={true} path="/editQuiz" component={NotFoundComponent} />
-          <Route exact={true} path="/newQuiz" component={NotFoundComponent} />
+        {/*<Route exact={true} path="/redirect" component={RedirectComponent} />
+           <Route exact={true} path="/quiz" component={QuizComponent} /> */}
           <Route exact={true} path="/startgame" component={StartGame} />
           <Route exact={true} path="/playgame" component={PlayGame} />
           <Route exact={true} path="/connect" component={ConnectGame} />
