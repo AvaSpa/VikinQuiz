@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VikingQuiz.Api.Utilities;
-using VikingQuiz.Api.Utilities.Password;
 
 namespace VikingQuiz.Api
 {

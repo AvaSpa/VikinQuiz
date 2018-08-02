@@ -16,11 +16,6 @@ namespace VikingQuiz.Api.Repositories
             this.ctx = ctx;
         }
 
-        public User Authenticate(string username, string password)
-        {
-            return ctx.User.FirstOrDefault(u => (u.Username == username || u.Email == username) && u.Pass == password);
-        }
-
         public User CreateUser(User user)
         {
             User foundUser = ctx.User.Where(usr => usr.Email == user.Email).FirstOrDefault();
@@ -57,9 +52,9 @@ namespace VikingQuiz.Api.Repositories
             return ctx.User.FirstOrDefault(x => x.Id == id);
         }
 
-        public bool CheckIfUserIdExists(int id)
+        public bool CheckIfUserExists(int userId)
         {
-            return ctx.User.Any(x => x.Id == id);
+            return ctx.User.Any(x => x.Id == userId);
         }
 
         public List<User> GetAll()

@@ -54,16 +54,19 @@ namespace VikingQuiz.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToArray());
+                var errors = ModelState.GetErrors();
+                return BadRequest(errors);
             }
 
-            User newUser = userRepo.CreateUser(
-                new User{
-                    Username = user.Username,
-                    Pass = user.Password.SHA256Encrypt(),
-                    Email = user.Email,
-                    PictureUrl = user.PictureUrl
-                });
+            User userToSave = new User
+            {
+                Username = user.Username,
+                Pass = user.Password.SHA256Encrypt(),
+                Email = user.Email,
+                PictureUrl = user.PictureUrl
+            };
+
+            User newUser = userRepo.CreateUser(userToSave);
 
             if(newUser == null)
             {
@@ -79,22 +82,25 @@ namespace VikingQuiz.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToArray());
+                var errors = ModelState.GetErrors();
+                return BadRequest(errors);
             }
 
-            if(!userRepo.CheckIfUserIdExists(user.Id))
+            if(!userRepo.CheckIfUserExists(user.Id))
             {
                 return NotFound("User doesn't exist");
             }
 
-            User updatedUser = userRepo.UpdateUser(
-                new User {
-                    Id = user.Id,
-                    Username = user.Username,
-                    Pass = user.Password.SHA256Encrypt(),
-                    Email = user.Email,
-                    PictureUrl = user.PictureUrl
-                });
+            User userToUpdate = new User
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Pass = user.Password.SHA256Encrypt(),
+                Email = user.Email,
+                PictureUrl = user.PictureUrl
+            };
+
+            User updatedUser = userRepo.UpdateUser(userToUpdate);
             UserViewModel userVm = entityToVmMapper.Map(updatedUser);
             return Accepted($"/{userVm.Id}", userVm);
         }
