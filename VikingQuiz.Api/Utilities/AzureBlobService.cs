@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -6,6 +7,7 @@ using Microsoft.WindowsAzure.Storage.Shared.Protocol;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -15,26 +17,21 @@ using VikingQuiz.Api.Models;
 namespace VikingQuiz.Api.Utilities
 {
     public class AzureBlobService
-    {
+    { // should be changed to a SINGLETON if posibile
         private CloudStorageAccount account;
         private CloudBlobClient blobClient;
         private ServiceProperties serviceProperties;
         private CloudBlobContainer userContainer;
         public Uri urlPath;
 
-        public async Task<bool> InitializeBlob() // blob init
+        public async Task<bool> InitializeBlob()
         {
-
-            //CloudUri = blobClient.BlobStorageUri.PrimaryUri.ToString();
-
-
-            userContainer = blobClient.GetContainerReference("users"); // get container reference
+            userContainer = blobClient.GetContainerReference("users");
             if(!await userContainer.CreateIfNotExistsAsync())
             {
                 return false;
             }
-            await userContainer.CreateIfNotExistsAsync(); // create that container if it does not exist
-            // set permissions of the user container to be public
+            await userContainer.CreateIfNotExistsAsync();
             BlobContainerPermissions permissions = new BlobContainerPermissions
             {
                 PublicAccess = BlobContainerPublicAccessType.Blob
@@ -48,10 +45,7 @@ namespace VikingQuiz.Api.Utilities
         private async Task<ServiceProperties> SetServiceProperties()
         {
             var serviceProperties = await blobClient.GetServicePropertiesAsync();
-
-            // set Cors properties
             serviceProperties.Cors.CorsRules.Clear();
-
             serviceProperties.Cors.CorsRules.Add(new CorsRule()
             {
                 AllowedHeaders = { "*" },
@@ -67,8 +61,14 @@ namespace VikingQuiz.Api.Utilities
         }
 
 
-        public async Task<string> UploadPhoto(string path, string contentType)
+        public async Task<string> UploadPhoto(IFormFile file)
         {
+            var filePath = Path.GetTempFileName();
+            using (var stream = new FileStream(filePath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+            string contentType = file.ContentType;
             var extension = contentType == "image/png" ? ".png" :
                             contentType == "image/jpeg" ? ".jpeg" :
                             contentType == "image/gif" ? ".gif" : null;
@@ -78,13 +78,13 @@ namespace VikingQuiz.Api.Utilities
             CloudBlockBlob cloudBlockBlob = userContainer.GetBlockBlobReference(imgName);
             cloudBlockBlob.Properties.ContentType = contentType;
 
-            await cloudBlockBlob.UploadFromFileAsync(path);
+            await cloudBlockBlob.UploadFromFileAsync(filePath);
             return imgName;
         }
 
         public AzureBlobService()
         {
-            // use TryParse to check connection
+            // use TryParse to check connection, return exception if it can't connect
             //account = CloudStorageAccount.DevelopmentStorageAccount;
             string storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=intershipwirtekblob;AccountKey=shTUho2siiIL/ifrGoABOPLJuqLB4UPnGqDMNYiSBiE7IeKxWTLzEtWCm2pgwuvAs5odaGllkGawS8KbdHCtyQ==;EndpointSuffix=core.windows.net";
             account = CloudStorageAccount.Parse(storageConnectionString);
