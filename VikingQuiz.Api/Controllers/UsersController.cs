@@ -57,7 +57,7 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToArray());
             }
 
-            User newusr = userRepo.CreateUser(
+            User newUser = userRepo.CreateUser(
                 new User{
                     Username = user.Username,
                     Pass = user.Password.SHA256Encrypt(),
@@ -65,12 +65,12 @@ namespace VikingQuiz.Api.Controllers
                     PictureUrl = user.PictureUrl
                 });
 
-            if(newusr == null)
+            if(newUser == null)
             {
                 return BadRequest("User couldn't be created");
             }
-            userRepo.AssignRandomPhoto(newusr);
-            UserViewModel userVm = entityToVmMapper.Map(newusr);
+            userRepo.AssignRandomPhoto(newUser);
+            UserViewModel userVm = entityToVmMapper.Map(newUser);
             return Created($"/{userVm.Id}", userVm);
         }
 
@@ -82,7 +82,7 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToArray());
             }
 
-            if(!userRepo.ExistsById(user.Id))
+            if(!userRepo.CheckIfUserIdExists(user.Id))
             {
                 return NotFound("User doesn't exist");
             }

@@ -57,7 +57,7 @@ namespace VikingQuiz.Api.Repositories
             return ctx.User.FirstOrDefault(x => x.Id == id);
         }
 
-        public bool ExistsById(int id)
+        public bool CheckIfUserIdExists(int id)
         {
             return ctx.User.Any(x => x.Id == id);
         }
