@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Shared.Protocol;
+using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.ViewModels;
+using VikingQuiz.Api.Repositories;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=
 namespace VikingQuiz.Api.Controllers
 {
     [Route("api/[controller]")]
@@ -28,55 +31,14 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
-
-
+        // GET: api/<controller>
         [HttpPost]
-        [RequestSizeLimit(5_000_000)]
-        public async Task<IActionResult> Post(NewQuizViewModel quiz)
+        public string Post()
         {
-            if (quiz.Files.Count == 0)
-            {
-                return BadRequest("An image file needs to be provided");
-            }
-            else if (quiz.Files.Count > 1)
-            {
-                return BadRequest("Only one file can be uploaded.");
-            }
-
-            long size = quiz.Files.Sum(f => f.Length);
-            if (size <= 0)
-            {
-                return BadRequest("File must not be empty.");
-            }
-
-            var blobService = new AzureBlobService();
-            await blobService.InitializeBlob();
-
-            var contentType = quiz.Files[0].ContentType;
-
-            if ( !(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg") )
-            {
-                return BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
-            }
-
-
-
-            // full path to file in temp location
-
-                var filePath = Path.GetTempFileName();
-
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await quiz.Files[0].CopyToAsync(stream);
-            }
-            
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-            await blobService.UploadPhoto(filePath, contentType);
-            return Ok(new { count = quiz.Files.Count, size, filePath });
+            return "ok";
         }
+
+
 
 
         // GET api/<controller>/5

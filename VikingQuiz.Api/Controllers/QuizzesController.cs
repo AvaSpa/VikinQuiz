@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
+using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.ViewModels;
 using System.Security.Claims;
 using VikingQuiz.Api.Utilities;
@@ -53,33 +55,128 @@ namespace VikingQuiz.Api.Controllers
           } 
        
 
-        [HttpPost]
-        public IActionResult Add([FromBody]QuizViewModel quiz)
+
         {
-            Quiz newQuiz = quizRepository.CreateQuiz(new Quiz {
-                Title = quiz.Title,
-                PictureUrl = quiz.PictureUrl,
-                UserId = quiz.UserId,
-                LastModified = DateTime.Now
-            });
-            if (newQuiz == null)
+
+        [HttpPost("newQuiz")]
+        [RequestSizeLimit(5_000_000)]
+        //[Authorize]
+        public async Task<IActionResult> Post(NewQuizViewModel quiz)
+        {
+            // var user = User.Claims.GetUserId();
+            if (quiz.Files.Count == 0) {
+                return BadRequest("An image file needs to be provided");
+            } else if (quiz.Files.Count > 1) {
+                return BadRequest("Only one file can be uploaded.");
+            }
+
+            long size = quiz.Files.Sum(f => f.Length);
+            if (size <= 0) {
+                return BadRequest("File must not be empty.");
+            }
+
+            var contentType = quiz.Files[0].ContentType;
+            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg") ) {
+                return BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
+            }
+
+            var filePath = Path.GetTempFileName();
+            using (var stream = new FileStream(filePath, FileMode.Create)) {
+                await quiz.Files[0].CopyToAsync(stream);
+            }
+
+            string fileName;
+            var blobService = new AzureBlobService();
+            try {
+                await blobService.InitializeBlob();
+                fileName = await blobService.UploadPhoto(filePath, contentType);
+            } catch (Exception) {
+                return BadRequest("Image could not be uploaded.");
+            }
+
+
+            Quiz createdQuiz = quizRepo.CreateQuiz(new Quiz
             {
+                Title = quiz.Title,
+                PictureUrl = fileName,
+                UserId = 3
+            });
+            if (createdQuiz == null) {
                 return BadRequest("Quiz couldn't be created");
             }
-            QuizViewModel quizVm = entityToVmMapper.Map(newQuiz);
+            
+            QuizViewModel quizVm = entityToVmMapper.Map(createdQuiz);
+            quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileName;
+
+
             return Created($"/{quizVm.Id}", quizVm);
         }
 
-        [HttpPut]
-        public IActionResult UpdateQuiz([FromBody]QuizViewModel quiz)
+
+        //[HttpPut]
+        //public IActionResult Update([FromBody]QuizViewModel quiz)
+        //{
+        //    Quiz qiz = quizRepo.UpdateQuiz(vmToEntityMapper.Map(quiz));
+        //    if (qiz == null)
+        //    {
+        //        return NotFound("Quiz doesn't exist");
+        //    }
+        //    QuizViewModel quizVm = entityToVmMapper.Map(qiz);
+        //    return Accepted($"/{quizVm.Id}", quizVm);
+        //}
+
+        [HttpPost("updateQuiz")]
+        [RequestSizeLimit(5_000_000)]
+        //[Authorize]
+        public async Task<IActionResult> Put(NewQuizViewModel quiz)
         {
-            Quiz updatedQuiz = quizRepository.UpdateQuiz(vmToEntityMapper.Map(quiz));
+            // var user = User.Claims.GetUserId();
+            if (quiz.Files.Count == 0) {
+                return BadRequest("An image file needs to be provided"); }
+            else if (quiz.Files.Count > 1) {
+                return BadRequest("Only one file can be uploaded.");
+            }
+
+            long size = quiz.Files.Sum(f => f.Length);
+            if (size <= 0) {
+                return BadRequest("File must not be empty.");
+            }
+
+            var contentType = quiz.Files[0].ContentType;
+            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg")) {
+                return BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
+            }
+
+            var filePath = Path.GetTempFileName();
+            using (var stream = new FileStream(filePath, FileMode.Create)) {
+                await quiz.Files[0].CopyToAsync(stream);
+            }
+
+            string fileName;
+            var blobService = new AzureBlobService();
+            try {
+                await blobService.InitializeBlob();
+                fileName = await blobService.UploadPhoto(filePath, contentType);
+            } catch (Exception) {
+                return BadRequest("Image could not be uploaded.");
+            }
+
+            Quiz updatedQuiz = quizRepo.UpdateQuiz(new Quiz
+            {
+                Title = quiz.Title,
+                PictureUrl = fileName,
+                UserId = 3,
+                Id = (int)quiz.QuizId
+            });
             if (updatedQuiz == null)
             {
-                return NotFound("Quiz doesn't exist");
+                return BadRequest("Quiz couldn't be created");
             }
+
             QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
-            return Accepted($"/{quizVm.Id}", quizVm);
+            quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileName;
+
+            return Created($"Updated /{quizVm.Id}", quizVm);
         }
 
         [HttpDelete("{id}")]
