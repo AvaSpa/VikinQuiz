@@ -17,13 +17,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class QuestionController : Controller
     {
-        private readonly QuestionRepo questionRepo;
+        private readonly QuestionRepository questionRepository;
         private IEntityMapper<Question, QuestionViewModel> entityToVmMapper;
         private IEntityMapper<QuestionViewModel, Question> vmToEntityMapper;
 
-        public QuestionController(QuestionRepo questionRepo, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper)
+        public QuestionController(QuestionRepository questionRepository, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper)
         {
-            this.questionRepo = questionRepo;
+            this.questionRepository = questionRepository;
             this.vmToEntityMapper = vmToEntityMapper;
             this.entityToVmMapper = entityToVmMapper;
         }
@@ -37,7 +37,7 @@ namespace VikingQuiz.Api.Controllers
                 CorrectAnsId = question.CorrectAnsId
             };
 
-            Question newQuestion = questionRepo.AddQuestion(q);
+            Question newQuestion = questionRepository.AddQuestion(q);
             if (newQuestion == null)
             {
                 return BadRequest("Question couldn't be created");
@@ -56,7 +56,7 @@ namespace VikingQuiz.Api.Controllers
                 CorrectAnsId = question.CorrectAnsId
             };
 
-            Question updatedQuestion = questionRepo.UpdateQuestion(q);
+            Question updatedQuestion = questionRepository.UpdateQuestion(q);
             if (updatedQuestion == null)
             {
                 return BadRequest("Question couldn't be updated");
@@ -68,14 +68,14 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteQuestion(int id)
         {
-            questionRepo.DeleteQuestion(id);
+            questionRepository.DeleteQuestion(id);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public IActionResult GetQuestionById(int id)
         {
-            Question q = questionRepo.getQuestionById(id);
+            Question q = questionRepository.getQuestionById(id);
             if (q == null)
             {
                 return NotFound("Question doesn't exist");
@@ -88,7 +88,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet("{text}")]
         public IActionResult GetQuestionByText(string text)
         {
-            Question q = questionRepo.getQuestionByText(text);
+            Question q = questionRepository.getQuestionByText(text);
             if (q == null)
             {
                 return NotFound("Question doesn't exist");

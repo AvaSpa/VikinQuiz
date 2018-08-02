@@ -18,12 +18,12 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private readonly UserRepo userRepo;
+        private readonly UserRepository userRepository;
         private readonly IEntityMapper<User, UserViewModel> entityToVmMapper;
 
-        public UsersController(UserRepo userRepo, IEntityMapper<User, UserViewModel> entityToVmMapper)
+        public UsersController(UserRepository userRepository, IEntityMapper<User, UserViewModel> entityToVmMapper)
         {
-            this.userRepo = userRepo;
+            this.userRepository = userRepository;
             this.entityToVmMapper = entityToVmMapper;
         }
 
@@ -31,7 +31,7 @@ namespace VikingQuiz.Api.Controllers
         //[Authorize]
         public IActionResult GetAll()
         {
-            var users = userRepo.GetAll();
+            var users = userRepository.GetAll();
             var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
             return Ok(result);
         }
@@ -39,7 +39,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            User user = userRepo.GetUserById(id);
+            User user = userRepository.GetUserById(id);
             if(user == null)
             {
                 return NotFound("User doesn't exist");
@@ -66,13 +66,13 @@ namespace VikingQuiz.Api.Controllers
                 PictureUrl = user.PictureUrl
             };
 
-            User newUser = userRepo.CreateUser(userToSave);
+            User newUser = userRepository.CreateUser(userToSave);
 
             if(newUser == null)
             {
                 return BadRequest("User couldn't be created");
             }
-            userRepo.AssignRandomPhoto(newUser);
+            userRepository.AssignRandomPhoto(newUser);
             UserViewModel userVm = entityToVmMapper.Map(newUser);
             return Created($"/{userVm.Id}", userVm);
         }
@@ -86,7 +86,7 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest(errors);
             }
 
-            if(!userRepo.CheckIfUserExists(user.Id))
+            if(!userRepository.CheckIfUserExists(user.Id))
             {
                 return NotFound("User doesn't exist");
             }
@@ -100,7 +100,7 @@ namespace VikingQuiz.Api.Controllers
                 PictureUrl = user.PictureUrl
             };
 
-            User updatedUser = userRepo.UpdateUser(userToUpdate);
+            User updatedUser = userRepository.UpdateUser(userToUpdate);
             UserViewModel userVm = entityToVmMapper.Map(updatedUser);
             return Accepted($"/{userVm.Id}", userVm);
         }
@@ -108,7 +108,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            userRepo.DeleteUser(id);
+            userRepository.DeleteUser(id);
             return Ok();
         }
     }

@@ -17,18 +17,18 @@ namespace VikingQuiz.Api.Controllers
     {
         private readonly string fromAddress = "noreply.vikings@gmail.com";
         private readonly string password = "1234Vikings";
-        private readonly UserRepo userRepo;
+        private readonly UserRepository userRepository;
 
-        public EmailController(UserRepo userRepo)
+        public EmailController(UserRepository userRepository)
         {
-            this.userRepo = userRepo;
+            this.userRepository = userRepository;
         }
 
         [Route("email")]
         [HttpGet("{id:int}")]
         public void SendEmail(int id)
         {
-            User user = userRepo.AssignToken(id);
+            User user = userRepository.AssignToken(id);
 
             MailMessage mail = new MailMessage(fromAddress, user.Email);
 
@@ -56,7 +56,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet("{t}")]
         public string ValidateAddress(string t)
         {
-            userRepo.Activate(t);
+            userRepository.Activate(t);
             return "validation worked";
         }
 
