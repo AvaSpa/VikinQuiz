@@ -31,10 +31,10 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult CreateToken([FromBody]LoginViewModel login)
         {
-            User user = authenticationService.Authenticate(login.Email, login.Password.SHA256Encrypt());
+            User user = authenticationService.GetUserByCredentials(login.Email, login.Password.SHA256Encrypt());
             if (user != null)
             {
-                string authenticationToken = authenticationService.Authenticate(user);
+                string authenticationToken = authenticationService.GenerateTokenForUser(user);
                 return Ok(new { token = authenticationToken });
             }
             else

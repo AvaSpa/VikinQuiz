@@ -21,7 +21,7 @@ namespace VikingQuiz.Api.Utilities
             this._config = config;
             this.context = context;
         }
-        public string Authenticate(User user)
+        public string GenerateTokenForUser(User user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -30,7 +30,7 @@ namespace VikingQuiz.Api.Utilities
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public User Authenticate(string username, string password)
+        public User GetUserByCredentials(string username, string password)
         {
             return context.User.FirstOrDefault(u => (u.Username == username || u.Email == username) && u.Pass == password);
         }

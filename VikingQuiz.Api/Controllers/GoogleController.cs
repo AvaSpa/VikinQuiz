@@ -13,17 +13,16 @@ namespace VikingQuiz.Api.Controllers
         private readonly AuthenticationService authenticationService;
         private readonly UserRepo repo;
 
-        public GoogleController(VikinQuizContext ctx, IConfiguration configuration, UserRepo userRepo)
+        public GoogleController(VikinQuizContext ctx, AuthenticationService service, UserRepo userRepo)
         {
-            this.authenticationService = new AuthenticationService(configuration, ctx);
+            this.authenticationService = service;
             this.repo = userRepo;
         }
 
         [HttpPost]
         public IActionResult Login([FromBody]GoogleViewModel content)
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(content.Id);
-            var base64Id = System.Convert.ToBase64String(plainTextBytes);
+            string base64Id = content.Id.Base64Encoder();
             User user = new User
             {
                 Username = base64Id,
@@ -33,8 +32,8 @@ namespace VikingQuiz.Api.Controllers
                 IsConfirmed = true
             };
             this.repo.CreateUser(user);
-            string str = this.authenticationService.Authenticate(user);
-            return Ok(new { token = str });
+            string userToken = this.authenticationService.GenerateTokenForUser(user);
+            return Ok(new { token = userToken });
         }
     }
 }
