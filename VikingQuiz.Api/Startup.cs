@@ -24,7 +24,7 @@ namespace VikingQuiz.Api
             Configuration = configuration;
         }
 
-        public static IConfiguration Configuration { get; set; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -62,6 +62,7 @@ namespace VikingQuiz.Api
             services.AddScoped<QuestionRepository, QuestionRepository>();
             services.AddScoped<QuizRepository, QuizRepository>();
             services.AddScoped<UserRepository, UserRepository>();
+            services.AddScoped<AuthenticationService, AuthenticationService>();
             services.AddScoped<IEntityMapper<UserViewModel, User>, UserViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<User, UserViewModel>, UserToViewModelMapper>();
             services.AddScoped<IEntityMapper<Answer, AnswerViewModel>, AnswerToViewModelMapper>();
