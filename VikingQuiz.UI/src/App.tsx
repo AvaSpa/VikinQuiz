@@ -5,6 +5,7 @@ import { BrowserRouter , Route, Switch } from "react-router-dom";
 import LoginPage from './Components/LoginPage/LoginPage';
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
 import NotFoundComponent from './Components/NotFoundComponent/NotFoundComponent';
+import BottomLogo from './Components/BottomLogo/BottomLogo';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -13,6 +14,7 @@ class App extends React.Component<{}, {}> {
 
   public render() {
     return (
+      <>
       <BrowserRouter>
         <div className="App">
           <Switch>
@@ -24,6 +26,8 @@ class App extends React.Component<{}, {}> {
           </Switch>
         </div>
       </BrowserRouter>
+      <footer><BottomLogo /></footer>
+      </>
     );
   }
 }
