@@ -57,12 +57,12 @@ namespace VikingQuiz.Api
 
             services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(sqlConnection));
 
-            services.AddScoped<AnswerRepo, AnswerRepo>();
-            services.AddScoped<GameRepo, GameRepo>();
-            services.AddScoped<PlayerRepo, PlayerRepo>();
-            services.AddScoped<QuestionRepo, QuestionRepo>();
-            services.AddScoped<QuizRepo, QuizRepo>();
-            services.AddScoped<UserRepo, UserRepo>();
+            services.AddScoped<AnswerRepository, AnswerRepository>();
+            services.AddScoped<GameRepository, GameRepository>();
+            services.AddScoped<PlayerRepository, PlayerRepository>();
+            services.AddScoped<QuestionRepository, QuestionRepository>();
+            services.AddScoped<QuizRepository, QuizRepository>();
+            services.AddScoped<UserRepository, UserRepository>();
             services.AddScoped<AuthenticationService, AuthenticationService>();
             services.AddScoped<IEntityMapper<UserViewModel, User>, UserViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<User, UserViewModel>, UserToViewModelMapper>();

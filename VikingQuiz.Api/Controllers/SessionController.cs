@@ -18,12 +18,12 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class SessionController : Controller
     {
-        private readonly UserRepo userRepo;
+        private readonly UserRepository userRepository;
         private readonly AuthenticationService authenticationService;
 
-        public SessionController(UserRepo userRepo, AuthenticationService authenticationService)
+        public SessionController(UserRepository userRepository, AuthenticationService authenticationService)
         {
-            this.userRepo = userRepo;
+            this.userRepository = userRepository;
             this.authenticationService = authenticationService;
         }
 

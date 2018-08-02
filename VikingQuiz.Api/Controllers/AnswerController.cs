@@ -15,13 +15,13 @@ namespace VikingQuiz.Api.Controllers
     public class AnswerController : Controller
     {
 
-        private readonly AnswerRepo answerRepo;
+        private readonly AnswerRepository answerRepository;
         private readonly IEntityMapper<Answer, AnswerViewModel> entityToVmMapper;
         private readonly IEntityMapper<AnswerViewModel, Answer> vmToEntityMapper;
 
-        public AnswerController(AnswerRepo answerRepo, IEntityMapper<Answer, AnswerViewModel> entityToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToEntityMapper)
+        public AnswerController(AnswerRepository answerRepository, IEntityMapper<Answer, AnswerViewModel> entityToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToEntityMapper)
         {
-            this.answerRepo = answerRepo;
+            this.answerRepository = answerRepository;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
         }
@@ -29,14 +29,14 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetAnswer()
         {
-            var result = answerRepo.GetAllAnswers().Select(s => entityToVmMapper.Map(s)).ToList();
+            var result = answerRepository.GetAllAnswers().Select(s => entityToVmMapper.Map(s)).ToList();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetAnswerById(int id)
         {
-            Answer ans = answerRepo.GetAnswerById(id);
+            Answer ans = answerRepository.GetAnswerById(id);
             if (ans == null)
             {
                 return NotFound("Answer doesn't exist");
@@ -54,7 +54,7 @@ namespace VikingQuiz.Api.Controllers
                 QuestionId = answer.QuestionId
             };
 
-            Answer newAnswer = answerRepo.AddAnswer(ans);
+            Answer newAnswer = answerRepository.AddAnswer(ans);
             if (newAnswer == null)
             {
                 return BadRequest("Answer couldn't be created");
@@ -73,7 +73,7 @@ namespace VikingQuiz.Api.Controllers
                 QuestionId = answer.QuestionId
             };
 
-            Answer updatedAnswer = answerRepo.UpdateAnswer(ans);
+            Answer updatedAnswer = answerRepository.UpdateAnswer(ans);
             if (updatedAnswer == null)
             {
                 return BadRequest("Answer couldn't be updated");
@@ -85,7 +85,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteAnswer(int id)
         {
-            answerRepo.DeleteAnswer(id);
+            answerRepository.DeleteAnswer(id);
             return Ok();
         }
     }

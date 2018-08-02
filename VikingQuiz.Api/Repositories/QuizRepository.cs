@@ -6,24 +6,24 @@ using VikingQuiz.Api.Models;
 
 namespace VikingQuiz.Api.Repositories
 {
-    public class QuizRepo
+    public class QuizRepository
     {
-        private VikinQuizContext ctx;
-        public QuizRepo(VikinQuizContext ctx)
+        private VikinQuizContext context;
+        public QuizRepository(VikinQuizContext context)
         {
-            this.ctx = ctx;
+            this.context = context;
         }
 
         public Quiz CreateQuiz(Quiz quiz)
         {
-            ctx.Add(quiz);
-            ctx.SaveChanges();
+            context.Add(quiz);
+            context.SaveChanges();
             return quiz;
         }
 
         public Quiz UpdateQuiz(Quiz quiz)
         {
-            Quiz foundQuiz = ctx.Quiz.Where(x => x.Id == quiz.Id).FirstOrDefault();
+            Quiz foundQuiz = context.Quiz.Where(x => x.Id == quiz.Id).FirstOrDefault();
             if (foundQuiz == null)
             {
                 return null;
@@ -33,7 +33,7 @@ namespace VikingQuiz.Api.Repositories
             foundQuiz.PictureUrl = quiz.PictureUrl;
             foundQuiz.UserId = quiz.UserId;
 
-            ctx.SaveChanges();
+            context.SaveChanges();
             return quiz;
         }
 
@@ -43,17 +43,17 @@ namespace VikingQuiz.Api.Repositories
             {
                 Id = id
             };
-            var games = ctx.Game.Where(x => x.QuizId == id).ToList();
-            ctx.Game.RemoveRange(games);
-            var quizquestions = ctx.QuizQuestion.Where(x => x.QuizId == id).ToList();
-            ctx.QuizQuestion.RemoveRange(quizquestions);
-            ctx.Quiz.Remove(quiz);
-            ctx.SaveChanges();
+            var games = context.Game.Where(x => x.QuizId == id).ToList();
+            context.Game.RemoveRange(games);
+            var quizquestions = context.QuizQuestion.Where(x => x.QuizId == id).ToList();
+            context.QuizQuestion.RemoveRange(quizquestions);
+            context.Quiz.Remove(quiz);
+            context.SaveChanges();
         }
 
         public Quiz GetQuizById(int id)
         {
-            Quiz foundQuiz = ctx.Quiz.Where(x => x.Id == id)
+            Quiz foundQuiz = context.Quiz.Where(x => x.Id == id)
                 .Select(x => new Quiz { Id = x.Id, Title = x.Title, UserId = x.UserId, PictureUrl = x.PictureUrl})
                 .FirstOrDefault();
 
@@ -62,7 +62,7 @@ namespace VikingQuiz.Api.Repositories
 
         public IEnumerable<Quiz> GetAll()
         {
-            return ctx.Quiz.ToList();
+            return context.Quiz.ToList();
         }
     }
 }

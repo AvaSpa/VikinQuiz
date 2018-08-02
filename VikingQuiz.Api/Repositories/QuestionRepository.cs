@@ -6,51 +6,51 @@ using VikingQuiz.Api.Models;
 
 namespace VikingQuiz.Api.Repositories
 {
-    public class QuestionRepo
+    public class QuestionRepository
     {
-        private VikinQuizContext ctx;
+        private VikinQuizContext context;
 
-        public QuestionRepo(VikinQuizContext ctx)
+        public QuestionRepository(VikinQuizContext context)
         {
-            this.ctx = ctx;
+            this.context = context;
         }
 
         public Question AddQuestion(Question q)
         {
-            ctx.Question.Add(q);
-            ctx.SaveChanges();
+            context.Question.Add(q);
+            context.SaveChanges();
             return q;
         }
 
         public Question UpdateQuestion(Question q)
         {
-            var existingQuestion = ctx.Question.Find(q.Id);
+            var existingQuestion = context.Question.Find(q.Id);
             existingQuestion.Text = q.Text;
             existingQuestion.CorrectAnsId = q.CorrectAnsId;
-            ctx.SaveChanges();
+            context.SaveChanges();
             return q;
         }
 
         public void DeleteQuestion(int id)
         {
-            Question q = ctx.Question.Find(id);
-            ctx.Question.Remove(q);
-            ctx.SaveChanges();
+            Question q = context.Question.Find(id);
+            context.Question.Remove(q);
+            context.SaveChanges();
         }
 
         public List<Question> GetAll()
         {
-            return ctx.Question.ToList();
+            return context.Question.ToList();
         }
 
         public Question getQuestionById(int id)
         {
-            return ctx.Question.Find(id);
+            return context.Question.Find(id);
         }
 
         public Question getQuestionByText(string text)
         {
-            return ctx.Question.FirstOrDefault(d => (d.Text == text));
+            return context.Question.FirstOrDefault(d => (d.Text == text));
         }
     }
 }

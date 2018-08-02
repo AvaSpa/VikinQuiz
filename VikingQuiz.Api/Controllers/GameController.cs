@@ -14,13 +14,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class GameController : Controller
     {
-        private readonly GameRepo gameRepo;
+        private readonly GameRepository gameRepository;
         private IEntityMapper<Game, GameViewModel> entityToVmMapper;
         private IEntityMapper<GameViewModel, Game> vmToEntityMapper;
 
-        public GameController(GameRepo gameRepo, IEntityMapper<Game, GameViewModel> entityToVmMapper, IEntityMapper<GameViewModel, Game> vmToEntityMapper)
+        public GameController(GameRepository gameRepository, IEntityMapper<Game, GameViewModel> entityToVmMapper, IEntityMapper<GameViewModel, Game> vmToEntityMapper)
         {
-            this.gameRepo = gameRepo;
+            this.gameRepository = gameRepository;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
         }
@@ -28,14 +28,14 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetGame()
         {
-            var result = gameRepo.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
+            var result = gameRepository.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetAnswerById(int id)
         {
-            Game foundGame = gameRepo.GetGameById(id);
+            Game foundGame = gameRepository.GetGameById(id);
             if (foundGame == null)
             {
                 return NotFound("Game doesn't exist");
@@ -53,7 +53,7 @@ namespace VikingQuiz.Api.Controllers
                 GameDate = Convert.ToDateTime(game.GameDate)
             };
 
-            Game newGame = gameRepo.Create(g);
+            Game newGame = gameRepository.Create(g);
             if (newGame == null)
             {
                 return BadRequest("Game couldn't be created");
@@ -72,7 +72,7 @@ namespace VikingQuiz.Api.Controllers
                 GameDate = Convert.ToDateTime(game.GameDate)
             };
 
-            Game updatedGame = gameRepo.Update(gm);
+            Game updatedGame = gameRepository.Update(gm);
             if (updatedGame == null)
             {
                 return BadRequest("Game couldn't be updated");
@@ -84,7 +84,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteGame(int id)
         {
-            gameRepo.Delete(id);
+            gameRepository.Delete(id);
             return Ok();
         }
 

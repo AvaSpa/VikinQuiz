@@ -13,13 +13,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class QuizzesController: Controller
     {
-        private readonly QuizRepo quizRepo;
+        private readonly QuizRepository quizRepository;
         private readonly IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper;
         private readonly IEntityMapper<Quiz, QuizViewModel> entityToVmMapper;
 
-        public QuizzesController(QuizRepo quizRepo, IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper, IEntityMapper<Quiz, QuizViewModel> entityToVmMapper)
+        public QuizzesController(QuizRepository quizRepository, IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper, IEntityMapper<Quiz, QuizViewModel> entityToVmMapper)
         {
-            this.quizRepo = quizRepo;
+            this.quizRepository = quizRepository;
             this.vmToEntityMapper = vmToEntityMapper;
             this.entityToVmMapper = entityToVmMapper;
         }
@@ -27,14 +27,14 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var quizzes = quizRepo.GetAll();
+            var quizzes = quizRepository.GetAll();
             return Ok(quizzes.Select(quiz => this.entityToVmMapper.Map(quiz)));
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Quiz quiz = quizRepo.GetQuizById(id);
+            Quiz quiz = quizRepository.GetQuizById(id);
             if(quiz == null)
             {
                 return NotFound("Quiz doesn't exist");
@@ -46,7 +46,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult Add([FromBody]QuizViewModel quiz)
         {
-            Quiz qiz = quizRepo.CreateQuiz(new Quiz {
+            Quiz qiz = quizRepository.CreateQuiz(new Quiz {
                 Title = quiz.Title,
                 PictureUrl = quiz.PictureUrl,
                 UserId = quiz.UserId
@@ -62,7 +62,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPut]
         public IActionResult Update([FromBody]QuizViewModel quiz)
         {
-            Quiz qiz = quizRepo.UpdateQuiz(vmToEntityMapper.Map(quiz));
+            Quiz qiz = quizRepository.UpdateQuiz(vmToEntityMapper.Map(quiz));
             if (qiz == null)
             {
                 return NotFound("Quiz doesn't exist");
@@ -74,7 +74,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            quizRepo.DeleteQuiz(id);
+            quizRepository.DeleteQuiz(id);
             return Ok();
         }
     }

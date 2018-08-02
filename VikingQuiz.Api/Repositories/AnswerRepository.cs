@@ -6,52 +6,52 @@ using VikingQuiz.Api.Models;
 
 namespace VikingQuiz.Api.Repositories
 {
-    public class AnswerRepo
+    public class AnswerRepository
     {
-        private VikinQuizContext ctx = new VikinQuizContext();
+        private VikinQuizContext context = new VikinQuizContext();
 
-        public AnswerRepo(VikinQuizContext context)
+        public AnswerRepository(VikinQuizContext context)
         {
-            this.ctx = context;
+            this.context = context;
         }
 
         public Answer AddAnswer(Answer answer)
         {
-            ctx.Answer.Add(answer);
-            ctx.SaveChanges();
+            context.Answer.Add(answer);
+            context.SaveChanges();
             return answer;
         }
 
         public void DeleteAnswer(int id)
         {
-            Answer ans = ctx.Answer.Find(id);
-            ctx.Answer.Remove(ans);
-            ctx.SaveChanges();
+            Answer ans = context.Answer.Find(id);
+            context.Answer.Remove(ans);
+            context.SaveChanges();
         }
 
         public Answer UpdateAnswer(Answer ans)
         {
-            var existingAnswer = ctx.Answer.Find(ans.Id);
+            var existingAnswer = context.Answer.Find(ans.Id);
             existingAnswer.Text = ans.Text;
             existingAnswer.QuestionId = ans.QuestionId;
-            ctx.SaveChanges();
+            context.SaveChanges();
             return ans;
         }
 
 
         public List<Answer> GetAllAnswers()
         {
-            return ctx.Answer.ToList();
+            return context.Answer.ToList();
         }
 
         public Answer GetAnswerById(int id)
         {
-            return ctx.Answer.Find(id);
+            return context.Answer.Find(id);
         }
 
         public Answer GetAnswerByText(string text)
         {
-            return ctx.Answer.FirstOrDefault(d => (d.Text == text));
+            return context.Answer.FirstOrDefault(d => (d.Text == text));
         }
 
     }

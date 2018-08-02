@@ -8,73 +8,73 @@ using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api.Repositories
 {
-    public class UserRepo
+    public class UserRepository
     {
-        private VikinQuizContext ctx;
-        public UserRepo(VikinQuizContext ctx)
+        private VikinQuizContext context;
+        public UserRepository(VikinQuizContext context)
         {
-            this.ctx = ctx;
+            this.context = context;
         }
 
         public User CreateUser(User user)
         {
-            User foundUser = ctx.User.Where(usr => usr.Email == user.Email).FirstOrDefault();
+            User foundUser = context.User.Where(usr => usr.Email == user.Email).FirstOrDefault();
             if (foundUser != null)
             {
                 return null;
             }
-            ctx.Add(user);
-            ctx.SaveChanges();
+            context.Add(user);
+            context.SaveChanges();
             return user;
         }
 
         public User UpdateUser(User user)
         {
-            User foundUser = ctx.User.FirstOrDefault(x => x.Id == user.Id);
+            User foundUser = context.User.FirstOrDefault(x => x.Id == user.Id);
             foundUser.Email = user.Email;
             foundUser.Pass = user.Pass;
             foundUser.PictureUrl = user.PictureUrl;
             foundUser.Username = user.Username;
-            ctx.SaveChanges();
+            context.SaveChanges();
             return user;
         }
 
         public void DeleteUser(int id)
         {
-            var quizes = ctx.Quiz.Where(x => x.UserId == id).ToList();
-            ctx.Quiz.RemoveRange(quizes);
-            ctx.User.Remove(new User { Id = id });
-            ctx.SaveChanges();
+            var quizes = context.Quiz.Where(x => x.UserId == id).ToList();
+            context.Quiz.RemoveRange(quizes);
+            context.User.Remove(new User { Id = id });
+            context.SaveChanges();
         }
 
         public User GetUserById(int id)
         {
-            return ctx.User.FirstOrDefault(x => x.Id == id);
+            return context.User.FirstOrDefault(x => x.Id == id);
         }
 
         public bool CheckIfUserExists(int userId)
         {
-            return ctx.User.Any(x => x.Id == userId);
+            return context.User.Any(x => x.Id == userId);
         }
 
         public List<User> GetAll()
         {
-            return ctx.User.ToList();
+            return context.User.ToList();
         }
 
         public void Activate(string token)
         {
-            User user = ctx.User.FirstOrDefault(u => u.Token == token);
+            User user = context.User.FirstOrDefault(u => u.Token == token);
             user.IsConfirmed = true;
-            ctx.SaveChanges();
+            context.SaveChanges();
         }
 
         public User AssignToken(int id)
         {
-            User user = ctx.User.FirstOrDefault(u => u.Id == id);
+            User user = context.User.FirstOrDefault(u => u.Id == id);
             user.IsConfirmed = false;
             user.Token = user.GenerateToken();
-            ctx.SaveChanges();
+            context.SaveChanges();
             return user;
         }
 
@@ -82,9 +82,9 @@ namespace VikingQuiz.Api.Repositories
         {
             Random random = new Random();
             int number = random.Next(1, 6);
-            User foundUser = ctx.User.FirstOrDefault(x => x.Id == user.Id);
+            User foundUser = context.User.FirstOrDefault(x => x.Id == user.Id);
             foundUser.PictureUrl = number + ".png";
-            ctx.SaveChanges();
+            context.SaveChanges();
             return user;
         }
     }

@@ -11,12 +11,12 @@ namespace VikingQuiz.Api.Controllers
     public class GoogleController : Controller
     {
         private readonly AuthenticationService authenticationService;
-        private readonly UserRepo repo;
+        private readonly UserRepository userRepository;
 
-        public GoogleController(VikinQuizContext ctx, AuthenticationService service, UserRepo userRepo)
+        public GoogleController(AuthenticationService service, UserRepository userRepo)
         {
             this.authenticationService = service;
-            this.repo = userRepo;
+            this.userRepository = userRepo;
         }
 
         [HttpPost]
@@ -31,7 +31,7 @@ namespace VikingQuiz.Api.Controllers
                 PictureUrl = content.PictureUrl,
                 IsConfirmed = true
             };
-            this.repo.CreateUser(user);
+            this.userRepository.CreateUser(user);
             string userToken = this.authenticationService.GenerateTokenForUser(user);
             return Ok(new { token = userToken });
         }
