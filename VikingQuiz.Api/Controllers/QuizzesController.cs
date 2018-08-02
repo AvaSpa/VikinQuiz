@@ -28,6 +28,36 @@ namespace VikingQuiz.Api.Controllers
             this.vmToEntityMapper = vmToEntityMapper;
             this.entityToVmMapper = entityToVmMapper;
         }
+    
+        public IActionResult ImageUploadChecker(NewQuizViewModel quiz)
+        {
+            IActionResult statusCodeResult = Ok();
+            statusCodeResult = Ok();
+            if (quiz.Files.Count == 0)
+            {
+                statusCodeResult =  BadRequest("An image file needs to be provided");
+            }
+            else if (quiz.Files.Count > 1)
+            {
+                statusCodeResult = BadRequest("Only one file can be uploaded.");
+            }
+
+            long size = quiz.Files.Sum(f => f.Length);
+            if (size <= 0)
+            {
+                statusCodeResult = BadRequest("File must not be empty.");
+            }
+
+            var contentType = quiz.Files[0].ContentType;
+            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg"))
+            {
+                statusCodeResult =  BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
+            }
+
+            return statusCodeResult;
+        }
+
+
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -58,42 +88,26 @@ namespace VikingQuiz.Api.Controllers
 
         {
 
-        [HttpPost("newQuiz")]
+        [HttpPost("newQuiz")] // temp route for testing - simple POST later
         [RequestSizeLimit(5_000_000)]
-        //[Authorize]
+        //[Authorize] add authorize when needed
         public async Task<IActionResult> Post(NewQuizViewModel quiz)
         {
-            // var user = User.Claims.GetUserId();
-            if (quiz.Files.Count == 0) {
-                return BadRequest("An image file needs to be provided");
-            } else if (quiz.Files.Count > 1) {
-                return BadRequest("Only one file can be uploaded.");
-            }
-
-            long size = quiz.Files.Sum(f => f.Length);
-            if (size <= 0) {
-                return BadRequest("File must not be empty.");
-            }
-
-            var contentType = quiz.Files[0].ContentType;
-            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg") ) {
-                return BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
-            }
-
-            var filePath = Path.GetTempFileName();
-            using (var stream = new FileStream(filePath, FileMode.Create)) {
-                await quiz.Files[0].CopyToAsync(stream);
+            // User.Claims.GetUserId(); -- user ID based on the token
+            IActionResult httpStatusResponse = ImageUploadChecker(quiz);
+            if (httpStatusResponse != Ok()) {
+                return httpStatusResponse;
             }
 
             string fileName;
-            var blobService = new AzureBlobService();
             try {
+                var blobService = new AzureBlobService();
                 await blobService.InitializeBlob();
-                fileName = await blobService.UploadPhoto(filePath, contentType);
+                fileName = await blobService.UploadPhoto(quiz.Files[0]);
+                fileName = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileName;
             } catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
             }
-
 
             Quiz createdQuiz = quizRepo.CreateQuiz(new Quiz
             {
@@ -104,12 +118,11 @@ namespace VikingQuiz.Api.Controllers
             if (createdQuiz == null) {
                 return BadRequest("Quiz couldn't be created");
             }
-            
+
             QuizViewModel quizVm = entityToVmMapper.Map(createdQuiz);
-            quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileName;
+            quizVm.PictureUrl = fileName;
 
-
-            return Created($"/{quizVm.Id}", quizVm);
+            return Ok(new {quizVm.Id, quizVm.Title, quizVm.PictureUrl});
         }
 
 
@@ -125,26 +138,15 @@ namespace VikingQuiz.Api.Controllers
         //    return Accepted($"/{quizVm.Id}", quizVm);
         //}
 
-        [HttpPost("updateQuiz")]
+        [HttpPost("updateQuiz")] // temp route for testing - PATCH later
         [RequestSizeLimit(5_000_000)]
-        //[Authorize]
+        //[Authorize] add authorize when needed
         public async Task<IActionResult> Put(NewQuizViewModel quiz)
         {
-            // var user = User.Claims.GetUserId();
-            if (quiz.Files.Count == 0) {
-                return BadRequest("An image file needs to be provided"); }
-            else if (quiz.Files.Count > 1) {
-                return BadRequest("Only one file can be uploaded.");
-            }
-
-            long size = quiz.Files.Sum(f => f.Length);
-            if (size <= 0) {
-                return BadRequest("File must not be empty.");
-            }
-
-            var contentType = quiz.Files[0].ContentType;
-            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg")) {
-                return BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
+            // User.Claims.GetUserId(); -- user ID based on the token
+            IActionResult httpStatusResponse = ImageUploadChecker(quiz);
+            if (httpStatusResponse != Ok()) {
+                return httpStatusResponse;
             }
 
             var filePath = Path.GetTempFileName();
@@ -156,7 +158,7 @@ namespace VikingQuiz.Api.Controllers
             var blobService = new AzureBlobService();
             try {
                 await blobService.InitializeBlob();
-                fileName = await blobService.UploadPhoto(filePath, contentType);
+                fileName = await blobService.UploadPhoto(quiz.Files[0]);
             } catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
             }
@@ -168,15 +170,15 @@ namespace VikingQuiz.Api.Controllers
                 UserId = 3,
                 Id = (int)quiz.QuizId
             });
-            if (updatedQuiz == null)
-            {
-                return BadRequest("Quiz couldn't be created");
+
+            if (updatedQuiz == null) {
+                return BadRequest("Quiz does not exist.");
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
             quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileName;
 
-            return Created($"Updated /{quizVm.Id}", quizVm);
+            return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
         }
 
         [HttpDelete("{id}")]
