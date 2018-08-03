@@ -29,18 +29,13 @@
     display: none
 }
 
-.start-quiz .upload-label {
+.start-quiz #upload {
     text-align: left;
     margin-top: 5px;
     padding: 0 30px;
 }
 
-.start-quiz .upload-label label{
-    margin: 0;
-    height: 62px;
-}
-
-.start-quiz .label-photo-txt{
+.start-quiz #label-photo-txt{
     margin-right: 10px;
     font-weight: 400;
 }
@@ -52,6 +47,21 @@
     border: 3px #fff solid;
     box-sizing: content-box;
     margin-left: 10px;
+}
+
+/* errors */
+
+.error-border .upload-btn, .error-border #quizTitle{
+    border: 1px solid #fa1919;
+    box-shadow: 0 0 3px #fa1919;
+}
+
+.error-message{
+    color: #fa1919;
+    font-family: 'Arial-Narrow';
+    font-size: 20px;
+    text-align: left;
+    padding-left: 7px;
 }
 
  /* buttons */
@@ -83,12 +93,7 @@
         bottom: -12px;
     }
     
-    .start-quiz .upload-label label{
-        margin: 0;
-        height: 62px;
-    }
-    
-    .start-quiz .label-photo-txt{
+    .start-quiz #label-photo-txt{
         display: none;
     }
 }

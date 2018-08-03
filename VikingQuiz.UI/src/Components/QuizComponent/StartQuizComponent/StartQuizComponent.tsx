@@ -36,19 +36,13 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         isValid: false
     }
 
-    public componentWillMount(){
-        // axios.get('')
-        // .then()
-        // .catch();
-        this.allValid();
-    }
-
     public changeTitleHandler = (event: any) => {
+        const currentTitle: string = event.target.value
+        this.isTitleValid(currentTitle);
         this.setState({
             title: event.target.value
 
         });
-        // this.allValid();
     }
 
     public focusTitleHandler = () => {
@@ -56,18 +50,16 @@ class StartQuizComponent extends React.Component<IProps, IState>{
             this.setState({
                 title: ''
             })
+            this.isTitleValid('');
         }
     }
 
     public fileSelectHandler = (event: any) => {
 
         const file = event.target.files[0];
-        console.log(this.isImageValid(file));
         if(!this.isImageValid(file)){
             return;
         }
-
-        console.log("Enter")
         const reader = new FileReader();
         
         reader.onload = (e: any) => {
@@ -87,11 +79,15 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     
 
     public saveQuizHandler = () => {
+
+        if(!this.allValid()){
+            return;
+        }
         
         const fd = new FormData();
         fd.append('files', this.state.selectedFile);
         fd.append('title', this.state.title);
-        console.log(fd);
+
         const url: string = 'http://localhost:60151/api/values'; 
         this.httpService.post(url, fd);
     }
@@ -99,46 +95,54 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     public render() {
         return ( 
             <div className = "start-quiz row">
-                <div className="col-md-5 col-xs-12">
+                <div id="title" className="col-md-5 col-xs-12">
                     <FormInput InputId="quizTitle" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler}/>
-                    <div className="error-color">{this.state.titleError}</div>
+                    <div className="error-message">{this.state.titleError}</div>
                 </div>
-                <div className="upload-label col-md-5 col-xs-9">
+                <div id="upload" className="col-md-5 col-xs-9">
                     <input id="file-uploader" type="file" onChange={this.fileSelectHandler} ref={this.fileInputRef} />
-                    <span className="label-photo-txt"> { this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</span>
+                    <span id="label-photo-txt"> { this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</span>
                     <UploadButton click={this.uploadPhotoHandler} />
-                    {this.state.selectedFile ? 
-                    <img id="preview-image" src={require("./../../../media/home.png")} alt="picture" ref={this.previewImageRef} />
-                     : null}
-                     <div className="error-color">{this.state.imageError}</div>
+                    {this.state.selectedFile ? <img id="preview-image" src={require("./../../../media/home.png")} alt="picture" ref={this.previewImageRef} /> : null}
+                    <div className="error-message">{this.state.imageError}</div>
                 </div>
                 <div className="success-btn col-md-2 col-xs-3">
-
-                    <SubmitButton disabled={this.state.isValid} click={this.saveQuizHandler}/>
+                    <SubmitButton click={this.saveQuizHandler}/>
                 </div>
             </div>
         )
     }
 
-    public isTitleValid = (): boolean => {
-        const currentTitle: string = this.state.title;
+    public isTitleValid = (currentTitle: string): boolean => {
 
         if(currentTitle === initialTitle || !currentTitle){
             this.setState({
-                titleError: "Please add a title"
+                titleError: 'Please add a title'
             });
+            this.addInvalidClassToTitle();
             return false;
         }
-
+        this.setState({
+            titleError: ''
+        });
+        this.removeInvalidClassFromTitle();
         return true;
     }
 
-    private allValid = () => {
-        if(this.isTitleValid() && this.isImageValid(this.state.selectedFile)){
-            this.setState({
-                isValid: true
-            })
+    private allValid = (): boolean => {
+        let validity: boolean = true;
+        if(!this.isTitleValid(this.state.title))
+        {
+            validity = false;
         }
+        if(!this.isImageValid(this.state.selectedFile)){
+            validity = false;
+        }
+
+        this.setState({
+            isValid: validity
+        })
+        return validity;
     }
 
     private isImageValid = (fileObject: any): boolean => {
@@ -149,27 +153,71 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
         if(!fileObject){
             this.setState({
-                imageError: 'File doesn\'t exist'
+                imageError: 'File doesn\'t exist',
+                selectedFile: ''
             });
+            this.addInvalidClassToUpload();
             return false;
+           
         }
 
         if(!acceptedFormats.includes(fileObject.type))
         {
             this.setState({
-                imageError: 'The only supported fomats are: png, jpeg, gif'
+                imageError: 'The only supported fomats are: png, jpeg, gif',
+                selectedFile: ''
             });
+            
             return false;
         }
 
         if(fileObject.size / kilobyteSize > megabyteSize*numberOfMegabytes){
             this.setState({
-                imageError: 'The size is larger than ' + numberOfMegabytes + ' MBs'
+                imageError: 'The size is larger than ' + numberOfMegabytes + ' MBs',
+                selectedFile: ''
             });
+            this.addInvalidClassToUpload();
             return false;
         }
-
+        this.setState({
+            imageError: ''
+        });
+        this.removeInvalidClassFromUpload();
         return true;
+    }
+
+    private addInvalidClassToUpload = () => {
+        const errorClassName: string = "error-border";
+        const uploadElement: any = document.querySelector("#upload");
+        uploadElement.classList.add(errorClassName);
+        setTimeout(()=>{
+            this.setState({
+                imageError: ''
+            })
+        }, 10000);
+    }
+
+    private removeInvalidClassFromUpload = () => {
+        const errorClassName: string = "error-border";
+        const uploadElement: any = document.querySelector("#upload");
+        uploadElement.classList.remove(errorClassName);
+    }
+
+    private addInvalidClassToTitle = () => {
+        const errorClassName: string = "error-border";
+        const titleElement: any = document.querySelector("#title");
+        titleElement.classList.add(errorClassName);
+        setTimeout(()=>{
+            this.setState({
+                titleError: ''
+            })
+        }, 10000);
+    }
+
+    private removeInvalidClassFromTitle = () => {
+        const errorClassName: string = "error-border";
+        const titleElement: any = document.querySelector("#title");
+        titleElement.classList.remove(errorClassName);
     }
 
 }
