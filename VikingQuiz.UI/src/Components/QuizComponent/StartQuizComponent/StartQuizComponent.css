@@ -52,8 +52,7 @@
 /* errors */
 
 .error-border .upload-btn, .error-border #quizTitle{
-    border: 1px solid #fa1919;
-    box-shadow: 0 0 3px #fa1919;
+    box-shadow: 0 0 4px 2px #fa1919;
 }
 
 .error-message{
