@@ -10,7 +10,8 @@ interface IState {
     selectedFile: any,
     imageError: string,
     titleError: string,
-    isValid: boolean
+    isValid: boolean,
+    saved: boolean
 }
 
 interface IProps{
@@ -33,7 +34,8 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         selectedFile: '',
         imageError: '',
         titleError: '',
-        isValid: false
+        isValid: false,
+        saved: false
     }
 
     public componentWillMount(){
@@ -112,6 +114,11 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.httpService.postWithToken(url, fd)
         .then((response: any) => {
             const id: number = response.data.id;
+            const successButtonElement: any = document.querySelector(".success-btn");
+            successButtonElement.classList.add('hidden');
+            this.setState({
+                saved: true
+            })
             this.props.save(id);
         })
         .catch((error: any) => console.log(error));
@@ -120,14 +127,14 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     public render() {
         return ( 
             <div className = "start-quiz row">
-                <div id="title" className="col-md-5 col-xs-12">
-                    <FormInput InputId="quizTitle" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler}/>
+                <div id="title" className="col-md-5 col-xs-12" >
+                    <FormInput InputId="quizTitle" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler} readonly={this.state.saved}/>
                     <div className="error-message">{this.state.titleError}</div>
                 </div>
                 <div id="upload" className="col-md-5 col-xs-9">
                     <input id="file-uploader" type="file" onChange={this.fileSelectHandler} ref={this.fileInputRef} />
-                    <span id="label-photo-txt"> { this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</span>
-                    <UploadButton click={this.uploadPhotoHandler} />
+                    <span id="label-photo-txt"> { this.props.editMode ? 'change quiz photo' : this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</span>
+                    <UploadButton click={this.uploadPhotoHandler} disabled={this.state.saved}/>
                     {this.state.selectedFile ? <img id="preview-image" src={require("./../../../media/home.png")} alt="picture" ref={this.previewImageRef} /> : null}
                     <div className="error-message">{this.state.imageError}</div>
                 </div>

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import './QuestionsComponent.css';
+import MainQuestionComponent from './MainQuestionComponent/MainQuestionComponent';
+import QuestionsListComponent from './QuestionsListComponent/QuestionsListComponent';
 
 interface IProps {
-    editMode: boolean,
     quizId: number
 }
 
@@ -19,7 +20,8 @@ class QuestionsComponent extends React.Component<IProps, IState>{
     public render(){
         return (
             <div className="questions-container">
-                <h1>Questions come here</h1>
+                <MainQuestionComponent />
+                <QuestionsListComponent />
             </div>
         )
     }

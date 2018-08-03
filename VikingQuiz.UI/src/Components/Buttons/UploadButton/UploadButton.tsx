@@ -4,7 +4,7 @@ import '../CircleButton.css';
 
 const uploadButton = (props: any) => {
         return (
-            <button className="circle-btn upload-btn" onClick={props.click} />
+            <button className="circle-btn upload-btn" onClick={props.click} disabled={props.disabled}/>
         );
 }
 

@@ -8,7 +8,7 @@ const FormInput: any = (props: any) => {
     return (
        <div className="formgroup col-xs-12">
             <label className="formlabel" htmlFor={props.InputId}>{props.InputLabel}</label>
-            <input id={props.InputId} name={props.name} className={defaultInputClass + errorInputClass} type={props.InputType} onChange={props.changed} value={props.value} onFocus={props.focus}/>
+            <input id={props.InputId} name={props.name} className={defaultInputClass + errorInputClass} type={props.InputType} onChange={props.changed} value={props.value} onFocus={props.focus} readOnly={props.readonly}/>
         <div className="formerror">{props.ErrorMessage}</div>
       </div>
     )

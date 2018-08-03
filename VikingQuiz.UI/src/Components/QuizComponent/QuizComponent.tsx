@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './QuizComponent.css';
 import StartQuizComponent from './StartQuizComponent/StartQuizComponent';
-// import QuestionsComponent from '../QuestionsComponent/QuestionsComponent';
+import QuestionsComponent from '../QuestionsComponent/QuestionsComponent';
 
 interface IProps {
     id: number,
@@ -18,8 +18,8 @@ interface IState {
 class QuizComponent extends React.Component<IProps, IState> {
 
     public state = {
-        id: 2007,
-        editMode: true,
+        id: this.props.id,
+        editMode: this.props.editMode,
         showQuestions: false
     }
 
@@ -27,8 +27,7 @@ class QuizComponent extends React.Component<IProps, IState> {
         console.log(quizId);
         this.setState({
             id: quizId,
-            showQuestions: true,
-            editMode: true
+            showQuestions: true
         });
     }
 
@@ -36,8 +35,8 @@ class QuizComponent extends React.Component<IProps, IState> {
         return (
             <div className="quiz container">
                 <StartQuizComponent editMode={this.state.editMode} quizId={this.state.id} save={this.saveQuizHandler}/>
-                {/* this.state.showQuestions ? 
-                    <QuestionsComponent editMode={this.state.editMode} quizId={this.state.id} /> : null */
+                {this.state.showQuestions ? 
+                    <QuestionsComponent quizId={this.state.id} /> : null
                 }
             </div>
         )
