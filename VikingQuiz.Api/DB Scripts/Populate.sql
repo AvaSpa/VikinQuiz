@@ -70,7 +70,7 @@ INSERT INTO Player(PictureURL, Name) VALUES ('url1', 'batman'),
 ('url6', 'joker'),
 ('url7', 'thor'), ('url8', 'spiderman'), ('url9', 'loki'), ('url10', 'groot')
 
-INSERT INTO Game(QuizId, GameDate, Code) VALUES (1, '2018-07-07', 'ABCDEF'), (2, '2018-07-10', '012345'), (3, '2018-07-11', 'AAAAAA')
+INSERT INTO Game(QuizId, GameDate) VALUES (1, '2018-07-07'), (2, '2018-07-10'), (3, '2018-07-11')
 
 INSERT INTO PlayerGame(Pid, Gid, Score) VALUES (1,1,5), (1,2,7), (2,1,3), (3,1,0), (4,1,10)
 

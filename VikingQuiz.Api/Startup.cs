@@ -89,6 +89,16 @@ namespace VikingQuiz.Api
             app.UseAuthentication();
 
             app.UseMvc();
+
+            //TODO:will be used in production
+
+/*
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService<VikinQuizContext>().Database.Migrate();
+            }*/
         }
     }
 }
