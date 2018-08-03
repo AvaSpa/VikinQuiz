@@ -8,15 +8,16 @@ import HttpService from '../../../services/HttpService';
 interface IState {
     title: string,
     selectedFile: any,
-    editMode: boolean,
     imageError: string,
     titleError: string,
     isValid: boolean
 }
 
 interface IProps{
-   editMode: boolean
-}
+    quizId: number,
+    save: any,
+    editMode: boolean
+   }
 
 const initialTitle: string = 'add quiz title';
 
@@ -30,10 +31,18 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     public state = {
         title: initialTitle,
         selectedFile: '',
-        editMode: this.props.editMode,
         imageError: '',
         titleError: '',
         isValid: false
+    }
+
+    public componentWillMount(){
+        if(this.props.editMode){
+            const getQuizUrl: string = 'http://localhost:60151/api/quizzes/' + this.props.quizId; 
+            this.httpService.getWithToken(getQuizUrl)
+            .then((response: any) => console.log(response))
+            .catch((error: any) => console.log(error));
+        }
     }
 
     public changeTitleHandler = (event: any) => {
@@ -76,8 +85,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.fileInputRef.current.click();
     }
 
-    
-
     public saveQuizHandler = () => {
 
         if(!this.allValid()){
@@ -88,8 +95,19 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         fd.append('files', this.state.selectedFile);
         fd.append('title', this.state.title);
 
-        const url: string = 'http://localhost:60151/api/values'; 
-        this.httpService.post(url, fd);
+        let url: string = '';
+        if(this.props.editMode){
+            url = 'http://localhost:60151/api/quizzes/' + this.props.quizId;
+        }else{
+            url = 'http://localhost:60151/api/quizzes';
+        }
+
+        this.httpService.postWithToken(url, fd)
+        .then((response: any) => {
+            const id: number = response.data.id;
+            this.props.save(id);
+        })
+        .catch((error: any) => console.log(error));
     }
 
     public render() {
