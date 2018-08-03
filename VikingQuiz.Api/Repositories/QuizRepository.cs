@@ -51,7 +51,8 @@ namespace VikingQuiz.Api.Repositories
             ctx.Game.RemoveRange(games);
             var quizquestions = ctx.QuizQuestion.Where(x => x.QuizId == id).ToList();
             ctx.QuizQuestion.RemoveRange(quizquestions);
-            ctx.Quiz.Remove(quiz);
+
+            ctx.Quiz.Remove(quizMatchingIdAndPlayerId[0]);
             ctx.SaveChanges();
 
             return quizMatchingIdAndPlayerId.FirstOrDefault();
