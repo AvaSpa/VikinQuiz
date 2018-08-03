@@ -31,32 +31,32 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult CreateQuestion([FromBody]QuestionViewModel question)
         {
-            Question q = new Question
+            Question questionToSave = new Question
             {
                 Text = question.Text,
                 CorrectAnsId = question.CorrectAnsId
             };
 
-            Question newQuestion = questionRepository.AddQuestion(q);
+            Question newQuestion = questionRepository.AddQuestion(questionToSave);
             if (newQuestion == null)
             {
                 return BadRequest("Question couldn't be created");
             }
-            QuestionViewModel questionVm = entityToVmMapper.Map(q);
+            QuestionViewModel questionVm = entityToVmMapper.Map(questionToSave);
             return Ok(questionVm);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateQuestion(int id, [FromBody]QuestionViewModel question)
         {
-            Question q = new Question()
+            Question questionToUpdate = new Question
             {
                 Id = id,
                 Text = question.Text,
                 CorrectAnsId = question.CorrectAnsId
             };
 
-            Question updatedQuestion = questionRepository.UpdateQuestion(q);
+            Question updatedQuestion = questionRepository.UpdateQuestion(questionToUpdate);
             if (updatedQuestion == null)
             {
                 return BadRequest("Question couldn't be updated");
@@ -75,26 +75,26 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetQuestionById(int id)
         {
-            Question q = questionRepository.getQuestionById(id);
-            if (q == null)
+            Question question = questionRepository.getQuestionById(id);
+            if (question == null)
             {
                 return NotFound("Question doesn't exist");
             }
 
-            QuestionViewModel questionVm = this.entityToVmMapper.Map(q);
+            QuestionViewModel questionVm = this.entityToVmMapper.Map(question);
             return Ok(questionVm);
         }
 
         [HttpGet("{text}")]
         public IActionResult GetQuestionByText(string text)
         {
-            Question q = questionRepository.getQuestionByText(text);
-            if (q == null)
+            Question question = questionRepository.getQuestionByText(text);
+            if (question == null)
             {
                 return NotFound("Question doesn't exist");
             }
 
-            QuestionViewModel questionVm = this.entityToVmMapper.Map(q);
+            QuestionViewModel questionVm = this.entityToVmMapper.Map(question);
             return Ok(questionVm);
         }
     }
