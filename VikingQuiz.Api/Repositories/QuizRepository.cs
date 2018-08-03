@@ -23,7 +23,12 @@ namespace VikingQuiz.Api.Repositories
 
         public Quiz UpdateQuiz(Quiz quiz)
         {
-            Quiz foundQuiz = context.Quiz.Where(q => q.Id == quiz.Id).FirstOrDefault();
+            Quiz foundQuiz = ctx.Quiz.Where(x => x.Id == quiz.Id && x.UserId == quiz.UserId).FirstOrDefault();
+            if (foundQuiz == null)
+            {
+                return null;
+            }
+
             foundQuiz.Title = quiz.Title;
             foundQuiz.PictureUrl = quiz.PictureUrl;
             foundQuiz.UserId = quiz.UserId;
