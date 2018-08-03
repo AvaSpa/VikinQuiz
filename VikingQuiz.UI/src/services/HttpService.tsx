@@ -28,7 +28,7 @@ class HttpService{
     public getWithToken = (url: string, options?: any): any => {
         const token: any = this.getToken();
        
-        if(!url || !token){
+        if(!url){
             return;
         }
 
@@ -40,7 +40,7 @@ class HttpService{
     public postWithToken = (url: string, body: any, options?: any): any => {
         const token: any = this.getToken();
 
-        if(!url || !body || !token){
+        if(!url || !body){
             return;
         }
 
@@ -52,7 +52,7 @@ class HttpService{
     public deleteWithToken = (url: string, options?: any): any => {
         const token: any = this.getToken();
        
-        if(!url || !token){
+        if(!url){
             return;
         }
 
@@ -64,7 +64,7 @@ class HttpService{
     public putWithToken = (url: string, body: any, options?: any): any => {
         const token: any = this.getToken();
 
-        if(!url || !body || !token){
+        if(!url || !body){
             return;
         }
 
