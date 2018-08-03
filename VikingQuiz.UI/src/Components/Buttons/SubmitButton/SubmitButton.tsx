@@ -1,19 +1,10 @@
 import * as React from 'react';
 import './SubmitButton.css';
 
-class SubmitButton extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props);
-    }
-
-    public render() {
-        return (
-            <button className="submit-button" onClick={this.handleClick} />
-        );
-    }
-
-    public handleClick() {
-        alert("Button Clicked");
-    }
+const submitButton = (props: any) =>
+{
+    return (
+        <button className="circle-btn submit-button" onClick={props.click} disabled={props.disabled}/>
+    );
 }
 export default submitButton;
