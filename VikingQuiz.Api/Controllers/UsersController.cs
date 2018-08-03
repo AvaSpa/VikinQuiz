@@ -18,16 +18,12 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private readonly UserRepo userRepo;
-        private readonly IEntityMapper<UserViewModel, User> vmToEntityMapper;
+        private readonly UserRepository userRepository;
         private readonly IEntityMapper<User, UserViewModel> entityToVmMapper;
-        private readonly IConfiguration _config;
 
-        public UsersController(UserRepo userRepo, IEntityMapper<UserViewModel, User> vmToEntityMapper, IEntityMapper<User, UserViewModel> entityToVmMapper, IConfiguration configuration)
+        public UsersController(UserRepository userRepository, IEntityMapper<User, UserViewModel> entityToVmMapper)
         {
-            this._config = configuration;
-            this.userRepo = userRepo;
-            this.vmToEntityMapper = vmToEntityMapper;
+            this.userRepository = userRepository;
             this.entityToVmMapper = entityToVmMapper;
         }
 
@@ -35,7 +31,7 @@ namespace VikingQuiz.Api.Controllers
         //[Authorize]
         public IActionResult GetAll()
         {
-            var users = userRepo.GetAll();
+            var users = userRepository.GetAll();
             var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
             return Ok(result);
         }
@@ -43,7 +39,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            User user = userRepo.GetUserById(id);
+            User user = userRepository.GetUserById(id);
             if(user == null)
             {
                 return NotFound("User doesn't exist");
@@ -58,45 +54,61 @@ namespace VikingQuiz.Api.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors })
-    .ToArray());
+                var errors = ModelState.GetErrors();
+                return BadRequest(errors);
             }
 
-            User usr = new User {
+            User userToSave = new User
+            {
                 Username = user.Username,
-                Pass = user.Password,
+                Pass = user.Password.SHA256Encrypt(),
                 Email = user.Email,
                 PictureUrl = user.PictureUrl
             };
 
-            User newusr = userRepo.CreateUser(usr);
+            User newUser = userRepository.CreateUser(userToSave);
 
-            if(newusr == null)
+            if(newUser == null)
             {
                 return BadRequest("User couldn't be created");
             }
-
-            userRepo.AssignRandomPhoto(newusr);
-            UserViewModel userVm = entityToVmMapper.Map(usr);
+            userRepository.AssignRandomPhoto(newUser);
+            UserViewModel userVm = entityToVmMapper.Map(newUser);
             return Created($"/{userVm.Id}", userVm);
         }
 
         [HttpPut]
         public IActionResult Update([FromBody]UserViewModel user)
         {
-            User usr = userRepo.UpdateUser(vmToEntityMapper.Map(user));
-            if (usr == null)
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.GetErrors();
+                return BadRequest(errors);
+            }
+
+            if(!userRepository.CheckIfUserExists(user.Id))
             {
                 return NotFound("User doesn't exist");
             }
-            UserViewModel userVm = entityToVmMapper.Map(usr);
+
+            User userToUpdate = new User
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Pass = user.Password.SHA256Encrypt(),
+                Email = user.Email,
+                PictureUrl = user.PictureUrl
+            };
+
+            User updatedUser = userRepository.UpdateUser(userToUpdate);
+            UserViewModel userVm = entityToVmMapper.Map(updatedUser);
             return Accepted($"/{userVm.Id}", userVm);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            userRepo.DeleteUser(id);
+            userRepository.DeleteUser(id);
             return Ok();
         }
     }

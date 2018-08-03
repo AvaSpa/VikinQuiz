@@ -6,41 +6,41 @@ using VikingQuiz.Api.Models;
 
 namespace VikingQuiz.Api.Repositories
 {
-    public class PlayerRepo
+    public class PlayerRepository
     {
-        private VikinQuizContext ctx = new VikinQuizContext();
+        private VikinQuizContext context = new VikinQuizContext();
 
-        public PlayerRepo(VikinQuizContext context)
+        public PlayerRepository(VikinQuizContext context)
         {
-            this.ctx = context;
+            this.context = context;
         }
 
         public Player AddPlayer(Player player)
         {
-            ctx.Player.Add(player);
-            ctx.SaveChanges();
+            context.Player.Add(player);
+            context.SaveChanges();
             return player;
         }
 
         public void DeletePlayer(int id)
         {
-            Player player = ctx.Player.Find(id);
-            ctx.Player.Remove(player);
-            ctx.SaveChanges();
+            Player player = context.Player.Find(id);
+            context.Player.Remove(player);
+            context.SaveChanges();
         }
 
         public Player UpdatePlayer(Player player)
         {
-            var existingPlayer = ctx.Player.Find(player.Id);
+            var existingPlayer = context.Player.Find(player.Id);
             existingPlayer.PictureUrl = player.PictureUrl;
             existingPlayer.Name = player.Name;
-            ctx.SaveChanges();
+            context.SaveChanges();
             return player;
         }
 
         public List<Player> GetAllPlayers()
         {
-            return ctx.Player.ToList();
+            return context.Player.ToList();
         }
     }
 }

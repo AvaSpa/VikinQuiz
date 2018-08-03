@@ -18,26 +18,24 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class SessionController : Controller
     {
-        private readonly UserRepo userRepo;
-        private readonly AuthenticationService authService;
+        private readonly UserRepository userRepository;
+        private readonly AuthenticationService authenticationService;
 
-        public SessionController(
-            UserRepo userRepo,
-            AuthenticationService authenticationService)
+        public SessionController(UserRepository userRepository, AuthenticationService authenticationService)
         {
-            this.userRepo = userRepo;
-            this.authService = authenticationService;
+            this.userRepository = userRepository;
+            this.authenticationService = authenticationService;
         }
 
         [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateToken([FromBody]LoginViewModel login)
         {
-            var user = userRepo.Authenticate(login);
+            User user = authenticationService.GetUserByCredentials(login.Email, login.Password.SHA256Encrypt());
             if (user != null)
             {
-                string str = authService.Authenticate(user);
-                return Ok(new { token = str });
+                string authenticationToken = authenticationService.GenerateTokenForUser(user);
+                return Ok(new { token = authenticationToken });
             }
             else
                 return NotFound("No such user exists");

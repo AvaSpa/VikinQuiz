@@ -13,13 +13,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class PlayerController : Controller
     {
-        private readonly PlayerRepo playerRepo;
+        private readonly PlayerRepository playerRepository;
         private IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
         private IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
 
-        public PlayerController(PlayerRepo playerRepo, IEntityMapper<Player, PlayerViewModel> entityToVmMapper, IEntityMapper<PlayerViewModel, Player> vmToEntityMapper)
+        public PlayerController(PlayerRepository playerRepository, IEntityMapper<Player, PlayerViewModel> entityToVmMapper, IEntityMapper<PlayerViewModel, Player> vmToEntityMapper)
         {
-            this.playerRepo = playerRepo;
+            this.playerRepository = playerRepository;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
         }
@@ -27,20 +27,20 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetPlayer()
         {
-            var result = playerRepo.GetAllPlayers().Select(s => entityToVmMapper.Map(s)).ToList();
+            var result = playerRepository.GetAllPlayers().Select(s => entityToVmMapper.Map(s)).ToList();
             return Ok(result);
         }
 
         [HttpPost]
         public IActionResult CreatePlayer([FromBody]PlayerViewModel player)
         {
-            Player p = new Player()
+            Player p = new Player
             {
                 PictureUrl = player.PictureUrl,
                 Name = player.Name
             };
 
-            Player newPlayer = playerRepo.AddPlayer(p);
+            Player newPlayer = playerRepository.AddPlayer(p);
             if(newPlayer == null)
             {
                 return BadRequest("Player couldn't be created");
@@ -52,14 +52,14 @@ namespace VikingQuiz.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdatePlayer(int id, [FromBody]PlayerViewModel player)
         {
-            Player p = new Player()
+            Player p = new Player
             {
                 Id = id,
                 PictureUrl = player.PictureUrl,
                 Name = player.Name
             };
 
-            Player updatedPlayer = playerRepo.UpdatePlayer(p);
+            Player updatedPlayer = playerRepository.UpdatePlayer(p);
             if (updatedPlayer == null)
             {
                 return BadRequest("Player couldn't be updated");
@@ -71,7 +71,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeletePlayer(int id)
         {
-            playerRepo.DeletePlayer(id);
+            playerRepository.DeletePlayer(id);
             return Ok();
         }
 

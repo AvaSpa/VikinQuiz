@@ -6,28 +6,28 @@ using VikingQuiz.Api.Models;
 
 namespace VikingQuiz.Api.Repositories
 {
-    public class GameRepo
+    public class GameRepository
     {
-        private VikinQuizContext ctx;
+        private VikinQuizContext context;
 
-        public GameRepo(VikinQuizContext ctx)
+        public GameRepository(VikinQuizContext context)
         {
-            this.ctx = ctx;
+            this.context = context;
         }
 
         public Game Create(Game g)
         {
-            ctx.Add(g);
-            ctx.SaveChanges();
+            context.Add(g);
+            context.SaveChanges();
             return g;
         }
 
         public Game Update(Game g)
         {
-            Game gg = ctx.Game.Find(g.Id);
+            Game gg = context.Game.Find(g.Id);
             gg.QuizId = g.QuizId;
             gg.GameDate = g.GameDate;
-            ctx.SaveChanges();
+            context.SaveChanges();
             return g;
         }
 
@@ -37,20 +37,20 @@ namespace VikingQuiz.Api.Repositories
             {
                 Id = id,
             };
-            var playerGame = ctx.PlayerGame.Where(x => x.Gid == id).ToList();
-            ctx.PlayerGame.RemoveRange(playerGame);
-            ctx.Game.Remove(gm);
-            ctx.SaveChanges();
+            var playerGame = context.PlayerGame.Where(x => x.Gid == id).ToList();
+            context.PlayerGame.RemoveRange(playerGame);
+            context.Game.Remove(gm);
+            context.SaveChanges();
         }
 
         public List<Game> GetAll()
         {
-            return ctx.Game.ToList();
+            return context.Game.ToList();
         }
 
         public Game GetGameById(int id)
         {
-            return ctx.Game.Find(id);
+            return context.Game.Find(id);
         }
     }
 }

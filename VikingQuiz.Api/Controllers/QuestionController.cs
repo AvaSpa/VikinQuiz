@@ -17,13 +17,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class QuestionController : Controller
     {
-        private readonly QuestionRepo questionRepo;
+        private readonly QuestionRepository questionRepository;
         private IEntityMapper<Question, QuestionViewModel> entityToVmMapper;
         private IEntityMapper<QuestionViewModel, Question> vmToEntityMapper;
 
-        public QuestionController(QuestionRepo questionRepo, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper)
+        public QuestionController(QuestionRepository questionRepository, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper)
         {
-            this.questionRepo = questionRepo;
+            this.questionRepository = questionRepository;
             this.vmToEntityMapper = vmToEntityMapper;
             this.entityToVmMapper = entityToVmMapper;
         }
@@ -31,32 +31,32 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult CreateQuestion([FromBody]QuestionViewModel question)
         {
-            Question q = new Question
+            Question questionToSave = new Question
             {
                 Text = question.Text,
                 CorrectAnsId = question.CorrectAnsId
             };
 
-            Question newQuestion = questionRepo.AddQuestion(q);
+            Question newQuestion = questionRepository.AddQuestion(questionToSave);
             if (newQuestion == null)
             {
                 return BadRequest("Question couldn't be created");
             }
-            QuestionViewModel questionVm = entityToVmMapper.Map(q);
+            QuestionViewModel questionVm = entityToVmMapper.Map(questionToSave);
             return Ok(questionVm);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateQuestion(int id, [FromBody]QuestionViewModel question)
         {
-            Question q = new Question()
+            Question questionToUpdate = new Question
             {
                 Id = id,
                 Text = question.Text,
                 CorrectAnsId = question.CorrectAnsId
             };
 
-            Question updatedQuestion = questionRepo.UpdateQuestion(q);
+            Question updatedQuestion = questionRepository.UpdateQuestion(questionToUpdate);
             if (updatedQuestion == null)
             {
                 return BadRequest("Question couldn't be updated");
@@ -68,33 +68,33 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteQuestion(int id)
         {
-            questionRepo.DeleteQuestion(id);
+            questionRepository.DeleteQuestion(id);
             return Ok();
         }
 
         [HttpGet("{id}")]
         public IActionResult GetQuestionById(int id)
         {
-            Question q = questionRepo.getQuestionById(id);
-            if (q == null)
+            Question question = questionRepository.getQuestionById(id);
+            if (question == null)
             {
                 return NotFound("Question doesn't exist");
             }
 
-            QuestionViewModel questionVm = this.entityToVmMapper.Map(q);
+            QuestionViewModel questionVm = this.entityToVmMapper.Map(question);
             return Ok(questionVm);
         }
 
         [HttpGet("{text}")]
         public IActionResult GetQuestionByText(string text)
         {
-            Question q = questionRepo.getQuestionByText(text);
-            if (q == null)
+            Question question = questionRepository.getQuestionByText(text);
+            if (question == null)
             {
                 return NotFound("Question doesn't exist");
             }
 
-            QuestionViewModel questionVm = this.entityToVmMapper.Map(q);
+            QuestionViewModel questionVm = this.entityToVmMapper.Map(question);
             return Ok(questionVm);
         }
     }

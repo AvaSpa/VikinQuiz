@@ -10,20 +10,19 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class GoogleController : Controller
     {
-        private readonly AuthenticationService authService;
-        private readonly UserRepo repo;
+        private readonly AuthenticationService authenticationService;
+        private readonly UserRepository userRepository;
 
-        public GoogleController(VikinQuizContext ctx, IConfiguration configuration)
+        public GoogleController(AuthenticationService service, UserRepository userRepo)
         {
-            this.authService = new AuthenticationService(configuration);
-            this.repo = new UserRepo(ctx);
+            this.authenticationService = service;
+            this.userRepository = userRepo;
         }
 
         [HttpPost]
         public IActionResult Login([FromBody]GoogleViewModel content)
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(content.Id);
-            var base64Id = System.Convert.ToBase64String(plainTextBytes);
+            string base64Id = content.Id.Base64Encoder();
             User user = new User
             {
                 Username = base64Id,
@@ -32,9 +31,9 @@ namespace VikingQuiz.Api.Controllers
                 PictureUrl = content.PictureUrl,
                 IsConfirmed = true
             };
-            this.repo.CreateUser(user);
-            string str = this.authService.Authenticate(user);
-            return Ok(new { token = str });
+            this.userRepository.CreateUser(user);
+            string userToken = this.authenticationService.GenerateTokenForUser(user);
+            return Ok(new { token = userToken });
         }
     }
 }
