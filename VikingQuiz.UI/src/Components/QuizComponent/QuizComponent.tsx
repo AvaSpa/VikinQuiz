@@ -18,8 +18,8 @@ interface IState {
 class QuizComponent extends React.Component<IProps, IState> {
 
     public state = {
-        id: this.props.id,
-        editMode: this.props.editMode,
+        id: 2007,
+        editMode: true,
         showQuestions: false
     }
 

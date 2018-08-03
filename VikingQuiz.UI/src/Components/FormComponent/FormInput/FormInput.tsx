@@ -7,8 +7,8 @@ const FormInput: any = (props: any) => {
   const errorInputClass = props.ErrorMessage ? ' input-error' : '';
     return (
        <div className="formgroup col-xs-12">
-        <label className="formlabel" htmlFor={props.InputId}>{props.InputLabel}</label>
-        <input className={defaultInputClass + errorInputClass} id={props.InputId} name={props.name} value={props.value} type={props.InputType} onChange={props.changed} onFocus={props.focus} />
+            <label className="formlabel" htmlFor={props.InputId}>{props.InputLabel}</label>
+            <input id={props.InputId} name={props.name} className={defaultInputClass + errorInputClass} type={props.InputType} onChange={props.changed} value={props.value} onFocus={props.focus}/>
         <div className="formerror">{props.ErrorMessage}</div>
       </div>
     )
