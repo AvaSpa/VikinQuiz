@@ -55,7 +55,7 @@ namespace VikingQuiz.Api.Controllers
 
 
 
-        
+        // Get all the quizzes which belong to an user
         [HttpGet]
         //[Authorize] -- add authorize when it is available on the front end
         public async Task<IActionResult> GetAll()
@@ -73,6 +73,7 @@ namespace VikingQuiz.Api.Controllers
             return Ok( quizzes.Select( quiz => this.entityToVmMapper.Map(quiz) ) );
         }
 
+        // Get a specific quiz id only if it belongs to that user
         [HttpGet("{id}")]
         //[Authorize] -- add authorize when it is available on the front end
         public async Task<IActionResult> Get(int id)
@@ -106,6 +107,7 @@ namespace VikingQuiz.Api.Controllers
           } 
        
 
+        // Add a new empty quiz to the DB
         [HttpPost]
         [RequestSizeLimit(5_000_000)]
         //[Authorize] add authorize when avaiable on the front-end
@@ -127,6 +129,7 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest("Image could not be uploaded.");
             }
 
+
             Quiz createdQuiz = quizRepo.CreateQuiz(new Quiz
             {
                 Title = quizBodyData.Title,
@@ -144,6 +147,7 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
+        // update a specific quiz id
         [HttpPost("{id}")] // temp route for testing - PATCH Verb later
         [RequestSizeLimit(5_000_000)]
         //[Authorize] add authorize when avaiable on the front-end
