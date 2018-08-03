@@ -13,4 +13,4 @@ const formInput: any = (props: any) => {
     )
 }
 
-export default formInput;
+export default FormInput;
