@@ -8,7 +8,7 @@ using VikingQuiz.Api.Mappers;
 
 namespace VikingQuiz.Api.Mappers
 {
-    public class PlayerToViewMapper : IEntityMapper<Player, PlayerViewModel>
+    public class PlayerToViewModelMapper : IEntityMapper<Player, PlayerViewModel>
     {
         public PlayerViewModel Map(Player player)
         {
@@ -16,19 +16,6 @@ namespace VikingQuiz.Api.Mappers
             {
                 PictureUrl = player.PictureUrl,
                 Name = player.Name
-            };
-            return result;
-        }
-    }
-
-    public class PlayerViewModelToPlayerMapper : IEntityMapper<PlayerViewModel, Player>
-    {
-        public Player Map(PlayerViewModel playerViewModel)
-        {
-            var result = new Player
-            {
-                PictureUrl = playerViewModel.PictureUrl,
-                Name = playerViewModel.Name
             };
             return result;
         }

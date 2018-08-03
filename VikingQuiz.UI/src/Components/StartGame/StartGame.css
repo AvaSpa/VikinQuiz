@@ -1,3 +1,22 @@
+.center-container{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 300px;
+}
+
+.players-container{
+    display: flex;
+    justify-content: center;
+    height: 120px;
+    margin-top: 20px;
+}
+
+.code-form{
+    justify-content: center;
+}
+
 .code-label{
     position: relative;
     font-size: 70px;
@@ -19,20 +38,13 @@
     text-align: center;
 }
 
-#footer img{
-    position: absolute;
-    bottom: 0;
+.play-button{
+    position: fixed;
+    top: 40px;
+    right: 40px;
 }
 
-#footer {
-   position: absolute;
-   left: 50%;
-   transform: translateX(-50%);
-   bottom: 0;
-}
-
-
-@media screen and (max-height: 800px){
+@media screen and (max-width: 800px){
     .home-button{
         width:150px;
         height:240px;
@@ -44,16 +56,15 @@
         font-family: 'dk_lemon_yellow_sunregular';
         text-align: center;
     }
-    
 
+    .center-container{
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        width: 70%;
+    }
 }
 
-@media screen and (max-height: 900px), screen and (max-width: 900px) {
-    #footer {
-         position: absolute;
-     }
-    #footer img {
-       left: 50%;
-       transform: translateX(-50%);
-    }
- }
+
+

@@ -1,0 +1,31 @@
+.player-photo {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    filter: grayscale(100%) brightness(170%);
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.player-name{
+    position: relative;
+    font-size: 20px;
+    font-family: 'dk_lemon_yellow_sunregular';
+    font-weight: bold;
+    text-align: center;
+    color: #f0cc04;
+}
+
+.player-container{
+    max-width: 120px;
+    width: auto;
+    height:auto;
+    margin-bottom: 20px;
+    margin-right: 3px;
+}
+
+.photo{
+    border-radius: 50%;
+    width: 85px;
+    height: 85px;
+}

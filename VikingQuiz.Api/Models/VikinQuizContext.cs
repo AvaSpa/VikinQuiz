@@ -45,6 +45,7 @@ namespace VikingQuiz.Api.Models
             modelBuilder.Entity<Game>(entity =>
             {
                 entity.Property(e => e.GameDate).HasColumnType("date");
+                entity.Property(e => e.Code).HasColumnType("string");
 
                 entity.HasOne(d => d.Quiz)
                     .WithMany(p => p.Game)

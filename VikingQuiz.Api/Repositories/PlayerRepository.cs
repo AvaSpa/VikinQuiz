@@ -38,9 +38,17 @@ namespace VikingQuiz.Api.Repositories
             return player;
         }
 
-        public List<Player> GetAllPlayers()
+        public List<Player> GetAll()
         {
             return context.Player.ToList();
         }
+
+        //public void connectToGame(Player player, Game game, string code)
+        //{
+        //    if (code == game.Code)
+        //    {
+
+        //    }
+        //}
     }
 }

@@ -38,6 +38,7 @@ CREATE TABLE Game(
 	Id INT Primary Key IDENTITY,
 	QuizId INT REFERENCES Quiz(Id),
 	GameDate Date NOT NULL,
+	Code nvarchar(6) NOT NULL
 );
 
 CREATE TABLE Player(
