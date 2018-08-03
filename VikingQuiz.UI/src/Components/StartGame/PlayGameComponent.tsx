@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './PlayGameComponent.css';
-import InputData from 'src/entities/InputData';
+import IInputData from 'src/entities/IInputData';
 import FormInput from '../FormComponent/FormInput/FormInput';
 
 class FormComponent extends React.Component<any, any> {
@@ -16,7 +16,7 @@ class FormComponent extends React.Component<any, any> {
 
 
    public changeValueHandler(id: string, event: any) {
-      const inputsCopy: InputData[] = this.state.inputs.slice();
+      const inputsCopy: IInputData[] = this.state.inputs.slice();
       const index: number = inputsCopy.findIndex((input) => input.id === id);
       inputsCopy[index].value = event.target.value;
       this.setState({
@@ -26,7 +26,7 @@ class FormComponent extends React.Component<any, any> {
 
    public getFormData(): any {
       const data: any = {};
-      this.state.inputs.forEach((input: InputData) => {
+      this.state.inputs.forEach((input: IInputData) => {
          data[input.name] = input.value;
       });
       return data;
@@ -49,7 +49,7 @@ class FormComponent extends React.Component<any, any> {
    }
 
    public getItemById(id: string, inputs: any) {
-      const inputsCopy: InputData[] = inputs.slice();
+      const inputsCopy: IInputData[] = inputs.slice();
       const index: number = inputsCopy.findIndex((input) => input.id === id);
       return {
          index,
@@ -81,7 +81,7 @@ class FormComponent extends React.Component<any, any> {
 
 
 
-   public renderInput(input: InputData) {
+   public renderInput(input: IInputData) {
       return (
          <FormInput key={input.id}
             InputId={input.id}
@@ -156,7 +156,7 @@ class FormComponent extends React.Component<any, any> {
    public render() {
       return (
          <div className="form-body container-fluid">
-            {this.state.inputs.map((input: InputData) => this.renderInput(input))}
+            {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
             <button disabled={!this.state.isValid} className="join-button" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
          </div>
       );

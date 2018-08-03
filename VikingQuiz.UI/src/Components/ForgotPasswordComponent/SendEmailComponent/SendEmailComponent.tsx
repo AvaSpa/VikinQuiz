@@ -1,7 +1,6 @@
 import * as React from 'react';
 import HomeButton from 'src/Components/Buttons/HomeButton/HomeButton';
 import FormComponent from 'src/Components/FormComponent/FormComponent';
-import InputData from 'src/entities/InputData';
 import './SendEmailComponent.css';
 import HttpService from 'src/services/HttpService';
 
@@ -28,7 +27,7 @@ class SendEmailComponent extends React.Component<any, any>
                 <div className='form-container'>
                     <FormComponent inputs={
                         [
-                            new InputData('email', 'email', 'Email', '', 'Email', '')
+                            {id:'email', type:'email', label:'Email', errorMessage:'', name:'Email', value:''}
                         ]}
                         url={this.apiAddress}
                         onSubmit={this.onClickHandler}
