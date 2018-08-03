@@ -33,24 +33,19 @@ namespace VikingQuiz.Api.Controllers
         {
             IActionResult statusCodeResult = Ok();
             statusCodeResult = Ok();
-            if (quizBodyData.Files.Count == 0)
-            {
-                statusCodeResult =  BadRequest("An image file needs to be provided");
-            }
-            else if (quizBodyData.Files.Count > 1)
-            {
+            if (quizBodyData.Files.Count == 0) {
+                statusCodeResult =  BadRequest("An image file needs to be provided"); }
+            else if (quizBodyData.Files.Count > 1) {
                 statusCodeResult = BadRequest("Only one file can be uploaded.");
             }
 
             long size = quizBodyData.Files.Sum(f => f.Length);
-            if (size <= 0)
-            {
+            if (size <= 0) {
                 statusCodeResult = BadRequest("File must not be empty.");
             }
 
             var contentType = quizBodyData.Files[0].ContentType;
-            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg"))
-            {
+            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg")) {
                 statusCodeResult =  BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
             }
 
@@ -58,12 +53,29 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
+        // ======================================================================================
+        // ======================================================================================
+        // ======================================================================================
+        // ======================================================================================
 
-        [HttpGet("{id}")]
+
+
+        [HttpGet] // *** ADD URL concatenation for the quizzes
+        //[Authorize] -- add authorize when it is available on the front end
+        public IActionResult GetAll()
+        {
+            // User.Claims.GetUserId(); -- use this to get the ID of the user based on the token recieved
+            var quizzes = quizRepo.GetAll(3); // pass that user ID in
+            return Ok( quizzes.Select( quiz => this.entityToVmMapper.Map(quiz) ) );
+        }
+
+        [HttpGet("{id}")] // *** ADD URL concatenation for the quizzes
+        //[Authorize] -- add authorize when it is available on the front end
         public IActionResult Get(int id)
         {
-            Quiz quiz = quizRepository.GetQuizById(id);
-            if(quiz == null)
+            // User.Claims.GetUserId() -- use this to get the ID of the user based on the token recieved
+            Quiz quiz = quizRepo.GetQuizById(id);
+            if(quiz == null || quiz.UserId != 444) // use the user ID instead of the hardcoded user in here
             {
                 return NotFound("Quiz doesn't exist");
             }
@@ -85,17 +97,14 @@ namespace VikingQuiz.Api.Controllers
           } 
        
 
-
-        {
-
-        [HttpPost("newQuiz")] // temp route for testing - simple POST later
+        [HttpPost] // temp route for testing - simple POST later
         [RequestSizeLimit(5_000_000)]
         //[Authorize] add authorize when avaiable on the front-end
         public async Task<IActionResult> Post(NewQuizViewModel quizBodyData)
         {
             // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
             IActionResult imageHttpResponse = FileValidityChecker(quizBodyData);
-            if (imageHttpResponse != Ok()) {
+            if ( IActionResult.Equals(imageHttpResponse, Ok()) ) {
                 return imageHttpResponse;
             }
 
@@ -126,28 +135,24 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
-        [HttpPost("updateQuiz")] // temp route for testing - PATCH Verb later
+        [HttpPost("{id}")] // temp route for testing - PATCH Verb later
         [RequestSizeLimit(5_000_000)]
         //[Authorize] add authorize when avaiable on the front-end
-        public async Task<IActionResult> Put(NewQuizViewModel quizBodyData)
+        public async Task<IActionResult> Put(NewQuizViewModel quizBodyData, int id)
         {
             // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
             IActionResult imageHttpResponse = FileValidityChecker(quizBodyData);
-            if (imageHttpResponse != Ok())
-            {
+            if (imageHttpResponse != Ok()) {
                 return imageHttpResponse;
             }
 
             string fileUrl;
-            try
-            {
+            try {
                 AzureBlobService blobService = new AzureBlobService();
                 await blobService.InitializeBlob();
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
                 fileUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileUrl;
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
             }
 
@@ -156,11 +161,10 @@ namespace VikingQuiz.Api.Controllers
                 Title = quizBodyData.Title,
                 PictureUrl = fileUrl,
                 UserId = 3,
-                Id = (int)quizBodyData.QuizId
+                Id = id
             });
 
-            if (updatedQuiz == null)
-            {
+            if (updatedQuiz == null) {
                 return BadRequest("Quiz does not exist.");
             }
 
@@ -170,30 +174,23 @@ namespace VikingQuiz.Api.Controllers
             return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
         }
 
-        //[HttpPut]
-        //public IActionResult Update([FromBody]QuizViewModel quiz)
-        //{
-        //    Quiz qiz = quizRepo.UpdateQuiz(vmToEntityMapper.Map(quiz));
-        //    if (qiz == null)
-        //    {
-        //        return NotFound("Quiz doesn't exist");
-        //    }
-        //    QuizViewModel quizVm = entityToVmMapper.Map(qiz);
-        //    return Accepted($"/{quizVm.Id}", quizVm);
-        //}
-
-
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        // [Authorize] add it when available on the front end
+        public async Task<IActionResult> Delete(int id)
         {
-            var existingQuiz = quizRepository.GetQuizById(id);
-            if(existingQuiz == null)
-            {
-                return NotFound("Quiz doesn't exist");
+            // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
+
+            var deletedQuiz = quizRepo.DeleteQuiz(id, 3); // you get the user ID based on the authorization token, right now it's hard coded for testing
+
+            if(deletedQuiz != null) {
+                AzureBlobService blobService = new AzureBlobService();
+                await blobService.InitializeBlob();
+                blobService.DeletePhoto(deletedQuiz.PictureUrl);
+                return Ok();
+            } else {
+                return BadRequest("Deletion Impossible. Quiz does not exist.");
             }
-            quizRepository.DeleteQuiz(id);
-            return Ok();
         }
     }
 }

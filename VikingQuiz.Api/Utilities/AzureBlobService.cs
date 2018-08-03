@@ -27,7 +27,7 @@ namespace VikingQuiz.Api.Utilities
         public async Task<bool> InitializeBlob()
         {
             userContainer = blobClient.GetContainerReference("users");
-            if(!await userContainer.CreateIfNotExistsAsync())
+            if (!await userContainer.CreateIfNotExistsAsync())
             {
                 return false;
             }
@@ -82,15 +82,27 @@ namespace VikingQuiz.Api.Utilities
             return imgName;
         }
 
+        public async Task<bool> DeletePhoto(string imageFileNameWithExtension)
+        {
+            var blob = userContainer.GetBlockBlobReference(imageFileNameWithExtension);
+            return await blob.DeleteIfExistsAsync();
+        }
+
         public AzureBlobService()
         {
             // use TryParse to check connection, return exception if it can't connect
             //account = CloudStorageAccount.DevelopmentStorageAccount;
             string storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=intershipwirtekblob;AccountKey=shTUho2siiIL/ifrGoABOPLJuqLB4UPnGqDMNYiSBiE7IeKxWTLzEtWCm2pgwuvAs5odaGllkGawS8KbdHCtyQ==;EndpointSuffix=core.windows.net";
-            account = CloudStorageAccount.Parse(storageConnectionString);
-            urlPath = account.BlobStorageUri.PrimaryUri;
-
-            blobClient = account.CreateCloudBlobClient();
+            if (CloudStorageAccount.TryParse(storageConnectionString, out this.account))
+            {
+                account = CloudStorageAccount.Parse(storageConnectionString);
+                urlPath = account.BlobStorageUri.PrimaryUri;
+                blobClient = account.CreateCloudBlobClient();
+            }
+            else
+            {
+                throw new StorageException();
+            }
         }
     }
 }
