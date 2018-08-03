@@ -2,8 +2,6 @@ import * as React from 'react';
 import './LoginPage.css'
 import SignUpButton from '../Buttons/LoginSignUpButtons/SignUpButton';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
-
-import InputData from '../../entities/InputData';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
 import { setTimeout } from 'timers';
@@ -76,8 +74,8 @@ class LoginPage extends React.Component<any, any> {
                           <div className="form-container">
                               <p className="form-error server-message">{this.state.serverMessage}</p>
                               <LoginFormComponent inputs={[
-                                new InputData('user-email', 'email', 'Email', '', 'Email', ''),
-                                new InputData('user-password', 'password', 'Password', '', 'Password', ''),
+                                {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
+                                {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
                                 ]} url={this.apiAddress + this.apiSessionAddress} buttonName="" onSubmit={this.userDataHandler} 
                            validator={loginValidator}
                            validationRules={loginRules}

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import './SignUpPage.css'
 import FormComponent from 'src/Components/FormComponent/FormComponent';
-import InputData from '../../entities/InputData';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LoginButton from '../Buttons/LoginSignUpButtons/LoginButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
-import UserDto from '../../entities/UserDto';
+import IUserDto from '../../entities/IUserDto';
 import { Redirect } from 'react-router-dom';
 import {signUpRules} from '../../entities/Validation/rules';
 // import register from '../../registerServiceWorker';
@@ -40,7 +39,7 @@ class SignUpPage extends React.Component<{}, any> {
 
     const comp: any = this;
 
-    const body: UserDto = new UserDto(formData.Username, formData.Password, formData.Email);
+    const body: IUserDto = {id: -1, username: formData.Username, password: formData.Password, email: formData.Email, pictureUrl: ''};
 
     this.httpService.post(url, body)
     .then((res: any) => {
@@ -92,10 +91,10 @@ class SignUpPage extends React.Component<{}, any> {
                         <p className="formerror server-message">{this.state.serverMessage}</p>
                         <FormComponent className="signupForm" inputs={
                            [
-                              new InputData('user-name', 'text', 'Name', '', 'Username', ''),
-                              new InputData('user-email', 'email', 'Email', '', 'Email', ''),
-                              new InputData('user-password', 'password', 'Password', '', 'Password', ''),
-                              new InputData('user-confpass', 'password', 'Confirm Password', '', 'ConfPassword', '')
+                                {id: 'user-name', type: 'text', label: 'Name', errorMessage: '', name: 'Username', value: ''},
+                                {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
+                                {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
+                                {id: 'user-confpass', type: 'password', label: 'Confirm Password', errorMessage: '', name: 'ConfPassword', value: ''}
                            ]}
                            url="http://localhost:60151/api/users"
                            buttonName=""
