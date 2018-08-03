@@ -40,7 +40,14 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         if(this.props.editMode){
             const getQuizUrl: string = 'http://localhost:60151/api/quizzes/' + this.props.quizId; 
             this.httpService.getWithToken(getQuizUrl)
-            .then((response: any) => console.log(response))
+            .then((response: any) => {
+                // this part gets the photo at the specified url
+                const imageUrl: string = response.data.pictureUrl;
+                const titleValue: string = response.data.title;
+
+                console.log(imageUrl, titleValue);
+                this.getImageBlobFromURL(imageUrl, titleValue);
+            })
             .catch((error: any) => console.log(error));
         }
     }
@@ -93,7 +100,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         
         const fd = new FormData();
         fd.append('files', this.state.selectedFile);
-        fd.append('title', this.state.title);
+        fd.append('title', this.state.title.toUpperCase());
 
         let url: string = '';
         if(this.props.editMode){
@@ -185,7 +192,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
                 imageError: 'The only supported fomats are: png, jpeg, gif',
                 selectedFile: ''
             });
-            
+            this.addInvalidClassToUpload();
             return false;
         }
 
@@ -236,6 +243,25 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         const errorClassName: string = "error-border";
         const titleElement: any = document.querySelector("#title");
         titleElement.classList.remove(errorClassName);
+    }
+
+    private getImageBlobFromURL = (imageUrl: any, titleValue: any) => {
+        this.httpService.get(imageUrl, { responseType:"blob" })
+                .then((res: any) =>{
+                    console.log(res);
+                    this.setState({
+                        selectedFile: res.data,
+                        title: titleValue
+                    });
+                    const reader = new FileReader();
+        
+                    reader.onload = (e: any) => {
+                        this.previewImageRef.current.src = e.target.result;
+                     }
+        
+                    reader.readAsDataURL(res.data);
+                })
+                .catch((error: any)=>console.log(error.data))
     }
 
 }
