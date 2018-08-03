@@ -66,7 +66,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateAnswer(int id, [FromBody]AnswerViewModel answer)
         {
-            Answer ans = new Answer()
+            Answer ans = new Answer
             {
                 Id = id,
                 Text = answer.Text,

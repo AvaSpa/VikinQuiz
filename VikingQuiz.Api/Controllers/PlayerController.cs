@@ -34,7 +34,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult CreatePlayer([FromBody]PlayerViewModel player)
         {
-            Player p = new Player()
+            Player p = new Player
             {
                 PictureUrl = player.PictureUrl,
                 Name = player.Name
@@ -52,7 +52,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdatePlayer(int id, [FromBody]PlayerViewModel player)
         {
-            Player p = new Player()
+            Player p = new Player
             {
                 Id = id,
                 PictureUrl = player.PictureUrl,

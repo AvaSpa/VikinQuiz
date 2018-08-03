@@ -47,7 +47,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult CreateGame([FromBody]GameViewModel game)
         {
-            Game g = new Game()
+            Game g = new Game
             {
                 QuizId = game.QuizId,
                 GameDate = Convert.ToDateTime(game.GameDate)
@@ -65,7 +65,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateGame(int id, [FromBody]GameViewModel game)
         {
-            Game gm = new Game()
+            Game gm = new Game
             {
                 Id = id,
                 QuizId = game.QuizId,

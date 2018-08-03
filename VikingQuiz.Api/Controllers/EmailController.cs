@@ -53,15 +53,11 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [Route("token")]
-        [HttpGet("{t}")]
-        public string ValidateAddress(string t)
+        [HttpGet("{token}")]
+        public string ValidateAddress(string token)
         {
-            userRepository.Activate(t);
+            userRepository.Activate(token);
             return "validation worked";
         }
-
-        //[Route("resend")]
-        //[HttpGet("{}")]
-        //public void ResetPassword() { }
     }
 }
