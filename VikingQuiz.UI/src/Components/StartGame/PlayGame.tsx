@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './PlayGame.css';
 import HttpService from '../../services/HttpService';
-import InputData from '../../entities/InputData';
 import PlayGameComponent from './PlayGameComponent';
 import PlayerCodeDto from '../../entities/PlayerCodeDto';
 import { Redirect } from 'react-router-dom';
@@ -74,8 +73,8 @@ class PlayGame extends React.Component<any, any> {
                                     <p className="formerror server-message">{this.state.serverMessage}</p>
                                     <PlayGameComponent inputs={
                                     [
-                                        new InputData('code', 'text', 'Enter your code/pin', '', 'GameCode', ''),
-                                        new InputData('name', 'text', 'Your Name', '', 'PlayerName', ''),
+                                       { id: 'code', type: 'text', label: 'Enter your code/pin', errorMessage: '', name:'GameCode', value:''},
+                                       { id: 'name', type: 'text', label: 'Your Name', errorMessage: '', name: 'PlayerName', value:''},
                                     ]}
                                     url={baseUrl + endPoint}
                                     buttonName=""

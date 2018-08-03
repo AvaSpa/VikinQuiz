@@ -15,6 +15,7 @@ interface IState {
 }
 
 interface IProps{
+   editMode: boolean
 }
 
 const initialTitle: string = 'add quiz title';
