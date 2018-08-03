@@ -34,7 +34,7 @@ namespace VikingQuiz.Api.Controllers
             IActionResult statusCodeResult = Ok();
             statusCodeResult = Ok();
             if (quizBodyData.Files.Count == 0) {
-                statusCodeResult =  BadRequest("An image file needs to be provided"); }
+                statusCodeResult =  BadRequest("An image file need to be provided."); }
             else if (quizBodyData.Files.Count > 1) {
                 statusCodeResult = BadRequest("Only one file can be uploaded.");
             }
@@ -51,8 +51,6 @@ namespace VikingQuiz.Api.Controllers
 
             return statusCodeResult;
         }
-
-
 
 
         // Get all the quizzes which belong to an user
@@ -73,6 +71,7 @@ namespace VikingQuiz.Api.Controllers
             return Ok( quizzes.Select( quiz => this.entityToVmMapper.Map(quiz) ) );
         }
 
+
         // Get a specific quiz id only if it belongs to that user
         [HttpGet("{id}")]
         //[Authorize] -- add authorize when it is available on the front end
@@ -82,12 +81,12 @@ namespace VikingQuiz.Api.Controllers
 
             AzureBlobService blobService = new AzureBlobService();
             await blobService.InitializeBlob();
-            // User.Claims.GetUserId() -- use this to get the ID of the user based on the token recieved
+
             Quiz quiz = quizRepo.GetQuizById(id);
-            if(quiz == null || quiz.UserId != 3) // use the user ID instead of the hardcoded user in here
-            {
+            if(quiz == null || quiz.UserId != 3) { // use the user ID instead of the hardcoded user in here
                 return NotFound("Quiz doesn't exist");
             }
+
             quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
             QuizViewModel quizVm = this.entityToVmMapper.Map(quiz);
             return Ok(quizVm);
@@ -148,7 +147,7 @@ namespace VikingQuiz.Api.Controllers
 
 
         // update a specific quiz id
-        [HttpPost("{id}")] // temp route for testing - PATCH Verb later
+        [HttpPost("{id}")]
         [RequestSizeLimit(5_000_000)]
         //[Authorize] add authorize when avaiable on the front-end
         public async Task<IActionResult> Put(NewQuizViewModel quizBodyData, int id)
@@ -166,7 +165,7 @@ namespace VikingQuiz.Api.Controllers
                 await blobService.InitializeBlob();
                 var previousQuizState = quizRepo.GetQuizById(id);
 
-                blobService.DeletePhoto(previousQuizState.PictureUrl);
+                blobService.DeletePhoto(previousQuizState.PictureUrl); // deletes the old photo from the storage
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
             } catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
