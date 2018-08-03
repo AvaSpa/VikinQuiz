@@ -29,7 +29,7 @@ namespace VikingQuiz.Api.Controllers
             this.entityToVmMapper = entityToVmMapper;
         }
     
-        public IActionResult FileValidityChecker(NewQuizViewModel quizBodyData)
+        private IActionResult FileValidityChecker(NewQuizViewModel quizBodyData)
         {
             IActionResult statusCodeResult = Ok();
             statusCodeResult = Ok();
@@ -53,32 +53,41 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
-        // ======================================================================================
-        // ======================================================================================
-        // ======================================================================================
-        // ======================================================================================
 
 
-
-        [HttpGet] // *** ADD URL concatenation for the quizzes
+        
+        [HttpGet]
         //[Authorize] -- add authorize when it is available on the front end
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             // User.Claims.GetUserId(); -- use this to get the ID of the user based on the token recieved
+
+            AzureBlobService blobService = new AzureBlobService();
+            await blobService.InitializeBlob();
+
             var quizzes = quizRepo.GetAll(3); // pass that user ID in
+            foreach(var quiz in quizzes) {
+                quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
+            }
+
             return Ok( quizzes.Select( quiz => this.entityToVmMapper.Map(quiz) ) );
         }
 
-        [HttpGet("{id}")] // *** ADD URL concatenation for the quizzes
+        [HttpGet("{id}")]
         //[Authorize] -- add authorize when it is available on the front end
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
+            // User.Claims.GetUserId(); -- use this to get the ID of the user based on the token recieved
+
+            AzureBlobService blobService = new AzureBlobService();
+            await blobService.InitializeBlob();
             // User.Claims.GetUserId() -- use this to get the ID of the user based on the token recieved
             Quiz quiz = quizRepo.GetQuizById(id);
-            if(quiz == null || quiz.UserId != 444) // use the user ID instead of the hardcoded user in here
+            if(quiz == null || quiz.UserId != 3) // use the user ID instead of the hardcoded user in here
             {
                 return NotFound("Quiz doesn't exist");
             }
+            quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
             QuizViewModel quizVm = this.entityToVmMapper.Map(quiz);
             return Ok(quizVm);
         }
@@ -97,7 +106,7 @@ namespace VikingQuiz.Api.Controllers
           } 
        
 
-        [HttpPost] // temp route for testing - simple POST later
+        [HttpPost]
         [RequestSizeLimit(5_000_000)]
         //[Authorize] add authorize when avaiable on the front-end
         public async Task<IActionResult> Post(NewQuizViewModel quizBodyData)
@@ -109,11 +118,11 @@ namespace VikingQuiz.Api.Controllers
             }
 
             string fileUrl;
+            AzureBlobService blobService;
             try {
-                var blobService = new AzureBlobService();
+                blobService = new AzureBlobService();
                 await blobService.InitializeBlob();
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
-                fileUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileUrl;
             } catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
             }
@@ -129,7 +138,7 @@ namespace VikingQuiz.Api.Controllers
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(createdQuiz);
-            quizVm.PictureUrl = fileUrl;
+            quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileUrl;
 
             return Ok(new {quizVm.Id, quizVm.Title, quizVm.PictureUrl});
         }
@@ -142,16 +151,19 @@ namespace VikingQuiz.Api.Controllers
         {
             // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
             IActionResult imageHttpResponse = FileValidityChecker(quizBodyData);
-            if (imageHttpResponse != Ok()) {
+            if ( IActionResult.Equals( imageHttpResponse, Ok() ) ) {
                 return imageHttpResponse;
             }
 
             string fileUrl;
+            AzureBlobService blobService;
             try {
-                AzureBlobService blobService = new AzureBlobService();
+                blobService = new AzureBlobService();
                 await blobService.InitializeBlob();
+                var previousQuizState = quizRepo.GetQuizById(id);
+
+                blobService.DeletePhoto(previousQuizState.PictureUrl);
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
-                fileUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileUrl;
             } catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
             }
@@ -169,11 +181,10 @@ namespace VikingQuiz.Api.Controllers
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
-            quizVm.PictureUrl = fileUrl;
+            quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileUrl;
 
             return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
         }
-
 
         [HttpDelete("{id}")]
         // [Authorize] add it when available on the front end
