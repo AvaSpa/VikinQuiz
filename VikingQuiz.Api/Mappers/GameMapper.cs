@@ -16,7 +16,8 @@ namespace VikingQuiz.Api.Mappers
             {
                 Id = game.Id,
                 GameDate = Convert.ToString(game.GameDate),
-                QuizId = game.QuizId
+                QuizId = game.QuizId,
+                Code = game.Code
             };
             return result;
         }
@@ -30,7 +31,8 @@ namespace VikingQuiz.Api.Mappers
             {
                 Id = gameViewModel.Id,
                 GameDate =  Convert.ToDateTime(gameViewModel.GameDate),
-                QuizId = gameViewModel.QuizId
+                QuizId = gameViewModel.QuizId,
+                Code = gameViewModel.Code
             };
             return result;
         }

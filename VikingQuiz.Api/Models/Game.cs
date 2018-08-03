@@ -13,6 +13,7 @@ namespace VikingQuiz.Api.Models
         public int Id { get; set; }
         public int? QuizId { get; set; }
         public DateTime GameDate { get; set; }
+        public string Code { get; set; }
 
         public Quiz Quiz { get; set; }
         public ICollection<PlayerGame> PlayerGame { get; set; }

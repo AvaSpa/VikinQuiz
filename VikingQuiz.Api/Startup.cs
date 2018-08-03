@@ -70,7 +70,8 @@ namespace VikingQuiz.Api
             services.AddScoped<IEntityMapper<AnswerViewModel, Answer>, AnswerViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<Game, GameViewModel>, GameToViewMapper>();
             services.AddScoped<IEntityMapper<GameViewModel, Game>, GameViewModelToPlayerMapper>();
-            services.AddScoped<IEntityMapper<Player, PlayerViewModel>, PlayerToViewMapper>();
+            services.AddScoped<IEntityMapper<Player, PlayerViewModel>, PlayerToViewModelMapper>();
+            services.AddScoped<IEntityMapper<PlayerViewModel, Player>, PlayerViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<Question, QuestionViewModel>, QuestionToViewMapper>();
             services.AddScoped<IEntityMapper<QuizViewModel, Quiz>, QuizViewModelToEntityMapper>();
             services.AddScoped<IEntityMapper<Quiz, QuizViewModel>, QuizToViewModelMapper>();

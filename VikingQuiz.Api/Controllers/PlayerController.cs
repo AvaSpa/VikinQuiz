@@ -14,8 +14,8 @@ namespace VikingQuiz.Api.Controllers
     public class PlayerController : Controller
     {
         private readonly PlayerRepository playerRepository;
-        private IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
-        private IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
+        private readonly IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
+        private readonly IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
 
         public PlayerController(PlayerRepository playerRepository, IEntityMapper<Player, PlayerViewModel> entityToVmMapper, IEntityMapper<PlayerViewModel, Player> vmToEntityMapper)
         {

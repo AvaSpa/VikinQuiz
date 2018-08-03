@@ -1,42 +1,61 @@
 import * as React from 'react';
 import './StartGame.css';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
-import BottomLogo from '../BottomLogo/BottomLogo';
+import axios from '../../../node_modules/axios';
+import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
+import PlayButton from '../Buttons/PlayButton/PlayButton';
 
 class StartGame extends React.Component<any, any> {
     constructor(props: any) {
       super(props);
+
+        this.state = {
+            serverMessage: '',
+            redirect: false,
+            player: []
+        }
     }
 
-
+    public componentWillMount() {
+        axios.get('http:///localhost:60151/api/player')
+        .then(response => {
+            console.log(response.data)
+            this.setState({player: response.data})
+        })
+        .catch(err => console.log(err))
+    }
 
     public render() {
         const displayedMessage = "YOUR CODE";
-        const randomstring = require("randomstring");
-        const code = randomstring.generate({
-            length: 6,
-            charset: 'abcdefghijklmnopqrstuvwxyz0123456789'
-        });
+        const displayedCode = "code";
         return (
-            <div className="codeForm">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+            <div className="center-container">
+                <div className="play-button">
+                            <PlayButton/>
+                        </div>
+                <div className="row">
+                    <div className="center-container">
+                        <div className="col-sm-auto">
                             <HomeButton/>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+                        <div className="col-sm-auto">
                             <div className="code-label"> {displayedMessage} </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
-                            <div className="code"> {code} </div>
+                        <div className="col-sm-auto">
+                            <div className="code"> {displayedCode} </div>
+                        </div>
+                        <div className="players-container">
+                            {this.state.player.map((p:any) =>
+                                <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
+                            )}
+                        </div>
+                        <div className="players-container">
+                            {this.state.player.map((p:any) =>
+                                <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
+                            )}
                         </div>
                     </div>
                 </div>
-                <footer id="footer"><BottomLogo /></footer>  
             </div>
         ); 
       }

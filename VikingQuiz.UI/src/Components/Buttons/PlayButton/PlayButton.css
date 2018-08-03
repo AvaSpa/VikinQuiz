@@ -1,0 +1,15 @@
+.play-button {
+    width: 74px;
+    height: 74px;
+    border-style: solid;
+    border-width: 37px;
+    border-color: #202020;
+    border-width: 37px 0px 37px 74px;
+    box-sizing: border-box;
+    border-color: transparent transparent transparent #f0cc04;
+    background-color: #115057;
+}
+
+.play-button:hover {
+    border-color: transparent transparent transparent #ffffff;
+}
