@@ -1,14 +1,14 @@
 import * as React from 'react';
-import './PlayButton.css';
+import './StartButton.css';
 
-class PlayButton extends React.Component<any, any> {
+class StartButton extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
     }
 
     public render() {
         return (
-            <button className="play-button" onClick={this.handleClick} />
+            <button className="start-button" onClick={this.handleClick} />
         );
     }
 
@@ -17,4 +17,4 @@ class PlayButton extends React.Component<any, any> {
     }
 }
 
-export default PlayButton;
+export default StartButton;

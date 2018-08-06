@@ -25,9 +25,9 @@
 }
 
 .home-button{
-    top: 100px;
+    top: 20px;
     width: 250px;
-    height: 340px;
+    height: 240px;
 }
 
 .code{
@@ -38,10 +38,15 @@
     text-align: center;
 }
 
-.play-button{
+.start-button{
     position: fixed;
-    top: 40px;
-    right: 40px;
+    top: 70px;
+}
+
+.cancel-button{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
 }
 
 @media screen and (max-width: 800px){
@@ -58,11 +63,99 @@
     }
 
     .center-container{
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-        width: 70%;
+        width: 200px;
+    }
+}
+
+
+@media screen and (max-width: 500px){
+    .home-button{
+        width:130px;
+        height:140px;
+    }
+    
+    .code-label{
+        position: relative;
+        font-size: 30px;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+    }
+
+    .code{
+        font-size: 30px;
+    }
+
+    .center-container{
+        width: 200px;
+    }
+
+    .players-container{
+        display: flex;
+        justify-content: center;
+        height: 60px;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .home-button{
+        width:130px;
+        height:140px;
+    }
+    
+    .code-label{
+        position: relative;
+        font-size: 30px;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+    }
+
+    .code{
+        font-size: 30px;
+    }
+
+    .center-container{
+        width: 200px;
+    }
+
+    .players-container{
+        display: flex;
+        justify-content: center;
+        height: 120px;
+        margin-top: 20px;
+    }
+}
+
+
+@media screen and (max-width: 330px){
+    .home-button{
+        width:80px;
+        height:90px;
+    }
+    
+    .code-label{
+        position: relative;
+        font-size: 25px;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+    }
+
+    .code{
+        font-size: 25px;
+    }
+
+    .center-container{
+        width: 130px;
+    }
+
+    .container {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .players-container{
+        height: 60px;
+        margin-top: 10px;
+        margin: 0 2px;
     }
 }
 
