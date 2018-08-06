@@ -32,8 +32,8 @@ namespace vikingquiz.api.controllers
                 PictureUrl = content.PictureUrl,
                 IsConfirmed = true
             };
-            this.userRepository.CreateUser(user);
-            string userToken = this.authenticationService.GenerateTokenForUser(user);
+            user = this.userRepository.CreateUser(user);
+            string userToken = this.authenticationService.GenerateTokenForUser(user, role: "player");
             return Ok(new { token = userToken });
         }
     }

@@ -21,11 +21,6 @@
     text-align: center;
 }
 
-.register-form footer{
-    width: 100;
-    height: 50;
-}
-
 @media screen and (max-height: 800px){
     .submitButton{
         width:50px;

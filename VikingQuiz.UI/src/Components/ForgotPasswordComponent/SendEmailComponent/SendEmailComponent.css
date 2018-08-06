@@ -1,0 +1,58 @@
+.my-container{
+    margin: 3% auto 0 auto;
+    width: 450px;
+}
+
+.yellow-bg-message{
+    margin: 0 auto 2% auto;
+    background-color: #f0cc04;
+    height: 1.4em;
+    color: #115057;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: 'dk_lemon_yellow_sunregular';
+	text-align: center;
+	user-select: none;
+}
+
+.message{
+    padding: 7px;
+    margin: 0 7% 3% 7%;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.success-message{
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #3c763d;
+}
+
+.error-message{
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+
+@media screen and (max-width: 450px){
+    .my-container{
+        width: 95%;
+    }
+}
+
+@media screen and (max-height: 560px){
+    .update-message{
+        font-size: 20px;
+    }
+
+    .submitButton{
+        margin: 10px;
+    }
+}
+
+/*Personal for this file*/
+@media screen and (max-height: 390px){
+    .logo-img{
+        display: none;
+    }
+}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VikingQuiz.Api.Models;
+using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api.Repositories
@@ -11,9 +12,11 @@ namespace VikingQuiz.Api.Repositories
     public class UserRepository
     {
         private VikinQuizContext context;
-        public UserRepository(VikinQuizContext context)
+        private AuthenticationService authenticationService;
+        public UserRepository(VikinQuizContext context, AuthenticationService authenticationService)
         {
             this.context = context;
+            this.authenticationService = authenticationService;
         }
 
         public User CreateUser(User user)
@@ -62,20 +65,11 @@ namespace VikingQuiz.Api.Repositories
             return context.User.ToList();
         }
 
-        public void Activate(string token)
-        {
-            User user = context.User.FirstOrDefault(u => u.Token == token);
-            user.IsConfirmed = true;
-            context.SaveChanges();
-        }
-
-        public User AssignToken(int id)
+        public void Activate(int id)
         {
             User user = context.User.FirstOrDefault(u => u.Id == id);
-            user.IsConfirmed = false;
-            user.Token = user.GenerateToken();
+            user.IsConfirmed = true;
             context.SaveChanges();
-            return user;
         }
 
         public User AssignRandomPhoto(User user)
@@ -86,6 +80,11 @@ namespace VikingQuiz.Api.Repositories
             foundUser.PictureUrl = number + ".png";
             context.SaveChanges();
             return user;
+        }
+
+        internal User GetUserByEmail(string email)
+        {
+            return context.User.FirstOrDefault(x => x.Email == email);
         }
     }
 }

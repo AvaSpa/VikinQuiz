@@ -74,11 +74,11 @@ class HttpService{
     }
 
     private getAuthorizationOptions(token: string){
-        return {
+        return token ? {
             headers: {
                 Authorization:'Bearer ' + token
             },
-        };        
+        } : null;        
     }
 
 }
