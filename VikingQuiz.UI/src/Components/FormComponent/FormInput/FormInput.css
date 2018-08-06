@@ -1,5 +1,5 @@
 .form-group{
-    position: relative; /*for position:absolute to work*/
+    position: relative; 
     display: block;
     text-align: left;
     margin-top: 20px;
@@ -16,9 +16,7 @@
 }
 
 .form-error{
-    /* position: absolute; */ /*important! otherwise element will take up space when shown
-    */
-    height: 0; /* alternative, text will align properly to the size */ 
+    height: 0; 
     right: 0;
     color: #FF4500;
     text-align: right;
