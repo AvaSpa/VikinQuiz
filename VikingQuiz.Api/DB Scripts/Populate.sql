@@ -66,7 +66,9 @@ INSERT INTO QuizQuestion VALUES (1,4);
 
 
 INSERT INTO Player(PictureURL, Name) VALUES ('url1', 'batman'),
-('url2', 'superman'), ('url3', 'flash'), ('url4', 'wonderwoman'), ('url5', 'catwoman')
+('url2', 'superman'), ('url3', 'flash'), ('url4', 'wonderwoman'), ('url5', 'catwoman'),
+('url6', 'joker'),
+('url7', 'thor'), ('url8', 'spiderman'), ('url9', 'loki'), ('url10', 'groot')
 
 INSERT INTO Game(QuizId, GameDate, Code) VALUES (1, '2018-07-07', 'ABCDEF'), (2, '2018-07-10', '012345'), (3, '2018-07-11', 'AAAAAA')
 

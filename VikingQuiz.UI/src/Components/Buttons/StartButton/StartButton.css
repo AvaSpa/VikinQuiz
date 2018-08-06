@@ -1,0 +1,116 @@
+.start-button {
+    border-radius: 50%;
+    border: none;
+    width:150px;
+    height:150px;
+    background: transparent url(./../../../media/startgame.png) no-repeat;
+    background-size: 100%;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    transition: all 0.2s linear;
+    top: 40px;
+}
+
+.start-button:hover {
+    transform: translateY(3px);
+}
+.start-button:active {
+    transform: translateY(5px);
+}
+
+@media screen and (max-width: 800px){
+    .start-button{
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .start-button{
+        width: 80px;
+        height: 80px;
+        top: 240px;
+    }
+}
+
+@media screen and (max-width: 330px){
+    .start-button{
+        width: 50px;
+        height: 50px;
+        top: 200px;
+    }
+}
+
+@media screen and (max-height: 1400px){
+    .start-button{
+        width: 160px;
+        height: 160px;
+        top: 350px;
+    }
+}
+
+@media screen and (max-height: 1100px){
+    .start-button{
+        width: 120px;
+        height: 120px;
+        top: 200px;
+    }
+}
+@media screen and (max-height: 1000px){
+    .start-button{
+        width: 120px;
+        height: 120px;
+        top: 80px;
+    }
+}
+
+@media screen and (max-height: 850px){
+    .start-button{
+        width: 70px;
+        height: 70px;
+        top: 230px;
+    }
+}
+
+@media screen and (max-height: 830px){
+    .start-button{
+        width: 70px;
+        height: 70px;
+        top: 200px;
+    }
+}
+
+@media screen and (max-height: 750px){
+    .start-button{
+        width: 70px;
+        height: 70px;
+        top: 240px;
+    }
+}
+
+
+@media screen and (max-height: 700px){
+    .start-button{
+        width: 50px;
+        height: 50px;
+        top: 60px;
+    }
+}
+
+@media screen and (max-height: 600px){
+    .start-button{
+        width: 50px;
+        height: 50px;
+        top: 180px;
+    }
+}
+
+@media screen and (max-height: 900px) and (max-width: 1500){
+    .start-button{
+        width: 70px;
+        height: 70px;
+        top: 200px;
+    }
+}
+
