@@ -5,6 +5,8 @@ import InputData from 'src/entities/InputData';
 import HomeButton from 'src/Components/Buttons/HomeButton/HomeButton';
 import FormComponent from 'src/Components/FormComponent/FormComponent';
 import './ResetPasswordComponent.css';
+import { changePasswordValidator } from 'src/entities/Validation/validators';
+import { changeRule } from 'src/entities/Validation/rules';
 
 class ResetPasswordComponent extends React.Component<any, any>
 {
@@ -36,14 +38,14 @@ class ResetPasswordComponent extends React.Component<any, any>
                 <div className='form-container'>
                     <FormComponent className='signupForm' inputs={
                         [
-                            new InputData('pass-1', 'password', 'new password', '', 'Password', ''),
-                            new InputData('pass-2', 'password', 'confirm password', '', 'ConfPassword', '')
+                            new InputData('password', 'password', 'new password', '', 'password', ''),
+                            new InputData('conf-password', 'password', 'confirm password', '', 'conf-password', '')
                         ]}
                         url={'http://localhost:60151/api/email/' + this.state.token}
                         buttonName=''
                         onSubmit={this.onClickHandler}
-                    // validator={signUpValidator}
-                    // validationRules={signUpRules}
+                        validator={changePasswordValidator}
+                        validationRules={changeRule}
                     />
                     {this.state.showStatusMessage ? (<div className={`message ${this.state.statusClass}`}>{this.state.statusMessage}</div>) : null}
                 </div>
