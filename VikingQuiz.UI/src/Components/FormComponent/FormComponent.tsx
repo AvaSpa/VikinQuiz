@@ -110,10 +110,7 @@ class FormComponent extends React.Component<any, any> {
             inputs: inputsCopy
          });
       }
-
    }
-
-
 
    public changeHandler = (input: any, evt: any) => {
 
