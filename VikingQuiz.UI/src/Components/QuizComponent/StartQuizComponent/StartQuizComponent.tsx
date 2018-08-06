@@ -19,6 +19,7 @@ interface IProps{
     save: any
 }
 
+const quizzesUrl: string = 'http://localhost:60151/api/quizzes';
 const initialTitle: string = 'add quiz title';
 
 class StartQuizComponent extends React.Component<IProps, IState>{
@@ -38,11 +39,11 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     public componentWillMount(){
+        
         if(this.props.editMode){
-            const getQuizUrl: string = 'http://localhost:60151/api/quizzes/' + this.props.quizId; 
+            const getQuizUrl: string =  quizzesUrl + '/' + this.props.quizId; 
             this.httpService.getWithToken(getQuizUrl)
             .then((response: any) => {
-                // this part gets the photo at the specified url
                 const imageUrl: string = response.data.pictureUrl;
                 const titleValue: string = response.data.title;
 
@@ -95,7 +96,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
     public saveQuizHandler = () => {
 
-        if(!this.allValid()){
+        if(!this.isQuizValid()){
             return;
         }
         
@@ -103,22 +104,14 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         fd.append('files', this.state.selectedFile);
         fd.append('title', this.state.title.toUpperCase());
 
-        let url: string = '';
+        let url: string = quizzesUrl;
         if(this.props.editMode){
-            url = 'http://localhost:60151/api/quizzes/' + this.props.quizId;
-        }else{
-            url = 'http://localhost:60151/api/quizzes';
+            url = url + '/' + this.props.quizId;
         }
 
         this.httpService.postWithToken(url, fd)
         .then((response: any) => {
-            const id: number = response.data.id;
-            const successButtonElement: any = document.querySelector(".success-btn");
-            successButtonElement.classList.add('hidden');
-            this.setState({
-                saved: true
-            })
-            this.props.save(id);
+            this.successfulSaveHandler(response);
         })
         .catch((error: any) => console.log(error));
     }
@@ -160,7 +153,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         return true;
     }
 
-    private allValid = (): boolean => {
+    private isQuizValid = (): boolean => {
         let validity: boolean = true;
         if(!this.isTitleValid(this.state.title))
         {
@@ -215,6 +208,16 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         });
         this.removeInvalidClassFromUpload();
         return true;
+    }
+
+    private successfulSaveHandler(response: any){
+        const id: number = response.data.id;
+        const successButtonElement: any = document.querySelector(".success-btn");
+        successButtonElement.classList.add('hidden');
+        this.setState({
+            saved: true
+        })
+        this.props.save(id);
     }
 
     private addInvalidClassToUpload = () => {
