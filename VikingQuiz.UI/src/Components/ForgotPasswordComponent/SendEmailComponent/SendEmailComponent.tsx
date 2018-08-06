@@ -1,5 +1,5 @@
 import * as React from 'react';
-import HttpService from 'src/services/HttpService'
+import axios from 'node_modules/axios';
 import HomeButton from 'src/Components/Buttons/HomeButton/HomeButton';
 import FormComponent from 'src/Components/FormComponent/FormComponent';
 import InputData from 'src/entities/InputData';
@@ -7,8 +7,6 @@ import './SendEmailComponent.css';
 
 class SendEmailComponent extends React.Component<any, any>
 {
-    public httpService: any = new HttpService();
-
     constructor(props: any) {
         super(props);
 
@@ -51,14 +49,14 @@ class SendEmailComponent extends React.Component<any, any>
         const body: any = { email: formData.Email };
 
         self.setState({ showStatusMessage: true });
-        this.httpService.post(url, body)
+        axios.post(url, body)
             .then(() => {
                 self.setState({
                     statusClass: 'success-message',
                     statusMessage: 'Email was sent!'
                 });
             })
-            .catch((error: any) => {
+            .catch((error) => {
                 self.setState({ statusClass: 'error-message' });
                 if (error.response === undefined) {
                     self.setState({ statusMessage: 'Could not connect to server. Please try again later' });
