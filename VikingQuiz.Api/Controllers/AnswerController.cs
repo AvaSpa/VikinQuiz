@@ -26,13 +26,6 @@ namespace VikingQuiz.Api.Controllers
             this.vmToEntityMapper = vmToEntityMapper;
         }
 
-        [HttpGet]
-        public IActionResult GetAnswer()
-        {
-            var result = answerRepository.GetAllAnswers().Select(s => entityToVmMapper.Map(s)).ToList();
-            return Ok(result);
-        }
-
         [HttpGet("{id}")]
         public IActionResult GetAnswerById(int id)
         {
@@ -50,8 +43,7 @@ namespace VikingQuiz.Api.Controllers
         {
             Answer ans = new Answer
             {
-                Text = answer.Text,
-                QuestionId = answer.QuestionId
+                Text = answer.Text
             };
 
             Answer newAnswer = answerRepository.AddAnswer(ans);
@@ -69,8 +61,7 @@ namespace VikingQuiz.Api.Controllers
             Answer ans = new Answer
             {
                 Id = id,
-                Text = answer.Text,
-                QuestionId = answer.QuestionId
+                Text = answer.Text
             };
 
             Answer updatedAnswer = answerRepository.UpdateAnswer(ans);
