@@ -1,6 +1,6 @@
 import * as React from 'react';
+import axios from 'node_modules/axios';
 import { Redirect } from 'react-router-dom';
-import HttpService from 'src/services/HttpService'
 import InputData from 'src/entities/InputData';
 import HomeButton from 'src/Components/Buttons/HomeButton/HomeButton';
 import FormComponent from 'src/Components/FormComponent/FormComponent';
@@ -8,8 +8,6 @@ import './ResetPasswordComponent.css';
 
 class ResetPasswordComponent extends React.Component<any, any>
 {
-    public httpService: any = new HttpService();
-
     constructor(props: any) {
         super(props);
 
@@ -63,7 +61,7 @@ class ResetPasswordComponent extends React.Component<any, any>
         const axiosConfig: any = { headers: { 'Authorization': 'Bearer ' + this.state.token } }
 
         self.setState({ showStatusMessage: true });
-        this.httpService.put(url, axiosBody, axiosConfig)
+        axios.put(url, axiosBody, axiosConfig)
             .then(() => {
                 self.setState({
                     statusClass: 'success-message',
@@ -74,7 +72,7 @@ class ResetPasswordComponent extends React.Component<any, any>
                     3500
                 )
             })
-            .catch((error: any) => {
+            .catch((error) => {
                 self.setState({ statusClass: 'error-message' });
                 if (error.response === undefined) {
                     self.setState({ statusMessage: 'Could not connect to server. Please try again later' });
