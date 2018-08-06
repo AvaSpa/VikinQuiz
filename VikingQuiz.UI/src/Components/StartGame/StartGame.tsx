@@ -14,12 +14,13 @@ class StartGame extends React.Component<any, any> {
             serverMessage: '',
             redirect: false,
             player: [],
-            currentPlayerNumber: 0
+            urlToGet : "http:///localhost:60151/api/player",
+            playersPerLine: 7
         }
     }
 
     public componentWillMount() {
-        axios.get('http:///localhost:60151/api/player')
+        axios.get(this.state.urlToGet)
         .then(response => {
             console.log(response.data)
             this.setState({player: response.data})
@@ -27,35 +28,9 @@ class StartGame extends React.Component<any, any> {
         .catch(err => console.log(err))
     }
 
-    public getFirstListOfPlayers() {
-        const firstListOfPlayers = [];
-        for( let i = 0; i < 7; i++){
-            firstListOfPlayers[i] = this.state.player[i];
-        }
-        return firstListOfPlayers;
-    }
-
-    public getSecondListOfPlayers() {
-        const secondListOfPlayers = [];
-        for( let i = 7; i < this.state.player.length; i++){
-            secondListOfPlayers[i-7] = this.state.player[i];
-        }
-        return secondListOfPlayers;
-    }
-
-    
     public render() {
         const displayedMessage = "YOUR CODE";
         const displayedCode = "code";
-        let firstListOfPlayers = [];
-        let secondListOfPlayers = [];
-        if (this.state.player.length > 7){
-            firstListOfPlayers = this.getFirstListOfPlayers();
-            secondListOfPlayers = this.getSecondListOfPlayers();
-        }
-        else{
-            firstListOfPlayers = this.state.player;
-        }
         return (
             <div className="container">
                 <div className="center-container">
@@ -71,12 +46,12 @@ class StartGame extends React.Component<any, any> {
                                 <div className="code"> {displayedCode} </div>
                             </div>
                             <div className="players-container">
-                                {firstListOfPlayers.map((p:any) =>
+                                {this.state.player.slice(0,this.state.playersPerLine).map((p:any) =>
                                     <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
                                 )}
                             </div>
                             <div className="players-container">
-                                {secondListOfPlayers.map((p:any) =>
+                                {this.state.player.slice(this.state.playersPerLine, this.state.player.length).map((p:any) =>
                                     <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
                                 )}
                             </div>

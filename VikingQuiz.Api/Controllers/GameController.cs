@@ -46,13 +46,13 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGame([FromBody]GameViewModel game)
+        public IActionResult CreateGame([FromBody]GameViewModel gameViewModel)
         {
             string code = RandomCode(6);
-            Game g = new Game()
+            Game game = new Game()
             {
-                QuizId = game.QuizId,
-                GameDate = Convert.ToDateTime(game.GameDate),
+                QuizId = gameViewModel.QuizId,
+                GameDate = Convert.ToDateTime(gameViewModel.GameDate),
                 Code = code
             };
 
@@ -61,7 +61,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 return BadRequest("Game couldn't be created");
             }
-            GameViewModel gameVm = entityToVmMapper.Map(g);
+            GameViewModel gameVm = entityToVmMapper.Map(game);
             return Ok(gameVm);
         }
 
