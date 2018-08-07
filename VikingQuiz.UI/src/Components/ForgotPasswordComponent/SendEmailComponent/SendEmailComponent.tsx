@@ -7,16 +7,18 @@ import './SendEmailComponent.css';
 
 class SendEmailComponent extends React.Component<any, any>
 {
+    private apiAddress: string;
+
     constructor(props: any) {
         super(props);
-
         
         this.state = {
             showStatusMessage: false,
             statusClass: '',
-            statusMessage: '' // the message to show after we call the server to send resend link
-            // basically: 'email was sent' / 'this email is not registered with us'
+            statusMessage: ''
         }
+
+        this.apiAddress = 'http://localhost:60151/api/email';
     }
 
     public render() {
@@ -29,8 +31,7 @@ class SendEmailComponent extends React.Component<any, any>
                         [
                             new InputData('email', 'email', 'Email', '', 'Email', '')
                         ]}
-                        url='http://localhost:60151/api/email'
-                        buttonName=''
+                        url={this.apiAddress}
                         onSubmit={this.onClickHandler}
                     />
                     {this.state.showStatusMessage ? (<div className={`message ${this.state.statusClass}`}>{this.state.statusMessage}</div>) : null}
@@ -44,28 +45,30 @@ class SendEmailComponent extends React.Component<any, any>
             return;
         }
 
-        const self: any = this;
-        console.log(formData);
         const body: any = { email: formData.Email };
 
-        self.setState({ showStatusMessage: true });
+        this.setState({ showStatusMessage: true });
         axios.post(url, body)
-            .then(() => {
-                self.setState({
-                    statusClass: 'success-message',
-                    statusMessage: 'Email was sent!'
-                });
-            })
-            .catch((error) => {
-                self.setState({ statusClass: 'error-message' });
-                if (error.response === undefined) {
-                    self.setState({ statusMessage: 'Could not connect to server. Please try again later' });
-                }
-                else {
-                    self.setState({ statusMessage: 'This email is not registered with us' });
-                }
-            });
+            .then(() => this.sendEmailSuccess())
+            .catch((error) => this.sendEmailError(error));
     }
+
+    private sendEmailSuccess = () => {
+        this.setState({
+            statusClass: 'success-message',
+            statusMessage: 'Email was sent!'
+        });
+    };
+
+    private sendEmailError = (error: any) => {
+        this.setState({ statusClass: 'error-message' });
+        if (error.response === undefined) {
+            this.setState({ statusMessage: 'Could not connect to server. Please try again later' });
+        }
+        else {
+            this.setState({ statusMessage: 'This email is not registered with us' });
+        }
+    };
 }
 
 export default SendEmailComponent;

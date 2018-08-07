@@ -14,24 +14,24 @@ namespace VikingQuiz.Api.Utilities
     public class AuthenticationService
     {
         private readonly VikinQuizContext context;
-        private readonly IConfiguration _config;
+        private readonly IConfiguration config;
 
         public AuthenticationService(IConfiguration config, VikinQuizContext context)
         {
-            this._config = config;
+            this.config = config;
             this.context = context;
         }
 
         /// <param name="role">Possible values: Player / Email / ResetPassword / Admin </param>
         public string GenerateTokenForUser(User user, int hoursToExpiry = 2, string role = "player")
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, role)
             };
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Issuer"], expires: DateTime.Now.AddHours(hoursToExpiry), signingCredentials: creds, claims: claims);
+            var token = new JwtSecurityToken(config["Jwt:Issuer"], config["Jwt:Issuer"], expires: DateTime.Now.AddHours(hoursToExpiry), signingCredentials: creds, claims: claims);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 

@@ -138,7 +138,7 @@ const changeRule = {
           errorMessage: "Less than 20 characters"
        }
     ],
-    "conf-password": [
+    "confirm-password": [
        {
           isValid(value: string, inputs: any, funcs: any) {
              return value.length !== 0;
@@ -147,7 +147,7 @@ const changeRule = {
        },
        {
           isValid(value: string, inputs: any, funcs: any) {
-             const passIndex = funcs.getItemById("conf-password", inputs).index;
+             const passIndex = funcs.getItemById("confirm-password", inputs).index;
              const duplicatePassIndex = funcs.getItemById("password", inputs).index;
  
              return inputs[passIndex].value === inputs[duplicatePassIndex].value;
