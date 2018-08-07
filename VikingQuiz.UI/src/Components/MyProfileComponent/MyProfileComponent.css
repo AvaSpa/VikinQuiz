@@ -1,0 +1,15 @@
+figure {
+    display: flex;
+    align-items: center;
+}
+
+.profile-picture{
+    width: 60px;
+    border-radius: 50%;
+}
+
+figure > figcaption {
+    margin-left: 15px;
+    font-size: 24px;
+    font-family: 'dk_lemon_yellow_sunregular';
+}
