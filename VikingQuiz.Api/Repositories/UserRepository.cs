@@ -33,7 +33,7 @@ namespace VikingQuiz.Api.Repositories
 
         public User UpdateUser(User user)
         {
-            User foundUser = context.User.FirstOrDefault(x => x.Id == user.Id);
+            User foundUser = context.User.FirstOrDefault(u => u.Id == user.Id);
             foundUser.Email = user.Email;
             foundUser.Pass = user.Pass;
             foundUser.PictureUrl = user.PictureUrl;
@@ -44,7 +44,7 @@ namespace VikingQuiz.Api.Repositories
 
         public void DeleteUser(int id)
         {
-            var quizes = context.Quiz.Where(x => x.UserId == id).ToList();
+            var quizes = context.Quiz.Where(u => u.UserId == id).ToList();
             context.Quiz.RemoveRange(quizes);
             context.User.Remove(new User { Id = id });
             context.SaveChanges();
@@ -52,12 +52,12 @@ namespace VikingQuiz.Api.Repositories
 
         public User GetUserById(int id)
         {
-            return context.User.FirstOrDefault(x => x.Id == id);
+            return context.User.FirstOrDefault(u => u.Id == id);
         }
 
         public bool CheckIfUserExists(int userId)
         {
-            return context.User.Any(x => x.Id == userId);
+            return context.User.Any(u => u.Id == userId);
         }
 
         public List<User> GetAll()
@@ -76,7 +76,7 @@ namespace VikingQuiz.Api.Repositories
         {
             Random random = new Random();
             int number = random.Next(1, 6);
-            User foundUser = context.User.FirstOrDefault(x => x.Id == user.Id);
+            User foundUser = context.User.FirstOrDefault(u => u.Id == user.Id);
             foundUser.PictureUrl = number + ".png";
             context.SaveChanges();
             return user;
@@ -84,7 +84,7 @@ namespace VikingQuiz.Api.Repositories
 
         internal User GetUserByEmail(string email)
         {
-            return context.User.FirstOrDefault(x => x.Email == email);
+            return context.User.FirstOrDefault(u => u.Email == email);
         }
     }
 }

@@ -10,6 +10,8 @@ import { changeRule } from 'src/entities/Validation/rules';
 
 class ResetPasswordComponent extends React.Component<any, any>
 {
+    private apiAddress: string;
+
     constructor(props: any) {
         super(props);
 
@@ -20,9 +22,10 @@ class ResetPasswordComponent extends React.Component<any, any>
             statusMessage: '',
             token: ''
         };
+
+        this.apiAddress = 'http://localhost:60151/api/email/';
     }
 
-    // we need to get the token from the url so we know how the user is
     public componentDidMount() {
         this.setState({ token: this.props.match.params.token });
     }
@@ -39,9 +42,9 @@ class ResetPasswordComponent extends React.Component<any, any>
                     <FormComponent className='signupForm' inputs={
                         [
                             new InputData('password', 'password', 'new password', '', 'password', ''),
-                            new InputData('conf-password', 'password', 'confirm password', '', 'conf-password', '')
+                            new InputData('confirm-password', 'password', 'confirm password', '', 'confirm-password', '')
                         ]}
-                        url={'http://localhost:60151/api/email/' + this.state.token}
+                        url={this.apiAddress + this.state.token}
                         buttonName=''
                         onSubmit={this.onClickHandler}
                         validator={changePasswordValidator}
@@ -58,38 +61,41 @@ class ResetPasswordComponent extends React.Component<any, any>
             return;
         }
 
-        const self: any = this;
-        const axiosBody: any = { 'password': formData.Password };
+        const axiosBody: any = { 'password': formData.password };
         const axiosConfig: any = { headers: { 'Authorization': 'Bearer ' + this.state.token } }
 
-        self.setState({ showStatusMessage: true });
+        this.setState({ showStatusMessage: true });
         axios.put(url, axiosBody, axiosConfig)
-            .then(() => {
-                self.setState({
-                    statusClass: 'success-message',
-                    statusMessage: 'Password changed, redirecting to Log In'
-                });
-                setTimeout(
-                    () => self.setState({ redirect: true }),
-                    3500
-                )
-            })
-            .catch((error) => {
-                self.setState({ statusClass: 'error-message' });
-                if (error.response === undefined) {
-                    self.setState({ statusMessage: 'Could not connect to server. Please try again later' });
-                }
-                else {
-                    // token is invalid (either expired or fake)
-                    if (error.response.status === 401) {
-                        self.setState({ statusMessage: 'This reset link has expired' });
-                    }
-                    else {
-                        self.setState({ statusMessage: error.response.data });
-                    }
-                }
-            });
+            .then(() => this.resetPasswordSuccess())
+            .catch((error) => this.resetPasswordError(error));
     }
+
+    private resetPasswordSuccess = () => {
+        this.setState({
+            statusClass: 'success-message',
+            statusMessage: 'Password changed, redirecting to Log In'
+        });
+        setTimeout(
+            () => this.setState({ redirect: true }),
+            3500
+        );
+    };
+
+    private resetPasswordError = (error: any) => {
+        this.setState({ statusClass: 'error-message' });
+        if (error.response === undefined) {
+            this.setState({ statusMessage: 'Could not connect to server. Please try again later' });
+        }
+        else {
+            // token is invalid (either expired or fake)
+            if (error.response.status === 401) {
+                this.setState({ statusMessage: 'This reset link is invalid has expired' });
+            }
+            else {
+                this.setState({ statusMessage: error.response.data });
+            }
+        }
+    };
 }
 
 export default ResetPasswordComponent;
