@@ -3,6 +3,7 @@ import './QuizComponent.css';
 import StartQuizComponent from './StartQuizComponent/StartQuizComponent';
 import QuestionsComponent from '../QuestionsComponent/QuestionsComponent';
 
+
 interface IProps {
     id: number,
     editMode: boolean
@@ -23,6 +24,8 @@ class QuizComponent extends React.Component<IProps, IState> {
         showQuestions: false
     }
 
+    
+
     public saveQuizHandler = (quizId: number) => {
         console.log(quizId);
         this.setState({
@@ -39,6 +42,7 @@ class QuizComponent extends React.Component<IProps, IState> {
                     <QuestionsComponent quizId={this.state.id} /> : null
                 }
             </div>
+            
         )
     }
 }
