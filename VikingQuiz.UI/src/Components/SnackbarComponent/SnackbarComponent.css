@@ -1,0 +1,64 @@
+.snackbar {
+    width: 350px;
+    display: flex;
+    border-radius: 5px;
+    background-color: #00333E;
+    font-family: SANS-SERIF;
+    font-size: 18px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px;
+    color: #F2C200;
+    position: absolute;
+    transition: bottom 0.4s ease-out 0.15s, opacity 0.35s ease-in 0.1s;
+}
+
+.snackbar.bottom-center.showFunc{
+    bottom: 25px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+.snackbar.bottom-center{
+    bottom: 0px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    opacity: 0;
+}
+
+.snackbar.top{
+    top: 20px;
+}
+
+.snackbar.error {
+    box-shadow: 0 0 4px 2px #fa2500;
+    color: #fa2500;
+}
+
+.snackbar.success {
+    color: #1dbe0f;
+}
+
+.snackbar .message{
+    text-align: center;
+    flex-grow: 1;
+}
+
+.snackbar .action-btn{
+    
+    font-size: 16px;
+    margin-left: 10px;
+    border-radius: 7px;
+    color: white;
+    background: transparent;
+    border: 0;
+    text-transform: uppercase;
+}
+
+.snackbar.error .action-btn {
+    color: #fff;
+}
+
+.snackbar.success .action-btn {
+    color: #fff;
+}
