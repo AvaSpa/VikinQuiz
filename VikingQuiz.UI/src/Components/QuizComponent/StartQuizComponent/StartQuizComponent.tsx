@@ -4,6 +4,9 @@ import FormInput from '../../FormComponent/FormInput/FormInput';
 import SubmitButton from '../../Buttons/SubmitButton/SubmitButton';
 import UploadButton from '../../Buttons/UploadButton/UploadButton'
 import HttpService from '../../../services/HttpService';
+import SnackbarComponent from '../../SnackbarComponent/SnackbarComponent';
+import ISnackbarData from '../../../entities/SnackBarData';
+import {errorSnackbar, successSnackbar} from '../../../commons/commons';
 
 interface IState {
     title: string,
@@ -11,7 +14,9 @@ interface IState {
     imageError: string,
     titleError: string,
     isValid: boolean,
-    saved: boolean
+    saved: boolean,
+    showSnackbar: boolean,
+    snackbarData: ISnackbarData
 }
 
 interface IProps{
@@ -35,7 +40,24 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         imageError: '',
         titleError: '',
         isValid: false,
-        saved: false
+        saved: false,
+        showSnackbar: true,
+        snackbarData: errorSnackbar
+    }
+
+    public showSnackbarHandler = (snackbar: ISnackbarData) =>{
+        this.setState({
+            snackbarData: {...snackbar},
+            showSnackbar: true
+        })
+
+        if(this.state.snackbarData.duration > 0){
+            setTimeout(() => {
+                this.setState({
+                    showSnackbar: false
+                });
+            }, this.state.snackbarData.duration);
+        }
     }
 
     public componentWillMount(){
@@ -95,7 +117,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     public saveQuizHandler = () => {
-
         if(!this.isQuizValid()){
             return;
         }
@@ -112,8 +133,11 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.httpService.postWithToken(url, fd)
         .then((response: any) => {
             this.successfulSaveHandler(response);
+            this.showSnackbarHandler(successSnackbar);
         })
-        .catch((error: any) => console.log(error));
+        .catch((error: any) => {
+            this.showSnackbarHandler(errorSnackbar);
+        });
     }
 
     public render() {
@@ -133,11 +157,12 @@ class StartQuizComponent extends React.Component<IProps, IState>{
                 <div className="success-btn col-md-2 col-xs-3">
                     <SubmitButton click={this.saveQuizHandler}/>
                 </div>
+                <SnackbarComponent data={this.state.snackbarData} show={this.state.showSnackbar} />
             </div>
         )
     }
 
-    public isTitleValid = (currentTitle: string): boolean => {
+    private isTitleValid = (currentTitle: string): boolean => {
 
         if(currentTitle === initialTitle || !currentTitle){
             this.setState({
