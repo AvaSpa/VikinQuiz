@@ -1,13 +1,14 @@
 import * as React from 'react';
-import axios from 'node_modules/axios';
 import HomeButton from 'src/Components/Buttons/HomeButton/HomeButton';
 import FormComponent from 'src/Components/FormComponent/FormComponent';
 import InputData from 'src/entities/InputData';
 import './SendEmailComponent.css';
+import HttpService from 'src/services/HttpService';
 
 class SendEmailComponent extends React.Component<any, any>
 {
-    private apiAddress: string;
+    private readonly apiAddress: string = '/email';
+    private httpService: HttpService = new HttpService();
 
     constructor(props: any) {
         super(props);
@@ -17,8 +18,6 @@ class SendEmailComponent extends React.Component<any, any>
             statusClass: '',
             statusMessage: ''
         }
-
-        this.apiAddress = 'http://localhost:60151/api/email';
     }
 
     public render() {
@@ -48,9 +47,9 @@ class SendEmailComponent extends React.Component<any, any>
         const body: any = { email: formData.Email };
 
         this.setState({ showStatusMessage: true });
-        axios.post(url, body)
+        this.httpService.post(url, body)
             .then(() => this.sendEmailSuccess())
-            .catch((error) => this.sendEmailError(error));
+            .catch((error: any) => this.sendEmailError(error));
     }
 
     private sendEmailSuccess = () => {

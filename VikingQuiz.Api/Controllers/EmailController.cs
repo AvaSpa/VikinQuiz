@@ -15,6 +15,7 @@ namespace VikingQuiz.Api.Controllers
     {
         private const string FromAddress = "noreply.vikings@gmail.com";
         private const string Password = "1234Vikings";
+        private const string frontendBaseUrl = "http://localhost:3000";
         private const int ConfirmEmailExpiryHours = 168;
         private const int ResetPasswordExpiryHours = 5;
 
@@ -59,7 +60,7 @@ namespace VikingQuiz.Api.Controllers
 
             string Subject = "Register your account";
             string token = authenticationService.GenerateTokenForUser(user, ConfirmEmailExpiryHours, "email");
-            string registerAccountAddress = "http://localhost:3000/confirm/" + token;
+            string registerAccountAddress = frontendBaseUrl + "/confirm/" + token;
             string Body = "Click the following link to register your account\n\n" + registerAccountAddress;
             this.SendEmail(user.Email, Subject, Body);
             return Ok();
@@ -87,7 +88,7 @@ namespace VikingQuiz.Api.Controllers
 
             string Subject = "Reset your password";
             string token = authenticationService.GenerateTokenForUser(user, ResetPasswordExpiryHours, "ResetPassword");
-            string resetPasswordAddress = "http://localhost:3000/forgot/" + token;
+            string resetPasswordAddress = frontendBaseUrl + "/forgot/" + token;
             string Body = "Click the following link to reset your password\n\n" + resetPasswordAddress +
                 "\n\nIf you didn't request this password reset, ignore this message";
 

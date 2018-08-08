@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'node_modules/axios';
 import { Redirect } from 'react-router-dom';
 import InputData from 'src/entities/InputData';
 import HomeButton from 'src/Components/Buttons/HomeButton/HomeButton';
@@ -7,10 +6,14 @@ import FormComponent from 'src/Components/FormComponent/FormComponent';
 import './ResetPasswordComponent.css';
 import { changePasswordValidator } from 'src/entities/Validation/validators';
 import { changeRule } from 'src/entities/Validation/rules';
+import HttpService from 'src/services/HttpService';
+import StorageService from 'src/services/StorageService';
 
 class ResetPasswordComponent extends React.Component<any, any>
 {
-    private apiAddress: string;
+    private readonly apiAddress: string = '/email';
+    private httpService: HttpService = new HttpService();
+    private storageService: StorageService = new StorageService();
 
     constructor(props: any) {
         super(props);
@@ -19,15 +22,11 @@ class ResetPasswordComponent extends React.Component<any, any>
             redirect: false,
             showStatusMessage: false,
             statusClass: '',
-            statusMessage: '',
-            token: ''
+            statusMessage: ''
         };
 
-        this.apiAddress = 'http://localhost:60151/api/email/';
-    }
-
-    public componentDidMount() {
-        this.setState({ token: this.props.match.params.token });
+        const resetToken: string = this.props.match.params.token;
+        this.storageService.saveItem('token', resetToken);
     }
 
     public render() {
@@ -44,7 +43,7 @@ class ResetPasswordComponent extends React.Component<any, any>
                             new InputData('password', 'password', 'new password', '', 'password', ''),
                             new InputData('confirm-password', 'password', 'confirm password', '', 'confirm-password', '')
                         ]}
-                        url={this.apiAddress + this.state.token}
+                        url={this.apiAddress}
                         buttonName=''
                         onSubmit={this.onClickHandler}
                         validator={changePasswordValidator}
@@ -56,18 +55,16 @@ class ResetPasswordComponent extends React.Component<any, any>
         );
     }
 
-    private onClickHandler = (url: any, formData: any) => {
+    private onClickHandler = (url: string, formData: any) => {
         if (!url || !formData) {
             return;
         }
 
         const axiosBody: any = { 'password': formData.password };
-        const axiosConfig: any = { headers: { 'Authorization': 'Bearer ' + this.state.token } }
-
         this.setState({ showStatusMessage: true });
-        axios.put(url, axiosBody, axiosConfig)
+        this.httpService.putWithToken(url, axiosBody)
             .then(() => this.resetPasswordSuccess())
-            .catch((error) => this.resetPasswordError(error));
+            .catch((error: any) => this.resetPasswordError(error));
     }
 
     private resetPasswordSuccess = () => {
