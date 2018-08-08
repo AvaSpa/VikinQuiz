@@ -1,5 +1,6 @@
 .snackbar {
-    width: 350px;
+    width: 80%;
+    max-width: 350px;
     display: flex;
     border-radius: 5px;
     background-color: #00333E;
@@ -9,8 +10,9 @@
     align-items: center;
     padding: 8px 15px;
     color: #F2C200;
-    position: absolute;
+    position: fixed;
     transition: bottom 0.4s ease-out 0.15s, opacity 0.35s ease-in 0.1s;
+    z-index: 9999;
 }
 
 .snackbar.bottom-center.showFunc{
@@ -32,11 +34,12 @@
 
 .snackbar.error {
     box-shadow: 0 0 4px 2px #fa2500;
-    color: #fa2500;
+    color: #fff;
 }
 
 .snackbar.success {
-    color: #1dbe0f;
+    box-shadow: 0 0 4px 2px #1dbe0f;
+    color: #fff;
 }
 
 .snackbar .message{
@@ -45,20 +48,33 @@
 }
 
 .snackbar .action-btn{
-    
     font-size: 16px;
     margin-left: 10px;
     border-radius: 7px;
-    color: white;
+    color: #fff;
     background: transparent;
     border: 0;
     text-transform: uppercase;
 }
 
 .snackbar.error .action-btn {
-    color: #fff;
+    color: #ffffff;
+    border: 1px solid #fff;
+    padding: 2px 5px;
+}
+
+.snackbar.error .action-btn:hover {
+    color: #ff4422;
+    border: 1px solid #ff4422;
+    padding: 2px 5px;
+}
+
+.snackbar.error .action-btn:active {
+    color: #ff4422;
+    border: 1px solid #ff4422;
+    background: #ff7158;
 }
 
 .snackbar.success .action-btn {
-    color: #fff;
+    display: none;
 }
