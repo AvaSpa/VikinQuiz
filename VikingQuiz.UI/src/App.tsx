@@ -13,7 +13,6 @@ import BottomLogo from './Components/BottomLogo/BottomLogo';
 import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPasswordComponent/ResetPasswordComponent';
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
 import QuizComponent from './Components/QuizComponent/QuizComponent';
-import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
