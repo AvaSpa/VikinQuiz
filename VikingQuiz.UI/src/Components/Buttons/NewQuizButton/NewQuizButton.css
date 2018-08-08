@@ -1,0 +1,30 @@
+.new_Quiz_Button{
+    border-radius: 50%;
+    border: none;
+    width:60px;
+    height:60px;
+    background: transparent url(./../../../media/button_add.png) no-repeat;
+    background-size: 100%;
+    display: block;
+    transition: all 0.2s linear;
+    position: relative;
+    margin-left: 95%;
+    margin-bottom: 10px;
+    
+}
+.new_Quiz_Button:hover
+{
+    transform: translateY(3px);
+}
+
+@media screen and (max-width: 600px){
+    .new_Quiz_Button{
+        margin-left: auto;
+    }
+}
+
+@media screen and (max-width: 300px){
+    .new_Quiz_Button{
+        margin-left: auto;
+    }
+}

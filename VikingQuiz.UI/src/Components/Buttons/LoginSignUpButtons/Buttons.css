@@ -15,3 +15,10 @@
     transition: All 0.2s linear;
     transform: translateY(4px);
 }
+
+@media screen and (max-width: 300px){
+    .switchButton{
+        top:0px; 
+        right:0px;
+    }
+}

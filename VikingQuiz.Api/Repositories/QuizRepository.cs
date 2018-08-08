@@ -24,11 +24,6 @@ namespace VikingQuiz.Api.Repositories
         public Quiz UpdateQuiz(Quiz quiz)
         {
             Quiz foundQuiz = context.Quiz.Where(x => x.Id == quiz.Id).FirstOrDefault();
-            if (foundQuiz == null)
-            {
-                return null;
-            }
-
             foundQuiz.Title = quiz.Title;
             foundQuiz.PictureUrl = quiz.PictureUrl;
             foundQuiz.UserId = quiz.UserId;
@@ -39,15 +34,12 @@ namespace VikingQuiz.Api.Repositories
 
         public void DeleteQuiz(int id)
         {
-            Quiz quiz = new Quiz
-            {
-                Id = id
-            };
             var games = context.Game.Where(x => x.QuizId == id).ToList();
             context.Game.RemoveRange(games);
             var quizquestions = context.QuizQuestion.Where(x => x.QuizId == id).ToList();
             context.QuizQuestion.RemoveRange(quizquestions);
-            context.Quiz.Remove(quiz);
+            var quizToRemove = context.Quiz.FirstOrDefault(q => q.Id == id);
+            context.Quiz.Remove(quizToRemove);
             context.SaveChanges();
         }
 
@@ -58,6 +50,12 @@ namespace VikingQuiz.Api.Repositories
                 .FirstOrDefault();
 
             return foundQuiz;
+        }
+
+        public IEnumerable<Quiz> GetQuizByUserId(int id)
+        {
+            return context.Quiz.Where(x => x.UserId == id).OrderByDescending(x => x.LastModified).ToList();
+
         }
 
         public IEnumerable<Quiz> GetAll()

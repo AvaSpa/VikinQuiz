@@ -135,7 +135,6 @@ class FormComponent extends React.Component<any, any> {
       }
 
       const validity = this.getValidityState(false);
-      console.log(validity, this.state.isValid);
       //   console.log(validity, this.state.isValid);
       if (validity !== this.state.isValid) {
          this.setState({

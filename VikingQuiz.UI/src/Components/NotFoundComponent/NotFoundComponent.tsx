@@ -2,7 +2,7 @@ import * as React from 'react';
 import './NotFoundComponent.css';
 
 const NotFoundComponent: any = (props: any) => {
-    return (
+  return (
        <div className="not-found">
           <div id="not-found-image" />
           <h1 className="very-large">grrr...</h1>
