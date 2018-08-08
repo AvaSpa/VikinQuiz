@@ -12,6 +12,16 @@ class StorageService{
         localStorage.removeItem(key);
     };
 
+    public hasItem = (key: string) => {
+        const value = localStorage.getItem(key);
+
+        if(!value){
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
 export default StorageService;
