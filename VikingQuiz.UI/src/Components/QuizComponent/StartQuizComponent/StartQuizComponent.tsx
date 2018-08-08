@@ -21,9 +21,9 @@ interface IState {
 
 interface IProps{
     quizId: number,
-    save: any,
-    editMode: boolean
-   }
+    editMode: boolean,
+    save: any
+}
 
 const quizzesUrl: string = 'http://localhost:60151/api/quizzes';
 const initialTitle: string = 'add quiz title';

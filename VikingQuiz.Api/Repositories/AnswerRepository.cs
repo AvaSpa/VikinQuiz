@@ -17,20 +17,20 @@ namespace VikingQuiz.Api.Repositories
 
         public Answer AddAnswer(Answer answer)
         {
-            Answer foundAnswer = ctx.Answer.Where(a => a.QuestionId == answer.QuestionId && a.Text == answer.Text).FirstOrDefault();
+            Answer foundAnswer = context.Answer.Where(a => a.QuestionId == answer.QuestionId && a.Text == answer.Text).FirstOrDefault();
             if (foundAnswer != null)
             {
                 return null;
             }
-            ctx.Answer.Add(answer);
-            ctx.SaveChanges();
+            context.Answer.Add(answer);
+            context.SaveChanges();
             return answer;
         }
 
         public void DeleteAnswer(int id)
         {
-            ctx.Answer.Remove(new Answer { Id = id });
-            ctx.SaveChanges();
+            context.Answer.Remove(new Answer { Id = id });
+            context.SaveChanges();
         }
 
         public Answer UpdateAnswer(Answer answer)
@@ -45,7 +45,7 @@ namespace VikingQuiz.Api.Repositories
 
         public List<Answer> GetAllAnswers(int id)
         {
-            return ctx.Answer
+            return context.Answer
                     .Where(a => a.QuestionId == id)
                     .ToList();
         }
