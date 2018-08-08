@@ -18,14 +18,14 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class QuestionsController : Controller
     {
-        private readonly QuestionRepo questionRepo;
-        private readonly AnswerRepo answerRepo;
+        private readonly QuestionRepository questionRepo;
+        private readonly AnswerRepository answerRepo;
         private IEntityMapper<Question, QuestionViewModel> entityToVmMapper;
         private IEntityMapper<QuestionViewModel, Question> vmToEntityMapper;
         private IEntityMapper<Answer, AnswerViewModel> answerToVmMapper;
         private IEntityMapper<AnswerViewModel, Answer> vmToAnswerMapper;
 
-        public QuestionsController(QuestionRepo questionRepo, AnswerRepo answerRepo, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper, IEntityMapper<Answer, AnswerViewModel> answerToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToAnswerMapper)
+        public QuestionsController(QuestionRepository questionRepo, AnswerRepository answerRepo, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper, IEntityMapper<Answer, AnswerViewModel> answerToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToAnswerMapper)
         {
             this.questionRepo = questionRepo;
             this.answerRepo = answerRepo;

@@ -23,7 +23,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Quiz UpdateQuiz(Quiz quiz)
         {
-            Quiz foundQuiz = ctx.Quiz.Where(x => x.Id == quiz.Id && x.UserId == quiz.UserId).FirstOrDefault();
+            Quiz foundQuiz = context.Quiz.Where(x => x.Id == quiz.Id && x.UserId == quiz.UserId).FirstOrDefault();
             if (foundQuiz == null)
             {
                 return null;
@@ -46,19 +46,19 @@ namespace VikingQuiz.Api.Repositories
             };
 
             
-            var quizMatchingIdAndPlayerId = ctx.Quiz.Where(x => x.Id== id && x.UserId == userId).ToList();
+            var quizMatchingIdAndPlayerId = context.Quiz.Where(x => x.Id== id && x.UserId == userId).ToList();
             if( quizMatchingIdAndPlayerId.Count == 0 )
             {
                 return null;
             }
 
-            var games = ctx.Game.Where(x => x.QuizId == id).ToList();
-            ctx.Game.RemoveRange(games);
-            var quizquestions = ctx.QuizQuestion.Where(x => x.QuizId == id).ToList();
-            ctx.QuizQuestion.RemoveRange(quizquestions);
+            var games = context.Game.Where(x => x.QuizId == id).ToList();
+            context.Game.RemoveRange(games);
+            var quizquestions = context.QuizQuestion.Where(x => x.QuizId == id).ToList();
+            context.QuizQuestion.RemoveRange(quizquestions);
 
-            ctx.Quiz.Remove(quizMatchingIdAndPlayerId[0]);
-            ctx.SaveChanges();
+            context.Quiz.Remove(quizMatchingIdAndPlayerId[0]);
+            context.SaveChanges();
 
             return quizMatchingIdAndPlayerId.FirstOrDefault();
         }
@@ -74,7 +74,7 @@ namespace VikingQuiz.Api.Repositories
 
         public IEnumerable<Quiz> GetAll(int userId)
         {
-            var quizzesOfTheUser = ctx.Quiz.Where(x => x.UserId == userId).ToList();
+            var quizzesOfTheUser = context.Quiz.Where(x => x.UserId == userId).ToList();
             return quizzesOfTheUser;
         }
     }

@@ -21,6 +21,7 @@ interface IState {
 
 interface IProps{
     quizId: number,
+    editMode: boolean,
     save: any
 }
 

@@ -63,7 +63,7 @@ namespace VikingQuiz.Api.Controllers
             AzureBlobService blobService = new AzureBlobService();
             await blobService.InitializeBlob();
 
-            var quizzes = quizRepo.GetAll(3); // pass that user ID in
+            var quizzes = quizRepository.GetAll(3); // pass that user ID in
             foreach(var quiz in quizzes) {
                 quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
             }
@@ -82,7 +82,7 @@ namespace VikingQuiz.Api.Controllers
             AzureBlobService blobService = new AzureBlobService();
             await blobService.InitializeBlob();
 
-            Quiz quiz = quizRepo.GetQuizById(id);
+            Quiz quiz = quizRepository.GetQuizById(id);
             if(quiz == null || quiz.UserId != 3) { // use the user ID instead of the hardcoded user in here
                 return NotFound("Quiz doesn't exist");
             }
@@ -129,7 +129,7 @@ namespace VikingQuiz.Api.Controllers
             }
 
 
-            Quiz createdQuiz = quizRepo.CreateQuiz(new Quiz
+            Quiz createdQuiz = quizRepository.CreateQuiz(new Quiz
             {
                 Title = quizBodyData.Title,
                 PictureUrl = fileUrl,
@@ -163,7 +163,7 @@ namespace VikingQuiz.Api.Controllers
             try {
                 blobService = new AzureBlobService();
                 await blobService.InitializeBlob();
-                var previousQuizState = quizRepo.GetQuizById(id);
+                var previousQuizState = quizRepository.GetQuizById(id);
 
                 blobService.DeletePhoto(previousQuizState.PictureUrl); // deletes the old photo from the storage
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
@@ -171,7 +171,7 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest("Image could not be uploaded.");
             }
 
-            Quiz updatedQuiz = quizRepo.UpdateQuiz(new Quiz
+            Quiz updatedQuiz = quizRepository.UpdateQuiz(new Quiz
             {
                 Title = quizBodyData.Title,
                 PictureUrl = fileUrl,
@@ -195,7 +195,7 @@ namespace VikingQuiz.Api.Controllers
         {
             // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
 
-            var deletedQuiz = quizRepo.DeleteQuiz(id, 3); // you get the user ID based on the authorization token, right now it's hard coded for testing
+            var deletedQuiz = quizRepository.DeleteQuiz(id, 3); // you get the user ID based on the authorization token, right now it's hard coded for testing
 
             if(deletedQuiz != null) {
                 AzureBlobService blobService = new AzureBlobService();
