@@ -64,7 +64,7 @@ namespace VikingQuiz.Api.Controllers
                 Text = answer.Text
             };
 
-            Answer updatedAnswer = answerRepository.UpdateAnswer(ans);
+            Answer updatedAnswer = answerRepository.UpdateAnswer(ans, 3);
             if (updatedAnswer == null)
             {
                 return BadRequest("Answer couldn't be updated");

@@ -110,7 +110,7 @@ namespace VikingQuiz.Api.Controllers
             questionVm.Answers.ForEach(answerVm =>
             {
                 Answer answer = this.vmToAnswerMapper.Map(answerVm);
-                Answer newAnswer = this.answerRepo.UpdateAnswer(answer);
+                Answer newAnswer = this.answerRepo.UpdateAnswer(answer, newQuestion.Id);
                 AnswerViewModel newAnswerViewModel = answerToVmMapper.Map(newAnswer);
                 newQuestionVm.Answers.Add(newAnswerViewModel);
             });
