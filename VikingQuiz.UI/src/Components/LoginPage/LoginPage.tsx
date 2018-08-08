@@ -4,7 +4,6 @@ import SignUpButton from '../Buttons/LoginSignUpButtons/SignUpButton';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
-import { setTimeout } from 'timers';
 import { Redirect } from 'react-router-dom';
 import { loginRules} from '../../entities/Validation/rules';
 
@@ -51,7 +50,39 @@ class LoginPage extends React.Component<any, any> {
         if (remember && tokenExists) {
             this.setState({ redirect: true });
         }
+    
+        this.httpService.post(url, body)
+            .then((result: any) => { this.loginSuccess(result); })
+            .catch((error: any) => { this.loginError(error); });
     }
+
+    public loginSuccess = (result: any) => {
+        const loginToken: string = result.data.token;
+        this.storageService.saveItem('token', loginToken);
+        this.setState({
+            redirect: true
+        });
+    };
+
+    public loginError = (error: any) => {
+        this.setState({ showErrorMessage: true });
+        if (error.response === undefined) {
+            this.setState({ serverErrorMessage: "Could not connect to the server. Please try again later" });
+        }
+        else {
+            if (error.response.status === 404) {
+                this.setState({ serverErrorMessage: "Username or Password incorrect. Please try again" });
+            }
+            if (error.response.status === 400) {
+                this.setState({ serverErrorMessage: "Please confirm your account first" });
+            }
+        }
+        setTimeout(() => this.setState({
+            showErrorMessage: false,
+            serverErrorMessage: ''
+        }), 5000);
+    };
+
 
     public render() {
       if(this.state.redirect){
@@ -72,7 +103,7 @@ class LoginPage extends React.Component<any, any> {
                    <div className="row">
                         <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                           <div className="form-container">
-                              <p className="form-error server-message">{this.state.serverMessage}</p>
+                              {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
                               <LoginFormComponent inputs={[
                                 {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
                                 {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
