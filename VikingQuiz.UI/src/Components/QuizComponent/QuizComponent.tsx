@@ -34,6 +34,10 @@ class QuizComponent extends React.Component<IProps, IState> {
         });
     }
 
+    public componentWillMount(){
+        console.log('login');
+    }
+
     public render(){
         return (
             <div className="quiz container">
