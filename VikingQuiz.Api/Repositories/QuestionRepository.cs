@@ -35,6 +35,11 @@ namespace VikingQuiz.Api.Repositories
 
         public Question UpdateQuestion(Question question)
         {
+            var sameQuestion = context.Question.FirstOrDefault(q => q.Text == question.Text && q.Id != question.Id);
+            if (sameQuestion != null)
+            {
+                return new Question { Id = -1 };
+            }
             var existingQuestion = context.Question.FirstOrDefault(q => q.Id == question.Id);
             existingQuestion.Text = question.Text;
             existingQuestion.CorrectAnsId = question.CorrectAnsId;

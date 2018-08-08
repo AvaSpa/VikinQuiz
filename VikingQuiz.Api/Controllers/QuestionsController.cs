@@ -106,6 +106,10 @@ namespace VikingQuiz.Api.Controllers
         {
             Question question = vmToEntityMapper.Map(questionVm);
             Question newQuestion = this.questionRepo.UpdateQuestion(question);
+            if(newQuestion.Id == -1)
+            {
+                return BadRequest("This question already exists!");
+            }
             QuestionViewModel newQuestionVm = entityToVmMapper.Map(newQuestion);
             questionVm.Answers.ForEach(answerVm =>
             {
