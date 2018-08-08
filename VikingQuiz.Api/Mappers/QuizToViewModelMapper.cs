@@ -16,7 +16,8 @@ namespace VikingQuiz.Api.Mappers
                 Title = quiz.Title,
                 Id = quiz.Id,
                 PictureUrl = quiz.PictureUrl,
-                UserId = quiz.UserId
+                UserId = quiz.UserId,
+                LastModified = quiz.LastModified
             };
             return result;
         }

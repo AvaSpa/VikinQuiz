@@ -1,0 +1,46 @@
+.manage_Quiz{
+    background-color: #91becf;
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
+    margin-left: 30%;
+    margin-top: 20px;
+    position: relative; 
+    border:none;
+    box-shadow: 0px 14px 10px 5px #08272b;
+}
+
+.edit_Quiz_Button{
+    background: transparent url(./../../../media/edit_button.png) no-repeat;
+    background-size: 100%;
+    height: 32px;
+    width: 35px;
+    border: none;
+    margin-top: 30%;
+}
+
+.delete_Quiz_Button{
+    background: transparent url(./../../../media/delete.png) no-repeat;
+    background-size: 100%;
+    height: 28px;
+    width: 28px;
+    border: none;
+    margin-right: 9px;
+    margin-left: 3px;
+}
+
+.play_Game_Button{
+    background: transparent url(./../../../media/play.png) no-repeat;
+    background-size: 100%;
+    height: 29px;
+    width: 29px;
+    border: none;
+    padding-bottom: 3px;
+}
+
+@media screen and (max-width: 900px){
+    .manage_Quiz{
+        margin-left: 20%;
+    }
+}
+

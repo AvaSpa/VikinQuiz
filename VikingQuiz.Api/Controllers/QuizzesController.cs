@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,8 @@ using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.ViewModels;
+using System.Security.Claims;
+using VikingQuiz.Api.Utilities;
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -43,13 +46,26 @@ namespace VikingQuiz.Api.Controllers
             return Ok(quizVm);
         }
 
+          [HttpGet("{id}")]
+          public IActionResult GetQuizByUserId(int id)
+          {
+              var qz = quizRepository.GetQuizByUserId(id);
+              if (qz == null)
+              {
+                  return NotFound("Quiz doesn't exist");
+              }
+              return Ok(qz.Select(quiz => this.entityToVmMapper.Map(quiz)));
+          } 
+       
+
         [HttpPost]
         public IActionResult Add([FromBody]QuizViewModel quiz)
         {
             Quiz qiz = quizRepository.CreateQuiz(new Quiz {
                 Title = quiz.Title,
                 PictureUrl = quiz.PictureUrl,
-                UserId = quiz.UserId
+                UserId = quiz.UserId,
+                LastModified = DateTime.Now
             });
             if (qiz == null)
             {
@@ -60,7 +76,7 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody]QuizViewModel quiz)
+        public IActionResult UpdateQuiz([FromBody]QuizViewModel quiz)
         {
             Quiz qiz = quizRepository.UpdateQuiz(vmToEntityMapper.Map(quiz));
             if (qiz == null)
@@ -74,6 +90,11 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var existingQuiz = quizRepository.GetQuizById(id);
+            if(existingQuiz == null)
+            {
+                return NotFound("Quiz doesn't exist");
+            }
             quizRepository.DeleteQuiz(id);
             return Ok();
         }

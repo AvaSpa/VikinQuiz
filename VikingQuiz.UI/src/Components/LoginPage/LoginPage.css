@@ -23,7 +23,6 @@
     margin-top: 10%;
 }
 
-
 @media screen and (max-height: 800px){
     .submitButton{
         width:50px;

@@ -56,9 +56,9 @@ class LoginPage extends React.Component<any, any> {
         this.httpService.post(url, body)
         .then((res: any) => {
                 console.log("success");
-                comp.setState({
-                    redirect: true
-                });
+                 comp.setState({
+                     redirect: true
+                 });
             }
         )
         .catch((error: any) => {
@@ -80,7 +80,7 @@ class LoginPage extends React.Component<any, any> {
 
     public render() {
       if(this.state.redirect){
-        return (<Redirect push={true} to="/redirect"/>);
+        return (<Redirect push={true} to="/myQuizzes"/>);
       }
       return (
           <div className="registerform">
