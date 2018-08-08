@@ -42,7 +42,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         titleError: '',
         isValid: false,
         saved: false,
-        showSnackbar: true,
+        showSnackbar: false,
         snackbarData: errorSnackbar
     }
 
@@ -50,7 +50,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.setState({
             snackbarData: {...snackbar},
             showSnackbar: true
-        })
+        });
 
         if(this.state.snackbarData.duration > 0){
             setTimeout(() => {
@@ -133,11 +133,15 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
         this.httpService.postWithToken(url, fd)
         .then((response: any) => {
+            const snackbar: ISnackbarData = successSnackbar;
+            snackbar.message = "Quiz created";
+            this.showSnackbarHandler(snackbar);
             this.successfulSaveHandler(response);
-            this.showSnackbarHandler(successSnackbar);
         })
         .catch((error: any) => {
-            this.showSnackbarHandler(errorSnackbar);
+            const snackbar: ISnackbarData = errorSnackbar;
+            snackbar.message = "Cannot create quiz, please try again";
+            this.showSnackbarHandler(snackbar);
         });
     }
 
