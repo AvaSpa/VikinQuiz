@@ -23,19 +23,19 @@ namespace VikingQuiz.Api.Repositories
             {
                 return null;
             }
-            ctx.Question.Add(question);
-            ctx.QuizQuestion.Add(new QuizQuestion
+            context.Question.Add(question);
+            context.QuizQuestion.Add(new QuizQuestion
             {
                 QuestionId = question.Id,
                 QuizId = quizId
             });
-            ctx.SaveChanges();
+            context.SaveChanges();
             return question;
         }
 
         public Question UpdateQuestion(Question question)
         {
-            var existingQuestion = ctx.Question.FirstOrDefault(q => q.Id == question.Id);
+            var existingQuestion = context.Question.FirstOrDefault(q => q.Id == question.Id);
             existingQuestion.Text = question.Text;
             existingQuestion.CorrectAnsId = question.CorrectAnsId;
             context.SaveChanges();
@@ -44,13 +44,13 @@ namespace VikingQuiz.Api.Repositories
 
         public void DeleteQuestion(int quizId, int id)
         {
-            List<Answer> answers = ctx.Answer.Where(a => a.QuestionId == id).ToList();
-            ctx.Answer.RemoveRange(answers);
-            List<QuizQuestion> quizQuestions = ctx.QuizQuestion.Where(qq => qq.QuestionId == id && qq.QuizId == quizId).ToList();
-            ctx.QuizQuestion.RemoveRange(quizQuestions);
-            Question foundQuestion = ctx.Question.FirstOrDefault(q => q.Id == id);
-            ctx.Question.Remove(foundQuestion);
-            ctx.SaveChanges();
+            List<Answer> answers = context.Answer.Where(a => a.QuestionId == id).ToList();
+            context.Answer.RemoveRange(answers);
+            List<QuizQuestion> quizQuestions = context.QuizQuestion.Where(qq => qq.QuestionId == id && qq.QuizId == quizId).ToList();
+            context.QuizQuestion.RemoveRange(quizQuestions);
+            Question foundQuestion = context.Question.FirstOrDefault(q => q.Id == id);
+            context.Question.Remove(foundQuestion);
+            context.SaveChanges();
         }
 
         public List<Question> GetAll()
@@ -60,7 +60,7 @@ namespace VikingQuiz.Api.Repositories
 
         public List<Question> GetAllByQuizId(int quizId)
         {
-            return ctx.Question
+            return context.Question
                     .Where(q => q.QuizQuestion
                                 .FirstOrDefault(qq => qq.QuizId == quizId) != null)
                     .ToList();
@@ -69,12 +69,12 @@ namespace VikingQuiz.Api.Repositories
 
         public Question getQuestionById(int id)
         {
-            return ctx.Question.FirstOrDefault(q => q.Id == id);
+            return context.Question.FirstOrDefault(q => q.Id == id);
         }
 
         public Question getQuestionByText(string text)
         {
-            return ctx.Question.FirstOrDefault(q => q.Text == text);
+            return context.Question.FirstOrDefault(q => q.Text == text);
         }
     }
 }
