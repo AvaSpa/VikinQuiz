@@ -19,7 +19,7 @@ export const errorSnackbar: ISnackbarData = {
         actionHandler: ()=>{console.log('Test!')},
         classes: ['action-btn', 'error-btn']
     },
-    message: 'Error',
+    message: 'Cannot create quiz, please try again',
     duration: -1
 };
 
@@ -30,6 +30,6 @@ export const successSnackbar: ISnackbarData = {
         actionHandler: ()=>{console.log('Test!')},
         classes: ['action-btn', 'success-btn']
     },
-    message: 'Success',
-    duration: 3000
+    message: 'Quiz created',
+    duration: -1
 }

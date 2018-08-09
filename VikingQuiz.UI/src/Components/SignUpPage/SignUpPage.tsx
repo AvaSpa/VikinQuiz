@@ -4,6 +4,7 @@ import FormComponent from 'src/Components/FormComponent/FormComponent';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LoginButton from '../Buttons/LoginSignUpButtons/LoginButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
+import BottomLogo from '../BottomLogo/BottomLogo';
 import IUserDto from '../../entities/IUserDto';
 import { Redirect } from 'react-router-dom';
 import {signUpRules} from '../../entities/Validation/rules';
@@ -43,7 +44,6 @@ class SignUpPage extends React.Component<{}, any> {
 
     this.httpService.post(url, body)
     .then((res: any) => {
-        console.log(res);
         const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
         this.httpService.get(emailUrl);
         comp.setState({
@@ -128,6 +128,7 @@ class SignUpPage extends React.Component<{}, any> {
                   </div>
                </div>
             </div>
+            <footer id="footer"><BottomLogo /></footer>
          </div>
 
       );
