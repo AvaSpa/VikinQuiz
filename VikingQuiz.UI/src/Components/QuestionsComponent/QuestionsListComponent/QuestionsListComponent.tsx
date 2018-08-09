@@ -9,7 +9,6 @@ const getNewQuestionsList = (ctx : any, httpService : any) => {
    const reqUrl = ctx.props.endpointUrl + "?quiz=" + ctx.props.quizId;
    const request = httpService.get(reqUrl, ctx.props.paramsObject);
    if (request) {
-      console.log("-------------REQUEST SENT---------------");
       request
          .then( (succesfulRes : any) => {
             const questionsList = succesfulRes.data;

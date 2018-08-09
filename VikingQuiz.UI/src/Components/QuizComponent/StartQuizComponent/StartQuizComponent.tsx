@@ -68,8 +68,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
             .then((response: any) => {
                 const imageUrl: string = response.data.pictureUrl;
                 const titleValue: string = response.data.title;
-
-                console.log(imageUrl, titleValue);
                 this.getImageBlobFromURL(imageUrl, titleValue);
             })
             .catch((error: any) => console.log(error));
@@ -313,7 +311,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     private getImageBlobFromURL = (imageUrl: any, titleValue: any) => {
         this.httpService.get(imageUrl, { responseType:"blob" })
                 .then((res: any) =>{
-                    console.log(res);
                     this.setState({
                         selectedFile: res.data,
                         title: titleValue
