@@ -173,7 +173,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
          const request = this.httpService.post(reqUrl, newQuestionData);
          if (request) {
-            console.log("-------------CREATE NEW QUIZ REQUEST SENT---------------");
             request
                .then((succesfulRes : any) => {
                   this.resetQuestionsData();
@@ -193,7 +192,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
          const request = this.httpService.putWithToken(reqUrl, updatedQuestionData);
          if (request) {
-            console.log("-------------UPDATE NEW QUIZ REQUETS SENT---------------");
             request
                .then((succesfulRes: any) => {
                   this.refreshQuestionList.refresh()
@@ -214,7 +212,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
       const request = this.httpService.deleteWithToken(reqUrl);
       console.log(reqUrl);
       if (request) {
-         console.log("-------------DELETE REQUEST SENT---------------");
          request
             .then((succesfulRes: any) => {
                this.refreshQuestionList.refresh()

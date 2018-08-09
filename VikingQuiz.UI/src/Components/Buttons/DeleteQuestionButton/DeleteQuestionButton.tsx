@@ -31,7 +31,6 @@ class DeleteQuestionButton extends React.Component<any, any>{
    }
 
    public render() {
-      console.log(this.props);
       let confirmDialogBox = null;
       if (this.state.confirmBoxVisibility) {
          confirmDialogBox = (

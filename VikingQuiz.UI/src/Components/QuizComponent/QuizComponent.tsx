@@ -19,6 +19,8 @@ interface IState {
 class QuizComponent extends React.Component<IProps, IState> {
 
     public state = {
+        // id: this.props.id,
+        // editMode: this.props.editMode,
         id: this.props.id,
         editMode: this.props.editMode,
         showQuestions: false
@@ -38,7 +40,7 @@ class QuizComponent extends React.Component<IProps, IState> {
             <div className="quiz container">
                 <StartQuizComponent editMode={this.state.editMode} quizId={this.state.id} save={this.saveQuizHandler}/>
                 {this.state.showQuestions ? 
-                 <QuestionsComponent quizId={this.state.id} /> : null
+                    <QuestionsComponent quizId={this.state.id} /> : null
                 }
             </div>
             
