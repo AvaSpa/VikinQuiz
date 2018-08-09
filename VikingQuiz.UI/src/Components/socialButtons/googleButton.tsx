@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import axios from 'axios';
 import GoogleLogin from 'react-google-login';
 import './buttonStyles.css';
 
 import * as ButtonInterfaces from './buttonInterfaces';
+import HttpService from '../../services/HttpService';
 
 
+const httpService = new HttpService();
 
 const createPostMessage = function (socialResData: any): ButtonInterfaces.IPostMessage {
    return {
@@ -37,12 +38,12 @@ function SocialButton(props: ButtonInterfaces.IPropsSocialButton) {
          props.onResponseSuccesful(response);
          const message = createPostMessage(response);
 
-         axios.post( // request with recieve data
+         httpService.post( // request with recieve data
             props.postURL,
             message
          )
-            .then(props.onPostSuccess) // server success trigger
-            .catch(props.onPostError); // server failure trigger
+            .then((res: any)=>{props.onPostSuccess(res);}) // server success trigger
+            .catch((err: any) => {props.onPostError(err)}); // server failure trigger
       }
       else {
          props.onResponseFailure();

@@ -9,7 +9,7 @@ class HttpService {
         axios.defaults.baseURL = "http://localhost:60151/api";
     }
 
-    public get = (url: string, options?: any) => {
+    public get = (url: string, options?: any) : any => {
         if(!url){
             return;
         }
@@ -17,7 +17,7 @@ class HttpService {
         return axios.get(url, {...options});
     }
 
-    public post = (url: string, body: any, options?: any): any => {
+    public post = (url: string, body: any, options?: any) : any => {
         if(!url || !body){
             return;
         }
@@ -25,7 +25,8 @@ class HttpService {
         return axios.post(url, body, {...options});
     }
 
-    public getWithToken = (url: string, options?: any): any => {
+
+    public getWithToken = (url: string, options?: any) : any => {
         const token: any = this.getToken();
        
         if(!url){
@@ -37,7 +38,7 @@ class HttpService {
         return axios.get(url, {...authorizationOptions, ...options});
     }
 
-    public postWithToken = (url: string, body: any, options?: any): any => {
+    public postWithToken = (url: string, body: any, options?: any) : any => {
         const token: any = this.getToken();
 
         if(!url || !body){
@@ -49,7 +50,7 @@ class HttpService {
         return axios.post(url, body, {...authorizationOptions, ...options});
     }
 
-    public deleteWithToken = (url: string, options?: any): any => {
+    public deleteWithToken = (url: string, options?: any) : any => {
         const token: any = this.getToken();
        
         if(!url){
@@ -61,7 +62,7 @@ class HttpService {
         return axios.delete(url, {...authorizationOptions, ...options});
     }
 
-    public putWithToken = (url: string, body: any, options?: any): any => {
+    public putWithToken = (url: string, body: any, options?: any) : any => {
         const token: any = this.getToken();
 
         if(!url || !body){
