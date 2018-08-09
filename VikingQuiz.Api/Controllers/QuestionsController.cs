@@ -65,35 +65,10 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest("The text is already assigned to another question");
             }
 
-            List<AnswerViewModel> realAnswers = new List<AnswerViewModel>();
-            
-            for(int  i = 0; i < questionVm.Answers.Count; i++)
+            List<AnswerViewModel> realAnswers = this.processListOfAnswers(ref questionVm, ref newQuestion, quizId);
+            if (realAnswers == null)
             {
-                AnswerViewModel answerVm = questionVm.Answers[i];
-                Answer answer = new Answer
-                {
-                    Text = answerVm.Text,
-                    QuestionId = newQuestion.Id
-                };
-
-                int oldId = answerVm.Id;
-    
-                Answer newAnswer = this.answerRepo.AddAnswer(answer);
-                if (newAnswer == null)
-                {
-                    this.questionRepo.DeleteQuestion(quizId, newQuestion.Id);
-                    return BadRequest("You can't have two duplicate answers");
-                }
-
-                AnswerViewModel newAnswerVM = this.answerToVmMapper.Map(newAnswer);
-                realAnswers.Add(newAnswerVM);
-
-                int newId = newAnswer.Id;
-
-                if (questionVm.CorrectAnswerId == oldId)
-                {
-                    newQuestion.CorrectAnsId = newId;
-                }
+                return BadRequest("You can't have two duplicate answers");
             }
             newQuestion = this.questionRepo.UpdateQuestion(newQuestion);
             QuestionViewModel newQuestionVm = entityToVmMapper.Map(newQuestion);
@@ -144,6 +119,41 @@ namespace VikingQuiz.Api.Controllers
                                                 .Select(answer => this.answerToVmMapper.Map(answer))
                                                 .ToList();
             return Ok(questionVm);
+        }
+
+        private List<AnswerViewModel> processListOfAnswers(ref QuestionViewModel questionVm, ref Question question, int quizId)
+        {
+            List<AnswerViewModel> realAnswers = new List<AnswerViewModel>();
+
+            for (int i = 0; i < questionVm.Answers.Count; i++)
+            {
+                AnswerViewModel answerVm = questionVm.Answers[i];
+                Answer answer = new Answer
+                {
+                    Text = answerVm.Text,
+                    QuestionId = question.Id
+                };
+
+                int oldId = answerVm.Id;
+
+                Answer newAnswer = this.answerRepo.AddAnswer(answer);
+                if (newAnswer == null)
+                {
+                    this.questionRepo.DeleteQuestion(quizId, question.Id);
+                    return null;
+                }
+
+                AnswerViewModel newAnswerVM = this.answerToVmMapper.Map(newAnswer);
+                realAnswers.Add(newAnswerVM);
+
+                int newId = newAnswer.Id;
+
+                if (questionVm.CorrectAnswerId == oldId)
+                {
+                    question.CorrectAnsId = newId;
+                }
+            }
+            return realAnswers;
         }
     }
 }
