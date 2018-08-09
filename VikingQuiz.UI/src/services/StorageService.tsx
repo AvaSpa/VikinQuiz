@@ -4,9 +4,13 @@ class StorageService{
         localStorage.setItem(key, value);
     };
 
-    public getItem = (key: string) => {
+    public getItem = (key: string) : string | null => {
         return localStorage.getItem(key);
     };
+
+    public itemExists = (key: string) : boolean => {
+        return localStorage.hasOwnProperty(key);
+    }
 }
 
 export default StorageService;
