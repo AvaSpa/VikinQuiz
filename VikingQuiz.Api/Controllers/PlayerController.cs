@@ -27,14 +27,14 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetPlayer()
         {
-            var result = playerRepository.GetAllPlayers().Select(s => entityToVmMapper.Map(s)).ToList();
+            var result = playerRepository.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Player player = playerRepo.getPlayerById(id);
+            Player player = playerRepository.GetPlayerById(id);
             if(player == null)
             {
                 return NotFound("Player doesn't exist");
@@ -52,7 +52,7 @@ namespace VikingQuiz.Api.Controllers
                 Name = playercode.Name
             };
 
-            Player newPlayer = playerRepository.AddPlayer(p);
+            Player newPlayer = playerRepository.AddPlayer(createdPlayer, playercode.Code);
             if(newPlayer == null)
             {
                 return BadRequest("Player couldn't be created");

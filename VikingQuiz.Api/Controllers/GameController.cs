@@ -47,7 +47,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult CreateGame([FromBody]GameViewModel gameViewModel)
         {
-            string code = gameRepo.GenerateCode();
+            string code = gameRepository.GenerateCode();
             Game game = new Game()
             {
                 QuizId = gameViewModel.QuizId,
@@ -55,7 +55,7 @@ namespace VikingQuiz.Api.Controllers
                 Code = code
             };
 
-            Game newGame = gameRepository.Create(g);
+            Game newGame = gameRepository.Create(game);
             if (newGame == null)
             {
                 return BadRequest("Game couldn't be created");

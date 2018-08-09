@@ -20,15 +20,15 @@ namespace VikingQuiz.Api.Repositories
             if (FindGameByCode(code) == null)
                 return null;
             Game foundGame = FindGameByCode(code);
-            ctx.Player.Add(player);
-            ctx.SaveChanges();
+            context.Player.Add(player);
+            context.SaveChanges();
             PlayerGame newPlayerGame = new PlayerGame
             {
                 GameId = foundGame.Id,
                 PlayerId = player.Id,
                 Score = 0
             };
-            ctx.PlayerGame.Add(newPlayerGame);
+            context.PlayerGame.Add(newPlayerGame);
             return player;
         }
 
@@ -53,9 +53,9 @@ namespace VikingQuiz.Api.Repositories
             return context.Player.ToList();
         }
 
-        public Player getPlayerById(int id)
+        public Player GetPlayerById(int id)
         {
-            Player foundPlayer = ctx.Player.Where(x => x.Id == id)
+            Player foundPlayer = context.Player.Where(x => x.Id == id)
                 .Select(x => new Player { Id = x.Id, PictureUrl = x.PictureUrl, Name = x.Name })
                 .FirstOrDefault();
 
@@ -65,7 +65,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Game FindGameByCode(string code)
         {
-            Game foundGame = ctx.Game.Where(x => x.Code == code).FirstOrDefault();
+            Game foundGame = context.Game.Where(x => x.Code == code).FirstOrDefault();
 
             return foundGame;
         }
