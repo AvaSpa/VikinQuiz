@@ -1,31 +1,31 @@
 import * as React from 'react';
 import './ConnectGame.css';
-// import axios from '../../../node_modules/axios';
-// import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
+import axios from 'node_modules/axios';
+import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 
 class ConnectGame extends React.Component<any, any> {
     constructor(props: any) {
-      super(props);
+        super(props);
 
-      this.state = {
+        this.state = {
             serverMessage: '',
             redirect: false,
-            player: [],
-            // baseUrl : "http:///localhost:60151/api/",
-            // endPoint: "player/",
-            // playerId: 3
+            player: null,
+            baseUrl: "http:///localhost:60151/api/player/",
+            showplayer: false
         }
     }
 
     
-    // public componentWillMount() {
-    //     axios.get(this.state.baseUrl + this.state.endPoint + this.state.playerId)
-    //     .then(response => {
-    //         console.log(response.data)
-    //         this.setState({player: response.data})
-    //     })
-    //     .catch(err => console.log(err))
-    // }
+    public componentDidMount() {
+        axios.get(this.state.baseUrl + this.props.location.state.id)
+        .then(response => {
+            console.log(response.data);
+            this.setState({player: response.data, showplayer: true})
+        })
+        .catch(err => console.log("cat"))
+        window.setTimeout(()=>{console.log(this.state.player)}, 5000);
+    }
 
 
     public render() {
@@ -38,11 +38,9 @@ class ConnectGame extends React.Component<any, any> {
                             <div className="col-sm-auto">
                                 <label className="connectgame-main-label">{mainMessage}</label>
                             </div>
-                            {/* <div className="connectgame-players-container">
-                                {this.state.player.map((p:any) =>
-                                    <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
-                                )}
-                            </div> */}
+                            <div className="connectgame-players-container">
+                               {this.state.showplayer? (<UserMinimalProfile key={this.state.player.name} name={this.state.player.name} photo={this.state.player.pictureUrl} />) : null}
+                            </div>
                             <div className="col-sm-auto">
                                 <label className="connectgame-status-label">{statusLabel}</label>
                             </div>

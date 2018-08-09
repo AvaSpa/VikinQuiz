@@ -64,17 +64,17 @@ namespace VikingQuiz.Api.Models
 
             modelBuilder.Entity<PlayerGame>(entity =>
             {
-                entity.HasKey(e => new { e.Pid, e.Gid });
+                entity.HasKey(e => new { e.PlayerId, e.GameId });
 
                 entity.HasOne(d => d.G)
                     .WithMany(p => p.PlayerGame)
-                    .HasForeignKey(d => d.Gid)
+                    .HasForeignKey(d => d.GameId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PlayerGame__Gid__34C8D9D1");
 
                 entity.HasOne(d => d.P)
                     .WithMany(p => p.PlayerGame)
-                    .HasForeignKey(d => d.Pid)
+                    .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PlayerGame__Pid__33D4B598");
             });

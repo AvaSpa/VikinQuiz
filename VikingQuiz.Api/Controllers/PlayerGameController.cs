@@ -14,13 +14,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class PlayerGameController : Controller
     {
-        private readonly PlayerGameRepo playergameRepo;
+        private readonly PlayerGameRepo playergameRepository;
         private IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper;
         private IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper;
 
         public PlayerGameController(PlayerGameRepo playergameRepo, IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper, IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper)
         {
-            this.playergameRepo = playergameRepo;
+            this.playergameRepository = playergameRepo;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
         }
@@ -28,7 +28,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetPlayerGame()
         {
-            var result = playergameRepo.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
+            var result = playergameRepository.GetAll().Select(player => entityToVmMapper.Map(player)).ToList();
             return Ok(result);
         }
 
@@ -37,12 +37,12 @@ namespace VikingQuiz.Api.Controllers
         {
             PlayerGame playergame = new PlayerGame()
             {
-                Pid = playergameViewModel.Pid, 
-                Gid = playergameViewModel.Gid, 
+                PlayerId = playergameViewModel.PlayerId, 
+                GameId = playergameViewModel.GameId, 
                 Score = playergameViewModel.Score
             };
 
-            PlayerGame newPlayerGame = playergameRepo.Create(playergame);
+            PlayerGame newPlayerGame = playergameRepository.Create(playergame);
             if (newPlayerGame == null)
             {
                 return BadRequest("PlayerGame couldn't be created");
@@ -52,28 +52,28 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePlayerGame(int pid, int gid, [FromBody]PlayerGameViewModel playergame)
+        public IActionResult UpdatePlayerGame(int playerid, int gameid, [FromBody]PlayerGameViewModel playergame)
         {
-            PlayerGame pg = new PlayerGame()
+            PlayerGame newPlayerGame = new PlayerGame()
             {
-                Pid = pid, 
-                Gid = gid,
+                PlayerId = playerid, 
+                GameId = gameid,
                 Score = playergame.Score
             };
 
-            PlayerGame updatedPlayerGame = playergameRepo.Update(pg);
+            PlayerGame updatedPlayerGame = playergameRepository.Update(newPlayerGame);
             if (updatedPlayerGame == null)
             {
                 return BadRequest("PlayerGame couldn't be updated");
             }
-            PlayerGameViewModel playergameVm = entityToVmMapper.Map(pg);
+            PlayerGameViewModel playergameVm = entityToVmMapper.Map(newPlayerGame);
             return Ok(playergameVm);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletePlayerGame(int pid, int gid)
+        public IActionResult DeletePlayerGame(int playerid, int gameid)
         {
-            playergameRepo.Delete(pid, gid);
+            playergameRepository.Delete(playerid, gameid);
             return Ok();
         }
     }

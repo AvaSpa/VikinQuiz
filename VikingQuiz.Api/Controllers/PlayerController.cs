@@ -57,7 +57,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 return BadRequest("Player couldn't be created");
             }
-            PlayerViewModel playerVm = entityToVmMapper.Map(createdPlayer);
+            PlayerViewModel playerVm = entityToVmMapper.Map(newPlayer);
             return Ok(playerVm);
         }
 

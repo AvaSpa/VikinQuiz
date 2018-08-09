@@ -13,6 +13,7 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new Player
             {
+                Id = playerViewModel.Id,
                 PictureUrl = playerViewModel.PictureUrl,
                 Name = playerViewModel.Name
             };

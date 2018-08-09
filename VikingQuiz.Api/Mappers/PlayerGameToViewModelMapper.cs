@@ -13,8 +13,8 @@ namespace VikingQuiz.Api.Mappers
         {
             var result = new PlayerGameViewModel
             {
-                Pid = playergame.Pid,
-                Gid = playergame.Gid,
+                PlayerId = playergame.PlayerId,
+                GameId = playergame.GameId,
                 Score = playergame.Score
             };
             return result;

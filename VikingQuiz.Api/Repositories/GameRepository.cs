@@ -10,6 +10,7 @@ namespace VikingQuiz.Api.Repositories
     {
         private VikinQuizContext context;
         private Random random = new Random();
+        private int codeLength = 6;
 
         public GameRepository(VikinQuizContext context)
         {
@@ -38,7 +39,7 @@ namespace VikingQuiz.Api.Repositories
             {
                 Id = id,
             };
-            var playerGame = context.PlayerGame.Where(x => x.Gid == id).ToList();
+            var playerGame = context.PlayerGame.Where(x => x.GameId == id).ToList();
             context.PlayerGame.RemoveRange(playerGame);
             context.Game.Remove(gm);
             context.SaveChanges();
@@ -56,8 +57,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Game GetGameByCode(string code)
         {
-            Game foundGame = ctx.Game.Where(x => x.Code == code)
-                .Select(x => new Game { Id = x.Id, QuizId = x.QuizId, GameDate = x.GameDate, Code = x.Code })
+            Game foundGame = context.Game.Where(game => game.Code == code)
                 .FirstOrDefault();
 
             return foundGame;
@@ -67,9 +67,9 @@ namespace VikingQuiz.Api.Repositories
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             string code = "";
-            for(int i = 0; i < 6; i++)
+            for(int i = 0; i < codeLength; i++)
             {
-                code += chars[random.Next(0, 35)];
+                code += chars[random.Next(0, chars.Length)];
             }
 
             return code;
