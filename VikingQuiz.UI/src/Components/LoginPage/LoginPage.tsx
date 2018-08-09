@@ -74,6 +74,14 @@ class LoginPage extends React.Component<any, any> {
         });
     }
 
+    public postError = () => {
+        console.log('hello');
+    }
+
+    public postSuccess = () => {
+        console.log('hello');
+    }
+
 
     public render() {
       if(this.state.redirect){
