@@ -262,11 +262,11 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          if (request) {
             console.log("-------------CREATE NEW QUIZ REQUEST SENT---------------");
             request
-               .then(succesfulRes => {
+               .then((succesfulRes : any) => {
                   this.resetQuestionsData();
                   this.refreshQuestionList.refresh()
                })
-               .catch(failedRes => {
+               .catch((failedRes: any) => {
                   console.log(failedRes.data);
                });
          }
@@ -283,10 +283,10 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          if (request) {
             console.log("-------------UPDATE NEW QUIZ REQUETS SENT---------------");
             request
-               .then(succesfulRes => {
+               .then((succesfulRes: any) => {
                   this.refreshQuestionList.refresh()
                })
-               .catch(failedRes => {
+               .catch((failedRes: any) => {
                   console.log(failedRes.data);
                });
          }
@@ -305,10 +305,10 @@ class QuestionsComponent extends React.Component<IProps, IState> {
       if (request) {
          console.log("-------------DELETE REQUEST SENT---------------");
          request
-            .then(succesfulRes => {
+            .then((succesfulRes: any) => {
                this.refreshQuestionList.refresh()
             })
-            .catch(failedRes => {
+            .catch((failedRes: any) => {
                console.log(failedRes.data);
             });
       }
