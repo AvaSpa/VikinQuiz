@@ -175,9 +175,19 @@
 
 
 .generic-button.cancel-button {
-   background: yellow;
-   color: black;
+   font-size: 20px;
+   font-family: 'dk_lemon_yellow_sunregular', sans-serif;
+   padding: 5px 15px;
+   background: transparent;
+   color: rgb(231, 189, 5);
+   border: 1px solid rgb(231, 189, 5);
    position: absolute;
-   bottom: -50px;
+   bottom: -65px;
    right: 100px;
+   transition: 0.1s background linear;
+}
+
+.generic-button.cancel-button:hover {
+   background: rgb(231, 189, 5);
+   color: black;
 }

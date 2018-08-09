@@ -7,6 +7,8 @@ import QuestionsListComponent from './QuestionsListComponent/QuestionsListCompon
 
 import HttpService from '../../services/HttpService';
 
+
+
 interface IProps {
    quizId: number
 }
@@ -203,11 +205,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
       
    }
 
-   public deleteButtonClickHandler = (question : any) => {
-      // this.deleteQuestionRequest(this.state.activeQuizId);
-      this.resetQuestionsData();
-      this.deleteQuestionRequest(question, question.id);
-   }
+ 
    
    public editButtonClickHandler = (question: IQuestionDto) => {
       this.setState({
@@ -299,9 +297,10 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    }
 
    // delete question request
-   public deleteQuestionRequest = (question : any, questionId: number) => {
+   public deleteQuestionRequest = (questionId: number) => {
       const reqUrl = `${this.endpointUrl}/${questionId}/?quiz=${this.props.quizId}`;
       const request = this.httpService.deleteWithToken(reqUrl);
+      console.log(reqUrl);
       if (request) {
          console.log("-------------DELETE REQUEST SENT---------------");
          request
@@ -314,10 +313,27 @@ class QuestionsComponent extends React.Component<IProps, IState> {
       }
    }
    //#endregion
+   public deleteButtonClickHandler = (questionId: any) => {
+
+      this.resetQuestionsData();
+      this.deleteQuestionRequest(questionId);
+
+      // this.deleteQuestionRequest(this.state.activeQuizId);
+   }
+
 
 
    public render() {
-      console.log(this.props.quizId);
+
+         // <YesNoComponent
+         //    // tslint:disable-next-line:jsx-no-lambda
+         //    handleYesClick={this.confirmDelete}
+         //    // tslint:disable-next-line:jsx-no-lambda
+         //    handleNoClick={this.rejectDelete}
+         //    confirmationMessage="Are you sure you want to delete this question?"
+         // />
+   
+
       return (
          <div className="questions-container">
             <MainQuestionComponent
@@ -348,9 +364,12 @@ class QuestionsComponent extends React.Component<IProps, IState> {
                editButtonClickHandler={this.editButtonClickHandler}
                deleteButtonClickHandler={this.deleteButtonClickHandler}
             />
+
          </div>
       );
    }
 }
+
+
 
 export default QuestionsComponent;
