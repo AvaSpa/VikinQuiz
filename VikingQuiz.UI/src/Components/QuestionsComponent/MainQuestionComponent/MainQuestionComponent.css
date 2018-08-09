@@ -1,7 +1,7 @@
 .main-question {
     margin: 0 auto;
     min-height: 200px;
-    border: 2px solid rgb(244, 195, 0);
+    border: 2px solid #f4c300;
     padding-bottom: 30px;
     position: relative;
 }
@@ -13,8 +13,8 @@
    text-transform: uppercase;
    font-family: 'dk_lemon_yellow_sunregular', sans-serif;
    font-size: 24px;
-   background : rgb(244, 195, 0);
-   color: rgb(0, 51, 60);
+   background : #f4c300;
+   color: #00333c;
    font-weight: bold;
    letter-spacing: 0.03em;
 }
@@ -32,7 +32,7 @@
 }
 
 .question-title {
-   background: rgb(0, 51, 60);
+   background: #00333c;
    text-transform: uppercase;
    font-size: 20px;
    font-family: 'dk_lemon_yellow_sunregular', sans-serif;
@@ -73,7 +73,7 @@
 .answer .answer-image {
    width: 100%;
    height: 100%;
-   background: white;
+   background: #ffffff;
    border-radius: 50%;
 }
 
@@ -127,8 +127,8 @@
 
 
 .answer .form-control {
-   background: rgb(0, 51, 60);
-   color: white;
+   background: #00333c;
+   color: #ffffff;
    border-color: transparent;
    border-radius: 0;
 }
@@ -138,7 +138,10 @@
 }
 
 .checked-input.form-control, .checked-input.form-control:focus  {
-   box-shadow: 0 0 0 3px rgb(29, 167, 36);
+   box-shadow: 0 0 0 3px #1da724;
+}
+.checked-input.form-control.input-error {
+   box-shadow: 0 0 0 2px #FF4500;
 }
 
 .question-title {
@@ -157,7 +160,7 @@
    background-color: transparent;
    box-shadow: 0 0 0 0 transparent;
    border-color: transparent;
-   color: white;
+   color: #ffffff;
    font-size: 20px;
    letter-spacing: 0.04em;
 }
@@ -180,8 +183,8 @@
    font-family: 'dk_lemon_yellow_sunregular', sans-serif;
    padding: 5px 15px;
    background: transparent;
-   color: rgb(231, 189, 5);
-   border: 1px solid rgb(231, 189, 5);
+   color: #e7bd05;
+   border: 1px solid #e7bd05;
    position: absolute;
    bottom: -65px;
    right: 100px;
@@ -189,6 +192,6 @@
 }
 
 .generic-button.cancel-button:hover {
-   background: rgb(231, 189, 5);
-   color: black;
+   background: #e7bd05;
+   color: #000000;
 }
