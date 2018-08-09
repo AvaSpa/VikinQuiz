@@ -104,7 +104,6 @@ class FormComponent extends React.Component<any, any> {
       
       const inputsData = this.getItemById(id, this.state.inputs);
       if (this.state.inputs[inputsData.index].errorMessage !== errorMessage) {
-         //   console.log(this.state.inputs);
          const inputsCopy = this.getCopyOfInputs(this.state.inputs);
          inputsCopy[inputsData.index].errorMessage = errorMessage;
          this.setState({
@@ -135,7 +134,6 @@ class FormComponent extends React.Component<any, any> {
       }
 
       const validity = this.getValidityState(false);
-      //   console.log(validity, this.state.isValid);
       if (validity !== this.state.isValid) {
          this.setState({
             isValid: validity

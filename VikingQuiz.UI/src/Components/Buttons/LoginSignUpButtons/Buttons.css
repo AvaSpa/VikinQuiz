@@ -6,8 +6,8 @@
     color: #f0cc04;
     font-family: "dk_lemon_yellow_sunregular";
     position: absolute; 
-    top:20px; 
-    right:40px;
+    top: 20px; 
+    right: 40px;
     text-transform: uppercase;
 }
 
@@ -18,7 +18,7 @@
 
 @media screen and (max-width: 300px){
     .switchButton{
-        top:0px; 
-        right:0px;
+        top: 0px; 
+        right: 0px;
     }
 }

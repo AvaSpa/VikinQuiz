@@ -1,31 +1,18 @@
 .row{
-    margin-right:0;
+    margin-right: 0;
     margin-left: 0;
 }
 
-.quiz_Page_Container{
+.quiz-page-container{
     min-width: 320px;
 }
 
-.my_Quizzes_Page_Container{
+.my-quizzes-page-container{
     margin: 0 7%;
     margin-top: 40px;
 }
 
-.my_Profile_Container{
-    display: flex;
-    margin-right: 90%;
-}
 
-.new_Quiz{
-    margin-left:auto;
-    margin-top: 80px;
-    margin-bottom: 10px;
-}
 
-.homeButton {
-    width:100px !important;
-    height:100px !important;
-    margin-left: 10px !important;
-}
+
 

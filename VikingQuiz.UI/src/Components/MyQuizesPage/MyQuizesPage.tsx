@@ -2,33 +2,18 @@ import * as React from 'react';
 import './MyQuizesPage.css';
 
 import LogOutButton from '../Buttons/LogOutButton/LogOutButton';
-import HomeButton from '../Buttons/HomeButton/HomeButton';
 import MyQuizzesComponent from '../MyQuizzesComponent/MyQuizzesComponent';
 
 
-
-class MyQuizesPage extends React.Component<any, any> {
-    constructor(props: any) {
-      super(props);
-
-      this.state = {
-          serverMessage: '',
-          redirect: false
-      }
-    }
-
-    public render() {
+const MyQuizesPage: any = (props: any) => {
         return (
-            <div className="quiz_Page_Container">
+            <div className="quiz-page-container">
                 <LogOutButton />
-            <div className="my_Quizzes_Page_Container">
-                    <HomeButton />          
-
-                     <MyQuizzesComponent />
-            </div>
+                <div className="my-quizzes-page-container">                     
+                    <MyQuizzesComponent />
+                </div>
             </div>
         );
-    }
 }
 
 export default MyQuizesPage;

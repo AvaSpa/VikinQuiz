@@ -37,11 +37,11 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+       // [Authorize]
         public IActionResult Get(int id)
         {
-            int userId = User.Claims.GetUserId();
-            User user = userRepository.GetUserById(userId);
+         //   int userId = User.Claims.GetUserId();
+            User user = userRepository.GetUserById(id);
             if(user == null)
             {
                 return NotFound("User doesn't exist");

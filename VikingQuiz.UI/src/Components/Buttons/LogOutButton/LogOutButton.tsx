@@ -11,7 +11,6 @@ class LogOutButton extends React.Component<any, any> {
 
     public handleLogOut(){
         localStorage.removeItem("token");
-        console.log("ok")
     }
 
     public render() {

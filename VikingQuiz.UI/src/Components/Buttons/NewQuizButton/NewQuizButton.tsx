@@ -7,7 +7,6 @@ class NewQuizButton extends React.Component<any, any> {
         super(props);
 
         this.state = {
-            serverMessage: '',
             redirect: false
         }
 
@@ -15,25 +14,24 @@ class NewQuizButton extends React.Component<any, any> {
     }
 
     public handleNewQuizRedirect(){
-        this.setState({
-            redirect: true});
-        setTimeout(()=>{console.log(this.state.redirect)}, 2000);
+        this.setState({ redirect: true});
         
     }
 
     public render() {
         if(this.state.redirect){
         return (
-            <Redirect
+                <Redirect
                     to={{pathname: '/newQuiz',
                     state: {id: null, editMode: false}
-
-        }}
+                    }}
                 />      
-        )}
-        return (       
-                <button className="new_Quiz_Button" onClick={this.handleNewQuizRedirect}/>
             )
+        }
+
+        return (       
+                <button className="new-quiz-button" onClick={this.handleNewQuizRedirect}/>
+        )
     }
 }
 
