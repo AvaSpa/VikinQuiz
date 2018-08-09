@@ -14,7 +14,7 @@ class LoginFormComponent extends FormComponent {
         {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
         <div className="forget-remember col-xs-12">
           <a href="#" className="forget-pass col-xs-6">forgot password</a>
-          <div className="custom-control custom-checkbox col-xs-6">
+          <div className="custom-control custom-checkbox-login col-xs-6">
 
             <label className="custom-control-label" htmlFor="remember-me">
                remember me

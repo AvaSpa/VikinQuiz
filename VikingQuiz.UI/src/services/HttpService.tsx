@@ -9,7 +9,7 @@ class HttpService {
         axios.defaults.baseURL = "http://localhost:60151/api";
     }
 
-    public get = (url: string, options?: any) => {
+    public get = (url: string, options?: any): any => {
         if(!url){
             return;
         }
@@ -25,7 +25,8 @@ class HttpService {
         return axios.post(url, body, {...options});
     }
 
-    public getWithToken = (url: string, options?: any): any => {
+
+    public getWithToken = (url: string, options?: any) : any => {
         const token: any = this.getToken();
        
         if(!url){

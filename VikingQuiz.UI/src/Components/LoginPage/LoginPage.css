@@ -9,19 +9,31 @@
     text-align: center;
     user-select: none;
 }
-
+ 
 .form-container{
     margin: auto;
     border: 2px solid rgb(93, 185, 197);;
 }
-
-.server-message{
-    text-align: center;
-}
-
+ 
 .checkbutton{
     margin-top: 10%;
 }
+ 
+.message{
+    padding: 7px;
+    margin: 2% 7% 0 7%;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 18px;
+    font-family: 'Arial Narrow';
+    text-align: center;
+}
+ 
+.server-message{
+    box-shadow: 0 0 1px 1px #ff4343;
+    color: #ff4343;
+}
+ 
 .check-button{
     margin-top: 10%;
 }
@@ -31,8 +43,6 @@
     .submit-button{
         width:50px;
         height:50px;
-	}
-
+    }
+ 
 }
-
-
