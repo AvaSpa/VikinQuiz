@@ -27,7 +27,6 @@ class QuizComponent extends React.Component<IProps, IState> {
     
 
     public saveQuizHandler = (quizId: number) => {
-        console.log(quizId);
         this.setState({
             id: quizId,
             showQuestions: true
@@ -39,7 +38,7 @@ class QuizComponent extends React.Component<IProps, IState> {
             <div className="quiz container">
                 <StartQuizComponent editMode={this.state.editMode} quizId={this.state.id} save={this.saveQuizHandler}/>
                 {this.state.showQuestions ? 
-                 <QuestionsComponent quizId={this.state.id} /> : <QuestionsComponent quizId={this.state.id} />
+                 <QuestionsComponent quizId={this.state.id} /> : null
                 }
             </div>
             

@@ -32,9 +32,6 @@ interface IState {
    isEditMode: boolean,
    currentActiveQuestion: IQuestionDto
 }
-
-const placeholdeForUserId = 12019;
-
 class QuestionsComponent extends React.Component<IProps, IState> {
 
    //#region fields
@@ -42,12 +39,12 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    public readonly endpointUrl = "http://localhost:60151/api/questions";
    public paramsObject = {
       params: {
-         quiz: placeholdeForUserId // quizId 
+         quiz: this.props.quizId // quizId 
       }
    }
    public state = {
       isEditMode: false,
-      activeQuizId: placeholdeForUserId, // this.props.quizId
+      activeQuizId: this.props.quizId, // this.props.quizId
       currentActiveQuestion: 
          {
             id: -1, 
@@ -260,7 +257,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    // new question request
    public createNewQuestionRequest = (newQuestionData: IQuestionDto) => {
       if (this.isQuestionInputValid(newQuestionData)) {
-         const reqUrl = this.endpointUrl + "?quiz=" + placeholdeForUserId;
+         const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
          const request = this.httpService.post(reqUrl, newQuestionData);
          if (request) {
             console.log("-------------CREATE NEW QUIZ REQUEST SENT---------------");
@@ -281,7 +278,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    // update question request
    public updateExistingQuestionRequest = (updatedQuestionData: IQuestionDto) => {
       if (this.isQuestionInputValid(updatedQuestionData)) {
-         const reqUrl = this.endpointUrl + "?quiz=" + placeholdeForUserId;
+         const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
          const request = this.httpService.putWithToken(reqUrl, updatedQuestionData);
          if (request) {
             console.log("-------------UPDATE NEW QUIZ REQUETS SENT---------------");
@@ -303,7 +300,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
 
    // delete question request
    public deleteQuestionRequest = (question : any, questionId: number) => {
-      const reqUrl = `${this.endpointUrl}/${questionId}/?quiz=${placeholdeForUserId}`;
+      const reqUrl = `${this.endpointUrl}/${questionId}/?quiz=${this.props.quizId}`;
       const request = this.httpService.deleteWithToken(reqUrl);
       if (request) {
          console.log("-------------DELETE REQUEST SENT---------------");
@@ -320,6 +317,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
 
 
    public render() {
+      console.log(this.props.quizId);
       return (
          <div className="questions-container">
             <MainQuestionComponent
@@ -344,7 +342,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
                endpointUrl={this.endpointUrl}
                paramsObjectt={this.paramsObject}
                questionId={this.state.currentActiveQuestion.id}
-               quizId={placeholdeForUserId}
+               quizId={this.props.quizId}
                // quizId={this.props.quizId}
 
                editButtonClickHandler={this.editButtonClickHandler}
