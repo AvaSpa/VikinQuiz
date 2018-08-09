@@ -55,15 +55,15 @@ namespace VikingQuiz.Api.Controllers
 
         // Get all the quizzes which belong to an user
         [HttpGet]
-        //[Authorize] -- add authorize when it is available on the front end
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            // User.Claims.GetUserId(); -- use this to get the ID of the user based on the token recieved
+            int currentUserId  = User.Claims.GetUserId();
 
             AzureBlobService blobService = new AzureBlobService();
             await blobService.InitializeBlob();
 
-            var quizzes = quizRepository.GetAll(3); // pass that user ID in
+            var quizzes = quizRepository.GetAll(currentUserId);
             foreach(var quiz in quizzes) {
                 quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
             }
@@ -74,16 +74,16 @@ namespace VikingQuiz.Api.Controllers
 
         // Get a specific quiz id only if it belongs to that user
         [HttpGet("{id}")]
-        //[Authorize] -- add authorize when it is available on the front end
-        public async Task<IActionResult> Get(int id)
+        [Authorize]
+        public async Task<IActionResult> GetQuiz(int id)
         {
-            // User.Claims.GetUserId(); -- use this to get the ID of the user based on the token recieved
+            int currentUserId = User.Claims.GetUserId();
 
             AzureBlobService blobService = new AzureBlobService();
             await blobService.InitializeBlob();
 
             Quiz quiz = quizRepository.GetQuizById(id);
-            if(quiz == null || quiz.UserId != 3) { // use the user ID instead of the hardcoded user in here
+            if(quiz == null || quiz.UserId != currentUserId) { 
                 return NotFound("Quiz doesn't exist");
             }
 
@@ -109,10 +109,10 @@ namespace VikingQuiz.Api.Controllers
         // Add a new empty quiz to the DB
         [HttpPost]
         [RequestSizeLimit(5_000_000)]
-        //[Authorize] add authorize when avaiable on the front-end
-        public async Task<IActionResult> Post(NewQuizViewModel quizBodyData)
+        [Authorize] 
+        public async Task<IActionResult> AddQuiz(NewQuizViewModel quizBodyData)
         {
-            // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
+            int currentUserId = User.Claims.GetUserId();
             IActionResult imageHttpResponse = FileValidityChecker(quizBodyData);
             if ( IActionResult.Equals(imageHttpResponse, Ok()) ) {
                 return imageHttpResponse;
@@ -133,7 +133,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 Title = quizBodyData.Title,
                 PictureUrl = fileUrl,
-                UserId = 3
+                UserId = currentUserId
             });
             if (createdQuiz == null) {
                 return BadRequest("Quiz couldn't be created");
@@ -149,10 +149,10 @@ namespace VikingQuiz.Api.Controllers
         // update a specific quiz id
         [HttpPost("{id}")]
         [RequestSizeLimit(5_000_000)]
-        //[Authorize] add authorize when avaiable on the front-end
+        [Authorize]
         public async Task<IActionResult> Put(NewQuizViewModel quizBodyData, int id)
         {
-            // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
+            int currentUserId = User.Claims.GetUserId();
             IActionResult imageHttpResponse = FileValidityChecker(quizBodyData);
             if ( IActionResult.Equals( imageHttpResponse, Ok() ) ) {
                 return imageHttpResponse;
@@ -165,7 +165,7 @@ namespace VikingQuiz.Api.Controllers
                 await blobService.InitializeBlob();
                 var previousQuizState = quizRepository.GetQuizById(id);
 
-                blobService.DeletePhoto(previousQuizState.PictureUrl); // deletes the old photo from the storage
+                blobService.DeletePhoto(previousQuizState.PictureUrl); 
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
             } catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
@@ -175,7 +175,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 Title = quizBodyData.Title,
                 PictureUrl = fileUrl,
-                UserId = 3,
+                UserId = currentUserId,
                 Id = id
             });
 
@@ -193,9 +193,9 @@ namespace VikingQuiz.Api.Controllers
         // [Authorize] add it when available on the front end
         public async Task<IActionResult> Delete(int id)
         {
-            // User.Claims.GetUserId(); -- user ID based on the token, add after it is available on the front-end
+            int currentUserId = User.Claims.GetUserId();
 
-            var deletedQuiz = quizRepository.DeleteQuiz(id, 3); // you get the user ID based on the authorization token, right now it's hard coded for testing
+            var deletedQuiz = quizRepository.DeleteQuiz(id, currentUserId); 
 
             if(deletedQuiz != null) {
                 AzureBlobService blobService = new AzureBlobService();
