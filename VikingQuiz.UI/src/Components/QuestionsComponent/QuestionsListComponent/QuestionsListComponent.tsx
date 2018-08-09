@@ -2,6 +2,7 @@ import * as React from 'react';
 import './QuestionsListComponent.css';
 import GenericButton from '../../Buttons/GenericButton/GenericButton';
 import HttpService from '../../../services/HttpService';
+import DeleteQuestionButton from '../../Buttons/DeleteQuestionButton/DeleteQuestionButton';
 
 
 const getNewQuestionsList = (ctx : any, httpService : any) => {
@@ -85,12 +86,7 @@ class QuestionsListComponent extends React.Component<any, any> {
       }
    }
 
-   public deleteButtonClickHandler = (question: any) => {
-      const ctx = this;
-      return function() {
-         ctx.props.deleteButtonClickHandler(question);
-      }
-   }
+
 
 
    public questionsToJsx = (questionsData: any[]) => {
@@ -107,7 +103,7 @@ class QuestionsListComponent extends React.Component<any, any> {
                      {question.text}
                   </span>
                   <GenericButton onClick={this.editButtonClickHandler(question)} classNames={["edit-button"]} />
-                  <GenericButton onClick={this.deleteButtonClickHandler(question)} classNames={["delete-button"]} />
+                  <DeleteQuestionButton deleteHandler={this.props.deleteButtonClickHandler} classNames={["delete-button"]} questionId={question.id}/>
                </div>
             </li>
          );

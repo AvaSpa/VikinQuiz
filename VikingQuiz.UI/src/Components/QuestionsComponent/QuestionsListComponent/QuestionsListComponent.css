@@ -32,9 +32,14 @@
    background-position: center center;
 }
 
+.delete-button-container {
+   height: 1.5em;
+}
+
 .generic-button.edit-button {
    background-image: url("../../../media/edit\ button.png");
    background-size: 105%;
+   
 }
 
 .generic-button.delete-button {
