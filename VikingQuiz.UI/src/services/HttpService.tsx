@@ -1,7 +1,7 @@
 import axios from 'axios';
 import StorageService from './StorageService';
 
-class HttpService{
+class HttpService {
 
     private storageService = new StorageService();
 
@@ -72,6 +72,7 @@ class HttpService{
 
         return axios.put(url, body, {...authorizationOptions, ...options});
     }
+
 
     private getToken(){
         return this.storageService.getItem('token');

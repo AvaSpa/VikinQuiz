@@ -20,8 +20,8 @@ interface IState {
 }
 
 interface IProps{
+    editMode: boolean
     quizId: number,
-    editMode: boolean,
     save: any
 }
 
@@ -29,7 +29,6 @@ const quizzesUrl: string = 'http://localhost:60151/api/quizzes';
 const initialTitle: string = 'add quiz title';
 
 class StartQuizComponent extends React.Component<IProps, IState>{
-
 
     public fileInputRef: any = React.createRef();
     public previewImageRef: any = React.createRef();
@@ -42,7 +41,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         titleError: '',
         isValid: false,
         saved: false,
-        showSnackbar: false,
+        showSnackbar: true,
         snackbarData: errorSnackbar
     }
 
@@ -50,7 +49,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.setState({
             snackbarData: {...snackbar},
             showSnackbar: true
-        });
+        })
 
         if(this.state.snackbarData.duration > 0){
             setTimeout(() => {
@@ -82,7 +81,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.isTitleValid(currentTitle);
         this.setState({
             title: event.target.value
-
         });
     }
 
@@ -96,7 +94,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     public fileSelectHandler = (event: any) => {
-
         const file = event.target.files[0];
         if(!this.isImageValid(file)){
             return;
@@ -139,9 +136,10 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.httpService.postWithToken(url, body)
         .then((response: any) => {
             this.successfulSaveHandler(response);
+            this.showSnackbarHandler(successSnackbar);
         })
         .catch((error: any) => {
-            this.errorHandler(error);
+            this.showSnackbarHandler(errorSnackbar);
         });
     }
 

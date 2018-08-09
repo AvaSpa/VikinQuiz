@@ -23,7 +23,6 @@ class App extends React.Component<{}, {}> {
 
   public render() {
     return (
-      <>
       <BrowserRouter>
         <div className="App">
           <Switch>
@@ -43,8 +42,6 @@ class App extends React.Component<{}, {}> {
         </Switch>
         </div>
       </BrowserRouter>
-      <footer><BottomLogo /></footer>
-      </>
     );
   }
 }

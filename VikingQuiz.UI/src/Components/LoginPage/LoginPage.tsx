@@ -4,12 +4,13 @@ import SignUpButton from '../Buttons/LoginSignUpButtons/SignUpButton';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
+import BottomLogo from '../BottomLogo/BottomLogo';
+import { setTimeout } from 'timers';
 import { Redirect } from 'react-router-dom';
 import { loginRules} from '../../entities/Validation/rules';
 
 import {loginValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
-import StorageService from '../../services/StorageService';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -25,14 +26,12 @@ function responseFailureHandler(): void { console.dir("Response failed"); }
 
 class LoginPage extends React.Component<any, any> {
     private httpService: any = new HttpService();
-    private storageService: StorageService = new StorageService();
     
     constructor(props: any) {
       super(props);
 
       this.state = {
-          showErrorMessage: false,
-          serverErrorMessage: '',
+          serverMessage: '',
           redirect: false
       }
     }
@@ -44,42 +43,36 @@ class LoginPage extends React.Component<any, any> {
             return;
         }
 
+        const comp: any = this;
+
         const body: any = {
             email: formData.Email,
             password: formData.Password 
         }
     
         this.httpService.post(url, body)
-            .then((result: any) => { this.loginSuccess(result); })
-            .catch((error: any) => { this.loginError(error); });
-    }
-
-    public loginSuccess = (result: any) => {
-        const loginToken: string = result.data.token;
-        this.storageService.saveItem('token', loginToken);
-        this.setState({
-            redirect: true
+        .then((res: any) => {
+                console.log("success");
+                comp.setState({
+                    redirect: true
+                });
+            }
+        )
+        .catch((error: any) => {
+            if(!error){
+                comp.setState({
+                    serverMessage: "Couldn't connect to the server"
+                });
+                return;
+            };
+            comp.setState({
+                serverMessage: error.response.data
+            })
+            setTimeout(()=>comp.setState({
+                serverMessage: ''
+            }), 5000);
         });
-    };
-
-    public loginError = (error: any) => {
-        this.setState({ showErrorMessage: true });
-        if (error.response === undefined) {
-            this.setState({ serverErrorMessage: "Could not connect to the server. Please try again later" });
-        }
-        else {
-            if (error.response.status === 404) {
-                this.setState({ serverErrorMessage: "Username or Password incorrect. Please try again" });
-            }
-            if (error.response.status === 400) {
-                this.setState({ serverErrorMessage: "Please confirm your account first" });
-            }
-        }
-        setTimeout(() => this.setState({
-            showErrorMessage: false,
-            serverErrorMessage: ''
-        }), 5000);
-    };
+    }
 
 
     public render() {
@@ -101,7 +94,7 @@ class LoginPage extends React.Component<any, any> {
                    <div className="row">
                         <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                           <div className="form-container">
-                              {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
+                              <p className="formerror server-message">{this.state.serverMessage}</p>
                               <LoginFormComponent inputs={[
                                 {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
                                 {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
@@ -135,6 +128,7 @@ class LoginPage extends React.Component<any, any> {
                       </div>
                   </div>
               </div>
+              <footer id="footer"><BottomLogo /></footer>
           </div>   
       );
     }
