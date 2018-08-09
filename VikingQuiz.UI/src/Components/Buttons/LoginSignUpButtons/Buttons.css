@@ -6,12 +6,19 @@
     color: #f0cc04;
     font-family: "dk_lemon_yellow_sunregular";
     position: absolute; 
-    top:20px; 
-    right:40px;
+    top: 20px; 
+    right: 40px;
     text-transform: uppercase;
 }
 
 .switchButton:active {
     transition: All 0.2s linear;
     transform: translateY(4px);
+}
+
+@media screen and (max-width: 300px){
+    .switchButton{
+        top: 0px; 
+        right: 0px;
+    }
 }

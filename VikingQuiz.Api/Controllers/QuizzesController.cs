@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,8 @@ using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.ViewModels;
+using System.Security.Claims;
+using VikingQuiz.Api.Utilities;
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -24,13 +27,6 @@ namespace VikingQuiz.Api.Controllers
             this.entityToVmMapper = entityToVmMapper;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var quizzes = quizRepository.GetAll();
-            return Ok(quizzes.Select(quiz => this.entityToVmMapper.Map(quiz)));
-        }
-
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -43,37 +39,57 @@ namespace VikingQuiz.Api.Controllers
             return Ok(quizVm);
         }
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetQuizzesByUserId()
+          {
+              int userId = User.Claims.GetUserId();
+              var newQuiz = quizRepository.GetQuizByUserId(userId);
+              if (newQuiz == null)
+              {
+                  return NotFound("Quiz doesn't exist");
+              }
+              return Ok(newQuiz.Select(quiz => this.entityToVmMapper.Map(quiz)));
+          } 
+       
+
         [HttpPost]
         public IActionResult Add([FromBody]QuizViewModel quiz)
         {
-            Quiz qiz = quizRepository.CreateQuiz(new Quiz {
+            Quiz newQuiz = quizRepository.CreateQuiz(new Quiz {
                 Title = quiz.Title,
                 PictureUrl = quiz.PictureUrl,
-                UserId = quiz.UserId
+                UserId = quiz.UserId,
+                LastModified = DateTime.Now
             });
-            if (qiz == null)
+            if (newQuiz == null)
             {
                 return BadRequest("Quiz couldn't be created");
             }
-            QuizViewModel quizVm = entityToVmMapper.Map(qiz);
+            QuizViewModel quizVm = entityToVmMapper.Map(newQuiz);
             return Created($"/{quizVm.Id}", quizVm);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody]QuizViewModel quiz)
+        public IActionResult UpdateQuiz([FromBody]QuizViewModel quiz)
         {
-            Quiz qiz = quizRepository.UpdateQuiz(vmToEntityMapper.Map(quiz));
-            if (qiz == null)
+            Quiz updatedQuiz = quizRepository.UpdateQuiz(vmToEntityMapper.Map(quiz));
+            if (updatedQuiz == null)
             {
                 return NotFound("Quiz doesn't exist");
             }
-            QuizViewModel quizVm = entityToVmMapper.Map(qiz);
+            QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
             return Accepted($"/{quizVm.Id}", quizVm);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var existingQuiz = quizRepository.GetQuizById(id);
+            if(existingQuiz == null)
+            {
+                return NotFound("Quiz doesn't exist");
+            }
             quizRepository.DeleteQuiz(id);
             return Ok();
         }

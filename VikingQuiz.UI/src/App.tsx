@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './App.css';
+import MyQuizesPage from 'src/Components/MyQuizesPage/MyQuizesPage';
 import SignUpPage from 'src/Components/SignUpPage/SignUpPage';
 import { BrowserRouter , Route, Switch } from "react-router-dom";
 import LoginPage from './Components/LoginPage/LoginPage';
-import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
 import NotFoundComponent from './Components/NotFoundComponent/NotFoundComponent';
 import BottomLogo from './Components/BottomLogo/BottomLogo';
 
@@ -12,17 +12,20 @@ class App extends React.Component<{}, {}> {
     super(props);
   }
 
+
   public render() {
     return (
       <>
       <BrowserRouter>
         <div className="App">
-          <Switch>
-            <Route exact={true} path="/" component={SignUpPage} />
-            <Route exact={true} path="/signup" component={SignUpPage} />
-            <Route exact={true} path="/login" component={LoginPage} />
-           <Route exact={true} path="/redirect" component={RedirectComponent} />
-            <Route path="*" component={NotFoundComponent} />
+        <Switch>
+          <Route exact={true} path="/" component={SignUpPage} />
+          <Route exact={true} path="/signup" component={SignUpPage} />
+          <Route exact={true} path="/login" component={LoginPage} />
+          <Route exact={true} path="/myQuizzes" component={MyQuizesPage} />
+          <Route exact={true} path="/editQuiz" component={NotFoundComponent} />
+          <Route exact={true} path="/newQuiz" component={NotFoundComponent} />
+          <Route path="*" component={NotFoundComponent} />
           </Switch>
         </div>
       </BrowserRouter>

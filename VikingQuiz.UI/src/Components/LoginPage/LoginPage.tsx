@@ -44,7 +44,7 @@ class LoginPage extends React.Component<any, any> {
             return;
         }
 
-        const comp: any = this;
+        const self: any = this;
 
         const body: any = {
             email: formData.Email,
@@ -54,22 +54,22 @@ class LoginPage extends React.Component<any, any> {
         this.httpService.post(url, body)
         .then((res: any) => {
                 console.log("success");
-                comp.setState({
-                    redirect: true
-                });
+                 self.setState({
+                     redirect: true
+                 });
             }
         )
         .catch((error: any) => {
             if(!error){
-                comp.setState({
+                self.setState({
                     serverMessage: "Couldn't connect to the server"
                 });
                 return;
             };
-            comp.setState({
+            self.setState({
                 serverMessage: error.response.data
             })
-            setTimeout(()=>comp.setState({
+            setTimeout(()=>self.setState({
                 serverMessage: ''
             }), 5000);
         });
@@ -78,7 +78,7 @@ class LoginPage extends React.Component<any, any> {
 
     public render() {
       if(this.state.redirect){
-        return (<Redirect push={true} to="/redirect"/>);
+        return (<Redirect push={true} to="/myQuizzes"/>);
       }
       return (
           <div className="registerform">

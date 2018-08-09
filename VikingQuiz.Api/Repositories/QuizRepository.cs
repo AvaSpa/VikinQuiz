@@ -23,12 +23,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Quiz UpdateQuiz(Quiz quiz)
         {
-            Quiz foundQuiz = context.Quiz.Where(x => x.Id == quiz.Id).FirstOrDefault();
-            if (foundQuiz == null)
-            {
-                return null;
-            }
-
+            Quiz foundQuiz = context.Quiz.Where(q => q.Id == quiz.Id).FirstOrDefault();
             foundQuiz.Title = quiz.Title;
             foundQuiz.PictureUrl = quiz.PictureUrl;
             foundQuiz.UserId = quiz.UserId;
@@ -39,25 +34,28 @@ namespace VikingQuiz.Api.Repositories
 
         public void DeleteQuiz(int id)
         {
-            Quiz quiz = new Quiz
-            {
-                Id = id
-            };
-            var games = context.Game.Where(x => x.QuizId == id).ToList();
+            var games = context.Game.Where(g => g.QuizId == id).ToList();
             context.Game.RemoveRange(games);
-            var quizquestions = context.QuizQuestion.Where(x => x.QuizId == id).ToList();
+            var quizquestions = context.QuizQuestion.Where(qq => qq.QuizId == id).ToList();
             context.QuizQuestion.RemoveRange(quizquestions);
-            context.Quiz.Remove(quiz);
+            var quizToRemove = context.Quiz.FirstOrDefault(q => q.Id == id);
+            context.Quiz.Remove(quizToRemove);
             context.SaveChanges();
         }
 
         public Quiz GetQuizById(int id)
         {
-            Quiz foundQuiz = context.Quiz.Where(x => x.Id == id)
-                .Select(x => new Quiz { Id = x.Id, Title = x.Title, UserId = x.UserId, PictureUrl = x.PictureUrl})
+            Quiz foundQuiz = context.Quiz.Where(q => q.Id == id)
+                .Select(q => new Quiz { Id = q.Id, Title = q.Title, UserId = q.UserId, PictureUrl = q.PictureUrl})
                 .FirstOrDefault();
 
             return foundQuiz;
+        }
+
+        public IEnumerable<Quiz> GetQuizByUserId(int id)
+        {
+            return context.Quiz.Where(q => q.UserId == id).OrderByDescending(q => q.LastModified).ToList();
+
         }
 
         public IEnumerable<Quiz> GetAll()

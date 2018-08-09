@@ -11,5 +11,6 @@ namespace VikingQuiz.Api.ViewModels
         public string Title { get; set; }
         public string PictureUrl { get; set; }
         public int? UserId { get; set; }
+        public DateTime? LastModified { get; set; }
     }
 }

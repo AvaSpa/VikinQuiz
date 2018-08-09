@@ -1,0 +1,15 @@
+.new-quiz-button{
+    border-radius: 50%;
+    border: none;
+    width: 60px;
+    height: 60px;
+    background: transparent url(./../../../media/button_add.png) no-repeat;
+    background-size: 100%;
+    transition: all 0.2s linear;
+    
+}
+.new-quiz-button:hover
+{
+    transform: translateY(3px);
+}
+

@@ -4,12 +4,13 @@ figure {
 }
 
 .profile-picture{
-    width: 60px;
+    width: 80px;
     border-radius: 50%;
+    height: 80px;
 }
 
 figure > figcaption {
     margin-left: 15px;
-    font-size: 24px;
+    font-size: 40px;
     font-family: 'dk_lemon_yellow_sunregular';
 }
