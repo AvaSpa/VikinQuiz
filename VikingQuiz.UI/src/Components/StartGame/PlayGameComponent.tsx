@@ -35,12 +35,11 @@ class FormComponent extends React.Component<any, any> {
    public submitDataHandler = () => {
       const url: string = this.state.url;
       const formData: any = this.getFormData();
+      const validity = this.getValidityState(false);
 
       if (this.getValidityState(true)) {
          this.props.onSubmit(url, formData);
       }
-
-      const validity = this.getValidityState(false);
 
       if (validity !== this.state.isValid) {
          this.setState({
@@ -48,10 +47,6 @@ class FormComponent extends React.Component<any, any> {
          });
       }
    }
-
-   //   public changeErrorStateOfInput = (id : string, errorMessage : string) => {
-   //      const item  = this.getItemById(id, this.state.inputs);
-   //   }
 
    public getItemById(id: string, inputs: any) {
       const inputsCopy: InputData[] = inputs.slice();
@@ -104,7 +99,6 @@ class FormComponent extends React.Component<any, any> {
       
       const inputsData = this.getItemById(id, this.state.inputs);
       if (this.state.inputs[inputsData.index].errorMessage !== errorMessage) {
-         //   console.log(this.state.inputs);
          const inputsCopy = this.getCopyOfInputs(this.state.inputs);
          inputsCopy[inputsData.index].errorMessage = errorMessage;
          this.setState({
@@ -114,36 +108,36 @@ class FormComponent extends React.Component<any, any> {
 
    }
 
+   public changeHandler = (input: any, event: any) => {
+        this.changeValueHandler(input.id, event);
+        this.resetError(input);
+        this.reverseValidity();
+    }
 
+    public resetError(input: any){
+        if (this.props.validator) {
+            this.props.validator(
+               this.state.inputs,
+               this.props.validationRules,
+               input.id,
+               {
+                  getCopyOfInputs: this.getCopyOfInputs,
+                  getItemById: this.getItemById,
+                  changeErrorMessageOf: this.changeErrorMessageOf
+               }
+            );
+           }
+    }
 
-   public changeHandler = (input: any, evt: any) => {
-
-      this.changeValueHandler(input.id, evt);
-
-      if (this.props.validator) {
-
-         this.props.validator(
-            this.state.inputs,
-            this.props.validationRules,
-            input.id,
-            {
-               getCopyOfInputs: this.getCopyOfInputs,
-               getItemById: this.getItemById,
-               changeErrorMessageOf: this.changeErrorMessageOf
-            }
-         );
-      }
-
-      const validity = this.getValidityState(false);
-      console.log(validity, this.state.isValid);
-      //   console.log(validity, this.state.isValid);
-      if (validity !== this.state.isValid) {
-         this.setState({
-            isValid: validity
-         });
-      }
-   }
-
+    public reverseValidity()
+    {
+        const validity = this.getValidityState(false);
+        if (validity !== this.state.isValid) {
+            this.setState({
+               isValid: validity
+            });
+        }
+    }
    public getValidityState(checkAll: boolean) {
       if (this.props.validator) {
          if (checkAll) {

@@ -14,39 +14,39 @@ class PlayGame extends React.Component<any, any> {
 
       this.state = {  
         serverMessage: '',
-        redirect: false
+        redirect: false,
+        playerId: null
         };
     }
     
     public playerDataHandler = (url: string, formData: any) => {
+        
         if(!url || !formData){
             return;
         }
 
-        const comp: any = this;
+        const component: any = this;
     
-        const body: PlayerCodeDto = new PlayerCodeDto('', formData.PlayerName, formData.GameCode);
+        const body: PlayerCodeDto = new PlayerCodeDto('pictureurl', formData.PlayerName, formData.GameCode);
     
-        console.log(body);
-
         this.httpService.post(url, body)
         .then((res: any) => {
-            console.log(res);
-            comp.setState({
-                redirect: true
+            component.setState({
+                redirect: true,
+                playerId: res.data.id
             });
         })
         .catch((error: any) => {
             if(!error){
-                comp.setState({
+                component.setState({
                     serverMessage: "Couldn't connect to the game"
                 });
                 return;
             };
-            comp.setState({
+            component.setState({
                 serverMessage: error.response.data
             });
-            setTimeout(()=>comp.setState({
+            setTimeout(()=>component.setState({
                 serverMessage: ''
             }), 5000);  
         });
@@ -54,9 +54,15 @@ class PlayGame extends React.Component<any, any> {
     
 
     public render() {
-        if(this.state.redirect){
-            return (<Redirect push={true} to="/connect"/>);
+        const baseUrl = "http://localhost:60151/api";
+        const endPoint = "/player";
+
+        if (this.state.redirect) {
+            return (
+                <Redirect to={{ pathname: '/connect', state: { id: this.state.playerId } }} />
+            )
         }
+    
         return (
             <div className="container">
                     <div className="row">
@@ -69,7 +75,7 @@ class PlayGame extends React.Component<any, any> {
                                         new InputData('code', 'text', 'Enter your code/pin', '', 'GameCode', ''),
                                         new InputData('name', 'text', 'Your Name', '', 'PlayerName', ''),
                                     ]}
-                                    url="http://localhost:60151/api/player"
+                                    url={baseUrl + endPoint}
                                     buttonName=""
                                     onSubmit={this.playerDataHandler}
                                     validator={null}

@@ -5,9 +5,9 @@ class PlayerCodeDto{
     public code: string;
 
     public constructor(pictureUrl: string, name: string, code: string){
-        this.id = 20;
-        this.pictureUrl = '';
+        this.pictureUrl = pictureUrl;
         this.name = name;
+        this.code = code;
     }
 };
 
