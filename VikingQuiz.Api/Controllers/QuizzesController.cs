@@ -30,7 +30,7 @@ namespace VikingQuiz.Api.Controllers
         }
     
 
-        // Get all the quizzes which belong to an user
+
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetAll()
@@ -49,7 +49,6 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
-        // Get a specific quiz id only if it belongs to that user
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetQuiz(int id)
@@ -83,25 +82,26 @@ namespace VikingQuiz.Api.Controllers
           } 
        
 
-        // Add a new empty quiz to the DB
         [HttpPost]
         [RequestSizeLimit(5_000_000)]
         [Authorize] 
         public async Task<IActionResult> AddQuiz(NewQuizViewModel quizBodyData)
         {
+            string fileUrl;
             int currentUserId = User.Claims.GetUserId();
+
             IActionResult imageHttpResponse = FileValidityChecker(quizBodyData);
             if ( IActionResult.Equals(imageHttpResponse, Ok()) ) {
                 return imageHttpResponse;
             }
 
-            string fileUrl;
             AzureBlobService blobService;
             try {
                 blobService = new AzureBlobService();
                 await blobService.InitializeBlob();
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
-            } catch (Exception) {
+            } catch (Exception exception) {
+                Console.WriteLine(exception);
                 return BadRequest("Image could not be uploaded.");
             }
 
@@ -123,7 +123,6 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
-        // update a specific quiz id
         [HttpPost("{id}")]
         [RequestSizeLimit(5_000_000)]
         [Authorize]
@@ -144,7 +143,8 @@ namespace VikingQuiz.Api.Controllers
 
                 blobService.DeletePhoto(previousQuizState.PictureUrl); 
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
-            } catch (Exception) {
+            } catch (Exception exception) {
+                Console.WriteLine(exception);
                 return BadRequest("Image could not be uploaded.");
             }
 

@@ -32,18 +32,19 @@ interface IState {
    currentActiveQuestion: IQuestionDto
 }
 
+
 class QuestionsComponent extends React.Component<IProps, IState> {
 
    public httpService = new HttpService();
    public readonly endpointUrl = "http://localhost:60151/api/questions";
    public paramsObject = {
       params: {
-         quiz: this.props.quizId // quizId 
+         quiz: this.props.quizId
       }
    }
    public state = {
       isEditMode: false,
-      activeQuizId: this.props.quizId, // this.props.quizId
+      activeQuizId: this.props.quizId,
       currentActiveQuestion: 
          {
             id: -1, 
@@ -62,7 +63,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    public refreshQuestionList = {
       refresh: new Function()
    }
-
 
 
    public createQuestionRequestObject = () => {
@@ -148,7 +148,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          isEditMode: false,
          activeQuizId: this.props.quizId,
          currentActiveQuestion: {
-            id: -1, // questionId
+            id: -1,
             text: "",
             correctAnswerId: 1,
             index: 0,
@@ -170,54 +170,50 @@ class QuestionsComponent extends React.Component<IProps, IState> {
 
    public createNewQuestionRequest = (newQuestionData: IQuestionDto) => {
       if (this.isQuestionInputValid(newQuestionData)) {
-         const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
-         const request = this.httpService.post(reqUrl, newQuestionData);
+         const request = this.httpService.post(this.endpointUrl, newQuestionData, this.paramsObject);
          if (request) {
             request
                .then((succesfulRes : any) => {
                   this.resetQuestionsData();
                   this.refreshQuestionList.refresh()
                })
-               .catch((failedRes: any) => {
-                  console.log(failedRes.data);
+               .catch((failedRes: any) => { 
+                  // 
                });
          }
       } else {
-         // inputs are not right
+         this.refreshQuestionList.refresh()
       }
 
    }
    public updateExistingQuestionRequest = (updatedQuestionData: IQuestionDto) => {
       if (this.isQuestionInputValid(updatedQuestionData)) {
-         const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
-         const request = this.httpService.putWithToken(reqUrl, updatedQuestionData);
+         const request = this.httpService.putWithToken(this.endpointUrl, updatedQuestionData, this.paramsObject);
          if (request) {
             request
                .then((succesfulRes: any) => {
+                  this.resetQuestionsData();
                   this.refreshQuestionList.refresh()
                })
                .catch((failedRes: any) => {
-                  console.log(failedRes.data);
+                  //
                });
          }
-        
       }
       else {
          this.refreshQuestionList.refresh()
-         // inputs are not right
       }
    }
    public deleteQuestionRequest = (questionId: number) => {
-      const reqUrl = `${this.endpointUrl}/${questionId}/?quiz=${this.props.quizId}`;
-      const request = this.httpService.deleteWithToken(reqUrl);
-      console.log(reqUrl);
+      const reqUrl = `${this.endpointUrl}/${questionId}`;
+      const request = this.httpService.deleteWithToken(reqUrl, this.paramsObject);
       if (request) {
          request
             .then((succesfulRes: any) => {
                this.refreshQuestionList.refresh()
             })
             .catch((failedRes: any) => {
-               console.log(failedRes.data);
+               //
             });
       }
    }
@@ -289,8 +285,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
 
       this.resetQuestionsData();
       this.deleteQuestionRequest(questionId);
-
-      // this.deleteQuestionRequest(this.state.activeQuizId);
    }
 
 
@@ -324,7 +318,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
                editButtonClickHandler={this.editButtonClickHandler}
                deleteButtonClickHandler={this.deleteButtonClickHandler}
             />
-
          </div>
       );
    }
