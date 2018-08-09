@@ -1,0 +1,14 @@
+.profile-container{
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.profile-details{
+    display: inline-block;
+}
+
+.profile-container > .homeButton {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+}

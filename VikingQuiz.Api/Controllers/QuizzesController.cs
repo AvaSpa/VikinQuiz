@@ -49,41 +49,41 @@ namespace VikingQuiz.Api.Controllers
           [HttpGet("{id}")]
           public IActionResult GetQuizByUserId(int id)
           {
-              var qz = quizRepository.GetQuizByUserId(id);
-              if (qz == null)
+              var newQuiz = quizRepository.GetQuizByUserId(id);
+              if (newQuiz == null)
               {
                   return NotFound("Quiz doesn't exist");
               }
-              return Ok(qz.Select(quiz => this.entityToVmMapper.Map(quiz)));
+              return Ok(newQuiz.Select(quiz => this.entityToVmMapper.Map(quiz)));
           } 
        
 
         [HttpPost]
         public IActionResult Add([FromBody]QuizViewModel quiz)
         {
-            Quiz qiz = quizRepository.CreateQuiz(new Quiz {
+            Quiz newQuiz = quizRepository.CreateQuiz(new Quiz {
                 Title = quiz.Title,
                 PictureUrl = quiz.PictureUrl,
                 UserId = quiz.UserId,
                 LastModified = DateTime.Now
             });
-            if (qiz == null)
+            if (newQuiz == null)
             {
                 return BadRequest("Quiz couldn't be created");
             }
-            QuizViewModel quizVm = entityToVmMapper.Map(qiz);
+            QuizViewModel quizVm = entityToVmMapper.Map(newQuiz);
             return Created($"/{quizVm.Id}", quizVm);
         }
 
         [HttpPut]
         public IActionResult UpdateQuiz([FromBody]QuizViewModel quiz)
         {
-            Quiz qiz = quizRepository.UpdateQuiz(vmToEntityMapper.Map(quiz));
-            if (qiz == null)
+            Quiz updatedQuiz = quizRepository.UpdateQuiz(vmToEntityMapper.Map(quiz));
+            if (updatedQuiz == null)
             {
                 return NotFound("Quiz doesn't exist");
             }
-            QuizViewModel quizVm = entityToVmMapper.Map(qiz);
+            QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
             return Accepted($"/{quizVm.Id}", quizVm);
         }
 

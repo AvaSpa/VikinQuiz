@@ -1,10 +1,10 @@
-.quiz_Item_Container{
+.quiz-item-container{
     width: 20%;
-    height:auto;
+    height: auto;
     position: relative;
 }
 
-.quiz_Title{
+.quiz-title{
     margin-top: 20px;
     font-family: 'ariblk';
     font-size: 16px;
@@ -12,7 +12,7 @@
     font-weight: bold;
 }
 
-.photo{
+.quiz-photo{
     border: 12px solid white;
     border-radius: 50%;
     width: 110px;
@@ -21,8 +21,8 @@
 }
 
 @media screen and (max-width: 800px){
-    .quiz_Item_Container{
-        width:50%;
-        height:auto;
+    .quiz-item-container{
+        width: 50%;
+        height: auto;
     }
 }
