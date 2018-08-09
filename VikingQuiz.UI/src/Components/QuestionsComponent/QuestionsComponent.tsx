@@ -12,14 +12,12 @@ import HttpService from '../../services/HttpService';
 interface IProps {
    quizId: number
 }
-
 interface IAnswerDto {
    text: string,
    id: number,
    isChecked? : boolean,
    errorMessage?: string
 }
-
 interface IQuestionDto {
    id: number,
    correctAnswerId: number,
@@ -28,12 +26,12 @@ interface IQuestionDto {
    index?: number,
    titleErrorMessage?: string
 }
-
 interface IState {
    activeQuizId: number,
    isEditMode: boolean,
    currentActiveQuestion: IQuestionDto
 }
+
 class QuestionsComponent extends React.Component<IProps, IState> {
 
    //#region fields
@@ -62,13 +60,12 @@ class QuestionsComponent extends React.Component<IProps, IState> {
                ]
          }
    }
-
    public refreshQuestionList = { // where the reference to re-ask for questions list (thus re-rendering) the questions list will be stored
       refresh: new Function()
    }
-   //#endregion
 
-   //#region helpers
+
+
    public createQuestionRequestObject = () => {
       const currentQuestion = this.state.currentActiveQuestion;
 
@@ -80,26 +77,17 @@ class QuestionsComponent extends React.Component<IProps, IState> {
       };
 
       for (const answer of currentQuestion.answers) {
-         if(true) {
-            body.answers.push({
-               text : answer.text,
-               id: answer.id
-            });
-         }
+         body.answers.push({
+            text : answer.text,
+            id: answer.id
+         });
       }
 
       return body;
    }
-
-
-
    public getReferenceToRefreshQuestionList = () => {
       return this.refreshQuestionList;
    }
-
-
-   
-   // check the validity of the question inputs
    public isQuestionInputValid ( question : IQuestionDto ) : boolean {
       this.combinedInputValidators();
       const questionAnswers = question.answers;
@@ -119,43 +107,9 @@ class QuestionsComponent extends React.Component<IProps, IState> {
 
       return finalCondition; 
    }
-   //#endregion
 
-   //#region handlers
-   // update state on input value change
-   public answerInputChangeHandler = (answerId : any, value : string) => {
-      const currentActiveQuestion = this.state.currentActiveQuestion;
 
-      currentActiveQuestion.answers = currentActiveQuestion.answers.map( answer => {
-         if(answerId === answer.id) {
-            answer.text = value;
-         }
-         return answer;
-      } );
 
-      this.singleInputValidator(answerId);
-      this.setState({
-         currentActiveQuestion
-      });
-   }
-
-   public checkboxChangeHandler = (answerId : any) => {
-
-      const currentActiveQuestion = this.state.currentActiveQuestion;
-      currentActiveQuestion.correctAnswerId = answerId;
-
-      currentActiveQuestion.answers = currentActiveQuestion.answers.map( answer => {
-         answer.isChecked = answer.id === answerId;
-         if (answer.id === answerId) {
-            answer.id = answerId;
-         }
-         return answer;
-      });
-      
-      this.setState({
-         currentActiveQuestion
-      });
-   }
 
    public titleValidator = () => {
       const currentActiveQuestion = this.state.currentActiveQuestion;
@@ -166,7 +120,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          currentActiveQuestion.titleErrorMessage = "";
       }
    }
-
    public singleInputValidator = (id : number) => {
       const currentActiveQuestion = this.state.currentActiveQuestion;
       for (const answer of currentActiveQuestion.answers) {
@@ -180,7 +133,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          }
       }
    }
-
    public combinedInputValidators() {
       const answers = this.state.currentActiveQuestion.answers;
       this.titleValidator();
@@ -191,35 +143,11 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          this.state
       )
    }
-
-
-
-
-   public titleChangeHandler = (value: any) => {
-      const currentActiveQuestion = this.state.currentActiveQuestion;
-      currentActiveQuestion.text = value;
-      this.titleValidator();
-      this.setState({
-         currentActiveQuestion
-      });
-      
-   }
-
- 
-   
-   public editButtonClickHandler = (question: IQuestionDto) => {
-      this.setState({
-         currentActiveQuestion: question,
-         isEditMode: true
-      })
-
-   }
-
-   // reset the state to its default values
    public resetQuestionsData = () => {
       this.state.isEditMode = false;
       this.setState({
          isEditMode: false,
+         activeQuizId: this.props.quizId,
          currentActiveQuestion: {
             id: -1, // questionId
             text: "",
@@ -235,24 +163,12 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          }
       });
    }
-   public cancelEditHandler = () => {
-      this.refreshQuestionList.refresh()
-      this.resetQuestionsData();
-   }
 
-   public onSubmitButtonClick = () => {
-      const requestQuestionDataObject = this.createQuestionRequestObject(); 
-      if (this.state.isEditMode) {
-         this.updateExistingQuestionRequest(requestQuestionDataObject)
-      } 
-      else {
-         this.createNewQuestionRequest(requestQuestionDataObject)
-      }
-   };
-   //#endregion
 
- 
-   // new question request
+
+   
+
+
    public createNewQuestionRequest = (newQuestionData: IQuestionDto) => {
       if (this.isQuestionInputValid(newQuestionData)) {
          const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
@@ -273,7 +189,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
       }
 
    }
-   // update question request
    public updateExistingQuestionRequest = (updatedQuestionData: IQuestionDto) => {
       if (this.isQuestionInputValid(updatedQuestionData)) {
          const reqUrl = this.endpointUrl + "?quiz=" + this.props.quizId;
@@ -295,8 +210,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          // inputs are not right
       }
    }
-
-   // delete question request
    public deleteQuestionRequest = (questionId: number) => {
       const reqUrl = `${this.endpointUrl}/${questionId}/?quiz=${this.props.quizId}`;
       const request = this.httpService.deleteWithToken(reqUrl);
@@ -312,7 +225,70 @@ class QuestionsComponent extends React.Component<IProps, IState> {
             });
       }
    }
-   //#endregion
+
+
+
+
+   public answerInputChangeHandler = (answerId: any, value: string) => {
+      const currentActiveQuestion = this.state.currentActiveQuestion;
+
+      currentActiveQuestion.answers = currentActiveQuestion.answers.map(answer => {
+         if (answerId === answer.id) {
+            answer.text = value;
+         }
+         return answer;
+      });
+
+      this.singleInputValidator(answerId);
+      this.setState({
+         currentActiveQuestion
+      });
+   }
+   public checkboxChangeHandler = (answerId: any) => {
+
+      const currentActiveQuestion = this.state.currentActiveQuestion;
+      currentActiveQuestion.correctAnswerId = answerId;
+
+      currentActiveQuestion.answers = currentActiveQuestion.answers.map(answer => {
+         answer.isChecked = answer.id === answerId;
+         if (answer.id === answerId) {
+            answer.id = answerId;
+         }
+         return answer;
+      });
+
+      this.setState({
+         currentActiveQuestion
+      });
+   }
+   public titleChangeHandler = (value: any) => {
+      const currentActiveQuestion = this.state.currentActiveQuestion;
+      currentActiveQuestion.text = value;
+      this.titleValidator();
+      this.setState({
+         currentActiveQuestion
+      });
+
+   }
+   public cancelEditHandler = () => {
+      this.refreshQuestionList.refresh()
+      this.resetQuestionsData();
+   }
+   public editButtonClickHandler = (question: IQuestionDto) => {
+      this.setState({
+         currentActiveQuestion: question,
+         isEditMode: true
+      })
+   }
+   public onSubmitButtonClick = () => {
+      const requestQuestionDataObject = this.createQuestionRequestObject();
+      if (this.state.isEditMode) {
+         this.updateExistingQuestionRequest(requestQuestionDataObject)
+      }
+      else {
+         this.createNewQuestionRequest(requestQuestionDataObject)
+      }
+   }
    public deleteButtonClickHandler = (questionId: any) => {
 
       this.resetQuestionsData();
@@ -322,18 +298,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    }
 
 
-
    public render() {
-
-         // <YesNoComponent
-         //    // tslint:disable-next-line:jsx-no-lambda
-         //    handleYesClick={this.confirmDelete}
-         //    // tslint:disable-next-line:jsx-no-lambda
-         //    handleNoClick={this.rejectDelete}
-         //    confirmationMessage="Are you sure you want to delete this question?"
-         // />
-   
-
       return (
          <div className="questions-container">
             <MainQuestionComponent
@@ -359,7 +324,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
                paramsObjectt={this.paramsObject}
                questionId={this.state.currentActiveQuestion.id}
                quizId={this.props.quizId}
-               // quizId={this.props.quizId}
 
                editButtonClickHandler={this.editButtonClickHandler}
                deleteButtonClickHandler={this.deleteButtonClickHandler}
