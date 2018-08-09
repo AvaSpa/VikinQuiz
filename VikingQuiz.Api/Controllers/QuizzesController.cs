@@ -27,13 +27,6 @@ namespace VikingQuiz.Api.Controllers
             this.entityToVmMapper = entityToVmMapper;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var quizzes = quizRepository.GetAll();
-            return Ok(quizzes.Select(quiz => this.entityToVmMapper.Map(quiz)));
-        }
-
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -46,10 +39,12 @@ namespace VikingQuiz.Api.Controllers
             return Ok(quizVm);
         }
 
-          [HttpGet("{id}")]
-          public IActionResult GetQuizByUserId(int id)
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetQuizzesByUserId()
           {
-              var newQuiz = quizRepository.GetQuizByUserId(id);
+              int userId = User.Claims.GetUserId();
+              var newQuiz = quizRepository.GetQuizByUserId(userId);
               if (newQuiz == null)
               {
                   return NotFound("Quiz doesn't exist");
