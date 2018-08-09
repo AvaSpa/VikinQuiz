@@ -34,16 +34,12 @@ class QuizComponent extends React.Component<IProps, IState> {
         });
     }
 
-    public componentWillMount(){
-        console.log('login');
-    }
-
     public render(){
         return (
             <div className="quiz container">
                 <StartQuizComponent editMode={this.state.editMode} quizId={this.state.id} save={this.saveQuizHandler}/>
                 {this.state.showQuestions ? 
-                    <QuestionsComponent quizId={this.state.id} /> : null
+                 <QuestionsComponent quizId={this.state.id} /> : <QuestionsComponent quizId={this.state.id} />
                 }
             </div>
             
