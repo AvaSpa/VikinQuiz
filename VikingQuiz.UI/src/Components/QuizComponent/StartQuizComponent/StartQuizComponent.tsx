@@ -198,11 +198,24 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     private isImageValid = (fileObject: any): boolean => {
-        const acceptedFormats: any = ['png','jpeg', 'gif'].map((type: string) => 'image/' + type);
-        const megabyteSize: number = 1024;
-        const kilobyteSize: number = 1024;
-        const numberOfMegabytes: number = 5;
+        const fileCheckConditions: boolean[] = [
+            this.checkFileType(fileObject),
+            this.checkFileSize(fileObject),
+            this.checkFileExistence(fileObject)
+        ]
 
+        if(fileCheckConditions.indexOf(false) !== -1){
+            return false;
+        }
+        
+        this.setState({
+            imageError: ''
+        });
+        this.removeInvalidClassFromUpload();
+        return true;
+    }
+
+    private checkFileExistence = (fileObject: any): boolean => {
         if(!fileObject){
             this.setState({
                 imageError: 'File doesn\'t exist',
@@ -210,9 +223,12 @@ class StartQuizComponent extends React.Component<IProps, IState>{
             });
             this.addInvalidClassToUpload();
             return false;
-           
         }
+        return true;
+    }
 
+    private checkFileType = (fileObject: any): boolean => {
+        const acceptedFormats: any = ['png','jpeg', 'gif'].map((type: string) => 'image/' + type);
         if(!acceptedFormats.includes(fileObject.type))
         {
             this.setState({
@@ -222,6 +238,13 @@ class StartQuizComponent extends React.Component<IProps, IState>{
             this.addInvalidClassToUpload();
             return false;
         }
+        return true;
+    }
+
+    private checkFileSize = (fileObject: any): boolean => {
+        const megabyteSize: number = 1024;
+        const kilobyteSize: number = 1024;
+        const numberOfMegabytes: number = 5;
 
         if(fileObject.size / kilobyteSize > megabyteSize*numberOfMegabytes){
             this.setState({
@@ -231,10 +254,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
             this.addInvalidClassToUpload();
             return false;
         }
-        this.setState({
-            imageError: ''
-        });
-        this.removeInvalidClassFromUpload();
         return true;
     }
 
