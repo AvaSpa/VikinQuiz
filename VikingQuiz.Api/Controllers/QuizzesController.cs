@@ -29,29 +29,6 @@ namespace VikingQuiz.Api.Controllers
             this.entityToVmMapper = entityToVmMapper;
         }
     
-        private IActionResult FileValidityChecker(NewQuizViewModel quizBodyData)
-        {
-            IActionResult statusCodeResult = Ok();
-            statusCodeResult = Ok();
-            if (quizBodyData.Files.Count == 0) {
-                statusCodeResult =  BadRequest("An image file need to be provided."); }
-            else if (quizBodyData.Files.Count > 1) {
-                statusCodeResult = BadRequest("Only one file can be uploaded.");
-            }
-
-            long size = quizBodyData.Files.Sum(f => f.Length);
-            if (size <= 0) {
-                statusCodeResult = BadRequest("File must not be empty.");
-            }
-
-            var contentType = quizBodyData.Files[0].ContentType;
-            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg")) {
-                statusCodeResult =  BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
-            }
-
-            return statusCodeResult;
-        }
-
 
         // Get all the quizzes which belong to an user
         [HttpGet]
@@ -205,6 +182,34 @@ namespace VikingQuiz.Api.Controllers
             } else {
                 return BadRequest("Deletion Impossible. Quiz does not exist.");
             }
+        }
+
+        private IActionResult FileValidityChecker(NewQuizViewModel quizBodyData)
+        {
+            IActionResult statusCodeResult = Ok();
+
+            if (quizBodyData.Files.Count == 0)
+            {
+                statusCodeResult = BadRequest("An image file need to be provided.");
+            }
+            else if (quizBodyData.Files.Count > 1)
+            {
+                statusCodeResult = BadRequest("Only one file can be uploaded.");
+            }
+
+            long size = quizBodyData.Files.Sum(f => f.Length);
+            if (size <= 0)
+            {
+                statusCodeResult = BadRequest("File must not be empty.");
+            }
+
+            var contentType = quizBodyData.Files[0].ContentType;
+            if (!(contentType == "image/gif" || contentType == "image/png" || contentType == "image/jpeg"))
+            {
+                statusCodeResult = BadRequest("Only images of the following formats are allowed: .png, .jpeg or .gif");
+            }
+
+            return statusCodeResult;
         }
     }
 }

@@ -34,7 +34,6 @@ interface IState {
 
 class QuestionsComponent extends React.Component<IProps, IState> {
 
-   //#region fields
    public httpService = new HttpService();
    public readonly endpointUrl = "http://localhost:60151/api/questions";
    public paramsObject = {
@@ -60,7 +59,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
                ]
          }
    }
-   public refreshQuestionList = { // where the reference to re-ask for questions list (thus re-rendering) the questions list will be stored
+   public refreshQuestionList = {
       refresh: new Function()
    }
 

@@ -15,23 +15,20 @@ using System.Threading.Tasks;
 using VikingQuiz.Api.Models;
 
 namespace VikingQuiz.Api.Utilities
+
 {
     public class AzureBlobService
-    { // should be changed to a SINGLETON if posibile
-        private CloudStorageAccount account;
-        private CloudBlobClient blobClient;
-        private ServiceProperties serviceProperties;
-        private CloudBlobContainer userContainer;
-        public Uri urlPath;
+    {
+        
+        public Uri urlPath { get; set; }
 
         public async Task<bool> InitializeBlob()
         {
-            userContainer = blobClient.GetContainerReference("users");
+            userContainer = blobClient.GetContainerReference(containerName);
             if (!await userContainer.CreateIfNotExistsAsync())
             {
                 return false;
             }
-            await userContainer.CreateIfNotExistsAsync();
             BlobContainerPermissions permissions = new BlobContainerPermissions
             {
                 PublicAccess = BlobContainerPublicAccessType.Blob
@@ -39,8 +36,66 @@ namespace VikingQuiz.Api.Utilities
             await userContainer.SetPermissionsAsync(permissions);
             serviceProperties = await SetServiceProperties();
             return true;
-
         }
+
+        public async Task<string> UploadPhoto(IFormFile file)
+        {
+            var filePath = Path.GetTempFileName();
+            using (var stream = new FileStream(filePath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+            string contentType = file.ContentType;
+
+            var extension = getFileExtension(contentType);
+
+            string imageFileName = Guid.NewGuid().ToString() + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + extension;
+
+            CloudBlockBlob cloudBlockBlob = userContainer.GetBlockBlobReference(imageFileName);
+            cloudBlockBlob.Properties.ContentType = contentType;
+
+            await cloudBlockBlob.UploadFromFileAsync(filePath);
+            return imageFileName;
+        }
+
+        public async Task<bool> DeletePhoto(string imageFileNameWithExtension)
+        {
+            var blob = userContainer.GetBlockBlobReference(imageFileNameWithExtension);
+            return await blob.DeleteIfExistsAsync();
+        }
+
+        public AzureBlobService()
+        {
+            string storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=intershipwirtekblob;AccountKey=shTUho2siiIL/ifrGoABOPLJuqLB4UPnGqDMNYiSBiE7IeKxWTLzEtWCm2pgwuvAs5odaGllkGawS8KbdHCtyQ==;EndpointSuffix=core.windows.net";
+            if (CloudStorageAccount.TryParse(storageConnectionString, out this.account))
+            {
+                account = CloudStorageAccount.Parse(storageConnectionString);
+                urlPath = account.BlobStorageUri.PrimaryUri;
+                blobClient = account.CreateCloudBlobClient();
+            }
+            else
+            {
+                throw new StorageException();
+            }
+        }
+
+        private string getFileExtension (string contentType) {
+            Dictionary<string, string> extensions = new Dictionary<string, string>();
+
+            extensions.Add("image/png", ".png");
+            extensions.Add("image/jpeg", ".jpg");
+            extensions.Add("image/gif", ".jpg");
+
+            return extensions[contentType];
+        }
+
+
+        private const string containerName = "users";
+
+        private CloudStorageAccount account;
+        private CloudBlobClient blobClient;
+        private ServiceProperties serviceProperties;
+        private CloudBlobContainer userContainer;
 
         private async Task<ServiceProperties> SetServiceProperties()
         {
@@ -58,51 +113,6 @@ namespace VikingQuiz.Api.Utilities
             await blobClient.SetServicePropertiesAsync(serviceProperties);
 
             return serviceProperties;
-        }
-
-
-        public async Task<string> UploadPhoto(IFormFile file)
-        {
-            var filePath = Path.GetTempFileName();
-            using (var stream = new FileStream(filePath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
-
-            string contentType = file.ContentType;
-            var extension = contentType == "image/png" ? ".png" :
-                            contentType == "image/jpeg" ? ".jpeg" :
-                            contentType == "image/gif" ? ".gif" : null;
-
-            string imgName = Guid.NewGuid().ToString() + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + extension;
-
-            CloudBlockBlob cloudBlockBlob = userContainer.GetBlockBlobReference(imgName);
-            cloudBlockBlob.Properties.ContentType = contentType;
-
-            await cloudBlockBlob.UploadFromFileAsync(filePath);
-            return imgName;
-        }
-
-        public async Task<bool> DeletePhoto(string imageFileNameWithExtension)
-        {
-            var blob = userContainer.GetBlockBlobReference(imageFileNameWithExtension);
-            return await blob.DeleteIfExistsAsync();
-        }
-
-        public AzureBlobService()
-        {
-            // use TryParse to check connection, return exception if it can't connect
-            //account = CloudStorageAccount.DevelopmentStorageAccount;
-            string storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=intershipwirtekblob;AccountKey=shTUho2siiIL/ifrGoABOPLJuqLB4UPnGqDMNYiSBiE7IeKxWTLzEtWCm2pgwuvAs5odaGllkGawS8KbdHCtyQ==;EndpointSuffix=core.windows.net";
-            if (CloudStorageAccount.TryParse(storageConnectionString, out this.account))
-            {
-                account = CloudStorageAccount.Parse(storageConnectionString);
-                urlPath = account.BlobStorageUri.PrimaryUri;
-                blobClient = account.CreateCloudBlobClient();
-            }
-            else
-            {
-                throw new StorageException();
-            }
         }
     }
 }
