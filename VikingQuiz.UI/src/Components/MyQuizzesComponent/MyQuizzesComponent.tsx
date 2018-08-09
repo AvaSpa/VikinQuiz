@@ -8,7 +8,7 @@ import ProfileAndHomeComponent from '../ProfileAndHomeComponent/ProfileAndHomeCo
 class MyQuizzesComponent extends React.Component<any, any> {
     
     private readonly apiAddressForQuizzes = 'http:///localhost:60151/api/quizzes/'
-    private readonly apiAddressForUsers = 'http://localhost:60151/api/users/3'
+    private readonly apiAddressForUsers = 'http://localhost:60151/api/users/current'
     
     constructor(props: any) {
         super(props);
