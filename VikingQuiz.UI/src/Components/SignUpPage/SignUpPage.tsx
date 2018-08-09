@@ -8,7 +8,6 @@ import BottomLogo from '../BottomLogo/BottomLogo';
 import IUserDto from '../../entities/IUserDto';
 import { Redirect } from 'react-router-dom';
 import {signUpRules} from '../../entities/Validation/rules';
-// import register from '../../registerServiceWorker';
 import {signUpValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
 import StorageService from 'src/services/StorageService';
@@ -20,6 +19,14 @@ function popupOpenHandler(): void { console.log("Popup opened"); }
 
 function responseSuccesfulHandler(res: any): void { console.log("Response succesful", res); }
 function responseFailureHandler(): void { console.dir("Response failed"); }
+
+
+const signupFormBody: any = [
+    {id: 'user-name', type: 'text', label: 'Name', errorMessage: '', name: 'Username', value: ''},
+    {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
+    {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
+    {id: 'user-confpass', type: 'password', label: 'Confirm Password', errorMessage: '', name: 'ConfPassword', value: ''}
+]
 
 class SignUpPage extends React.Component<{}, any> {
    private httpService: any = new HttpService();
@@ -105,13 +112,7 @@ class SignUpPage extends React.Component<{}, any> {
                   <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                      <div className="form-container">
                         {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
-                        <FormComponent className="signupForm" inputs={
-                           [
-                                {id: 'user-name', type: 'text', label: 'Name', errorMessage: '', name: 'Username', value: ''},
-                                {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
-                                {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
-                                {id: 'user-confpass', type: 'password', label: 'Confirm Password', errorMessage: '', name: 'ConfPassword', value: ''}
-                           ]}
+                        <FormComponent className="signupForm" inputs={signupFormBody}
                            url={apiUrl + "api/users"}
                            buttonName=""
                            onSubmit={this.userDataHandler}
