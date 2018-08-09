@@ -14,13 +14,14 @@ class StartGame extends React.Component<any, any> {
             serverMessage: '',
             redirect: false,
             player: [],
-            urlToGet : "http:///localhost:60151/api/player",
+            baseUrl : "http:///localhost:60151/api/",
+            endPoint: "player",
             playersPerLine: 7
         }
     }
 
     public componentWillMount() {
-        axios.get(this.state.urlToGet)
+        axios.get(this.state.baseUrl+this.state.endPoint)
         .then(response => {
             console.log(response.data)
             this.setState({player: response.data})
