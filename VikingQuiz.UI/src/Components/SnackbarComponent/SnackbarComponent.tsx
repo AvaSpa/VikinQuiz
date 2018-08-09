@@ -1,11 +1,34 @@
 import * as React from 'react';
 import './SnackbarComponent.css';
 
-class SnackbarComponent extends React.Component<any, any>{
+interface IProps{
+    show: boolean;
+    data: any;
+}
 
-    public state = {
-        show: this.props.show
+interface IState{
+    show: boolean;
+}
+
+class SnackbarComponent extends React.Component<IProps, IState>{
+
+    constructor(props: any){
+        super(props);
+
+        this.state = {
+            show: this.props.show
+        }
     }
+
+    public componentDidUpdate(prevProps: any){
+        if(this.props.show !== prevProps.show) 
+        {
+           this.setState({
+               show: this.props.show
+           });
+        }
+    }
+    
 
     public clickHandler = () => {
         this.setState({
