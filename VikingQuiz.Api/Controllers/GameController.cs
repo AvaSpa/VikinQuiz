@@ -17,7 +17,6 @@ namespace VikingQuiz.Api.Controllers
         private readonly GameRepository gameRepository;
         private IEntityMapper<Game, GameViewModel> entityToVmMapper;
         private IEntityMapper<GameViewModel, Game> vmToEntityMapper;
-        private static Random random = new Random();
 
         public GameController(GameRepository gameRepository, IEntityMapper<Game, GameViewModel> entityToVmMapper, IEntityMapper<GameViewModel, Game> vmToEntityMapper)
         {
@@ -48,7 +47,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult CreateGame([FromBody]GameViewModel gameViewModel)
         {
-            string code = RandomCode(6);
+            string code = gameRepo.GenerateCode();
             Game game = new Game()
             {
                 QuizId = gameViewModel.QuizId,
@@ -90,12 +89,6 @@ namespace VikingQuiz.Api.Controllers
         {
             gameRepository.Delete(id);
             return Ok();
-        }
-
-        private static string RandomCode(int length)
-        {
-            const string charactersUsed = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(charactersUsed, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
     }

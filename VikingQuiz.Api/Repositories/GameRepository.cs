@@ -9,6 +9,7 @@ namespace VikingQuiz.Api.Repositories
     public class GameRepository
     {
         private VikinQuizContext context;
+        private Random random = new Random();
 
         public GameRepository(VikinQuizContext context)
         {
@@ -51,6 +52,27 @@ namespace VikingQuiz.Api.Repositories
         public Game GetGameById(int id)
         {
             return context.Game.Find(id);
+        }
+
+        public Game GetGameByCode(string code)
+        {
+            Game foundGame = ctx.Game.Where(x => x.Code == code)
+                .Select(x => new Game { Id = x.Id, QuizId = x.QuizId, GameDate = x.GameDate, Code = x.Code })
+                .FirstOrDefault();
+
+            return foundGame;
+        }
+
+        public string GenerateCode()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string code = "";
+            for(int i = 0; i < 6; i++)
+            {
+                code += chars[random.Next(0, 35)];
+            }
+
+            return code;
         }
     }
 }

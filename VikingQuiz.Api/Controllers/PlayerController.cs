@@ -31,13 +31,25 @@ namespace VikingQuiz.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public IActionResult CreatePlayer([FromBody]PlayerViewModel player)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            Player p = new Player
+            Player player = playerRepo.getPlayerById(id);
+            if(player == null)
             {
-                PictureUrl = player.PictureUrl,
-                Name = player.Name
+                return NotFound("Player doesn't exist");
+            }
+            PlayerViewModel playerVm = this.entityToVmMapper.Map(player);
+            return Ok(playerVm);
+        }
+
+        [HttpPost]
+        public IActionResult CreatePlayer([FromBody]PlayerCodeViewModel playercode)
+        {
+            Player createdPlayer = new Player()
+            {
+                PictureUrl = playercode.PictureUrl,
+                Name = playercode.Name
             };
 
             Player newPlayer = playerRepository.AddPlayer(p);
@@ -45,7 +57,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 return BadRequest("Player couldn't be created");
             }
-            PlayerViewModel playerVm = entityToVmMapper.Map(p);
+            PlayerViewModel playerVm = entityToVmMapper.Map(createdPlayer);
             return Ok(playerVm);
         }
 

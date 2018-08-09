@@ -65,6 +65,11 @@
     .center-container{
         width: 200px;
     }
+
+    .code-input{
+        height: 60px;
+        width: 170px;
+    }
 }
 
 
@@ -94,6 +99,10 @@
         justify-content: center;
         height: 60px;
     }
+
+    .code-input{
+        height: 45px;
+    }
 }
 
 @media screen and (max-width: 400px){
@@ -122,6 +131,10 @@
         justify-content: center;
         height: 120px;
         margin-top: 20px;
+    }
+
+    .code-input{
+        height: 45px;
     }
 }
 
@@ -156,6 +169,11 @@
         height: 60px;
         margin-top: 10px;
         margin: 0 2px;
+    }
+
+    .code-input{
+        height: 40px;
+        width: 100px;
     }
 }
 

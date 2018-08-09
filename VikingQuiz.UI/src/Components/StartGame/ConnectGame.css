@@ -1,0 +1,211 @@
+.player-photo {
+    width: 200px;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: auto;
+}
+
+.player-name{
+    font-size: 30px;
+    font-weight: normal;
+    top: 20px;
+}
+
+.player-container{
+    max-width: 208px;
+    margin-bottom: 20px;
+}
+
+.photo{
+    width: 200px;
+    height: 200px;
+    border: 10px solid white;
+    border-radius: 50%;
+}
+
+.center-container{
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 500px;
+}
+
+.connectgame-players-container{
+    display: flex;
+    justify-content: center;
+    height: 220px;
+    margin-top: 100px;
+}
+
+.connectgame-main-label{
+    position: relative;
+    font-size: 100px;
+    color: #f0cc04;
+    font-family: 'dk_lemon_yellow_sunregular';
+    text-align: center;
+    font-weight: normal;
+    top: 104px;
+}
+
+.connectgame-status-label{
+    position: relative;
+    font-size: 60px;
+    color: #6AB9C5;
+    font-family: 'dk_lemon_yellow_sunregular';
+    text-align: center;
+    font-weight: normal;
+    top: 104px;
+}
+
+@media screen and (max-width: 1100px){
+    .player-photo {
+        margin-top: 30px;
+    }
+    
+    .player-name{
+        font-size: 40px;
+    }
+
+    .center-container{
+        width: 600px;
+    }
+    
+    .connectgame-players-container{
+        margin-top: 120px;
+    }
+    
+    .connectgame-status-label{
+        font-size: 60px;
+        top: 364px;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .player-photo {
+        width: 150px;
+        height: 150px;
+        margin-top: 20px;
+    }
+    
+    .player-name{
+        font-size: 30px;
+        font-weight: normal;
+        top: 20px;
+    }
+    
+    .player-container{
+        max-width: 158px;
+    }
+    
+    .photo{
+        width: 150px;
+        height: 150px;
+    }
+
+    .center-container{
+        width: 300px;
+    }
+    
+    .connectgame-players-container{
+        margin-top: 120px;
+    }
+    
+    .connectgame-status-label{
+        font-size: 60px;
+        top: 204px;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .player-photo {
+        margin-top: 30px;
+    }
+    
+    .player-name{
+        font-size: 34px;
+    }
+
+    .center-container{
+        width: 300px;
+    }
+    
+    .connectgame-players-container{
+        margin-top: 120px;
+    }
+
+    .connectgame-main-label{
+        font-size: 50px;
+    }
+    
+    .connectgame-status-label{
+        font-size: 24px;
+        top: 164px;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .player-photo {
+        margin-top: 30px;
+    }
+    
+    .player-name{
+        font-size: 40px;
+    }
+
+    .center-container{
+        width: 300px;
+    }
+    
+    .connectgame-players-container{
+        margin-top: 120px;
+    }
+
+    .connectgame-main-label{
+        font-size: 50px;
+    }
+    
+    .connectgame-status-label{
+        font-size: 24px;
+        top: 164px;
+    }
+}
+
+@media screen and (max-width: 350px){
+    .player-photo {
+        width: 90px;
+        height: 90px;
+        margin-top: 30px;
+    }
+    
+    .player-name{
+        font-size: 30px;
+    }
+
+    .player-container{
+        max-width: 98px;
+    }
+    
+    .photo{
+        width: 90px;
+        height: 90px;
+    }
+
+
+    .center-container{
+        width: 300px;
+    }
+    
+    .connectgame-players-container{
+        margin-top: 120px;
+    }
+
+    .connectgame-main-label{
+        font-size: 50px;
+    }
+    
+    .connectgame-status-label{
+        font-size: 24px;
+        top: 64px;
+    }
+}
