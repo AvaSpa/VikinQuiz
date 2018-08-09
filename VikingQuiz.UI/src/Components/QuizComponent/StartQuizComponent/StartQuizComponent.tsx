@@ -41,7 +41,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         titleError: '',
         isValid: false,
         saved: false,
-        showSnackbar: true,
+        showSnackbar: false,
         snackbarData: errorSnackbar
     }
 
