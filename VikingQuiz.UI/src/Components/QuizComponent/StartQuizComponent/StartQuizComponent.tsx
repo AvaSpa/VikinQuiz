@@ -118,30 +118,30 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     public saveQuizHandler = () => {
+        const formData = new FormData();
+
         if(!this.isQuizValid()){
             return;
         }
         
-        const fd = new FormData();
-        fd.append('files', this.state.selectedFile);
-        fd.append('title', this.state.title.toUpperCase());
+        formData.append('files', this.state.selectedFile);
+        formData.append('title', this.state.title.toUpperCase());
 
         let url: string = quizzesUrl;
         if(this.props.editMode){
             url = url + '/' + this.props.quizId;
         }
 
-        this.httpService.postWithToken(url, fd)
+        this.saveQuizRequest(url, formData);
+    }
+
+    public saveQuizRequest = (url: string, body: any) => {
+        this.httpService.postWithToken(url, body)
         .then((response: any) => {
-            const snackbar: ISnackbarData = successSnackbar;
-            snackbar.message = "Quiz created";
-            this.showSnackbarHandler(snackbar);
             this.successfulSaveHandler(response);
         })
         .catch((error: any) => {
-            const snackbar: ISnackbarData = errorSnackbar;
-            snackbar.message = "Cannot create quiz, please try again";
-            this.showSnackbarHandler(snackbar);
+            this.errorHandler(error);
         });
     }
 
@@ -241,6 +241,9 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     private successfulSaveHandler(response: any){
+        const snackbar: ISnackbarData = successSnackbar;
+        snackbar.message = "Quiz created";
+        this.showSnackbarHandler(snackbar);
         const id: number = response.data.id;
         const successButtonElement: any = document.querySelector(".success-btn");
         successButtonElement.classList.add('hidden');
@@ -248,6 +251,12 @@ class StartQuizComponent extends React.Component<IProps, IState>{
             saved: true
         })
         this.props.save(id);
+    }
+
+    private errorHandler(error: any){
+        const snackbar: ISnackbarData = errorSnackbar;
+        snackbar.message = "Cannot create quiz, please try again";
+        this.showSnackbarHandler(snackbar);
     }
 
     private addInvalidClassToUpload = () => {
