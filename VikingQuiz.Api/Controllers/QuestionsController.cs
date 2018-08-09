@@ -18,17 +18,17 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class QuestionsController : Controller
     {
-        private readonly QuestionRepository questionRepo;
-        private readonly AnswerRepository answerRepo;
+        private readonly QuestionRepository questionRepository;
+        private readonly AnswerRepository answerRepository;
         private IEntityMapper<Question, QuestionViewModel> entityToVmMapper;
         private IEntityMapper<QuestionViewModel, Question> vmToEntityMapper;
         private IEntityMapper<Answer, AnswerViewModel> answerToVmMapper;
         private IEntityMapper<AnswerViewModel, Answer> vmToAnswerMapper;
 
-        public QuestionsController(QuestionRepository questionRepo, AnswerRepository answerRepo, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper, IEntityMapper<Answer, AnswerViewModel> answerToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToAnswerMapper)
+        public QuestionsController(QuestionRepository questionRepository, AnswerRepository answerRepository, IEntityMapper<Question, QuestionViewModel> entityToVmMapper, IEntityMapper<QuestionViewModel, Question> vmToEntityMapper, IEntityMapper<Answer, AnswerViewModel> answerToVmMapper, IEntityMapper<AnswerViewModel, Answer> vmToAnswerMapper)
         {
-            this.questionRepo = questionRepo;
-            this.answerRepo = answerRepo;
+            this.questionRepository = questionRepository;
+            this.answerRepository = answerRepository;
             this.vmToEntityMapper = vmToEntityMapper;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToAnswerMapper = vmToAnswerMapper;
@@ -38,15 +38,9 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetAll([FromQuery(Name = "quiz")] int quizId)
         {
-            var questions = questionRepo.GetAllByQuizId(quizId);
+            var questions = questionRepository.GetAllByQuizId(quizId);
             var result = questions
-                        .Select(question => {
-                                QuestionViewModel questionVM = this.entityToVmMapper.Map(question);
-                                questionVM.Answers = this.answerRepo.GetAllAnswers(question.Id)
-                                                                    .Select(answer => this.answerToVmMapper.Map(answer))
-                                                                    .ToList();
-                                return questionVM;
-                            })
+                        .Select(question => addAnswersToQuestions(question))
                         .ToList();
             return Ok(result);
         }
@@ -59,7 +53,7 @@ namespace VikingQuiz.Api.Controllers
                 Text = questionVm.Text
             };
 
-            Question newQuestion = questionRepo.AddQuestion(quizId, question);
+            Question newQuestion = questionRepository.AddQuestion(quizId, question);
             if (newQuestion == null)
             {
                 return BadRequest("The text is already assigned to another question");
@@ -70,7 +64,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 return BadRequest("You can't have two duplicate answers");
             }
-            newQuestion = this.questionRepo.UpdateQuestion(newQuestion);
+            newQuestion = this.questionRepository.UpdateQuestion(newQuestion);
             QuestionViewModel newQuestionVm = entityToVmMapper.Map(newQuestion);
             newQuestionVm.Answers = realAnswers;
             return Created($"/{newQuestionVm.Id}", newQuestionVm);
@@ -80,8 +74,8 @@ namespace VikingQuiz.Api.Controllers
         public IActionResult UpdateQuestion([FromBody]QuestionViewModel questionVm, [FromQuery(Name = "quiz")] int quizId)
         {
             Question question = vmToEntityMapper.Map(questionVm);
-            Question newQuestion = this.questionRepo.UpdateQuestion(question);
-            if(newQuestion.Id == -1)
+            Question newQuestion = this.questionRepository.UpdateQuestion(question);
+            if (newQuestion.Id == -1)
             {
                 return BadRequest("This question already exists!");
             }
@@ -89,7 +83,7 @@ namespace VikingQuiz.Api.Controllers
             questionVm.Answers.ForEach(answerVm =>
             {
                 Answer answer = this.vmToAnswerMapper.Map(answerVm);
-                Answer newAnswer = this.answerRepo.UpdateAnswer(answer, newQuestion.Id);
+                Answer newAnswer = this.answerRepository.UpdateAnswer(answer, newQuestion.Id);
                 AnswerViewModel newAnswerViewModel = answerToVmMapper.Map(newAnswer);
                 newQuestionVm.Answers.Add(newAnswerViewModel);
             });
@@ -100,7 +94,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteQuestion(int id, [FromQuery(Name = "quiz")] int quizId)
         {
-            questionRepo.DeleteQuestion(quizId, id);
+            questionRepository.DeleteQuestion(quizId, id);
             return Ok();
         }
 
@@ -108,14 +102,14 @@ namespace VikingQuiz.Api.Controllers
         //[Authorize]
         public IActionResult GetQuestionById(int id)
         {
-            Question question = questionRepo.getQuestionById(id);
+            Question question = questionRepository.getQuestionById(id);
             if (question == null)
             {
                 return NotFound("Question doesn't exist");
             }
 
             QuestionViewModel questionVm = this.entityToVmMapper.Map(question);
-            questionVm.Answers = this.answerRepo.GetAllAnswers(question.Id)
+            questionVm.Answers = this.answerRepository.GetAllAnswers(question.Id)
                                                 .Select(answer => this.answerToVmMapper.Map(answer))
                                                 .ToList();
             return Ok(questionVm);
@@ -136,10 +130,10 @@ namespace VikingQuiz.Api.Controllers
 
                 int oldId = answerVm.Id;
 
-                Answer newAnswer = this.answerRepo.AddAnswer(answer);
+                Answer newAnswer = this.answerRepository.AddAnswer(answer);
                 if (newAnswer == null)
                 {
-                    this.questionRepo.DeleteQuestion(quizId, question.Id);
+                    this.questionRepository.DeleteQuestion(quizId, question.Id);
                     return null;
                 }
 
@@ -154,6 +148,15 @@ namespace VikingQuiz.Api.Controllers
                 }
             }
             return realAnswers;
+        }
+
+        private QuestionViewModel addAnswersToQuestions(Question question)
+        {
+            QuestionViewModel questionVM = this.entityToVmMapper.Map(question);
+            questionVM.Answers = this.answerRepository.GetAllAnswers(question.Id)
+                                                .Select(answer => this.answerToVmMapper.Map(answer))
+                                                .ToList();
+            return questionVM;
         }
     }
 }
