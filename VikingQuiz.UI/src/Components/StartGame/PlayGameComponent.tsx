@@ -108,7 +108,7 @@ class FormComponent extends React.Component<any, any> {
 
    }
 
-   public changeHandler = (input: any, event: any) => {
+    public changeHandler = (input: any, event: any) => {
         this.changeValueHandler(input.id, event);
         this.resetError(input);
         this.reverseValidity();
