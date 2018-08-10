@@ -12,6 +12,7 @@ import { loginRules} from '../../entities/Validation/rules';
 
 import {loginValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
+import StorageService from '../../services/StorageService';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -22,59 +23,37 @@ function postError(res: any): void { console.dir("Post NOT succesful", res); }
 function responseSuccesfulHandler(res: any): void { console.log("Response succesful", res); }
 function responseFailureHandler(): void { console.dir("Response failed"); }
 
-
-
+interface ILoginCredentials{
+    email: string,
+    password: string
+};
 
 class LoginPage extends React.Component<any, any> {
     private httpService: any = new HttpService();
-    
+    private storageService: StorageService = new StorageService();
+    private readonly apiAddress: string = 'http://localhost:60151/api';
+    private readonly apiSessionAddress: string = '/session';
+    private readonly apiGoogleAddress: string = '/google';
+    private readonly apiFacebookAddress: string = '/facebook';
+
     constructor(props: any) {
-      super(props);
+        super(props);
 
-      this.state = {
-          serverMessage: '',
-          redirect: false
-      }
-    }
-  
-   
-  
-    public userDataHandler = (url: string, formData: any) => {
-        if(!url || !formData){
-            return;
+        this.state = {
+            serverMessage: '',
+            redirect: false,
+            checkbox: false
         }
-
-        const self: any = this;
-
-        const body: any = {
-            email: formData.Email,
-            password: formData.Password 
-        }
-    
-        this.httpService.post(url, body)
-        .then((res: any) => {
-                console.log("success");
-                 self.setState({
-                     redirect: true
-                 });
-            }
-        )
-        .catch((error: any) => {
-            if(!error){
-                self.setState({
-                    serverMessage: "Couldn't connect to the server"
-                });
-                return;
-            };
-            self.setState({
-                serverMessage: error.response.data
-            })
-            setTimeout(()=>self.setState({
-                serverMessage: ''
-            }), 5000);
-        });
     }
 
+    public componentDidMount() {
+        const remember: boolean = this.storageService.getItem('remember') === 'true' ? true : false;
+        const tokenExists: boolean = this.storageService.itemExists('token');
+
+        if (remember && tokenExists) {
+            this.setState({ redirect: true });
+        }
+    }
 
     public render() {
       if(this.state.redirect){
@@ -99,15 +78,16 @@ class LoginPage extends React.Component<any, any> {
                               <LoginFormComponent inputs={[
                                 new InputData('user-email', 'email', 'Email', '', 'Email', ''),
                                 new InputData('user-password', 'password', 'Password', '', 'Password', ''),
-                                ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler} 
+                                ]} url={this.apiAddress + this.apiSessionAddress} buttonName="" onSubmit={this.userDataHandler} 
                            validator={loginValidator}
                            validationRules={loginRules}
+                           checkboxChangedHandle={this.checkboxClickedHandle}
                                 />
                               <div className="socials">
                               <SocialButtonsWrapper 
                                     postURLs={{
-                                        facebook: 'http://localhost:60151/api/facebook',
-                                        google: 'http://localhost:60151/api/google'
+                                        facebook:   this.apiAddress + this.apiFacebookAddress,
+                                        google:     this.apiAddress + this.apiGoogleAddress
                                     }}
                                     clientIds={{
                                         facebook: "1691716487610141",
@@ -132,6 +112,48 @@ class LoginPage extends React.Component<any, any> {
           </div>   
       );
     }
+    
+    private userDataHandler = (url: string, formData: any) => {
+        if (!url || !formData) {
+            return;
+        }
+
+        const body: ILoginCredentials = {
+            email: formData.Email,
+            password: formData.Password
+        }
+
+        this.httpService.post(this.apiAddress + this.apiSessionAddress, body)
+        .then((result: any) => this.onLogInSuccess(result))
+        .catch((error: any) => this.onLogInError(error))
+    };
+
+    private onLogInSuccess = (result: any) => {
+        const loginToken: string = result.data.token;
+        this.storageService.saveItem('token', loginToken);
+        this.setState({redirect: true});
+    };
+
+    private onLogInError = (error: any) => {
+        if (!error) {
+            this.setState({
+                serverMessage: "Could not connect to the server"
+            });
+            return;
+        };
+        this.setState({
+            serverMessage: error.response.data
+        })
+        setTimeout(() => this.setState({
+            serverMessage: ''
+        }), 5000);
+    };
+
+    private checkboxClickedHandle = () => {
+        const checkboxChange: boolean = !this.state.checkbox;
+        this.setState({ checkbox: checkboxChange });
+        this.storageService.saveItem('remember', checkboxChange.toString());
+    };
   }
   
   export default LoginPage;
