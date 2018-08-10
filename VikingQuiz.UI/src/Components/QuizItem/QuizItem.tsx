@@ -45,12 +45,12 @@ class QuizItem extends React.Component<any, any>{
      public render(){
          return(
             <div className="quiz-item-container">
-                <div onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseOut}>
+                <div className="quiz-photo-container" onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseOut}> 
                     {this.state.isHidden && !this.state.isSelected ? 
                     (
-                        <div className="quiz-photo-container"  >  
+                        
                             <img className="quiz-photo" src={this.props.photo} />
-                        </div>
+                        
                     )
                     :   (
                         <ManageQuizComponent deleteSelection={this.handleDeleteSelection} id={this.state.id} handleChildDelete={this.state.handleChildDelete}
