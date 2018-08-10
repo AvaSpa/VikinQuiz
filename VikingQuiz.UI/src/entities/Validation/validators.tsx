@@ -59,7 +59,6 @@ const connectValidator = function(inputs: any, validationRules: any, id: string,
     return true;
  }
 
-export { signUpValidator, loginValidator, connectValidator};
 const changePasswordValidator =  function(inputs: any, validationRules: any, id: string, funcs: any) {
     const rules = validationRules[id];
     const inputFieldsValueCopy = funcs.getCopyOfInputs(inputs);
@@ -85,4 +84,4 @@ const changePasswordValidator =  function(inputs: any, validationRules: any, id:
     return true;
  }
 
-export { signUpValidator, loginValidator, changePasswordValidator};
+export { signUpValidator, loginValidator, changePasswordValidator, connectValidator};
