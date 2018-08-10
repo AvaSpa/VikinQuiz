@@ -22,17 +22,19 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost]
         public IActionResult Login([FromBody]GoogleViewModel content)
         {
-            string base64Id = content.Id.Base64Encoder();
             User user = new User
             {
-                Username = base64Id,
+                Username = content.Name,
                 Email = content.Email,
                 Pass = null,
                 PictureUrl = content.PictureUrl,
                 IsConfirmed = true
             };
-            user = this.userRepository.CreateUser(user);
-            string userToken = this.authenticationService.GenerateTokenForUser(user, role: "player");
+            if (this.userRepository.CreateUser(user) == null)
+            {
+                user = this.userRepository.UserGetUserByEmail(user.Email);
+            }
+            string userToken = this.authenticationService.GenerateTokenForUser(user);
             return Ok(new { token = userToken });
         }
     }

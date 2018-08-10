@@ -55,6 +55,11 @@ namespace VikingQuiz.Api.Repositories
             return context.User.FirstOrDefault(u => u.Id == id);
         }
 
+        public User UserGetUserByEmail(string email)
+        {
+            return context.User.FirstOrDefault(x => x.Email == email);
+        }
+
         public bool CheckIfUserExists(int userId)
         {
             return context.User.Any(u => u.Id == userId);
