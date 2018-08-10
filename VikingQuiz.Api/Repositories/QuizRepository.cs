@@ -71,6 +71,12 @@ namespace VikingQuiz.Api.Repositories
             return foundQuiz;
         }
 
+        public List<Quiz> GetQuizByUserId(int id)
+        {
+            return context.Quiz.Where(q => q.UserId == id).OrderByDescending(q => q.LastModified).ToList();
+
+        }
+
         public IEnumerable<Quiz> GetAll(int userId)
         {
             var quizzesOfTheUser = context.Quiz.Where(dbQuiz => dbQuiz.UserId == userId).ToList();

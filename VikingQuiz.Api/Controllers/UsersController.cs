@@ -36,7 +36,8 @@ namespace VikingQuiz.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("/current")]
+        [Route("/current")]
+        [HttpGet]
         [Authorize]
         public IActionResult Get()
         {

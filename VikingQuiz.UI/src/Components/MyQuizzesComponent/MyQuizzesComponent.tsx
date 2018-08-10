@@ -4,11 +4,13 @@ import QuizItem from '../QuizItem/QuizItem';
 import axios from 'axios';
 import NewQuizButton from '../Buttons/NewQuizButton/NewQuizButton';
 import ProfileAndHomeComponent from '../ProfileAndHomeComponent/ProfileAndHomeComponent';
+import HttpService from '../../services/HttpService';
 
 class MyQuizzesComponent extends React.Component<any, any> {
     
-    private readonly apiAddressForQuizzes = 'http:///localhost:60151/api/quizzes/'
-    private readonly apiAddressForUsers = 'http://localhost:60151/api/users/current'
+    private readonly apiAddressForQuizzes = 'http:///localhost:60151/api/quizzes/';
+    private readonly apiAddressForUsers = 'http://localhost:60151/api/users/current';
+    private httpService: HttpService = new HttpService();
     
     constructor(props: any) {
         super(props);
@@ -33,17 +35,17 @@ class MyQuizzesComponent extends React.Component<any, any> {
 
     public componentWillMount() {
 
-        axios.get(this.apiAddressForQuizzes)
-            .then(response => {
+        this.httpService.getWithToken(this.apiAddressForQuizzes)
+            .then((response: any) => {
                 this.setState({ quizzes: response.data })
             })
-            .catch(error => this.onAxiosError(error))
+            .catch((error: any) => this.onAxiosError(error))
 
-        axios.get(this.apiAddressForUsers)
-        .then(response => {
+        this.httpService.getWithToken(this.apiAddressForUsers)
+        .then((response: any) => {
             this.setState({ username: response.data.username, profilePictureUrl: response.data.pictureUrl })
         })
-        .catch(error => this.onAxiosError(error))
+        .catch((error: any) => this.onAxiosError(error))
     }
 
     public onAxiosError = (error: any) => {
