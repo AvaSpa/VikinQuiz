@@ -9,37 +9,39 @@ namespace VikingQuiz.Api.Repositories
     public class GameRepository
     {
         private VikinQuizContext context;
+        private Random random = new Random();
+        private int codeLength = 6;
 
         public GameRepository(VikinQuizContext context)
         {
             this.context = context;
         }
 
-        public Game Create(Game g)
+        public Game Create(Game game)
         {
-            context.Add(g);
+            context.Add(game);
             context.SaveChanges();
-            return g;
+            return game;
         }
 
-        public Game Update(Game g)
+        public Game Update(Game game)
         {
-            Game gg = context.Game.Find(g.Id);
-            gg.QuizId = g.QuizId;
-            gg.GameDate = g.GameDate;
+            Game foundGame = context.Game.Find(game.Id);
+            foundGame.QuizId = game.QuizId;
+            foundGame.GameDate = game.GameDate;
             context.SaveChanges();
-            return g;
+            return game;
         }
 
         public void Delete(int id)
         {
-            Game gm = new Game
+            Game game = new Game
             {
                 Id = id,
             };
-            var playerGame = context.PlayerGame.Where(x => x.Gid == id).ToList();
+            var playerGame = context.PlayerGame.Where(playergame => playergame.GameId == id).ToList();
             context.PlayerGame.RemoveRange(playerGame);
-            context.Game.Remove(gm);
+            context.Game.Remove(game);
             context.SaveChanges();
         }
 
@@ -51,6 +53,26 @@ namespace VikingQuiz.Api.Repositories
         public Game GetGameById(int id)
         {
             return context.Game.Find(id);
+        }
+
+        public Game GetGameByCode(string code)
+        {
+            Game foundGame = context.Game.Where(game => game.Code == code)
+                .FirstOrDefault();
+
+            return foundGame;
+        }
+
+        public string GenerateCode()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string code = "";
+            for(int i = 0; i < codeLength; i++)
+            {
+                code += chars[random.Next(0, chars.Length)];
+            }
+
+            return code;
         }
     }
 }

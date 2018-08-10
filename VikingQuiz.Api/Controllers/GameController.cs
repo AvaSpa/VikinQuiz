@@ -45,20 +45,22 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGame([FromBody]GameViewModel game)
+        public IActionResult CreateGame([FromBody]GameViewModel gameViewModel)
         {
-            Game g = new Game
+            string code = gameRepository.GenerateCode();
+            Game game = new Game()
             {
-                QuizId = game.QuizId,
-                GameDate = Convert.ToDateTime(game.GameDate)
+                QuizId = gameViewModel.QuizId,
+                GameDate = Convert.ToDateTime(gameViewModel.GameDate),
+                Code = code
             };
 
-            Game newGame = gameRepository.Create(g);
+            Game newGame = gameRepository.Create(game);
             if (newGame == null)
             {
                 return BadRequest("Game couldn't be created");
             }
-            GameViewModel gameVm = entityToVmMapper.Map(g);
+            GameViewModel gameVm = entityToVmMapper.Map(game);
             return Ok(gameVm);
         }
 
@@ -69,7 +71,8 @@ namespace VikingQuiz.Api.Controllers
             {
                 Id = id,
                 QuizId = game.QuizId,
-                GameDate = Convert.ToDateTime(game.GameDate)
+                GameDate = Convert.ToDateTime(game.GameDate),
+                Code = game.Code
             };
 
             Game updatedGame = gameRepository.Update(gm);

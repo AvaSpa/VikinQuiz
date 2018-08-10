@@ -1,0 +1,20 @@
+.join-button{
+    border-radius: 50%;
+    border: none;
+    width:100px;
+    height:100px;
+    top: 200px;
+    background: transparent url(./../../media/joinbutton.png) no-repeat;
+    background-size: 100%;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    transition: all 0.2s linear;
+}
+
+.join-button:hover {
+    transform: translateY(3px);
+}
+.join-button:active {
+    transform: translateY(5px);
+}

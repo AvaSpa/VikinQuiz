@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 
 namespace VikingQuiz.Api.ViewModels
 {
-    public class GameViewModel
+    public class PlayerCodeViewModel
     {
         public int Id { get; set; }
-        public string GameDate { get; set; }
-        public int? QuizId { get; set; }
+
+        public string PictureUrl { get; set; }
+
+        public string Name { get; set; }
+
         public string Code { get; set; }
     }
 }

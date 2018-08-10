@@ -66,7 +66,7 @@ class LoginPage extends React.Component<any, any> {
                   <HomeButton />
                   <div className="row">
                     <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
-                          <div className="loginmsg">
+                          <div className="login-msg">
                               LOG IN
                           </div>
                       </div>
@@ -74,7 +74,7 @@ class LoginPage extends React.Component<any, any> {
                    <div className="row">
                         <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                           <div className="form-container">
-                              <p className="formerror server-message">{this.state.serverMessage}</p>
+                              <p className="form-error server-message">{this.state.serverMessage}</p>
                               <LoginFormComponent inputs={[
                                 new InputData('user-email', 'email', 'Email', '', 'Email', ''),
                                 new InputData('user-password', 'password', 'Password', '', 'Password', ''),

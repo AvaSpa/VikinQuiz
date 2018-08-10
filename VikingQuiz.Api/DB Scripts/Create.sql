@@ -37,7 +37,7 @@ CREATE TABLE QuizQuestion(
 CREATE TABLE Game(
 	Id INT Primary Key IDENTITY,
 	QuizId INT REFERENCES Quiz(Id),
-	GameDate Date NOT NULL,
+	GameDate Date NOT NULL
 );
 
 CREATE TABLE Player(

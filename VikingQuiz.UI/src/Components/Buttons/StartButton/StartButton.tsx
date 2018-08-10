@@ -1,14 +1,14 @@
 import * as React from 'react';
-import './HomeButton.css';
+import './StartButton.css';
 
-class HomeButton extends React.Component<any, any> {
+class StartButton extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
     }
 
     public render() {
         return (
-            <button className="home-button" onClick={this.handleClick} />
+            <button className="start-button" onClick={this.handleClick} />
         );
     }
 
@@ -17,4 +17,4 @@ class HomeButton extends React.Component<any, any> {
     }
 }
 
-export default HomeButton;
+export default StartButton;

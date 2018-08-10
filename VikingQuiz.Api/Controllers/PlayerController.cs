@@ -14,8 +14,8 @@ namespace VikingQuiz.Api.Controllers
     public class PlayerController : Controller
     {
         private readonly PlayerRepository playerRepository;
-        private IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
-        private IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
+        private readonly IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
+        private readonly IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
 
         public PlayerController(PlayerRepository playerRepository, IEntityMapper<Player, PlayerViewModel> entityToVmMapper, IEntityMapper<PlayerViewModel, Player> vmToEntityMapper)
         {
@@ -27,25 +27,37 @@ namespace VikingQuiz.Api.Controllers
         [HttpGet]
         public IActionResult GetPlayer()
         {
-            var result = playerRepository.GetAllPlayers().Select(s => entityToVmMapper.Map(s)).ToList();
+            var result = playerRepository.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
             return Ok(result);
         }
 
-        [HttpPost]
-        public IActionResult CreatePlayer([FromBody]PlayerViewModel player)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            Player p = new Player
+            Player player = playerRepository.GetPlayerById(id);
+            if(player == null)
             {
-                PictureUrl = player.PictureUrl,
-                Name = player.Name
+                return NotFound("Player doesn't exist");
+            }
+            PlayerViewModel playerVm = this.entityToVmMapper.Map(player);
+            return Ok(playerVm);
+        }
+
+        [HttpPost]
+        public IActionResult CreatePlayer([FromBody]PlayerCodeViewModel playercode)
+        {
+            Player createdPlayer = new Player()
+            {
+                PictureUrl = playercode.PictureUrl,
+                Name = playercode.Name
             };
 
-            Player newPlayer = playerRepository.AddPlayer(p);
+            Player newPlayer = playerRepository.AddPlayer(createdPlayer, playercode.Code);
             if(newPlayer == null)
             {
                 return BadRequest("Player couldn't be created");
             }
-            PlayerViewModel playerVm = entityToVmMapper.Map(p);
+            PlayerViewModel playerVm = entityToVmMapper.Map(newPlayer);
             return Ok(playerVm);
         }
 

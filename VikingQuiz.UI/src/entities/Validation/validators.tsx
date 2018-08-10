@@ -41,6 +41,24 @@ const loginValidator = function(inputs: any, validationRules: any, id: string, f
    return true;
 }
 
+const connectValidator = function(inputs: any, validationRules: any, id: string, funcs: any) {
+    const rules = validationRules[id];
+    const inputsCopy = funcs.getCopyOfInputs(inputs);
+    const inputItem = funcs.getItemById(id, inputs);
+    const item = inputsCopy[inputItem.index]
+ 
+ 
+    for (const rule of rules) {
+       if (!rule.isValid(item.value, inputs, funcs)) {
+          funcs.changeErrorMessageOf(id, rule.errorMessage);
+          return false;
+       }
+    }
+ 
+    funcs.changeErrorMessageOf(id, "");
+    return true;
+ }
+
 const changePasswordValidator =  function(inputs: any, validationRules: any, id: string, funcs: any) {
     const rules = validationRules[id];
     const inputFieldsValueCopy = funcs.getCopyOfInputs(inputs);
@@ -66,4 +84,4 @@ const changePasswordValidator =  function(inputs: any, validationRules: any, id:
     return true;
  }
 
-export { signUpValidator, loginValidator, changePasswordValidator};
+export { signUpValidator, loginValidator, changePasswordValidator, connectValidator};
