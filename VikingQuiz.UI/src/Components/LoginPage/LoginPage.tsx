@@ -4,7 +4,6 @@ import SignUpButton from '../Buttons/LoginSignUpButtons/SignUpButton';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import LoginFormComponent from '../LoginFormComponent/LoginFormComponent';
-import BottomLogo from '../BottomLogo/BottomLogo';
 import { Redirect } from 'react-router-dom';
 import { loginRules} from '../../entities/Validation/rules';
  
@@ -160,7 +159,6 @@ class LoginPage extends React.Component<any, any> {
                       </div>
                   </div>
               </div>
-              <footer id="footer"><BottomLogo /></footer>
           </div>  
       );
     }

@@ -8,6 +8,10 @@ class StorageService{
         return localStorage.getItem(key);
     };
 
+    public removeItem = (key: string) => {
+        localStorage.removeItem(key);
+    }
+
     public itemExists = (key: string) : boolean => {
         return localStorage.hasOwnProperty(key);
     }
