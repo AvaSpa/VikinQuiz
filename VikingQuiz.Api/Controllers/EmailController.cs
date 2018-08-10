@@ -117,7 +117,7 @@ namespace VikingQuiz.Api.Controllers
 
             if (user.Pass == newPassword)
             {
-                return BadRequest("your new password cannot be the same as the old one");
+                return BadRequest("Your new password cannot be the same as the old one.");
             }
 
             user.Pass = newPassword;
