@@ -9,6 +9,20 @@ figure {
     height: 80px;
 }
 
+.profile-message{
+   margin-left: 20px;
+   display: inline-block;
+    font-family: 'dk_lemon_yellow_sunregular';
+   color: #f4c300;
+}
+
+.profile-text {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   font-size: 25px;
+}
+
 figure > figcaption {
     margin-left: 15px;
     font-size: 40px;
