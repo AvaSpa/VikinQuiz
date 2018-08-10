@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import MyQuizesPage from 'src/Components/MyQuizesPage/MyQuizesPage';
 import SignUpPage from 'src/Components/SignUpPage/SignUpPage';
-import { BrowserRouter , Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoginPage from './Components/LoginPage/LoginPage';
 import NotFoundComponent from './Components/NotFoundComponent/NotFoundComponent';
 import UserMinimalProfile from './Components/UserMinimalProfile/UserMinimalProfile';
@@ -15,6 +15,7 @@ import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPa
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
 import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent';
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
+import BottomLogo from 'src/Components/BottomLogo/BottomLogo';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {

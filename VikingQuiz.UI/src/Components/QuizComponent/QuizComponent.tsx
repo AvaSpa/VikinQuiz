@@ -4,11 +4,6 @@ import StartQuizComponent from './StartQuizComponent/StartQuizComponent';
 import QuestionsComponent from '../QuestionsComponent/QuestionsComponent';
 
 
-interface IProps {
-    id: number,
-    editMode: boolean
-}
-
 interface IState {
     id: number,
     editMode: boolean
@@ -16,13 +11,13 @@ interface IState {
 }
 
 
-class QuizComponent extends React.Component<IProps, IState> {
+class QuizComponent extends React.Component<any, IState> {
 
     public state = {
+        id: this.props.location.state.id,
+        editMode: this.props.location.state.editMode,
         // id: this.props.id,
         // editMode: this.props.editMode,
-        id: this.props.id,
-        editMode: this.props.editMode,
         showQuestions: false
     }
 
