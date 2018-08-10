@@ -134,10 +134,9 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.httpService.postWithToken(url, body)
         .then((response: any) => {
             this.successfulSaveHandler(response);
-            this.showSnackbarHandler(successSnackbar);
         })
         .catch((error: any) => {
-            this.showSnackbarHandler(errorSnackbar);
+            this.errorHandler(error);
         });
     }
 

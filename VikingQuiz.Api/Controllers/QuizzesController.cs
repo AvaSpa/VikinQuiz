@@ -40,8 +40,8 @@ namespace VikingQuiz.Api.Controllers
             AzureBlobService blobService = new AzureBlobService();
             await blobService.InitializeBlob();
 
-            var quizzes = quizRepository.GetAll(currentUserId);
-            foreach(var quiz in quizzes) {
+            var quizzes = quizRepository.GetQuizByUserId(currentUserId);
+            foreach (var quiz in quizzes) {
                 quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
             }
 
@@ -68,20 +68,6 @@ namespace VikingQuiz.Api.Controllers
             QuizViewModel quizVm = this.entityToVmMapper.Map(quiz);
             return Ok(quizVm);
         }
-
-        [HttpGet]
-        [Authorize]
-        public IActionResult GetQuizzesByUserId()
-          {
-              int userId = User.Claims.GetUserId();
-              var newQuiz = quizRepository.GetQuizByUserId(userId);
-              if (newQuiz == null)
-              {
-                  return NotFound("Quiz doesn't exist");
-              }
-              return Ok(newQuiz.Select(quiz => this.entityToVmMapper.Map(quiz)));
-          } 
-       
 
         // Add a new empty quiz to the DB
         [HttpPost]

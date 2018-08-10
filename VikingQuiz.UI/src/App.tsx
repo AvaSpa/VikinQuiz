@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.css';
+import MyQuizesPage from 'src/Components/MyQuizesPage/MyQuizesPage';
 import SignUpPage from 'src/Components/SignUpPage/SignUpPage';
 import { BrowserRouter , Route, Switch } from "react-router-dom";
 import LoginPage from './Components/LoginPage/LoginPage';
@@ -30,6 +31,7 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/signup" component={SignUpPage} />
             <Route exact={true} path="/login" component={LoginPage} />
             <Route exact={true} path="/redirect" component={RedirectComponent} />
+            <Route exact={true} path="/myQuizzes" component={MyQuizesPage} />
             <Route exact={true} path="/quiz" component={QuizComponent} />
             <Route exact={true} path="/startgame" component={StartGame} />
             <Route exact={true} path="/playgame" component={PlayGame} />
