@@ -157,6 +157,15 @@ const connectRules = {
        {
         isValid(value: string, inputs: any, funcs: any) {
            const reg = /^[a-zA-Z\s]*$/;
+           return reg.test(value);
+
+        },
+        errorMessage: "Must contain only letters"
+     }
+    ]
+ }
+
+
 const changeRule = {
     "password": [
        {
@@ -197,14 +206,5 @@ const changeRule = {
        }
     ]
  };
-
-           return reg.test(value);
-
-        },
-        errorMessage: "Must contain only letters"
-     }
-    ]
- }
-
 
 export { signUpRules, loginRules, connectRules, changeRule};
