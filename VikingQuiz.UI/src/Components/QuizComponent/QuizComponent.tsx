@@ -2,6 +2,7 @@ import * as React from 'react';
 import './QuizComponent.css';
 import StartQuizComponent from './StartQuizComponent/StartQuizComponent';
 import QuestionsComponent from '../QuestionsComponent/QuestionsComponent';
+import LogOutButton from 'src/Components/Buttons/LogOutButton/LogOutButton';
 
 
 interface IState {
@@ -33,10 +34,11 @@ class QuizComponent extends React.Component<any, IState> {
     public render(){
         return (
             <div className="quiz container">
-                <StartQuizComponent editMode={this.state.editMode} quizId={this.state.id} save={this.saveQuizHandler}/>
-                {this.state.showQuestions ? 
-                    <QuestionsComponent quizId={this.state.id} /> : null
-                }
+               <LogOutButton />
+               <StartQuizComponent editMode={this.state.editMode} quizId={this.state.id} save={this.saveQuizHandler}/>
+               {this.state.showQuestions ? 
+                  <QuestionsComponent quizId={this.state.id} /> : null
+               }
             </div>
             
         )
