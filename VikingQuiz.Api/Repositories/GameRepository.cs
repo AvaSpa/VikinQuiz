@@ -17,31 +17,31 @@ namespace VikingQuiz.Api.Repositories
             this.context = context;
         }
 
-        public Game Create(Game g)
+        public Game Create(Game game)
         {
-            context.Add(g);
+            context.Add(game);
             context.SaveChanges();
-            return g;
+            return game;
         }
 
-        public Game Update(Game g)
+        public Game Update(Game game)
         {
-            Game gg = context.Game.Find(g.Id);
-            gg.QuizId = g.QuizId;
-            gg.GameDate = g.GameDate;
+            Game foundGame = context.Game.Find(game.Id);
+            foundGame.QuizId = game.QuizId;
+            foundGame.GameDate = game.GameDate;
             context.SaveChanges();
-            return g;
+            return game;
         }
 
         public void Delete(int id)
         {
-            Game gm = new Game
+            Game game = new Game
             {
                 Id = id,
             };
-            var playerGame = context.PlayerGame.Where(x => x.GameId == id).ToList();
+            var playerGame = context.PlayerGame.Where(playergame => playergame.GameId == id).ToList();
             context.PlayerGame.RemoveRange(playerGame);
-            context.Game.Remove(gm);
+            context.Game.Remove(game);
             context.SaveChanges();
         }
 

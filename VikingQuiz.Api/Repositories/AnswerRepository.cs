@@ -29,13 +29,13 @@ namespace VikingQuiz.Api.Repositories
             context.SaveChanges();
         }
 
-        public Answer UpdateAnswer(Answer ans)
+        public Answer UpdateAnswer(Answer answer)
         {
-            var existingAnswer = context.Answer.Find(ans.Id);
-            existingAnswer.Text = ans.Text;
-            existingAnswer.QuestionId = ans.QuestionId;
+            var existingAnswer = context.Answer.Find(answer.Id);
+            existingAnswer.Text = answer.Text;
+            existingAnswer.QuestionId = answer.QuestionId;
             context.SaveChanges();
-            return ans;
+            return answer;
         }
 
 
@@ -51,7 +51,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Answer GetAnswerByText(string text)
         {
-            return context.Answer.FirstOrDefault(d => (d.Text == text));
+            return context.Answer.FirstOrDefault(answer => (answer.Text == text));
         }
 
     }
