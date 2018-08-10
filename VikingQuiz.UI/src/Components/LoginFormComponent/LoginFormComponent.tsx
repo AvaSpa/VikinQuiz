@@ -13,7 +13,7 @@ class LoginFormComponent extends FormComponent {
       <div className="form-body container-fluid">
         {this.state.inputs.map((input: InputData) => this.renderInput(input))}
         <div className="forget-remember col-xs-12">
-          <a href="#" className="forget-pass col-xs-6">FORGOT PASSWORD</a>
+          <a href="/forgot" className="forget-pass col-xs-6">FORGOT PASSWORD</a>
           <div className="custom-control custom-checkbox col-xs-6">
 
             <label className="custom-control-label" htmlFor="remember-me">
@@ -24,7 +24,7 @@ class LoginFormComponent extends FormComponent {
             
           </div>
         </div>
-        <button disabled={!this.state.isValid} className="submitButton" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
+        <button disabled={!this.state.isValid} className="submit-button" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
       </div>
     );
   }

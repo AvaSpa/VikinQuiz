@@ -117,5 +117,46 @@ const loginRules = {
    ]
 }
 
+const changeRule = {
+    "password": [
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length !== 0;
+          },
+          errorMessage: "Field required"
+       },
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length > 3;
+          },
+          errorMessage: "More than 3 characters"
+       },
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length < 20;
+          },
+          errorMessage: "Less than 20 characters"
+       }
+    ],
+    "confirm-password": [
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length !== 0;
+          },
+          errorMessage: "Field required"
+       },
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             const passIndex = funcs.getItemById("confirm-password", inputs).index;
+             const duplicatePassIndex = funcs.getItemById("password", inputs).index;
+ 
+             return inputs[passIndex].value === inputs[duplicatePassIndex].value;
+ 
+          },
+          errorMessage: "Passwords do not match"
+       }
+    ]
+ };
 
-export { signUpRules, loginRules};
+
+export { signUpRules, loginRules, changeRule};

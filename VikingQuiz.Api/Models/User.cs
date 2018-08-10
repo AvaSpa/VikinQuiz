@@ -20,10 +20,5 @@ namespace VikingQuiz.Api.Models
         public DateTime? LastModified { get; set; }
 
         public ICollection<Quiz> Quiz { get; set; }
-
-        public string GenerateToken()
-        {
-            return Id + "tok";
-        }
     }
 }

@@ -2,7 +2,7 @@
     margin: auto;
 }
 
-.submitButton {
+.submit-button {
     margin-top: 2em;
     border-radius: 50%;
     border: none;
@@ -13,9 +13,9 @@
 	transition: all 0.2s ease;
 }
 
-.submitButton:hover {
+.submit-button:hover {
     transform: translateY(3px);
 }
-.submitButton:active {
+.submit-button:active {
     transform: translateY(5px);
 }

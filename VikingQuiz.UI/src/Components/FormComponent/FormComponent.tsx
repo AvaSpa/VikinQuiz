@@ -110,10 +110,7 @@ class FormComponent extends React.Component<any, any> {
             inputs: inputsCopy
          });
       }
-
    }
-
-
 
    public changeHandler = (input: any, evt: any) => {
 
@@ -160,7 +157,7 @@ class FormComponent extends React.Component<any, any> {
       return (
          <div className="form-body container-fluid">
             {this.state.inputs.map((input: InputData) => this.renderInput(input))}
-            <button disabled={!this.state.isValid} className="submitButton" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
+            <button disabled={!this.state.isValid} className="submit-button" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
          </div>
       );
    }

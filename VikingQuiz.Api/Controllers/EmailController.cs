@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
-using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
+using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.ViewModels;
 
 namespace VikingQuiz.Api.Controllers
@@ -15,23 +13,23 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class EmailController : Controller
     {
-        private readonly string fromAddress = "noreply.vikings@gmail.com";
-        private readonly string password = "1234Vikings";
-        private readonly UserRepository userRepository;
+        private const string FromAddress = "noreply.vikings@gmail.com";
+        private const string Password = "1234Vikings";
+        private const string frontendBaseUrl = "http://localhost:3000";
+        private const int ConfirmEmailExpiryHours = 168;
+        private const int ResetPasswordExpiryHours = 5;
 
-        public EmailController(UserRepository userRepository)
+        private readonly UserRepository userRepository;
+        private readonly AuthenticationService authenticationService;
+
+        public EmailController(UserRepository userRepository, AuthenticationService authenticationService)
         {
             this.userRepository = userRepository;
+            this.authenticationService = authenticationService;
         }
 
-        [Route("email")]
-        [HttpGet("{id:int}")]
-        public void SendEmail(int id)
+        private void SendEmail(string receiverAddress, string subject, string body)
         {
-            User user = userRepository.AssignToken(id);
-
-            MailMessage mail = new MailMessage(fromAddress, user.Email);
-
             SmtpClient client = new SmtpClient
             {
                 Host = "smtp.gmail.com",
@@ -39,25 +37,92 @@ namespace VikingQuiz.Api.Controllers
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress, password)
+                Credentials = new NetworkCredential(FromAddress, Password)
             };
 
-            using (MailMessage message = new MailMessage(fromAddress, user.Email)
-            {
-                Subject = "Register your account",
-                Body = "Click the following link to register your account\n\nhttp://localhost:60151/api/email/token?t=" + user.Token
-            })
+            using (MailMessage message = new MailMessage(FromAddress, receiverAddress) { Subject = subject, Body = body })
             {
                 client.Send(message);
             }
         }
 
-        [Route("token")]
-        [HttpGet("{token}")]
-        public string ValidateAddress(string token)
+        [Route("email")]
+        [HttpGet("{id:int}")]
+        [AllowAnonymous]
+        public IActionResult SendEmail(int id)
         {
-            userRepository.Activate(token);
+            User user = userRepository.GetUserById(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            string Subject = "Register your account";
+            string token = authenticationService.GenerateTokenForUser(user, ConfirmEmailExpiryHours, "email");
+            string registerAccountAddress = frontendBaseUrl + "/confirm/" + token;
+            string Body = "Click the following link to register your account\n\n" + registerAccountAddress;
+            this.SendEmail(user.Email, Subject, Body);
+            return Ok();
+        }
+
+        [Route("token")]
+        [Authorize(Roles = "email")]
+        public string ActivateAccount()
+        {
+            int userId = User.Claims.GetUserId();
+            userRepository.Activate(userId);
             return "validation worked";
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult SendPasswordResetEmail([FromBody] EmailViewModel email)
+        {
+            User user = userRepository.GetUserByEmail(email.Email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            string Subject = "Reset your password";
+            string token = authenticationService.GenerateTokenForUser(user, ResetPasswordExpiryHours, "ResetPassword");
+            string resetPasswordAddress = frontendBaseUrl + "/forgot/" + token;
+            string Body = "Click the following link to reset your password\n\n" + resetPasswordAddress +
+                "\n\nIf you didn't request this password reset, ignore this message";
+
+            this.SendEmail(user.Email, Subject, Body);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "ResetPassword")]
+        public IActionResult ResetPassword([FromBody] PasswordViewModel password)
+        {
+            string newPassword = password.Password.SHA256Encrypt();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrors().First());
+            }
+
+            int userId = User.Claims.GetUserId();
+            User user = userRepository.GetUserById(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (user.Pass == newPassword)
+            {
+                return BadRequest("Your new password cannot be the same as the old one.");
+            }
+
+            user.Pass = newPassword;
+            userRepository.UpdateUser(user);
+            return Ok();
         }
     }
 }

@@ -8,7 +8,7 @@ class SubmitButton extends React.Component<any, any> {
 
     public render() {
         return (
-            <button className="submitButton" onClick={this.handleClick} />
+            <button className="submit-button" onClick={this.handleClick} />
         );
     }
 
