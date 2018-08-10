@@ -117,6 +117,46 @@ const loginRules = {
    ]
 }
 
+const connectRules = {
+    "code": [
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length !== 0;
+          },
+          errorMessage: "Field required"
+       },
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             const reg = /[0-9a-zA-Z]{6}/;
+ 
+             return reg.test(value);
+ 
+          },
+          errorMessage: "Code length is invalid"
+       }
+    ],
+    "name": [
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length !== 0;
+          },
+          errorMessage: "Field required"
+       },
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length > 3;
+          },
+          errorMessage: "More than 3 characters"
+       },
+       {
+          isValid(value: string, inputs: any, funcs: any) {
+             return value.length < 20;
+          },
+          errorMessage: "Less than 20 characters"
+       },
+       {
+        isValid(value: string, inputs: any, funcs: any) {
+           const reg = /^[a-zA-Z\s]*$/;
 const changeRule = {
     "password": [
        {
@@ -158,5 +198,13 @@ const changeRule = {
     ]
  };
 
+           return reg.test(value);
 
-export { signUpRules, loginRules, changeRule};
+        },
+        errorMessage: "Must contain only letters"
+     }
+    ]
+ }
+
+
+export { signUpRules, loginRules, connectRules, changeRule};

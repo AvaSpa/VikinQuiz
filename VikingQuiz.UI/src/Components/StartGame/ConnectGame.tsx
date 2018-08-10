@@ -30,7 +30,7 @@ class ConnectGame extends React.Component<any, any> {
 
     public render() {
         const mainMessage = "CONNECTED";
-        const statusLabel = "WAITING FOR GAME TO START...";
+        const statusLabel = "WAITING FOR GAME TO START";
         return (
             <div className="container">
                     <div className="row">
@@ -43,6 +43,11 @@ class ConnectGame extends React.Component<any, any> {
                             </div>
                             <div className="col-sm-auto">
                                 <label className="connectgame-status-label">{statusLabel}</label>
+                            </div>
+                            <div className="spinner">
+                                <div className="bounce1"/>
+                                <div className="bounce2"/>
+                                <div className="bounce3"/>
                             </div>
                         </div>
                     </div>         

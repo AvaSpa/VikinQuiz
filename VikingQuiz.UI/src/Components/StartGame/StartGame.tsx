@@ -34,9 +34,9 @@ class StartGame extends React.Component<any, any> {
         const displayedCode = "code";
         return (
             <div className="container">
-                <div className="center-container">
+                <div className="startgame-center-container">
                     <div className="row">
-                        <div className="center-container">
+                        <div className="startgame-center-container">
                             <div className="col-sm-auto">
                                 <HomeButton/>
                             </div>
@@ -47,17 +47,15 @@ class StartGame extends React.Component<any, any> {
                                 <div className="code"> {displayedCode} </div>
                             </div>
                             <div className="players-container">
+                                {this.state.player.slice(this.state.playersPerLine, this.state.player.length).map((p:any) =>
+                                    <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
+                                )}
                                 {this.state.player.slice(0,this.state.playersPerLine).map((p:any) =>
                                     <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
                                 )}
                             </div>
-                            <div className="players-container">
-                                {this.state.player.slice(this.state.playersPerLine, this.state.player.length).map((p:any) =>
-                                    <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
-                                )}
-                            </div>
                         </div>
-                        <div className="center-container">
+                        <div className="startgame-center-container">
                             <StartButton/>
                         </div>
                     </div>

@@ -5,6 +5,8 @@ import InputData from '../../entities/InputData';
 import PlayGameComponent from './PlayGameComponent';
 import PlayerCodeDto from '../../entities/PlayerCodeDto';
 import { Redirect } from 'react-router-dom';
+import { connectRules } from '../../entities/Validation/rules';
+import { connectValidator } from '../../entities/Validation/validators';
 
 class PlayGame extends React.Component<any, any> {
     private httpService: any = new HttpService();
@@ -78,8 +80,8 @@ class PlayGame extends React.Component<any, any> {
                                     url={baseUrl + endPoint}
                                     buttonName=""
                                     onSubmit={this.playerDataHandler}
-                                    validator={null}
-                                    validationRules={null}
+                                    validator={connectValidator}
+                                    validationRules={connectRules}
                                     />
                                 </div>
                             </div>

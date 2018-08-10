@@ -14,11 +14,11 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class PlayerGameController : Controller
     {
-        private readonly PlayerGameRepo playergameRepository;
+        private readonly PlayerGameRepository playergameRepository;
         private IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper;
         private IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper;
 
-        public PlayerGameController(PlayerGameRepo playergameRepo, IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper, IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper)
+        public PlayerGameController(PlayerGameRepository playergameRepo, IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper, IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper)
         {
             this.playergameRepository = playergameRepo;
             this.entityToVmMapper = entityToVmMapper;
