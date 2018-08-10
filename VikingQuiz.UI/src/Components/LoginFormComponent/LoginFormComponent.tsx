@@ -18,7 +18,7 @@ class LoginFormComponent extends FormComponent {
 
             <label className="custom-control-label" htmlFor="remember-me">
                REMEMBER ME
-               <input className="custom-control-input" id="remember-me" name="remember-me" type="checkbox" onChange={this.props.checkboxClickedHandle}/>
+               <input className="custom-control-input" id="remember-me" name="remember-me" type="checkbox" onChange={this.props.checkboxChangedHandle}/>
                <div className="checkbox-style" />
             </label>
             

@@ -81,7 +81,7 @@ class LoginPage extends React.Component<any, any> {
                                 ]} url={this.apiAddress + this.apiSessionAddress} buttonName="" onSubmit={this.userDataHandler} 
                            validator={loginValidator}
                            validationRules={loginRules}
-                           checkboxClickedHandle={this.checkboxClickedHandle}
+                           checkboxChangedHandle={this.checkboxClickedHandle}
                                 />
                               <div className="socials">
                               <SocialButtonsWrapper 
