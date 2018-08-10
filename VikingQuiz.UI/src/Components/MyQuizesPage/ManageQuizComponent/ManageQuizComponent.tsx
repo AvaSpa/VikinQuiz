@@ -81,6 +81,7 @@ class ManageQuizComponent extends React.Component<any, any> {
         if(this.state.redirectToEdit){  
             return (
                 <Redirect
+                    push={true}
                     to={{pathname: '/quiz',
                     state: {id: this.state.id, editMode: true}}}
                 />
@@ -89,6 +90,7 @@ class ManageQuizComponent extends React.Component<any, any> {
             if(this.state.redirectToPlayGame){
                 return (
                     <Redirect
+                        push={true}
                         to={{pathname: '/playGame',
                         state: {id: this.state.id}}}
                     />
