@@ -7,6 +7,10 @@ class StorageService{
     public getItem = (key: string) : string | null => {
         return localStorage.getItem(key);
     };
+
+    public removeItem = (key: string) => {
+        localStorage.removeItem(key);
+    }
 }
 
 export default StorageService;
