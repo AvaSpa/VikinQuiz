@@ -13,7 +13,7 @@ const httpService = new HttpService();
 const createPostMessage = (socialResData: any): ButtonInterfaces.IPostMessage => {
    return {
       email: socialResData.email || null,
-      id: socialResData.userID || null,
+      name: socialResData.name || null,
       pictureUrl: socialResData.picture.data.url || null
    }
 }
@@ -35,6 +35,7 @@ function SocialButton(props: ButtonInterfaces.IPropsSocialButton) {
          props.onPopupClosed();
       }
       else if (dataExists(response)) { // data existance (by format) checker
+         console.log(response);
          props.onResponseSuccesful(response);
          const message = createPostMessage(response);
 

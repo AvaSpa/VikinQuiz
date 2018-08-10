@@ -8,7 +8,7 @@ namespace VikingQuiz.Api.ViewModels
     public class FacebookViewModel
     {
         public string Email { get; set; }
-        public string Id { get; set; }
+        public string Name { get; set; }
         public string PictureUrl { get; set; }
     }
 }

@@ -11,9 +11,9 @@ const httpService = new HttpService();
 
 const createPostMessage = function (socialResData: any): ButtonInterfaces.IPostMessage {
    return {
-      id: socialResData.googleId || null,
-      email: socialResData.w3.U3 || null,
-      pictureUrl: socialResData.w3.Paa || null
+      name: socialResData.profileObj.name || null,
+      email: socialResData.profileObj.email || null,
+      pictureUrl: socialResData.profileObj.imageUrl || null
    }
 }
 
@@ -35,6 +35,7 @@ function SocialButton(props: ButtonInterfaces.IPropsSocialButton) {
          props.onPopupClosed();
       }
       else if (dataExists(response)) { // data existance (by format) checker
+         console.log(response);
          props.onResponseSuccesful(response);
          const message = createPostMessage(response);
 

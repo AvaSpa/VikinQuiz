@@ -39,7 +39,10 @@ namespace VikingQuiz.Api.Controllers
             {
                 return NotFound("User doesn't exist");
             }
-            user.PictureUrl = this.GetPictureAbsoluteUrl(user.PictureUrl);
+            if (user.Pass != null)
+            {
+                user.PictureUrl = this.GetPictureAbsoluteUrl(user.PictureUrl);
+            }
             UserViewModel userVm = this.entityToVmMapper.Map(user);
             return Ok(userVm);
         }

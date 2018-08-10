@@ -195,13 +195,8 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     private isImageValid = (fileObject: any): boolean => {
-        const fileCheckConditions: boolean[] = [
-            this.checkFileType(fileObject),
-            this.checkFileSize(fileObject),
-            this.checkFileExistence(fileObject)
-        ]
 
-        if(fileCheckConditions.indexOf(false) !== -1){
+        if(!this.checkFileExistence(fileObject) || !this.checkFileType(fileObject) || !this.checkFileSize(fileObject)){
             return false;
         }
         
