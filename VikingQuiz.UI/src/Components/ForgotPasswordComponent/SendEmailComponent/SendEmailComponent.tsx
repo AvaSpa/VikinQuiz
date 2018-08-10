@@ -24,9 +24,9 @@ class SendEmailComponent extends React.Component<any, any>
         return (
             <div className='my-container'>
                 <HomeButton />
-                <div className='yellow-bg-message'>forgot password</div>
+                <div className='yellow-bg-message'>Forgot password</div>
                 <div className='form-container'>
-                    <FormComponent className='signupForm' inputs={
+                    <FormComponent inputs={
                         [
                             new InputData('email', 'email', 'Email', '', 'Email', '')
                         ]}
@@ -61,11 +61,17 @@ class SendEmailComponent extends React.Component<any, any>
 
     private sendEmailError = (error: any) => {
         this.setState({ statusClass: 'error-message' });
+        console.log(error.response);
         if (error.response === undefined) {
-            this.setState({ statusMessage: 'Could not connect to server. Please try again later' });
+            this.setState({ statusMessage: 'Could not connect to server. Please try again later.' });
         }
         else {
-            this.setState({ statusMessage: 'This email is not registered with us' });
+            if (error.response.status === 404) {
+                this.setState({ statusMessage: 'This email is not registered with us.' });
+            }
+            else {
+                this.setState({ statusMessage: error.response.data });
+            }
         }
     };
 }

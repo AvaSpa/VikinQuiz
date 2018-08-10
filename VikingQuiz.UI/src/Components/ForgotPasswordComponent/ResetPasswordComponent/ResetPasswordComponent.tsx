@@ -36,7 +36,7 @@ class ResetPasswordComponent extends React.Component<any, any>
         return (
             <div className='my-container'>
                 <HomeButton />
-                <div className='yellow-bg-message'>update password</div>
+                <div className='yellow-bg-message'>Update password</div>
                 <div className='form-container'>
                     <FormComponent className='signupForm' inputs={
                         [
@@ -70,7 +70,7 @@ class ResetPasswordComponent extends React.Component<any, any>
     private resetPasswordSuccess = () => {
         this.setState({
             statusClass: 'success-message',
-            statusMessage: 'Password changed, redirecting to Log In'
+            statusMessage: 'Password changed, redirecting to Log In...'
         });
         setTimeout(
             () => this.setState({ redirect: true }),
@@ -81,12 +81,12 @@ class ResetPasswordComponent extends React.Component<any, any>
     private resetPasswordError = (error: any) => {
         this.setState({ statusClass: 'error-message' });
         if (error.response === undefined) {
-            this.setState({ statusMessage: 'Could not connect to server. Please try again later' });
+            this.setState({ statusMessage: 'Could not connect to server. Please try again later.' });
         }
         else {
             // token is invalid (either expired or fake)
             if (error.response.status === 401) {
-                this.setState({ statusMessage: 'This reset link is invalid has expired' });
+                this.setState({ statusMessage: 'This reset link is invalid or has expired.' });
             }
             else {
                 this.setState({ statusMessage: error.response.data });

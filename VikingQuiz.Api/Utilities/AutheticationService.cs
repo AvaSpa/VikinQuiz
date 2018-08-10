@@ -35,7 +35,7 @@ namespace VikingQuiz.Api.Utilities
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        internal User GetUserByCredentials(string email, string password)
+        public User GetUserByCredentials(string email, string password)
         {
             return context.User.FirstOrDefault(u => (u.Email == email && u.Pass == password));
         }
