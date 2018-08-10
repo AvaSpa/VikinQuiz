@@ -18,9 +18,9 @@ namespace VikingQuiz.Api.Controllers
         private IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper;
         private IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper;
 
-        public PlayerGameController(PlayerGameRepository playergameRepo, IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper, IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper)
+        public PlayerGameController(PlayerGameRepository playergameRepository, IEntityMapper<PlayerGame, PlayerGameViewModel> entityToVmMapper, IEntityMapper<PlayerGameViewModel, PlayerGame> vmToEntityMapper)
         {
-            this.playergameRepository = playergameRepo;
+            this.playergameRepository = playergameRepository;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
         }
