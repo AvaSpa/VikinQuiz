@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './PlayGameComponent.css';
-import InputData from 'src/entities/InputData';
+import InputData from 'src/entities/IInputData';
 import FormInput from '../FormComponent/FormInput/FormInput';
 
 class FormComponent extends React.Component<any, any> {

@@ -33,10 +33,10 @@ namespace VikingQuiz.Api.Repositories
             context.SaveChanges();
         }
 
-        public Answer UpdateAnswer(Answer ans, int questionId)
+        public Answer UpdateAnswer(Answer answer, int questionId)
         {
-            var existingAnswer = context.Answer.Find(ans.Id);
-            existingAnswer.Text = ans.Text;
+            var existingAnswer = context.Answer.Find(answer.Id);
+            existingAnswer.Text = answer.Text;
             existingAnswer.QuestionId = questionId;
             context.SaveChanges();
             return answer;

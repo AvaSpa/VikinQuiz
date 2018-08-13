@@ -16,29 +16,21 @@ function popupOpenHandler(): void { console.log("Popup opened"); }
  
 function responseSuccesfulHandler(res: any): void { console.log("Response succesful", res); }
 function responseFailureHandler(): void { console.dir("Response failed"); }
-
-interface ILoginCredentials{
-    email: string,
-    password: string
-};
-
+ 
+ 
+ 
+ 
 class LoginPage extends React.Component<any, any> {
     private httpService: any = new HttpService();
     private storageService: StorageService = new StorageService();
    
-    private readonly apiAddress: string = 'http://localhost:60151/api';
-    private readonly apiSessionAddress: string = '/session';
-    private readonly apiGoogleAddress: string = '/google';
-    private readonly apiFacebookAddress: string = '/facebook';
-
     constructor(props: any) {
-        super(props);
+      super(props);
  
       this.state = {
           showErrorMessage: false,
           serverErrorMessage: '',
-          redirect: false,
-		  checkbox: false
+          redirect: false
       }
     }
  
@@ -48,16 +40,10 @@ class LoginPage extends React.Component<any, any> {
         if(!url || !formData){
             return;
         }
-
-    public componentDidMount() {
-        const remember: boolean = this.storageService.getItem('remember') === 'true' ? true : false;
-        const tokenExists: boolean = this.storageService.itemExists('token');
-
+ 
         const body: any = {
             email: formData.Email,
             password: formData.Password
-        if (remember && tokenExists) {
-            this.setState({ redirect: true });
         }
    
         this.httpService.post(url, body)
@@ -116,7 +102,7 @@ class LoginPage extends React.Component<any, any> {
                   <HomeButton />
                   <div className="row">
                     <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
-                          <div className="login-msg">
+                          <div className="loginmsg">
                               LOG IN
                           </div>
                       </div>
@@ -128,16 +114,15 @@ class LoginPage extends React.Component<any, any> {
                               <LoginFormComponent inputs={[
                                 {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
                                 {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
-                                ]} url={this.apiAddress + this.apiSessionAddress} buttonName="" onSubmit={this.userDataHandler} 
+                                ]} url="http://localhost:60151/api/session" buttonName="" onSubmit={this.userDataHandler}
                            validator={loginValidator}
                            validationRules={loginRules}
-                           checkboxChangedHandle={this.checkboxClickedHandle}
                                 />
                               <div className="socials">
                               <SocialButtonsWrapper
                                     postURLs={{
-                                        facebook:   this.apiAddress + this.apiFacebookAddress,
-                                        google:     this.apiAddress + this.apiGoogleAddress
+                                        facebook: 'http://localhost:60151/api/facebook',
+                                        google: 'http://localhost:60151/api/google'
                                     }}
                                     clientIds={{
                                         facebook: "1691716487610141",
@@ -162,48 +147,6 @@ class LoginPage extends React.Component<any, any> {
           </div>  
       );
     }
-    
-    private userDataHandler = (url: string, formData: any) => {
-        if (!url || !formData) {
-            return;
-        }
-
-        const body: ILoginCredentials = {
-            email: formData.Email,
-            password: formData.Password
-        }
-
-        this.httpService.post(this.apiAddress + this.apiSessionAddress, body)
-        .then((result: any) => this.onLogInSuccess(result))
-        .catch((error: any) => this.onLogInError(error))
-    };
-
-    private onLogInSuccess = (result: any) => {
-        const loginToken: string = result.data.token;
-        this.storageService.saveItem('token', loginToken);
-        this.setState({redirect: true});
-    };
-
-    private onLogInError = (error: any) => {
-        if (!error) {
-            this.setState({
-                serverMessage: "Could not connect to the server"
-            });
-            return;
-        };
-        this.setState({
-            serverMessage: error.response.data
-        })
-        setTimeout(() => this.setState({
-            serverMessage: ''
-        }), 5000);
-    };
-
-    private checkboxClickedHandle = () => {
-        const checkboxChange: boolean = !this.state.checkbox;
-        this.setState({ checkbox: checkboxChange });
-        this.storageService.saveItem('remember', checkboxChange.toString());
-    };
 
     private showErrorMessage = (error: any) =>{
         this.setState({ showErrorMessage: true });

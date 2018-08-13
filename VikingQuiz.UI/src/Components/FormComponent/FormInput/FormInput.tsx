@@ -5,9 +5,9 @@ const formInput: any = (props: any) => {
   const defaultInputClass = 'vq-input form-control';
   const errorInputClass = props.ErrorMessage ? ' input-error' : '';
     return (
-       <div className={props.ContainerClassName ? props.ContainerClassName : "formgroup col-xs-12"}>
+       <div className={props.ContainerClassName ? props.ContainerClassName : "form-group col-xs-12"}>
             <label 
-               className="formlabel" 
+               className="form-label" 
                htmlFor={props.InputId}
             >
                {props.InputLabel}
@@ -25,7 +25,7 @@ const formInput: any = (props: any) => {
                onFocus={props.focus}
                readOnly={props.readonly}
             />
-        <div className="formerror">{props.ErrorMessage}</div>
+        <div className="form-error">{props.ErrorMessage}</div>
       </div>
     )
 }
