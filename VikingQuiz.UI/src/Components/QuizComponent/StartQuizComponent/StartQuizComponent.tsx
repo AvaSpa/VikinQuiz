@@ -7,6 +7,7 @@ import HttpService from '../../../services/HttpService';
 import SnackbarComponent from '../../SnackbarComponent/SnackbarComponent';
 import ISnackbarData from '../../../entities/SnackBarData';
 import {errorSnackbar, successSnackbar} from '../../../commons/commons';
+import ImageValidator from '../../../services/validators/ImageValidator';
 
 interface IState {
     title: string,
@@ -29,10 +30,9 @@ const quizzesUrl: string = 'http://localhost:60151/api/quizzes';
 const initialTitle: string = 'add quiz title';
 
 class StartQuizComponent extends React.Component<IProps, IState>{
-
     public fileInputRef: any = React.createRef();
     public previewImageRef: any = React.createRef();
-    public httpService: any = new HttpService();
+    
 
     public state = {
         title: initialTitle,
@@ -44,6 +44,9 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         showSnackbar: false,
         snackbarData: errorSnackbar
     }
+
+    private httpService: HttpService = new HttpService();
+    private imageValidator: ImageValidator = new ImageValidator();
 
     public showSnackbarHandler = (snackbar: ISnackbarData) =>{
         this.setState({
@@ -196,10 +199,14 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
     private isImageValid = (fileObject: any): boolean => {
 
-        if(!this.checkFileExistence(fileObject) || !this.checkFileType(fileObject) || !this.checkFileSize(fileObject)){
+        if (!this.imageValidator.checkFileExistence(fileObject) || !this.imageValidator.checkFileType(fileObject) || !this.imageValidator.checkFileSize(fileObject)) {
+            this.setState({
+                imageError: this.imageValidator.getErrorMessage()
+            });
+            this.addInvalidClassToUpload();
             return false;
         }
-        
+
         this.setState({
             imageError: ''
         });
@@ -207,47 +214,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         return true;
     }
 
-    private checkFileExistence = (fileObject: any): boolean => {
-        if(!fileObject){
-            this.setState({
-                imageError: 'File doesn\'t exist',
-                selectedFile: ''
-            });
-            this.addInvalidClassToUpload();
-            return false;
-        }
-        return true;
-    }
-
-    private checkFileType = (fileObject: any): boolean => {
-        const acceptedFormats: any = ['png','jpeg', 'gif'].map((type: string) => 'image/' + type);
-        if(!acceptedFormats.includes(fileObject.type))
-        {
-            this.setState({
-                imageError: 'The only supported fomats are: png, jpeg, gif',
-                selectedFile: ''
-            });
-            this.addInvalidClassToUpload();
-            return false;
-        }
-        return true;
-    }
-
-    private checkFileSize = (fileObject: any): boolean => {
-        const megabyteSize: number = 1024;
-        const kilobyteSize: number = 1024;
-        const numberOfMegabytes: number = 5;
-
-        if(fileObject.size / kilobyteSize > megabyteSize*numberOfMegabytes){
-            this.setState({
-                imageError: 'The size is larger than ' + numberOfMegabytes + ' MBs',
-                selectedFile: ''
-            });
-            this.addInvalidClassToUpload();
-            return false;
-        }
-        return true;
-    }
 
     private successfulSaveHandler(response: any){
         const snackbar: ISnackbarData = successSnackbar;

@@ -1,13 +1,13 @@
 .profile-container{
     display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.profile-details{
+.profile-container > .home-button {
     display: inline-block;
-}
-
-.profile-container > .homeButton {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+    margin: 0;
 }

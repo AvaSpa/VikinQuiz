@@ -35,7 +35,7 @@ interface IState {
 
 class QuestionsComponent extends React.Component<IProps, IState> {
 
-   public httpService = new HttpService();
+   
    public readonly endpointUrl = "http://localhost:60151/api/questions";
    public paramsObject = {
       params: {
@@ -63,6 +63,8 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    public refreshQuestionList = {
       refresh: new Function()
    }
+
+   private httpService = new HttpService();
 
 
    public createQuestionRequestObject = () => {

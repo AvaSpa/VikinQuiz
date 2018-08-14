@@ -4,12 +4,12 @@
     flex-wrap: wrap;
     margin-bottom: 25px;
     font-size: 27px;
-    /* align-items: center; */
+    align-items: center;
 }
 
 /* title */
 
-.start-quiz .formgroup {
+.start-quiz .form-group {
     margin: 0;
     padding: 0;
 }
@@ -66,11 +66,13 @@
 
 
 .error-message{
+    position: absolute;
     color: #fa1919;
     font-family: 'Arial-Narrow';
     font-size: 20px;
     text-align: left;
     padding-left: 7px;
+    top: 105%;
 }
 
 .hidden {

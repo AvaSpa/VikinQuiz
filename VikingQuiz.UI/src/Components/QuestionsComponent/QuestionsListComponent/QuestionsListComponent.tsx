@@ -27,12 +27,14 @@ const getNewQuestionsList = (ctx : any, httpService : any) => {
 
 class QuestionsListComponent extends React.Component<any, any> {
 
-   public httpService = new HttpService();
+   
    public state = {
       questionsData: [] 
    }
 
    public refreshRef : any = this.props.getReferenceToRefreshQuestionList();
+
+   private httpService = new HttpService();
    
    constructor(props: any) {
       super(props);

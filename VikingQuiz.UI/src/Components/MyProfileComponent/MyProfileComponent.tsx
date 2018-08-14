@@ -13,7 +13,7 @@ const MyProfileComponent: any = (props: IProfileComponent) => {
             <img className='profile-picture' src={props.profilePictureUrl} alt='Avatar' />
             <div className='profile-text'>
                <figcaption>{props.profileName}</figcaption>
-               {props.children}
+               <span className="profile-content"> {props.children} </span>
             </div>
         </figure>
     );
