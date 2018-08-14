@@ -7,10 +7,35 @@ figure {
     width: 80px;
     border-radius: 50%;
     height: 80px;
+    margin-right: 15px;
+}
+
+.profile-message{
+   display: inline-block;
+   color: #f4c300;
+}
+
+.profile-content{
+    margin-left: 20px;
+}
+
+.profile-text {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   font-family: 'dk_lemon_yellow_sunregular';
+   font-weight: 300;
+   font-size: 30px;
 }
 
 figure > figcaption {
     margin-left: 15px;
     font-size: 40px;
     font-family: 'dk_lemon_yellow_sunregular';
+}
+
+@media screen and (max-width: 762px){
+    .profile-content{
+        margin-left: 0;
+    }
 }

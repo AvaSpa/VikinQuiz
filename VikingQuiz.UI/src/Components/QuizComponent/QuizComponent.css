@@ -1,0 +1,14 @@
+.container {
+    width: 80%;
+}
+
+.quiz .profile-container {
+   width: 100%;
+   text-align: left;
+   margin-top: 70px;
+   display: inline-flex;
+}
+
+.quiz .profile-container figcaption {
+   font-size: 30px;
+}

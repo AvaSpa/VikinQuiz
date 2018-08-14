@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './LoginFormComponent.css';
-import InputData from 'src/entities/InputData';
+import IInputData from 'src/entities/IInputData';
 import FormComponent from '../FormComponent/FormComponent';
 
 class LoginFormComponent extends FormComponent {
@@ -11,13 +11,13 @@ class LoginFormComponent extends FormComponent {
   public render() {
     return (
       <div className="form-body container-fluid">
-        {this.state.inputs.map((input: InputData) => this.renderInput(input))}
+        {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
         <div className="forget-remember col-xs-12">
-          <a href="/forgot" className="forget-pass col-xs-6">FORGOT PASSWORD</a>
-          <div className="custom-control custom-checkbox col-xs-6">
+          <a href="#" className="forget-pass col-xs-6">forgot password</a>
+          <div className="custom-control custom-checkbox-login col-xs-6">
 
             <label className="custom-control-label" htmlFor="remember-me">
-               REMEMBER ME
+               remember me
                <input className="custom-control-input" id="remember-me" name="remember-me" type="checkbox" onChange={this.props.checkboxChangedHandle}/>
                <div className="checkbox-style" />
             </label>

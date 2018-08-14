@@ -1,6 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace VikingQuiz.Api.Models
 {
@@ -23,6 +24,24 @@ namespace VikingQuiz.Api.Models
         public virtual DbSet<Quiz> Quiz { get; set; }
         public virtual DbSet<QuizQuestion> QuizQuestion { get; set; }
         public virtual DbSet<User> User { get; set; }
+
+        public override int SaveChanges()
+        {
+            var entities = from e in ChangeTracker.Entries()
+                           where e.State == EntityState.Added
+                               || e.State == EntityState.Modified
+                           select e.Entity;
+            foreach (var entity in entities)
+            {
+                var validationContext = new ValidationContext(entity);
+                Validator.ValidateObject(
+                    entity,
+                    validationContext,
+                    validateAllProperties: true);
+            }
+
+            return base.SaveChanges();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 import MyQuizesPage from 'src/Components/MyQuizesPage/MyQuizesPage';
 import SignUpPage from 'src/Components/SignUpPage/SignUpPage';
-import { BrowserRouter , Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import LoginPage from './Components/LoginPage/LoginPage';
 import NotFoundComponent from './Components/NotFoundComponent/NotFoundComponent';
 import UserMinimalProfile from './Components/UserMinimalProfile/UserMinimalProfile';
@@ -12,6 +12,7 @@ import PlayGame from './Components/StartGame/PlayGame';
 import BottomLogo from './Components/BottomLogo/BottomLogo';
 import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPasswordComponent/ResetPasswordComponent';
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
+import QuizComponent from './Components/QuizComponent/QuizComponent';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -29,8 +30,7 @@ class App extends React.Component<{}, {}> {
           <Route exact={true} path="/signup" component={SignUpPage} />
           <Route exact={true} path="/login" component={LoginPage} />
           <Route exact={true} path="/myQuizzes" component={MyQuizesPage} />
-          <Route exact={true} path="/editQuiz" component={NotFoundComponent} />
-          <Route exact={true} path="/newQuiz" component={NotFoundComponent} />
+          <Route exact={true} path="/quiz" component={QuizComponent} />
           <Route exact={true} path="/startgame" component={StartGame} />
           <Route exact={true} path="/playgame" component={PlayGame} />
           <Route exact={true} path="/connect" component={ConnectGame} />

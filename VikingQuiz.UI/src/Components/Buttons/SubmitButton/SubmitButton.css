@@ -1,12 +1,4 @@
-.submit-button {
-    border-radius: 50%;
-    border: none;
-    width:70px;
-    height:70px;
-    background: transparent url(./../../../media/checkmark.png) no-repeat;
-    background-size: 100%;
-    transition: all 0.2s linear;
-}
+
 
 .submit-button:hover {
     transform: translateY(3px);

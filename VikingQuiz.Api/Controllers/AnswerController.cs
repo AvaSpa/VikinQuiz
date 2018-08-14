@@ -26,60 +26,51 @@ namespace VikingQuiz.Api.Controllers
             this.vmToEntityMapper = vmToEntityMapper;
         }
 
-        [HttpGet]
-        public IActionResult GetAnswer()
-        {
-            var result = answerRepository.GetAllAnswers().Select(s => entityToVmMapper.Map(s)).ToList();
-            return Ok(result);
-        }
-
         [HttpGet("{id}")]
         public IActionResult GetAnswerById(int id)
         {
-            Answer ans = answerRepository.GetAnswerById(id);
-            if (ans == null)
+            Answer answer = answerRepository.GetAnswerById(id);
+            if (answer == null)
             {
                 return NotFound("Answer doesn't exist");
             }
-            AnswerViewModel ansVm = this.entityToVmMapper.Map(ans);
+            AnswerViewModel ansVm = this.entityToVmMapper.Map(answer);
             return Ok(ansVm);
         }
 
         [HttpPost]
-        public IActionResult CreateAnswer([FromBody]AnswerViewModel answer)
+        public IActionResult CreateAnswer([FromBody]AnswerViewModel answerVm)
         {
-            Answer ans = new Answer
+            Answer answer = new Answer
             {
-                Text = answer.Text,
-                QuestionId = answer.QuestionId
+                Text = answerVm.Text
             };
 
-            Answer newAnswer = answerRepository.AddAnswer(ans);
+            Answer newAnswer = answerRepository.AddAnswer(answer);
             if (newAnswer == null)
             {
                 return BadRequest("Answer couldn't be created");
             }
-            AnswerViewModel answerVm = entityToVmMapper.Map(ans);
-            return Ok(answerVm);
+            AnswerViewModel newAnswerVm = entityToVmMapper.Map(answer);
+            return Ok(newAnswerVm);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateAnswer(int id, [FromBody]AnswerViewModel answer)
+        public IActionResult UpdateAnswer(int id, [FromBody]AnswerViewModel answerVm)
         {
-            Answer ans = new Answer
+            Answer answer = new Answer
             {
                 Id = id,
-                Text = answer.Text,
-                QuestionId = answer.QuestionId
+                Text = answerVm.Text
             };
 
-            Answer updatedAnswer = answerRepository.UpdateAnswer(ans);
+            Answer updatedAnswer = answerRepository.UpdateAnswer(answer, 3);
             if (updatedAnswer == null)
             {
                 return BadRequest("Answer couldn't be updated");
             }
-            AnswerViewModel answerVm = entityToVmMapper.Map(updatedAnswer);
-            return Ok(answerVm);
+            AnswerViewModel newAnswerVm = entityToVmMapper.Map(updatedAnswer);
+            return Ok(newAnswerVm);
         }
 
         [HttpDelete("{id}")]

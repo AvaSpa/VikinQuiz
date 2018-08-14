@@ -17,6 +17,11 @@ namespace VikingQuiz.Api.Repositories
 
         public Answer AddAnswer(Answer answer)
         {
+            Answer foundAnswer = context.Answer.Where(a => a.QuestionId == answer.QuestionId && a.Text == answer.Text).FirstOrDefault();
+            if (foundAnswer != null)
+            {
+                return null;
+            }
             context.Answer.Add(answer);
             context.SaveChanges();
             return answer;
@@ -24,24 +29,25 @@ namespace VikingQuiz.Api.Repositories
 
         public void DeleteAnswer(int id)
         {
-            Answer ans = context.Answer.Find(id);
-            context.Answer.Remove(ans);
+            context.Answer.Remove(new Answer { Id = id });
             context.SaveChanges();
         }
 
-        public Answer UpdateAnswer(Answer answer)
+        public Answer UpdateAnswer(Answer answer, int questionId)
         {
             var existingAnswer = context.Answer.Find(answer.Id);
             existingAnswer.Text = answer.Text;
-            existingAnswer.QuestionId = answer.QuestionId;
+            existingAnswer.QuestionId = questionId;
             context.SaveChanges();
             return answer;
         }
 
 
-        public List<Answer> GetAllAnswers()
+        public List<Answer> GetAllAnswers(int id)
         {
-            return context.Answer.ToList();
+            return context.Answer
+                    .Where(a => a.QuestionId == id)
+                    .ToList();
         }
 
         public Answer GetAnswerById(int id)

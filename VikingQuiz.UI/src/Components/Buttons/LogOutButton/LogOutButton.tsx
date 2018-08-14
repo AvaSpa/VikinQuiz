@@ -1,8 +1,11 @@
 import * as React from 'react';
 import '../LoginSignUpButtons/Buttons.css';
 import {Link} from 'react-router-dom';
+import StorageService from '../../../services/StorageService';
 
 class LogOutButton extends React.Component<any, any> {
+    private storage: StorageService = new StorageService();
+
     constructor(props: any) {
         super(props);
 
@@ -10,7 +13,7 @@ class LogOutButton extends React.Component<any, any> {
     }
 
     public handleLogOut(){
-        localStorage.removeItem("token");
+        this.storage.removeItem("token");
     }
 
     public render() {

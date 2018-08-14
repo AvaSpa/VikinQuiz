@@ -23,7 +23,7 @@
     text-align: center;
 }
 
-.home-button{
+.startgame-center-container .home-button{
     top: 30px;
     width: 210px;
     height: 210px;
@@ -49,7 +49,7 @@
 }
 
 @media screen and (max-width: 800px){
-    .home-button{
+    .startgame-center-container  .home-button{
         width:150px;
         height:240px;
     }
@@ -80,7 +80,7 @@
         width: auto;
     }
 
-    .home-button{
+    .startgame-center-container .home-button{
         width:130px;
         height:140px;
     }
@@ -112,7 +112,7 @@
 }
 
 @media screen and (max-width: 400px){
-    .home-button{
+    .startgame-center-container .home-button{
         width:130px;
         height:140px;
     }
@@ -146,7 +146,7 @@
 
 
 @media screen and (max-width: 330px){
-    .home-button{
+    .startgame-center-container .home-button{
         top: 10px;
         width:70px;
         height:70px;

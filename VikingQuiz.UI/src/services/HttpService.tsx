@@ -1,7 +1,7 @@
 import axios from 'axios';
 import StorageService from './StorageService';
 
-class HttpService{
+class HttpService {
 
     private storageService = new StorageService();
 
@@ -9,7 +9,7 @@ class HttpService{
         axios.defaults.baseURL = "http://localhost:60151/api";
     }
 
-    public get = (url: string, options?: any) => {
+    public get = (url: string, options?: any): any => {
         if(!url){
             return;
         }
@@ -25,10 +25,11 @@ class HttpService{
         return axios.post(url, body, {...options});
     }
 
-    public getWithToken = (url: string, options?: any): any => {
+
+    public getWithToken = (url: string, options?: any) : any => {
         const token: any = this.getToken();
        
-        if(!url || !token){
+        if(!url){
             return;
         }
 
@@ -40,7 +41,7 @@ class HttpService{
     public postWithToken = (url: string, body: any, options?: any): any => {
         const token: any = this.getToken();
 
-        if(!url || !body || !token){
+        if(!url || !body){
             return;
         }
 
@@ -52,7 +53,7 @@ class HttpService{
     public deleteWithToken = (url: string, options?: any): any => {
         const token: any = this.getToken();
        
-        if(!url || !token){
+        if(!url){
             return;
         }
 
@@ -64,7 +65,7 @@ class HttpService{
     public putWithToken = (url: string, body: any, options?: any): any => {
         const token: any = this.getToken();
 
-        if(!url || !body || !token){
+        if(!url || !body){
             return;
         }
 
@@ -72,6 +73,7 @@ class HttpService{
 
         return axios.put(url, body, {...authorizationOptions, ...options});
     }
+
 
     private getToken(){
         return this.storageService.getItem('token');

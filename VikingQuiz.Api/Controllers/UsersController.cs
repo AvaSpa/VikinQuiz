@@ -18,6 +18,7 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
+        private readonly string containerName = "users-pictures";
         private readonly UserRepository userRepository;
         private readonly IEntityMapper<User, UserViewModel> entityToVmMapper;
 
@@ -27,6 +28,25 @@ namespace VikingQuiz.Api.Controllers
             this.entityToVmMapper = entityToVmMapper;
         }
 
+        [Route("current")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult Get()
+        {
+            int userId = User.Claims.GetUserId();
+            User user = userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound("User doesn't exist");
+            }
+            if (user.Pass != null)
+            {
+                user.PictureUrl = this.GetPictureAbsoluteUrl(user.PictureUrl);
+            }
+            UserViewModel userVm = this.entityToVmMapper.Map(user);
+            return Ok(userVm);
+        }
+
         [HttpGet]
         //[Authorize]
         public IActionResult GetAll()
@@ -34,20 +54,6 @@ namespace VikingQuiz.Api.Controllers
             var users = userRepository.GetAll();
             var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
             return Ok(result);
-        }
-
-        [HttpGet("/current")]
-        [Authorize]
-        public IActionResult Get()
-        {
-            int userId = User.Claims.GetUserId();
-            User user = userRepository.GetUserById(userId);
-            if(user == null)
-            {
-                return NotFound("User doesn't exist");
-            }
-            UserViewModel userVm = this.entityToVmMapper.Map(user);
-            return Ok(userVm);
         }
 
         [HttpPost]
@@ -112,6 +118,13 @@ namespace VikingQuiz.Api.Controllers
         {
             userRepository.DeleteUser(id);
             return Ok();
+        }
+        
+        private string GetPictureAbsoluteUrl(string imageName)
+        {
+            var azureService = new AzureBlobService();
+            return azureService.urlPath.AbsoluteUri.ToString() + containerName + "/" + imageName;
+
         }
     }
 }

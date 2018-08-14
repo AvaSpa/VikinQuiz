@@ -1,35 +1,42 @@
 import * as React from 'react';
 import './SignUpPage.css'
 import FormComponent from 'src/Components/FormComponent/FormComponent';
-import InputData from '../../entities/InputData';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LoginButton from '../Buttons/LoginSignUpButtons/LoginButton';
 import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
-import UserDto from '../../entities/UserDto';
+import IUserDto from '../../entities/IUserDto';
 import { Redirect } from 'react-router-dom';
 import {signUpRules} from '../../entities/Validation/rules';
-// import register from '../../registerServiceWorker';
 import {signUpValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
+import StorageService from 'src/services/StorageService';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
 
-function postSuccesful(res: any): void { console.dir("Post succesful", res); }
-function postError(res: any): void { console.dir("Post NOT succesful", res); }
-
 function responseSuccesfulHandler(res: any): void { console.log("Response succesful", res); }
 function responseFailureHandler(): void { console.dir("Response failed"); }
 
+
+const signupFormBody: any = [
+    {id: 'user-name', type: 'text', label: 'Name', errorMessage: '', name: 'Username', value: ''},
+    {id: 'user-email', type: 'email', label: 'Email', errorMessage: '', name: 'Email', value: ''},
+    {id: 'user-password', type: 'password', label: 'Password', errorMessage: '', name: 'Password', value: ''},
+    {id: 'user-confpass', type: 'password', label: 'Confirm Password', errorMessage: '', name: 'ConfPassword', value: ''}
+]
+
 class SignUpPage extends React.Component<{}, any> {
    private httpService: any = new HttpService();
+   private storageService: StorageService = new StorageService();
 
    constructor(props: any) {
       super(props);
 
       this.state = {
-          serverMessage: '',
-          redirect: false
+          showErrorMessage: false,
+          serverErrorMessage: '',
+          redirect: false,
+          loginRedirect: false
       }
    }
 
@@ -40,11 +47,10 @@ class SignUpPage extends React.Component<{}, any> {
 
     const comp: any = this;
 
-    const body: UserDto = new UserDto(formData.Username, formData.Password, formData.Email);
+    const body: IUserDto = {id: -1, username: formData.Username, password: formData.Password, email: formData.Email, pictureUrl: ''};
 
     this.httpService.post(url, body)
     .then((res: any) => {
-        console.log(res);
         const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
         this.httpService.get(emailUrl);
         comp.setState({
@@ -68,11 +74,24 @@ class SignUpPage extends React.Component<{}, any> {
   }
 
 
-   
+   public postSuccesful = (response: any) => {
+        const loginToken: string = response.data.token;
+        this.storageService.saveItem('token', loginToken);
+        this.setState({
+            loginRedirect: true
+        });
+   }
+
+   public postError = (error: any) => {
+        this.showErrorMessage(error);
+   }
 
    public render() {
-        if(this.state.redirect){
+      if(this.state.redirect){
         return (<Redirect push={true} to="/login"/>);
+      }
+      if(this.state.loginRedirect){
+        return (<Redirect push={true} to="/myQuizzes"/>);
       }
       return (
          <div className="register-form">
@@ -89,14 +108,8 @@ class SignUpPage extends React.Component<{}, any> {
                <div className="row">
                   <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                      <div className="form-container">
-                        <p className="formerror server-message">{this.state.serverMessage}</p>
-                        <FormComponent className="signupForm" inputs={
-                           [
-                              new InputData('user-name', 'text', 'Name', '', 'Username', ''),
-                              new InputData('user-email', 'email', 'Email', '', 'Email', ''),
-                              new InputData('user-password', 'password', 'Password', '', 'Password', ''),
-                              new InputData('user-confpass', 'password', 'Confirm Password', '', 'ConfPassword', '')
-                           ]}
+                        {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
+                        <FormComponent className="signupForm" inputs={signupFormBody}
                            url="http://localhost:60151/api/users"
                            buttonName=""
                            onSubmit={this.userDataHandler}
@@ -121,8 +134,8 @@ class SignUpPage extends React.Component<{}, any> {
                               onPopupClosed={popupClosedHandler}
                               onPopupOpen={popupOpenHandler}
 
-                              onPostError={postError}
-                              onPostSuccess={postSuccesful}
+                              onPostError={this.postError}
+                              onPostSuccess={this.postSuccesful}
                            />
                         </div>
                      </div>
@@ -132,6 +145,25 @@ class SignUpPage extends React.Component<{}, any> {
          </div>
 
       );
+   }
+
+   private showErrorMessage = (error: any) =>{
+        this.setState({ showErrorMessage: true });
+        if (error.response === undefined) {
+            this.setState({ serverErrorMessage: "Could not connect to the server. Please try again later" });
+        }
+        else {
+            if (error.response.status === 404) {
+                this.setState({ serverErrorMessage: "Username or Password incorrect. Please try again" });
+            }
+            if (error.response.status === 400) {
+                this.setState({ serverErrorMessage: "Please confirm your account first" });
+            }
+        }
+        setTimeout(() => this.setState({
+            showErrorMessage: false,
+            serverErrorMessage: ''
+        }), 5000);
    }
 }
 
