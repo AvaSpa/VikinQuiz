@@ -9,6 +9,7 @@
     margin: 0 auto;
     display: block;
     transition: all 0.2s linear;
+    bottom: 30px;
 }
 
 .home-button:hover {
