@@ -19,7 +19,7 @@ class StartGame extends React.Component<any, any> {
             playersPerLine: 7
         }
     }
-
+    
     public componentWillMount() {
         axios.get(this.state.baseUrl+this.state.endPoint)
         .then(response => {
@@ -34,18 +34,16 @@ class StartGame extends React.Component<any, any> {
         const displayedCode = "code";
         return (
             <div className="container">
-                <div className="startgame-center-container">
                     <div className="row">
-                        <div className="startgame-center-container">
-                            <div className="col-sm-auto">
+                        <div className="center-container">
+                            <div className="col-auto">
                                 <HomeButton/>
                             </div>
-                            <div className="col-sm-auto">
+                            <div className="col-auto">
                                 <div className="code-label"> {displayedMessage} </div>
-                            </div>
-                            <div className="col-sm-auto">
                                 <div className="code"> {displayedCode} </div>
                             </div>
+                            <div className="startgame-center-container">
                             <div className="players-container">
                                 {this.state.player.slice(this.state.playersPerLine, this.state.player.length).map((p:any) =>
                                     <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
@@ -55,12 +53,10 @@ class StartGame extends React.Component<any, any> {
                                 )}
                             </div>
                         </div>
-                        <div className="startgame-center-container">
-                            <StartButton/>
-                        </div>
+                        <StartButton/>
                     </div>
-                </div>                        
-                <CancelButton/>
+                </div> 
+                <CancelButton/>        
             </div>
         ); 
       }

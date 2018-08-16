@@ -8,7 +8,6 @@ import SocialButtonsWrapper from '../socialButtons/socialButtonsWrapper';
 import UserDto from '../../entities/UserDto';
 import { Redirect } from 'react-router-dom';
 import {signUpRules} from '../../entities/Validation/rules';
-// import register from '../../registerServiceWorker';
 import {signUpValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
 

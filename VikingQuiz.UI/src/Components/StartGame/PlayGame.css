@@ -17,6 +17,20 @@
     border: none;
 }
 
+.form-label{
+    text-align: center;
+    font-size: 24px;
+    margin: auto;
+    width: 100%;
+}
+
+@media screen and (min-width: 1500px){
+    .center-container{
+        width: 1000px;
+    }
+
+}
+
 @media screen and (max-width: 1500px){
     .center-container{
         width: 1000px;
@@ -59,7 +73,7 @@
 
 @media screen and (max-width: 400px){
     .center-container{
-        width: 300px;
+        width: 350px;
     }
 
     .playgame{
@@ -67,6 +81,19 @@
         width: 280px;
     }
 }
+
+@media screen and (max-width: 380px){
+    .center-container{
+        width: 300px;
+    }
+
+    .form-control{
+        width: 100%;
+        padding: 0 0;
+        text-align: center;
+    }
+}
+
 
 @media screen and (max-width: 350px){
     .center-container{

@@ -18,6 +18,22 @@
     transform: translateY(5px);
 }
 
+@media screen and (max-width: 1500px){
+    .cancel-button{
+        width: 210px;
+        height: 80px;
+        font-size: 30px;
+    }
+}
+
+@media screen and (max-width: 1100px){
+    .cancel-button{
+        width: 150px;
+        height: 80px;
+        font-size: 30px;
+    }
+}
+
 @media screen and (max-height: 800px){
     .cancel-button{
         width: 70px;

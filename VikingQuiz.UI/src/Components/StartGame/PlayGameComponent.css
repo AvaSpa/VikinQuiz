@@ -18,3 +18,20 @@
 .join-button:active {
     transform: translateY(5px);
 }
+
+@media screen and (max-width: 1500px){
+    join-button{
+        width:200px;
+        height:200px;
+        top: 200px;
+    }
+}
+
+
+@media screen and (max-width: 350px){
+    join-button{
+        width:100px;
+        height:100px;
+        top: 200px;
+    }
+}
