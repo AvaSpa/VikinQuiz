@@ -15,7 +15,7 @@
     z-index: 9999;
 }
 
-.snackbar.bottom-center.showFunc{
+.snackbar.bottom-center.show-func{
     bottom: 25px;
     left: 50%;
     transform: translate(-50%, 0);

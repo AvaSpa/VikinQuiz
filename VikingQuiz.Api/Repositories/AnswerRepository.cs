@@ -39,7 +39,7 @@ namespace VikingQuiz.Api.Repositories
             existingAnswer.Text = ans.Text;
             existingAnswer.QuestionId = questionId;
             context.SaveChanges();
-            return answer;
+            return ans;
         }
 
 

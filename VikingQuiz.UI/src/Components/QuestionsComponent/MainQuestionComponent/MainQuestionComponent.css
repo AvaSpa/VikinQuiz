@@ -95,16 +95,16 @@
    flex-wrap: wrap;
    align-items: center;
 }
-.answer-input .formerror {
+.answer-input .forme-rror {
    width: 100%;
 }
-.answer-input .formgroup {
+.answer-input .form-group {
    display: flex;
 }
 .answer-input .form-control {
    flex: 1;
 }
-.answer-input .formlabel {
+.answer-input .form-label {
    width: 40px;
    height: 40px;
    margin: 0 10px;
@@ -148,7 +148,7 @@
    display: flex;
    flex-wrap: wrap;
 }
-.question-title .formlabel {
+.question-title .form-label {
    margin-right: 10px;
    display: flex;
    align-items: center;
@@ -165,7 +165,7 @@
    letter-spacing: 0.04em;
 }
 
-.question-title .formerror {
+.question-title .form-error {
    width: 100%;
 }
 

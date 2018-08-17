@@ -42,7 +42,7 @@ class SnackbarComponent extends React.Component<IProps, IState>{
         const actionClasses: any = ['action-btn', ...this.props.data.action.classes];
 
         return (
-            <div className={classes.join(' ') + (this.state.show ? " showFunc" : '')}>
+            <div className={classes.join(' ') + (this.state.show ? " show-func" : '')}>
                 <div className="message">{this.props.data.message}</div>
                 <div className="actions">
                     <button className={actionClasses.join(' ')} onClick={this.clickHandler}>{this.props.data.action.actionName}</button>

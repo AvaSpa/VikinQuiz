@@ -33,11 +33,11 @@ class ResetPasswordComponent extends React.Component<any, any>
             return (<Redirect to='/login' />);
         }
         return (
-            <div className='my-container'>
+           <div className='reset-password-container'>
                 <HomeButton />
                 <div className='yellow-bg-message'>Update password</div>
                 <div className='form-container'>
-                    <FormComponent className='signupForm' inputs={
+                    <FormComponent className='signup-form' inputs={
                         [
                        { id: 'password', type: 'password', label: 'new password', errorMessage:'', name:'password', value:''},
                        { id: 'confirm-password', type: 'password', label: 'confirm password', errorMessage: '', name: 'confirm-password', value:''}

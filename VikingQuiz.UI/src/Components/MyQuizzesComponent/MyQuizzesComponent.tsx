@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './MyQuizzesComponent.css';
 import QuizItem from '../QuizItem/QuizItem';
-import axios from 'axios';
 import NewQuizButton from '../Buttons/NewQuizButton/NewQuizButton';
 import ProfileAndHomeComponent from '../ProfileAndHomeComponent/ProfileAndHomeComponent';
 import HttpService from '../../services/HttpService';

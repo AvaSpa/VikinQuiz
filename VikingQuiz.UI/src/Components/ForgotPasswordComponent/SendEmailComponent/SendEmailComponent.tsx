@@ -21,7 +21,7 @@ class SendEmailComponent extends React.Component<any, any>
 
     public render() {
         return (
-            <div className='my-container'>
+            <div className='send-email-container'>
                 <HomeButton />
                 <div className='yellow-bg-message'>Forgot password</div>
                 <div className='form-container'>

@@ -102,7 +102,7 @@ class SignUpPage extends React.Component<{}, any> {
                <HomeButton />
                <div className="row">
                   <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
-                     <div className="signupmsg">
+                     <div className="signup-msg">
                         SIGN UP
                         </div>
                   </div>
@@ -111,7 +111,7 @@ class SignUpPage extends React.Component<{}, any> {
                   <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
                      <div className="form-container">
                         {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
-                        <FormComponent className="signupForm" inputs={signupFormBody}
+                        <FormComponent className="signup-form" inputs={signupFormBody}
                            url={apiUrl + "api/users"}
                            buttonName=""
                            onSubmit={this.userDataHandler}
