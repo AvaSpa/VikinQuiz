@@ -101,14 +101,14 @@ class SignUpPage extends React.Component<{}, any> {
                <LoginButton />
                <HomeButton />
                <div className="row">
-                  <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+                  <div>
                      <div className="signup-msg">
                         SIGN UP
                         </div>
                   </div>
                </div>
                <div className="row">
-                  <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+                  <div>
                      <div className="form-container">
                         {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
                         <FormComponent className="signup-form" inputs={signupFormBody}

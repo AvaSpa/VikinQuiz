@@ -32,7 +32,7 @@ class ConnectGame extends React.Component<any, any> {
         const mainMessage = "CONNECTED";
         const statusLabel = "WAITING FOR GAME TO START";
         return (
-            <div className="container">
+            <div className="container connect-game-container">
                     <div className="row">
                         <div className="center-container">
                             <div className="col-sm-auto">

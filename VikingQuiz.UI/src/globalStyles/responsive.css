@@ -1,0 +1,11 @@
+.register-form.login-page-container .container {
+    max-width: 600px;
+}
+
+.register-form .container {
+    max-width: 700px;
+}
+
+.send-email-container, .reset-password-container {
+    max-width: 550px;
+}

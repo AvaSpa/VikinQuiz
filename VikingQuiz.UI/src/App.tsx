@@ -14,7 +14,6 @@ import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPa
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
 import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent';
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
-import Footer from './Components/Footer/Footer';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -42,7 +41,6 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/snackbar" component={SnackbarComponent} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>
-        <Footer />
         </div>
       </BrowserRouter>
     );

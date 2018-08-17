@@ -1,0 +1,171 @@
+.startgame-container {
+    .home-button {
+        width: 150px;
+        height: 150px;
+        @media screen and (max-width: 700px) {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    .startgame-center-container {
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        width: auto;
+    }
+    .players-container {
+        top: 10px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .code-label {
+        top: 10px;
+        bottom: 100px;
+        position: relative;
+        font-size: 50px;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+    }
+    .code {
+        top: 8px;
+        position: relative;
+        bottom: 100px;
+        background-color: #ffffff;
+        color: #115057;
+        font-size: 50px;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+        width: auto;
+    }
+    .cancel-button {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+    }
+    @media screen and (max-width: 1500px) {
+        .code-label {
+            font-size: 30px;
+        }
+        .center-container {
+            width: 1300px;
+        }
+        .code {
+            height: 50px;
+            font-size: 30px;
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        .code-label {
+            font-size: 30px;
+        }
+        .code {
+            height: 50px;
+            font-size: 30px;
+        }
+    }
+    @media screen and (max-width: 1050px) {
+        .center-container {
+            width: 800px;
+        }
+        .code-label {
+            font-size: 50px;
+        }
+        .code {
+            height: 70px;
+            font-size: 50px;
+            width: 800px;
+            margin: 10px auto;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        .code-label {
+            position: relative;
+            font-size: 40px;
+            font-family: 'dk_lemon_yellow_sunregular';
+            text-align: center;
+        }
+        .center-container {
+            width: 200px;
+        }
+        .code {
+            height: 60px;
+            width: auto;
+        }
+    }
+    @media screen and (max-width: 500px) {
+        .startgame-center-container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            width: auto;
+        }
+        .code-label {
+            bottom: 100px;
+            position: relative;
+            font-size: 30px;
+            font-family: 'dk_lemon_yellow_sunregular';
+            text-align: center;
+        }
+        .center-container {
+            width: 200px;
+        }
+        .players-container {
+            bottom: -40px;
+            display: flex;
+            justify-content: center;
+            height: 60px;
+        }
+        .code {
+            bottom: 100px;
+            height: 45px;
+            font-size: 30px;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        .code-label {
+            bottom: 90px;
+            position: relative;
+            font-size: 24px;
+            font-family: 'dk_lemon_yellow_sunregular';
+            text-align: center;
+        }
+        .code {
+            bottom: 90px;
+            font-size: 24px;
+            height: 30px;
+        }
+        .center-container {
+            width: 200px;
+        }
+        .players-container {
+            bottom: 90px;
+            display: flex;
+            justify-content: center;
+            height: 120px;
+            margin-top: 2px;
+        }
+    }
+    @media screen and (max-width: 330px) {
+        .code-label {
+            position: relative;
+            font-size: 25px;
+            font-family: 'dk_lemon_yellow_sunregular';
+            text-align: center;
+        }
+        .code {
+            font-size: 25px;
+        }
+        .center-container {
+            width: 130px;
+        }
+        .container {
+            padding-right: 2px;
+            padding-left: 2px;
+        }
+        .players-container {
+            margin-top: 0px;
+        }
+    }
+}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './PlayGame.css';
 import HttpService from '../../services/HttpService';
-import PlayGameComponent from './PlayGameComponent';
+import PlayGameComponent from './PlayGameComponent/PlayGameComponent';
 import PlayerCodeDto from '../../entities/PlayerCodeDto';
 import { Redirect } from 'react-router-dom';
 import { connectRules } from '../../entities/Validation/rules';
@@ -64,30 +64,20 @@ class PlayGame extends React.Component<any, any> {
             )
         }
     
-        return (
-            <div className="container">
-                    <div className="row">
-                        <div className="center-container">
-                            <div className="col-sm-auto">
-                                <div className="form-container playgame">
-                                    <p className="form-error server-message">{this.state.serverMessage}</p>
-                                    <PlayGameComponent inputs={
-                                    [
-                                       { id: 'code', type: 'text', label: 'Enter your code/pin', errorMessage: '', name:'GameCode', value:''},
-                                       { id: 'name', type: 'text', label: 'Your Name', errorMessage: '', name: 'PlayerName', value:''},
-                                    ]}
-                                    url={baseUrl + endPoint}
-                                    buttonName=""
-                                    onSubmit={this.playerDataHandler}
-                                    validator={connectValidator}
-                                    validationRules={connectRules}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>         
+        return <div className="container play-game-container">
+            <div className="row">
+              <div className="center-container">
+                <div className="col-sm-auto">
+                  <div className="form-container playgame">
+                    <p className="form-error server-message">
+                      {this.state.serverMessage}
+                    </p>
+                    <PlayGameComponent inputs={[{ id: "code", type: "text", label: "Enter your code/pin", errorMessage: "", name: "GameCode", value: "" }, { id: "name", type: "text", label: "Your Name", errorMessage: "", name: "PlayerName", value: "" }]} url={baseUrl + endPoint} buttonName="" onSubmit={this.playerDataHandler} validator={connectValidator} validationRules={connectRules} />
+                  </div>
+                </div>
+              </div>
             </div>
-        ); 
+          </div>; 
       }
 }
 

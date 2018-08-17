@@ -1,9 +1,9 @@
 import * as React from 'react';
 import './PlayGameComponent.css';
 import IInputData from 'src/entities/IInputData';
-import FormInput from '../FormComponent/FormInput/FormInput';
+import FormInput from '../../FormComponent/FormInput/FormInput';
 
-class FormComponent extends React.Component<any, any> {
+class PlayGameComponent extends React.Component<any, any> {
    constructor(props: any) {
       super(props);
 
@@ -155,7 +155,7 @@ class FormComponent extends React.Component<any, any> {
 
    public render() {
       return (
-         <div className="form-body container-fluid">
+         <div className="play-game-form form-body container-fluid">
             {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
             <button disabled={!this.state.isValid} className="join-button" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
          </div>
@@ -163,4 +163,4 @@ class FormComponent extends React.Component<any, any> {
    }
 }
 
-export default FormComponent;
+export default PlayGameComponent;

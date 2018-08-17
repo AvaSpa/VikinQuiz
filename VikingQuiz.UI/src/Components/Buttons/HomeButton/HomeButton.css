@@ -1,26 +1,11 @@
 .home-button {
-    border-radius: 50%;
-    border: none;
-    width:150px;
-    height:150px;
-    background: transparent url(./../../../media/home.png) no-repeat;
-    background-size: 100%;
-    position: relative;
-    margin: 0 auto;
-    display: block;
-    transition: all 0.2s linear;
-}
-
-.home-button:hover {
-    transform: translateY(3px);
-}
-.home-button:active {
-    transform: translateY(5px);
-}
-
-@media screen and (max-height: 800px){
-    .home-button{
-        width: 100px;
-        height: 100px;
-    }
-}
+  border-radius: 50%;
+  border: none;
+  background: transparent url(../../../media/home.png) no-repeat;
+  background-size: 100%;
+  position: relative;
+  transition: all 0.2s linear; }
+  .home-button :hover {
+    transform: translateY(3px); }
+  .home-button :active {
+    transform: translateY(5px); }

@@ -1,30 +1,55 @@
-.my-quizzes-profile-container{
-    left: 0px;
+.my-quizzes-profile-container {
+  left: 0px;
+  width: 100%;
+  margin-top: 5%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center; }
+  .my-quizzes-profile-container .profile-container {
     width: 100%;
-    margin-top: 5%;
-    display: inline-flex;
-    justify-content: space-between;
-}
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; }
+    .my-quizzes-profile-container .profile-container .home-button {
+      flex-shrink: 0; }
+    @media screen and (max-width: 500px) {
+      .my-quizzes-profile-container .profile-container .my-profile-name {
+        font-size: 30px; } }
+    @media screen and (max-width: 400px) {
+      .my-quizzes-profile-container .profile-container .my-profile-name {
+        font-size: 25px; } }
+    @media screen and (max-width: 500px) {
+      .my-quizzes-profile-container .profile-container .profile-picture,
+      .my-quizzes-profile-container .profile-container .home-button {
+        width: 80px;
+        height: 80px; } }
+    @media screen and (max-width: 400px) {
+      .my-quizzes-profile-container .profile-container .profile-picture,
+      .my-quizzes-profile-container .profile-container .home-button {
+        width: 60px;
+        height: 60px; } }
+  @media screen and (max-width: 700px) {
+    .my-quizzes-profile-container {
+      align-items: flex-end; }
+      .my-quizzes-profile-container .my-profile-container {
+        align-items: flex-end; } }
+  @media screen and (max-width: 500px) {
+    .my-quizzes-profile-container .new-quiz-button {
+      width: 45px;
+      height: 45px;
+      min-width: 45px; } }
 
-.my-quizzes-profile-container > .new-quiz-button{
-    margin-top: 30px;
-}
-
-.display-quizzes-container{
-    border: 1px solid  #f4c300;
-    height: auto;
-    width: auto;
-}
-
-.my-quizzes-header{
+.display-quizzes-container {
+  border: 1px solid #f4c300;
+  height: auto;
+  width: auto; }
+  .display-quizzes-container .my-quizzes-header {
     padding-left: 0;
     padding-right: 0;
     margin-left: 0;
     background-color: #f4c300;
-    margin-top: 0px;
-}
-
-.my-quizzes-msg{
+    margin-top: 0px; }
+  .display-quizzes-container .my-quizzes-msg {
     margin: 0 auto 2% auto;
     margin-left: 15px;
     height: 1.4em;
@@ -32,40 +57,34 @@
     font-size: 30px;
     font-weight: 600;
     font-family: 'dk_lemon_yellow_sunregular';
-    text-align: left;
-}
-
-.quiz-container{
+    text-align: left; }
+  .display-quizzes-container .quiz-container {
     display: flex;
     justify-content: space-around;
     height: auto;
     margin-bottom: 5px;
     flex-wrap: wrap;
-    min-height: 120px;
-}
-
-.no-quizzes-container{
-    display: inline-flex;
-}
-
-.no-quiz-message{
+    min-height: 120px; }
+  .display-quizzes-container .no-quizzes-container {
+    display: inline-flex; }
+  .display-quizzes-container .no-quiz-message {
     font-family: 'dk_lemon_yellow_sunregular';
     font-size: 50px;
+    margin: auto; }
+    @media screen and (max-width: 400px) {
+      .display-quizzes-container .no-quiz-message {
+        font-size: 32px; } }
+  .display-quizzes-container .new-quiz-button-container {
     margin: auto;
-}
-
-.new-quiz-button-container{
-    margin: auto;
-    margin-left: 50px;
-  }
-
-.more-less-button{
+    margin-left: 50px; }
+    @media screen and (max-width: 400px) {
+      .display-quizzes-container .new-quiz-button-container {
+        margin-left: 20px; } }
+  .display-quizzes-container .more-less-button {
     display: inline-flex;
     width: 100%;
-    justify-content: space-around;
-}
-
-.more-quizzes-button{
+    justify-content: space-around; }
+  .display-quizzes-container .more-quizzes-button {
     margin-top: 20px;
     margin-bottom: 10px;
     border: 2px solid #f0cc04;
@@ -73,20 +92,7 @@
     padding: 4px 16px;
     font-size: 20px;
     color: #f0cc04;
-    font-family: "dk_lemon_yellow_sunregular";
-}
-
-.more-quizzes-button:hover {
+    font-family: "dk_lemon_yellow_sunregular"; }
+  .display-quizzes-container .more-quizzes-button:hover {
     background: #f0cc04;
-    color: black;
-}
-
-@media screen and (max-width: 400px){
-    .no-quiz-message{
-        font-size: 32px;
-    }
-    .new-quiz-button-container{
-        margin-left: 20px;
-    }
-}
-
+    color: black; }

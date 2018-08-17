@@ -33,7 +33,7 @@ class StartGame extends React.Component<any, any> {
         const displayedMessage = "YOUR CODE";
         const displayedCode = "code";
         return (
-            <div className="container">
+            <div className="startgame-container container">
                 <div className="startgame-center-container">
                     <div className="row">
                         <div className="startgame-center-container">

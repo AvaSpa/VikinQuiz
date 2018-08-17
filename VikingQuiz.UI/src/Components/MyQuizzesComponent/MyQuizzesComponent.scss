@@ -1,0 +1,117 @@
+.my-quizzes-profile-container {
+    left: 0px;
+    width: 100%;
+    margin-top: 5%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    .profile-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        .home-button {
+            flex-shrink: 0;
+        }
+        .my-profile-name {
+            @media screen and (max-width: 500px) {
+                font-size: 30px;
+            }
+            @media screen and (max-width: 400px) {
+                font-size: 25px;
+            }
+        }
+        .profile-picture,
+        .home-button {
+            @media screen and (max-width: 500px) {
+                width: 80px;
+                height: 80px;
+            }
+            @media screen and (max-width: 400px) {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    }
+    @media screen and (max-width: 700px) {
+        align-items: flex-end;
+        .my-profile-container {
+            align-items: flex-end;
+        }
+    }
+    @media screen and (max-width: 500px) {
+        .new-quiz-button {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+        }
+    }
+}
+
+.display-quizzes-container {
+    border: 1px solid #f4c300;
+    height: auto;
+    width: auto;
+    .my-quizzes-header {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+        background-color: #f4c300;
+        margin-top: 0px;
+    }
+    .my-quizzes-msg {
+        margin: 0 auto 2% auto;
+        margin-left: 15px;
+        height: 1.4em;
+        color: #115057;
+        font-size: 30px;
+        font-weight: 600;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: left;
+    }
+    .quiz-container {
+        display: flex;
+        justify-content: space-around;
+        height: auto;
+        margin-bottom: 5px;
+        flex-wrap: wrap;
+        min-height: 120px;
+    }
+    .no-quizzes-container {
+        display: inline-flex;
+    }
+    .no-quiz-message {
+        font-family: 'dk_lemon_yellow_sunregular';
+        font-size: 50px;
+        margin: auto;
+        @media screen and (max-width: 400px) {
+            font-size: 32px;
+        }
+    }
+    .new-quiz-button-container {
+        margin: auto;
+        margin-left: 50px;
+        @media screen and (max-width: 400px) {
+            margin-left: 20px;
+        }
+    }
+    .more-less-button {
+        display: inline-flex;
+        width: 100%;
+        justify-content: space-around;
+    }
+    .more-quizzes-button {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        border: 2px solid #f0cc04;
+        background-color: transparent;
+        padding: 4px 16px;
+        font-size: 20px;
+        color: #f0cc04;
+        font-family: "dk_lemon_yellow_sunregular";
+    }
+    .more-quizzes-button:hover {
+        background: #f0cc04;
+        color: black;
+    }
+}

@@ -1,0 +1,35 @@
+.quiz {
+   &.container {
+      max-width: 1300px;
+   }
+   .profile-container {
+      width: 100%;
+      text-align: left;
+      margin-top: 70px;
+      flex-wrap: wrap;
+   }
+   .profile-message {
+      font-size: 30px;
+      margin-left: 15px;
+      @media screen and (max-width: 600px) {
+         font-size: 25px;
+      }
+   }
+
+   .my-profile-name {
+      margin-left: 15px;
+      @media screen and (max-width: 600px) {
+         font-size: 30px;
+      }
+   }
+
+   .profile-details {
+      flex-basis: 220px;
+
+   }
+
+   .home-button {
+      margin: auto;
+   }
+   
+}

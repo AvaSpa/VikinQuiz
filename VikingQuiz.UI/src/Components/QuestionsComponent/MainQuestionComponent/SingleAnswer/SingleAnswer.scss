@@ -1,0 +1,64 @@
+.quiz .answer {
+   width: 50%; 
+   text-align: left;
+   margin-top: 10px;
+   padding: 5px 30px 5px 5px;
+   display: flex;
+   align-items: center;
+
+
+   .answer-image {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 50%;
+   }
+   .answer-checkbox {
+      width: 25px;
+      height: 25px;
+      margin-left: 10px;
+   }
+   
+   .answer-text {
+      flex: 1;
+   }
+   .form-control {
+      background: #00333c;
+      color: #ffffff;
+      border-color: transparent;
+      border-radius: 0;
+   }
+   
+   .form-control:focus {
+      box-shadow: 0 0 0 0 transparent;
+   }
+   .answer-input {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+   }
+   .answer-input .forme-rror {
+      width: 100%;
+   }
+   .answer-input .form-group {
+      display: flex;
+   }
+   .answer-input .form-control {
+      flex: 1;
+   }
+   .answer-input .form-label {
+      width: 40px;
+      height: 40px;
+      margin: 0 10px;
+   }
+   
+   @media screen and (max-width: 940px) {
+      width: 100%;
+      padding-right: 5px;
+   }
+   @media screen and (max-width: 500px) {
+      .form-label {
+          display: none;
+      }
+   }
+}

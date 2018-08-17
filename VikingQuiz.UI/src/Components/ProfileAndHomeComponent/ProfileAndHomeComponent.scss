@@ -1,0 +1,19 @@
+.profile-container{
+    display: flex;
+    align-items: center;
+
+    .my-profile-name {
+       width: 100%;
+    }
+
+    > .home-button {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+    }
+    .profile-details{
+        display: inline-block;
+        flex: 1;
+    }
+
+}

@@ -1,21 +1,15 @@
-.form-body{
-    margin: auto;
-}
-
-.submit-button {
+.form-component-container {
+  margin: auto; }
+  .form-component-container .submit-button {
     margin-top: 2em;
     border-radius: 50%;
     border: none;
-    width:70px;
-    height:70px;
+    width: 70px;
+    height: 70px;
     background: transparent url(./../../media/checkmark.png) no-repeat;
     background-size: 100%;
-	transition: all 0.2s ease;
-}
-
-.submit-button:hover {
-    transform: translateY(3px);
-}
-.submit-button:active {
-    transform: translateY(5px);
-}
+    transition: all 0.2s ease; }
+    .form-component-container .submit-button :hover {
+      transform: translateY(3px); }
+    .form-component-container .submit-button :active {
+      transform: translateY(5px); }
