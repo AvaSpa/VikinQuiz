@@ -96,13 +96,13 @@ class LoginPage extends React.Component<any, any> {
         return (<Redirect push={true} to="/myQuizzes"/>);
       }
       return (
-          <div className="registerform">
+          <div className="register-form">
               <div className="container">
                   <SignUpButton />
                   <HomeButton />
                   <div className="row">
                     <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
-                          <div className="loginmsg">
+                          <div className="login-msg">
                               LOG IN
                           </div>
                       </div>

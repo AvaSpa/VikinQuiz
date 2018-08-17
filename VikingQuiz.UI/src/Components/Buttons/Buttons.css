@@ -1,4 +1,4 @@
-.switchButton {
+.switch-button {
     border: 2px solid #f0cc04;
     background-color: Transparent;
     padding: 4px 16px;
@@ -13,12 +13,12 @@
 
 }
 
-.switchButton:active {
+.switch-button:active {
     transform: translateY(3px);
     box-shadow: inset 0 0 12px 4px rgba(53, 53, 53, 0.149)
 }
 
-.switchButton:hover, .switchButton:active {
+.switch-button:hover, .switch-button:active {
     background: #f0cc04;
     color: black;
 }

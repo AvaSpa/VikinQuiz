@@ -144,7 +144,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         return ( 
             <div className = "start-quiz row">
                 <div id="title" className="col-md-5 col-xs-12" >
-                    <FormInput InputId="quizTitle" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler} readonly={this.state.saved}/>
+                    <FormInput InputId="quiz-title" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler} readonly={this.state.saved}/>
                     <div className="error-message">{this.state.titleError}</div>
                 </div>
                 <div id="upload" className="col-md-5 col-xs-9">

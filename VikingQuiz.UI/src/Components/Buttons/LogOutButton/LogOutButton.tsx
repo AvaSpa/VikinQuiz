@@ -19,7 +19,7 @@ class LogOutButton extends React.Component<any, any> {
     public render() {
         return (
             <Link to="/login">
-            <button className="switchButton" onClick={this.handleLogOut}> LOG OUT </button>
+            <button className="switch-button" onClick={this.handleLogOut}> LOG OUT </button>
             </Link>
         );
     }

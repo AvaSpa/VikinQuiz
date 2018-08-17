@@ -1,0 +1,25 @@
+#footer {
+   text-align: left;
+   height: 70px;
+}
+
+#footer.bigger-than-window {
+   position: absolute;
+   left: 0;
+   right: 0;
+   bottom: 0;
+}
+
+#footer .logo-img {
+   height: 100%;
+}
+
+#footer.smaller-than-window {
+   position: relative;
+}
+
+@media screen and (max-width: 768px) {
+   #footer {
+      text-align: center;
+   }
+}

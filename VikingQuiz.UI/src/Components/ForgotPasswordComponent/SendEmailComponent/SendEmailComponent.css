@@ -1,9 +1,9 @@
-.my-container {
+.send-email-container {
     margin: 3% auto 0 auto;
     width: 450px;
 }
 
-.yellow-bg-message {
+.send-email-container .yellow-bg-message {
     margin: 0 auto 2% auto;
     background-color: #f0cc04;
     height: 1.4em;
@@ -15,27 +15,27 @@
     user-select: none;
 }
 
-.message {
+.send-email-container .message {
     padding: 7px;
     margin: 0 7% 3% 7%;
     border: 1px solid transparent;
     border-radius: 4px;
 }
 
-.success-message {
+.send-email-container .success-message {
     background-color: #dff0d8;
     border-color: #d6e9c6;
     color: #3c763d;
 }
 
-.error-message {
+.send-email-container .error-message {
     background-color: #f2dede;
     border-color: #ebccd1;
     color: #a94442;
 }
 
 @media screen and (max-width: 450px) {
-    .my-container {
+    .send-email-container {
         width: 95%;
     }
 }

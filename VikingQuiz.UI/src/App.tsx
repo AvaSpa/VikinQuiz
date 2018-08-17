@@ -9,13 +9,12 @@ import UserMinimalProfile from './Components/UserMinimalProfile/UserMinimalProfi
 import ConnectGame from './Components/StartGame/ConnectGame';
 import StartGame from './Components/StartGame/StartGame';
 import PlayGame from './Components/StartGame/PlayGame';
-import BottomLogo from './Components/BottomLogo/BottomLogo';
 import QuizComponent from './Components/QuizComponent/QuizComponent';
 import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPasswordComponent/ResetPasswordComponent';
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
 import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent';
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
-import BottomLogo from 'src/Components/BottomLogo/BottomLogo';
+import Footer from './Components/Footer/Footer';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -43,6 +42,7 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/snackbar" component={SnackbarComponent} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>
+        <Footer />
         </div>
       </BrowserRouter>
     );

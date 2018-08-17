@@ -24,7 +24,7 @@
     transition: all 0.2s linear;
 }
 
-.formgroup .vq-input{
+.form-group .vq-input{
     padding: 4px 3px;
     height: 37px;
     border: 2px solid  #5DA9C5;

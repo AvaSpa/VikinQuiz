@@ -9,12 +9,12 @@
 
 /* title */
 
-.start-quiz .formgroup {
+.start-quiz .form-group {
     margin: 0;
     padding: 0;
 }
 
-.start-quiz #quizTitle{
+.start-quiz #quiz-title{
     background-color: #00333E;
     border: 0;
     border-radius: 0;
@@ -24,7 +24,7 @@
     padding-left: 20px;
 }
 
-.start-quiz #quizTitle:focus{
+.start-quiz #quiz-title:focus{
     box-shadow: 0 0 0;
     border: 0px;
 }
@@ -59,8 +59,8 @@
 /* errors */
 
 .error-border .upload-btn, 
-.error-border #quizTitle, 
-.error-border #quizTitle:focus{
+.error-border #quiz-title, 
+.error-border #quiz-title:focus{
     box-shadow: 0 0 4px 2px #fa1919;
 }
 
