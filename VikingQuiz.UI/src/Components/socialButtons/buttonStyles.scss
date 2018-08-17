@@ -1,0 +1,104 @@
+.social-buttons-container {
+    padding: 1em 1em 0 1em;
+    margin: 0 auto;
+    width: 100%;
+    .wrapper-text {
+        margin-bottom: 0.8em;
+        font-size: 1.3em;
+        text-transform: uppercase;
+        font-family: 'dk_lemon_yellow_sunregular', sans-serif;
+        font-size: 2em;
+        transition: all 0.2s linear;
+    }
+    .social-button {
+        &:first-of-type {
+            margin-bottom: 0.8em;
+        }
+        button {
+            position: relative;
+            height: 40px;
+            border: none;
+            border-radius: 0;
+            font-family: 'Arial Bold', sans-serif;
+            transition: all 0.2s linear;
+        }
+        .icon {
+            width: 30%;
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            line-height: 30px;
+            font-size: 1.2em;
+            border-right: 2px solid rgba(256, 256, 256, 0.3);
+        }
+        .button-text {
+            text-align: center;
+            display: block;
+            width: 70%;
+            margin-left: 30%;
+            font-size: 1.1em;
+        }
+        .icon, .button-text {
+            font-weight: bold;
+        }
+        &.google-button {
+            button {
+                background: hsl(221, 44%, 41%);
+                &.icon-google {
+                    padding-right: 0.5em;
+                    border-right: 0.2em solid black;
+                }
+                &:hover {
+                    background: hsl(221, 35%, 41%);
+                }
+                &:active {
+                    background: hsl(221, 33%, 41%);
+                }
+                &:focus {
+                    background: hsl(221, 31%, 41%);
+                }
+                &:active:focus {
+                    background: hsl(221, 30%, 41%);
+                }
+                &:disabled {
+                    background: hsl(221, 27%, 41%);
+                    ;
+                    cursor: not-allowed;
+                }
+            }
+        }
+        &.facebook-button {
+            button {
+                background: hsl(7, 71%, 55%);
+                &:hover {
+                    background: hsl(7, 62%, 55%);
+                }
+                &:active {
+                    background: hsl(7, 58%, 55%);
+                }
+                &:focus {
+                    background: hsl(7, 54%, 55%);
+                }
+                &:active:focus {
+                    background: hsl(7, 50%, 55%);
+                }
+                &:disabled {
+                    background: hsl(7, 45%, 55%);
+                    ;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+    @media screen and (max-height: 800px) {
+        .wrapper-text {
+            margin-bottom: 0.4em;
+            font-size: 1.6em;
+        }
+        .social-button button {
+            height: 35px;
+            font-size: 13px;
+        }
+    }
+}

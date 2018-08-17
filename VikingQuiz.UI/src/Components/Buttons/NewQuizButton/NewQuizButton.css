@@ -2,6 +2,7 @@
     border-radius: 50%;
     border: none;
     width: 60px;
+    min-width: 60px;
     height: 60px;
     background: transparent url(./../../../media/button_add.png) no-repeat;
     background-size: 100%;

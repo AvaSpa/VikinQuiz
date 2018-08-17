@@ -7,7 +7,7 @@ import MyQuizzesComponent from '../MyQuizzesComponent/MyQuizzesComponent';
 
 const MyQuizesPage: any = (props: any) => {
         return (
-            <div className="quiz-page-container">
+            <div className="quiz-page-container container">
                 <LogOutButton />
                 <div className="my-quizzes-page-container">                     
                     <MyQuizzesComponent />

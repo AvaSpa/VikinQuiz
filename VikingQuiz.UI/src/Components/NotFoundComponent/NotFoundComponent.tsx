@@ -3,7 +3,7 @@ import './NotFoundComponent.css';
 
 const NotFoundComponent: any = (props: any) => {
   return (
-       <div className="not-found">
+       <div className="not-found-page">
           <div id="not-found-image" />
           <h1 className="very-large">grrr...</h1>
           <p className="large">we're angry too that this doesn't work</p>

@@ -96,19 +96,19 @@ class LoginPage extends React.Component<any, any> {
         return (<Redirect push={true} to="/myQuizzes"/>);
       }
       return (
-          <div className="register-form">
+         <div className="register-form login-page-container">
               <div className="container">
                   <SignUpButton />
                   <HomeButton />
                   <div className="row">
-                    <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+                    <div>
                           <div className="login-msg">
                               LOG IN
                           </div>
                       </div>
                   </div>
                    <div className="row">
-                        <div className="col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
+                        <div>
                           <div className="form-container">
                               {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
                               <LoginFormComponent inputs={[

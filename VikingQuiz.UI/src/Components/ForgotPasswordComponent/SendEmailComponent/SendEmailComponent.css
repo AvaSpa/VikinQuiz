@@ -1,9 +1,8 @@
 .send-email-container {
-    margin: 3% auto 0 auto;
-    width: 450px;
-}
-
-.send-email-container .yellow-bg-message {
+  margin: 3% auto 0 auto; }
+  .send-email-container .form-container {
+    border: 2px solid #5db9c5; }
+  .send-email-container .yellow-bg-message {
     margin: 0 auto 2% auto;
     background-color: #f0cc04;
     height: 1.4em;
@@ -12,47 +11,31 @@
     font-weight: 600;
     font-family: 'dk_lemon_yellow_sunregular';
     text-align: center;
-    user-select: none;
-}
-
-.send-email-container .message {
+    user-select: none; }
+  .send-email-container .message {
     padding: 7px;
     margin: 0 7% 3% 7%;
     border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.send-email-container .success-message {
+    border-radius: 4px; }
+  .send-email-container .success-message {
     background-color: #dff0d8;
     border-color: #d6e9c6;
-    color: #3c763d;
-}
-
-.send-email-container .error-message {
+    color: #3c763d; }
+  .send-email-container .error-message {
     background-color: #f2dede;
     border-color: #ebccd1;
-    color: #a94442;
-}
+    color: #a94442; }
 
-@media screen and (max-width: 450px) {
+.send-email-container {
+  /*Personal for this file*/ }
+  @media screen and (max-width: 450px) {
     .send-email-container {
-        width: 95%;
-    }
-}
-
-@media screen and (max-height: 560px) {
-    .update-message {
-        font-size: 20px;
-    }
-    .submit-button {
-        margin: 10px;
-    }
-}
-
-/*Personal for this file*/
-
-@media screen and (max-height: 390px) {
-    .logo-img {
-        display: none;
-    }
-}
+      width: 95%; } }
+  @media screen and (max-height: 560px) {
+    .send-email-container .update-message {
+      font-size: 20px; }
+    .send-email-container .submit-button {
+      margin: 10px; } }
+  @media screen and (max-height: 390px) {
+    .send-email-container .logo-img {
+      display: none; } }

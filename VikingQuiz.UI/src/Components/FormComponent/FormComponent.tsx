@@ -155,7 +155,7 @@ class FormComponent extends React.Component<any, any> {
 
    public render() {
       return (
-         <div className="form-body container-fluid">
+         <div className="form-component-container form-body container-fluid">
             {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
             <button disabled={!this.state.isValid} className="submit-button" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
          </div>

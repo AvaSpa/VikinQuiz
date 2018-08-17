@@ -9,10 +9,10 @@ interface IProfileComponent {
 
 const MyProfileComponent: any = (props: IProfileComponent) => {
     return (
-        <figure>
+        <figure className="my-profile-container">
             <img className='profile-picture' src={props.profilePictureUrl} alt='Avatar' />
             <div className='profile-text'>
-               <figcaption>{props.profileName}</figcaption>
+               <figcaption className="my-profile-name">{props.profileName}</figcaption>
                {props.children}
             </div>
         </figure>

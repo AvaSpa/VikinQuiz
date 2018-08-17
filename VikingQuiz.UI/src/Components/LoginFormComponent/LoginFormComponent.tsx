@@ -10,7 +10,7 @@ class LoginFormComponent extends FormComponent {
 
   public render() {
     return (
-      <div className="form-body container-fluid">
+      <div className="form-body container-fluid login-form-container">
         {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
         <div className="forget-remember col-xs-12">
           <a href="/forgot" className="forget-pass col-xs-6">forgot password</a>

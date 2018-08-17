@@ -1,55 +1,40 @@
-.forget-pass{
-    font-family: 'dk_lemon_yellow_sunregular';
-    color:  #f0cc04;
-    font-size: 20px;
-    text-align: left;
-    padding: 0;
-}
+.login-form-container .forget-pass {
+  font-family: 'dk_lemon_yellow_sunregular';
+  color: #f0cc04;
+  font-size: 20px;
+  text-align: left;
+  padding: 0; }
+  .login-form-container .forget-pass :hover {
+    color: white; }
 
-.forget-pass:hover { 
-    color: white;
-}
+.login-form-container a:visited {
+  color: #5db9c5; }
 
-a:visited { 
-    color: rgb(93, 185, 197);
-}
+.login-form-container .forget-remember {
+  margin-top: 20px;
+  justify-content: space-between; }
 
-.forget-remember{
-    margin-top: 20px;
-    justify-content: space-between; 
-}
+.login-form-container .custom-control {
+  text-align: right;
+  padding: 0; }
 
-.custom-control {
-    text-align: right;
-    padding: 0;
-}
-
-.custom-control-label{
-   font-family: 'dk_lemon_yellow_sunregular';
-   color: white;
-   font-size: 20px;
-   text-align: right;
-}
-
-.custom-control-label input[type="checkbox"] {
-   display: none;
-}
-
-.custom-control-label .checkbox-style {
-   display: inline-block;
-   margin-left: 20px;
-   width: 1em;
-   height: 1em;
-   border: 1px solid white;
-   transition: all 0.1s linear;
-   border-radius: 2px;
-}
-
-.custom-control-label:hover {
-   cursor: pointer;
-}
-
-.custom-control-label input[type="checkbox"]:checked ~ .checkbox-style {
-   background: white;
-   box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5)
-}
+.login-form-container .custom-control-label {
+  font-family: 'dk_lemon_yellow_sunregular';
+  color: white;
+  font-size: 20px;
+  text-align: right; }
+  .login-form-container .custom-control-label .checkbox-style {
+    display: inline-block;
+    margin-left: 20px;
+    width: 1em;
+    height: 1em;
+    border: 1px solid white;
+    transition: all 0.1s linear;
+    border-radius: 2px; }
+  .login-form-container .custom-control-label input[type="checkbox"] {
+    display: none; }
+  .login-form-container .custom-control-label :hover {
+    cursor: pointer; }
+  .login-form-container .custom-control-label input[type="checkbox"]:checked ~ .checkbox-style {
+    background: white;
+    box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.5); }

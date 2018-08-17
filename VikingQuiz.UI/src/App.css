@@ -1,7 +1,13 @@
 @import url('fonts/fonts.css'); 
 @import url('fonts/fontello-embedded.css'); 
+@import url('globalStyles/export.css'); 
 html {
    height: 100%;
+}
+
+.container {
+   width: 95%;
+   max-width: 800px;
 }
 
 body {
