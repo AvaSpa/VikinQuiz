@@ -91,7 +91,7 @@ class ManageQuizComponent extends React.Component<any, any> {
                 return (
                     <Redirect
                         push={true}
-                        to={{pathname: '/playGame',
+                        to={{pathname: '/startGame',
                         state: {id: this.state.id}}}
                     />
                 )

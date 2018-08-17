@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VikingQuiz.Api.Models;
+using VikingQuiz.Api.Utilities;
 
 namespace VikingQuiz.Api.Repositories
 {
@@ -37,29 +38,26 @@ namespace VikingQuiz.Api.Repositories
             return quiz;
         }
 
-        public Quiz DeleteQuiz (int id, int userId)
+        public string GetQuizPictureUrl(int id)
         {
-            Quiz quiz = new Quiz
-            {
-                Id = id
-            };
+            var pictureUrl = context.Quiz.FirstOrDefault(q => q.Id == id).PictureUrl;
+            return pictureUrl ;
+        }
 
-            
-            var quizMatchingIdAndPlayerId = context.Quiz.Where(dbQuiz => dbQuiz.Id== id && dbQuiz.UserId == userId).ToList();
-            if( quizMatchingIdAndPlayerId.Count == 0 )
-            {
-                return null;
-            }
+        public void DeleteQuiz (int id)
+        {
 
-            var games = context.Game.Where(x => x.QuizId == id).ToList();
+            var quizToRemove = context.Quiz.FirstOrDefault(q => q.Id == id);
+
+
+            /* var games = context.Game.Where(g => g.QuizId == id).ToList();
             context.Game.RemoveRange(games);
             var quizquestions = context.QuizQuestion.Where(dbQuestion => dbQuestion.QuizId == id).ToList();
-            context.QuizQuestion.RemoveRange(quizquestions);
-
-            context.Quiz.Remove(quizMatchingIdAndPlayerId[0]);
+            context.QuizQuestion.RemoveRange(quizquestions); 
+             */
+            context.Quiz.Remove(quizToRemove);
             context.SaveChanges();
 
-            return quizMatchingIdAndPlayerId.FirstOrDefault();
         }
 
         public Quiz GetQuizById(int id)

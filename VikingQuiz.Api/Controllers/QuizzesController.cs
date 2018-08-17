@@ -11,7 +11,6 @@ using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.ViewModels;
 using System.Security.Claims;
-using VikingQuiz.Api.Utilities;
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -153,22 +152,23 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        // [Authorize] add it when available on the front end
-        public async Task<IActionResult> Delete(int id)
+        [Authorize] 
+        public async Task<IActionResult> DeleteQuiz(int id)
         {
             int currentUserId = User.Claims.GetUserId();
 
-            var deletedQuiz = quizRepository.DeleteQuiz(id, currentUserId); 
-
-            if(deletedQuiz != null) {
-                AzureBlobService blobService = new AzureBlobService();
-                await blobService.InitializeBlob();
-                blobService.DeletePhoto(deletedQuiz.PictureUrl);
-                return Ok();
-            } else {
-                return BadRequest("Deletion Impossible. Quiz does not exist.");
+            var existingQuiz = quizRepository.GetQuizById(id);
+            if (existingQuiz == null)
+            {
+                return NotFound("Quiz doesn't exist");
             }
-        }
+            var quiz = quizRepository.GetQuizPictureUrl(id);
+            AzureBlobService blobService = new AzureBlobService();
+            await blobService.InitializeBlob();
+            blobService.DeletePhoto(quiz);
+            quizRepository.DeleteQuiz(id);
+            return Ok();
+    }
 
         private IActionResult FileValidityChecker(NewQuizViewModel quizBodyData)
         {
