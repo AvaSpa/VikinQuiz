@@ -16,6 +16,7 @@
 .single-player-container .player-name {
   position: relative;
   font-size: 20px;
+  margin-left: 20px;
   font-family: 'dk_lemon_yellow_sunregular';
   font-weight: bold;
   text-align: center;
@@ -33,7 +34,8 @@
     margin-top: 10px;
     margin-left: auto; }
   .single-player-container .player-name {
-    font-size: 20px; }
+    font-size: 20px;
+    margin-left: auto; }
   .single-player-container .player-container {
     max-width: 90px;
     margin-bottom: 20px; }
