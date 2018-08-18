@@ -41,7 +41,17 @@
 .startgame-container .cancel-button {
   position: fixed;
   right: 20px;
-  bottom: 20px; }
+  bottom: 20px;
+  font-size: 18px; }
+  @media screen and (min-width: 450px) {
+    .startgame-container .cancel-button {
+      font-size: 21px; } }
+  @media screen and (min-width: 650px) {
+    .startgame-container .cancel-button {
+      font-size: 23px; } }
+  @media screen and (min-width: 1000px) {
+    .startgame-container .cancel-button {
+      font-size: 25px; } }
 
 @media screen and (max-width: 1500px) {
   .startgame-container .code-label {

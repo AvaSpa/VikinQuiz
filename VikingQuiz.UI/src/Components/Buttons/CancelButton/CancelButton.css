@@ -1,8 +1,7 @@
 .cancel-button {
     border: 2px solid #f0cc04;
     background-color: Transparent;
-    width:170px;
-    height:50px;
+    padding: 0.2em 0.5em;
     font-size: 30px;
     font-family: 'dk_lemon_yellow_sunregular';
     text-align: center;
@@ -16,20 +15,4 @@
 }
 .cancel-button:active {
     transform: translateY(5px);
-}
-
-@media screen and (max-height: 800px){
-    .cancel-button{
-        width: 70px;
-        height: 50px;
-        font-size: 10px;
-    }
-}
-
-@media screen and (max-width: 500px){
-    .cancel-button{
-        width: 80px;
-        height: 30px;
-        font-size: 10px;
-    }
 }
