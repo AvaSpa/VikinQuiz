@@ -37,7 +37,7 @@
     width: 40px;
     height: 40px;
     margin: 0 10px; }
-  @media screen and (max-width: 940px) {
+  @media screen and (max-width: 850px) {
     .quiz .answer {
       width: 100%;
       padding-right: 5px; } }

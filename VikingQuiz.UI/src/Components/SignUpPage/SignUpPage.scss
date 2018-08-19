@@ -27,9 +27,13 @@
       width: 150px;
       height: 150px;
 
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: 800px) {
          width: 125px;
          height: 125px; 
+      }
+      @media screen and (max-width: 500px) {
+         width: 100px;
+         height: 100px; 
       }
    }
    

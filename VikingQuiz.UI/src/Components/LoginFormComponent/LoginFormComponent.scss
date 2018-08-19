@@ -26,6 +26,7 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        user-select: none;
 
         .checkbox-display-container {
             width: 1.3em;
