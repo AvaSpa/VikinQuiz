@@ -12,7 +12,8 @@
   color: #FF4500;
   text-align: right;
   font-family: 'Arial Narrow';
-  transition: all 0.2s linear; }
+  transition: all 0.2s linear;
+  font-size: 16px; }
 
 .form-input-container .vq-input {
   padding: 4px 3px;

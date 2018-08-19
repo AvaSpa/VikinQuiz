@@ -29,7 +29,7 @@
     font-size: 20px;
     font-family: 'dk_lemon_yellow_sunregular', sans-serif;
     text-align: left;
-    padding: 3px 8px;
+    padding: 6px 3px 6px 10px;
     display: flex;
     flex-wrap: wrap; }
     .quiz .main-question .question-title .form-control {
@@ -37,7 +37,8 @@
     .quiz .main-question .question-title .form-label {
       margin-right: 10px;
       display: flex;
-      align-items: center; }
+      align-items: center;
+      flex: 1; }
     .quiz .main-question .question-title .form-control {
       width: auto;
       outline-color: transparent;
@@ -46,13 +47,20 @@
       border-color: transparent;
       color: #ffffff;
       font-size: 20px;
-      letter-spacing: 0.04em; }
+      border-radius: 0;
+      flex: 10;
+      flex-basis: 400px; }
+    .quiz .main-question .question-title .form-error {
+      font-size: 0.85em;
+      text-transform: initial;
+      position: relative;
+      top: 8px; }
   .quiz .main-question .submit-button {
     position: absolute;
-    bottom: -75px;
+    bottom: -65px;
     right: 0;
-    width: 60px;
-    height: 60px; }
+    width: 50px;
+    height: 50px; }
   .quiz .main-question .form-error {
     width: 100%;
     color: #FF4500;
@@ -97,5 +105,4 @@
     @media screen and (max-width: 1125px) {
       .quiz .main-question .answers-list .answers-message,
       .quiz .main-question .answers-list .answers {
-        width: 100%;
-        padding-right: 20px; } }
+        width: 100%; } }

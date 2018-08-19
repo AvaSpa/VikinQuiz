@@ -6,7 +6,6 @@
 }
 
 .quiz .main-question {
-
     margin: 0 auto;
     min-height: 200px;
     border: 2px solid #f4c300;
@@ -34,7 +33,7 @@
         font-size: 20px;
         font-family: 'dk_lemon_yellow_sunregular', sans-serif;
         text-align: left;
-        padding: 3px 8px;
+        padding: 6px 3px 6px 10px;
         display: flex;
         flex-wrap: wrap;
         .form-control {
@@ -44,6 +43,7 @@
             margin-right: 10px;
             display: flex;
             align-items: center;
+            flex: 1;
         }
         .form-control {
             width: auto;
@@ -53,15 +53,23 @@
             border-color: transparent;
             color: #ffffff;
             font-size: 20px;
-            letter-spacing: 0.04em;
+            border-radius: 0;
+            flex: 10;
+            flex-basis: 400px;
+        }
+        .form-error {
+            font-size: 0.85em;
+            text-transform: initial;
+            position: relative;
+            top: 8px;
         }
     }
     .submit-button {
         position: absolute;
-        bottom: -75px;
+        bottom: -65px;
         right: 0;
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
     .form-error {
         width: 100%;
@@ -119,7 +127,6 @@
             .answers-message,
             .answers {
                 width: 100%;
-                padding-right: 20px;
             }
         }
     }

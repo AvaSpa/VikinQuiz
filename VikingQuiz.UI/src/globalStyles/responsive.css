@@ -6,6 +6,36 @@
     max-width: 700px;
 }
 
-.send-email-container, .reset-password-container {
+.send-email-container,
+.reset-password-container {
     max-width: 550px;
+}
+
+@media screen and (max-width: 800px) {
+    .register-form .form-input-container.form-group {
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+    .form-container .form-input-container.form-group .form-error {
+        font-size: 0.85em;
+    }
+    .register-form .form-container .forgot-remember {
+        margin-top: 10px;
+    }
+    .register-form .form-container .submit-button {
+        width: 60px;
+        height: 60px;
+    }
+    .register-form .form-container .social-buttons-container .wrapper-text {
+        margin-top: 0.2em;
+    }
+    .register-form .form-container .social-buttons-container {
+        padding-top: 0.2em;
+    }
+}
+@media screen and (max-width: 800px) {
+
+    .register-form .form-input-container.form-group .form-label {
+        font-size: 21px;
+    }
 }

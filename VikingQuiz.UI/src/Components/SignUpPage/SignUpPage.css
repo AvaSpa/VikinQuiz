@@ -21,7 +21,11 @@
 .register-form .home-button {
   width: 150px;
   height: 150px; }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 800px) {
     .register-form .home-button {
       width: 125px;
       height: 125px; } }
+  @media screen and (max-width: 500px) {
+    .register-form .home-button {
+      width: 100px;
+      height: 100px; } }

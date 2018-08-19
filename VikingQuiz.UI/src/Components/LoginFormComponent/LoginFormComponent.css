@@ -23,7 +23,8 @@
   text-align: right;
   display: flex;
   justify-content: flex-end;
-  align-items: center; }
+  align-items: center;
+  user-select: none; }
   .login-form-container .custom-checkbox.remember-me-checkbox .checkbox-display-container {
     width: 1.3em;
     height: 1.3em;
