@@ -1,80 +1,78 @@
 const signUpRules = {
-   "user-name": [
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length !== 0;
-         },
-         errorMessage: "Field required"
+  "user-name": [
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length !== 0;
       },
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length >= 3;
-         },
-         errorMessage: "Name too short (> 3 characters)"
+      errorMessage: "Field required."
+    },
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length >= 3;
       },
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length <= 20;
-         },
-         errorMessage: "Name too long ( < 20 characters)"
-      }
-   ],
-   "user-email": [
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length !== 0;
-         },
-         errorMessage: "Field required"
+      errorMessage: "Name must be between 3-23 characters."
+    },
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length <= 23;
       },
-      {
-         isValid(value: string, inputs: any, funcs: any) {
+        errorMessage: "Name must be between 3-23 characters."
+    }
+  ],
+  "user-email": [
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length !== 0;
+      },
+      errorMessage: "Field required."
+    },
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        const reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
 
-            const reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
-
-            return reg.test(value);
-
-         },
-         errorMessage: "Email format is invalid"
-      }
-   ],
-   "user-password": [
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length !== 0;
-         },
-         errorMessage: "Field required"
+        return reg.test(value);
       },
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length > 3;
-         },
-         errorMessage: "More than 3 characters"
+      errorMessage: "Email format is invalid."
+    }
+  ],
+  "user-password": [
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length !== 0;
       },
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length < 20;
-         },
-         errorMessage: "Less than 20 characters"
-      }
-   ],
-   "user-confpass": [
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            return value.length !== 0;
-         },
-         errorMessage: "Field required"
+      errorMessage: "Field required."
+    },
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length >= 3;
       },
-      {
-         isValid(value: string, inputs: any, funcs: any) {
-            const passIndex = funcs.getItemById("user-confpass", inputs).index;
-            const duplicatePassIndex = funcs.getItemById("user-password", inputs).index;
+      errorMessage: "Password must be between 3-23 characters."
+    },
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length <= 23;
+      },
+        errorMessage: "Password must be between 3-23 characters."
+    }
+  ],
+  "user-confpass": [
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        return value.length !== 0;
+      },
+      errorMessage: "Field required."
+    },
+    {
+      isValid(value: string, inputs: any, funcs: any) {
+        const passIndex = funcs.getItemById("user-confpass", inputs).index;
+        const duplicatePassIndex = funcs.getItemById("user-password", inputs)
+          .index;
 
-            return inputs[passIndex].value === inputs[duplicatePassIndex].value;
-
-         },
-         errorMessage: "Passwords do not match"
-      }
-   ]
+        return inputs[passIndex].value === inputs[duplicatePassIndex].value;
+      },
+      errorMessage: "Passwords do not match."
+    }
+  ]
 };
 
 const loginRules = {
@@ -83,7 +81,7 @@ const loginRules = {
          isValid(value: string, inputs: any, funcs: any) {
             return value.length !== 0;
          },
-         errorMessage: "Field required"
+         errorMessage: "Field required."
       },
       {
          isValid(value: string, inputs: any, funcs: any) {
@@ -92,7 +90,7 @@ const loginRules = {
             return reg.test(value);
 
          },
-         errorMessage: "Email format is invalid"
+         errorMessage: "Email format is invalid."
       }
    ],
    "user-password": [
@@ -100,19 +98,19 @@ const loginRules = {
          isValid(value: string, inputs: any, funcs: any) {
             return value.length !== 0;
          },
-         errorMessage: "Field required"
+         errorMessage: "Field required."
       },
       {
          isValid(value: string, inputs: any, funcs: any) {
-            return value.length > 3;
+            return value.length >= 3;
          },
-         errorMessage: "More than 3 characters"
+         errorMessage: "Password length is invalid."
       },
       {
          isValid(value: string, inputs: any, funcs: any) {
-            return value.length < 20;
+            return value.length <= 23;
          },
-         errorMessage: "Less than 20 characters"
+          errorMessage: "Password length is invalid."
       }
    ]
 }
@@ -178,13 +176,13 @@ const changeRule = {
           isValid(value: string, inputs: any, funcs: any) {
              return value.length > 3;
           },
-          errorMessage: "More than 3 characters"
+           errorMessage: "Password must be between 3-23 characters."
        },
        {
           isValid(value: string, inputs: any, funcs: any) {
              return value.length < 20;
           },
-          errorMessage: "Less than 20 characters"
+           errorMessage: "Password must be between 3-23 characters."
        }
     ],
     "confirm-password": [
@@ -202,7 +200,7 @@ const changeRule = {
              return inputs[passIndex].value === inputs[duplicatePassIndex].value;
  
           },
-          errorMessage: "Passwords do not match"
+          errorMessage: "Passwords do not match."
        }
     ]
  };
