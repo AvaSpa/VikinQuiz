@@ -57,7 +57,7 @@
       top: 8px; }
   .quiz .main-question .submit-button {
     position: absolute;
-    bottom: -65px;
+    bottom: -70px;
     right: 0;
     width: 50px;
     height: 50px; }
@@ -83,7 +83,7 @@
     border: 1px solid #e7bd05;
     position: absolute;
     bottom: -65px;
-    right: 100px;
+    right: 75px;
     transition: 0.1s background linear; }
   .quiz .main-question .generic-button.cancel-button:hover {
     background: #e7bd05;
