@@ -2,16 +2,45 @@
     .manage-quiz {
         background-color: #91becf;
         border-radius: 50%;
-        width: 110px;
-        height: 110px;
-        margin-left: auto;
-        margin-top: 20px;
-        margin-right: auto;
-        margin-bottom: auto;
-        position: relative;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 0;
+        height: 0;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
         border: none;
         box-shadow: 0px 14px 10px 5px #08272b;
+        z-index: -1;
+        opacity: 0;
+        transition: all 0.2s linear;
         .edit-quiz-button {
+            background: transparent url(./../../../media/edit_button.png) no-repeat;
+            height: 32px;
+            width: 35px;
+        }
+        .delete-quiz-button {
+            background: transparent url(./../../../media/delete.png) no-repeat;
+            height: 28px;
+            width: 28px;
+        }
+        .play-game-button {
+            background: transparent url(./../../../media/play.png) no-repeat;
+            height: 29px;
+            width: 29px;
+        }
+        .play-game-button,
+        .delete-quiz-button,
+        .edit-quiz-button {
+            background-size: 100%;
+            border: none;
+        }
+    }
+}
+
+/*         .edit-quiz-button {
             background: transparent url(./../../../media/edit_button.png) no-repeat;
             background-size: 100%;
             height: 32px;
@@ -35,6 +64,4 @@
             width: 29px;
             border: none;
             padding-bottom: 3px;
-        }
-    }
-}
+        } */

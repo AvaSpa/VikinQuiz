@@ -7,7 +7,6 @@ class QuizItem extends React.Component<any, any>{
         super(props);
   
         this.state = {
-            isHidden: true,
             id: '',
             handleChildDelete: this.props.handleChildDelete,
             isSelected: false
@@ -18,8 +17,6 @@ class QuizItem extends React.Component<any, any>{
       }
 
       public SetupHandlers = () => {
-        this.handleMouseHover = this.handleMouseHover.bind(this);
-        this.handleMouseOut = this.handleMouseOut.bind(this);
         this.handleDeleteSelection = this.handleDeleteSelection.bind(this);
         this.componentWillMount = this.componentWillMount.bind(this);
       }
@@ -30,13 +27,6 @@ class QuizItem extends React.Component<any, any>{
                         })
       }
 
-      public handleMouseHover(){
-            this.setState({isHidden: false});
-      }
-
-      public handleMouseOut(){
-          this.setState({isHidden: true});
-      }
 
       public handleDeleteSelection(){
         this.setState({isSelected: true});
@@ -45,18 +35,10 @@ class QuizItem extends React.Component<any, any>{
      public render(){
          return(
             <div className="quiz-item-container">
-                <div className="quiz-photo-container" onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseOut}> 
-                    {this.state.isHidden && !this.state.isSelected ? 
-                    (
-                        
-                            <img className="quiz-photo" src={this.props.photo} />
-                        
-                    )
-                    :   (
-                        <ManageQuizComponent deleteSelection={this.handleDeleteSelection} id={this.state.id} handleChildDelete={this.state.handleChildDelete}
+                <div className="quiz-photo-container" > 
+                    <img className="quiz-photo" src={this.props.photo} />
+                    <ManageQuizComponent deleteSelection={this.handleDeleteSelection} id={this.state.id} handleChildDelete={this.state.handleChildDelete}
                             noDeleteAnswer={this.componentWillMount}/>
-                        )
-                    }
                 </div>       
                 <div className="quiz-title">
                     {this.props.title}
