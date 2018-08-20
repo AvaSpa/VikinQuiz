@@ -16,6 +16,10 @@
         width: 800px;
         border: none;
     }
+    .form-label {
+        justify-content: center;
+        display: flex;
+    }
     @media screen and (max-width: 1500px) {
         .center-container {
             width: 1000px;

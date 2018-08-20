@@ -72,7 +72,11 @@ class PlayGame extends React.Component<any, any> {
                     <p className="form-error server-message">
                       {this.state.serverMessage}
                     </p>
-                    <PlayGameComponent inputs={[{ id: "code", type: "text", label: "Enter your code/pin", errorMessage: "", name: "GameCode", value: "" }, { id: "name", type: "text", label: "Your Name", errorMessage: "", name: "PlayerName", value: "" }]} url={baseUrl + endPoint} buttonName="" onSubmit={this.playerDataHandler} validator={connectValidator} validationRules={connectRules} />
+                    <PlayGameComponent inputs={[{ id: "code", type: "text", label: "Enter your code/pin", errorMessage: "", name: "GameCode", value: "" }, { id: "name", type: "text", label: "Your Name", errorMessage: "", name: "PlayerName", value: "" }]} url={baseUrl + endPoint} 
+                        buttonName="" 
+                        onSubmit={this.playerDataHandler} 
+                        validator={connectValidator} 
+                        validationRules={connectRules} />
                   </div>
                 </div>
               </div>

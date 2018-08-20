@@ -48,5 +48,11 @@ namespace VikingQuiz.Api.Repositories
         {
             return context.PlayerGame.Find(playerid, gameid);
         }
+
+        public List<PlayerGame> GetPlayerGameByGameId(int gameid)
+        {
+            var playersOfGame = context.PlayerGame.Where(playergame => playergame.GameId == gameid).ToList();
+            return playersOfGame;
+        }
     }
 }

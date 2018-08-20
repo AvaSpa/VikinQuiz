@@ -15,6 +15,10 @@
   width: 800px;
   border: none; }
 
+.play-game-container .form-label {
+  justify-content: center;
+  display: flex; }
+
 @media screen and (max-width: 1500px) {
   .play-game-container .center-container {
     width: 1000px; } }
