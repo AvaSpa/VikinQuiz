@@ -59,12 +59,14 @@
     font-family: 'dk_lemon_yellow_sunregular';
     text-align: left; }
   .display-quizzes-container .quiz-container {
+    justify-content: center;
     display: flex;
     height: auto;
     margin-bottom: 5px;
     flex-wrap: wrap;
     min-height: 120px; }
   .display-quizzes-container .no-quizzes-container {
+    margin: auto;
     display: inline-flex; }
   .display-quizzes-container .no-quiz-message {
     font-family: 'dk_lemon_yellow_sunregular';

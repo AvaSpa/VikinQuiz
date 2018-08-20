@@ -20,4 +20,10 @@
     .join-button:active {
         transform: translateY(5px);
     }
+
+    @media screen and (max-height: 600px) {
+        .join-button {
+            top: 100px;
+        }
+    }
 } 

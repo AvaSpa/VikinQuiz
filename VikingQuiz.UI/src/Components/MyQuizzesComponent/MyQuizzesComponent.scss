@@ -70,6 +70,7 @@
         text-align: left;
     }
     .quiz-container {
+       justify-content: center;
         display: flex;
         height: auto;
         margin-bottom: 5px;
@@ -77,6 +78,7 @@
         min-height: 120px;
     }
     .no-quizzes-container {
+       margin: auto;
         display: inline-flex;
     }
     .no-quiz-message {
