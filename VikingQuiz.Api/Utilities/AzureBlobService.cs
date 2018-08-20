@@ -12,21 +12,24 @@ namespace VikingQuiz.Api.Utilities
 {
     public class AzureBlobService
     {
-       
+
+        public AzureBlobService(string containerName)
+        {
+            this.containerName = containerName;
+            InitalizeAsync();
+        }
  
 
-        public async Task<string> UploadPhoto(IFormFile file)
+        public async Task<string> UploadPhotoAsync(IFormFile file)
         {
             var filePath = Path.GetTempFileName();
-            using (var stream = new FileStream(filePath, FileMode.Create)) {
+            using (var stream = new FileStream( filePath, FileMode.Create) ) {
                 await file.CopyToAsync(stream);
             }
 
             string contentType = file.ContentType;
-
             var extension = getFileExtension(contentType);
-
-            string imageFileName = Guid.NewGuid().ToString() + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + extension;
+            string imageFileName = Guid.NewGuid().ToString() + (Int32)( DateTime.UtcNow.Subtract( new DateTime(1970, 1, 1) ) ).TotalSeconds + extension;
 
             CloudBlockBlob cloudBlockBlob = userContainer.GetBlockBlobReference(imageFileName);
             cloudBlockBlob.Properties.ContentType = contentType;
@@ -34,49 +37,35 @@ namespace VikingQuiz.Api.Utilities
             await cloudBlockBlob.UploadFromFileAsync(filePath);
             return imageFileName;
         }
-
-        public async Task<bool> DeletePhoto(string imageFileNameWithExtension)
+        public async Task<bool> DeletePhotoAsync(string imageFileNameWithExtension)
         {
             var blob = userContainer.GetBlockBlobReference(imageFileNameWithExtension);
             return await blob.DeleteIfExistsAsync();
         }
 
-        public AzureBlobService(string containerName)
-        {
-            this.containerName = containerName;
-            Initalize();
-        }
 
-        private async void Initalize()
+        public string GetFullUrlOfFileName(string fileNameWithExtension)
         {
-            IntializeAzureClient();
-            await InitializeContainerAsync();
-            await SetServicePropertiesAsync();
-        }
-      
-
-        public static string GetFullUrlOfContainer(string containerName, string fileNameWithExtension)
-        {
-            var azureBlobService = new AzureBlobService(containerName);
             string fullUrlPathOfImage;
 
-            fullUrlPathOfImage = azureBlobService.account.BlobStorageUri.PrimaryUri.ToString();
+            fullUrlPathOfImage = account.BlobStorageUri.PrimaryUri.ToString();
             fullUrlPathOfImage += containerName + "/";
             fullUrlPathOfImage += fileNameWithExtension;
 
             return fullUrlPathOfImage;
         }
-
-        public static string GetFullUrlOfContainer(string containerName)
+        public string GetFullUrlOfContainer()
         {
-            var azureBlobService = new AzureBlobService(containerName);
+
             string fullUrlPathOfImage;
 
-            fullUrlPathOfImage = azureBlobService.account.BlobStorageUri.PrimaryUri.ToString();
+            fullUrlPathOfImage = account.BlobStorageUri.PrimaryUri.ToString();
             fullUrlPathOfImage += containerName + "/";
 
             return fullUrlPathOfImage;
         }
+
+
 
 
 
@@ -85,9 +74,15 @@ namespace VikingQuiz.Api.Utilities
 
         private CloudStorageAccount account;
         private CloudBlobClient blobClient;
-        private ServiceProperties serviceProperties;
         private CloudBlobContainer userContainer;
 
+
+        private async void InitalizeAsync()
+        {
+            IntializeAzureClient();
+            await InitializeContainerAsync();
+            await SetServicePropertiesAsync();
+        }
         private void IntializeAzureClient()
         {
             if (CloudStorageAccount.TryParse(storageConnectionString, out this.account))
@@ -100,8 +95,6 @@ namespace VikingQuiz.Api.Utilities
                 throw new StorageException();
             }
         }
-
-
         private async Task<bool> InitializeContainerAsync()
         {
             userContainer = blobClient.GetContainerReference(containerName);
@@ -117,7 +110,6 @@ namespace VikingQuiz.Api.Utilities
 
             return true;
         }
-
         private async Task<ServiceProperties> SetServicePropertiesAsync()
         {
             var serviceProperties = await blobClient.GetServicePropertiesAsync();

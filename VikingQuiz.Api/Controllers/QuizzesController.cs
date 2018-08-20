@@ -24,7 +24,6 @@ namespace VikingQuiz.Api.Controllers
             this.entityToVmMapper = entityToVmMapper;
         }
 
-
         // Get all the quizzes which belong to an user
         [HttpGet]
         [Authorize]
@@ -35,7 +34,8 @@ namespace VikingQuiz.Api.Controllers
 
             var quizzes = quizRepository.GetQuizByUserId(currentUserId);
             foreach (var quiz in quizzes) {
-                quiz.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quiz.PictureUrl);
+               
+                quiz.PictureUrl = blobService.GetFullUrlOfFileName(quiz.PictureUrl);
             }
 
             return Ok(quizzes.Select(quiz => this.entityToVmMapper.Map(quiz)));
@@ -53,7 +53,7 @@ namespace VikingQuiz.Api.Controllers
                 return NotFound("Quiz doesn't exist");
             }
 
-            quiz.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quiz.PictureUrl);
+            quiz.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(quiz.PictureUrl);
             QuizViewModel quizVm = this.entityToVmMapper.Map(quiz);
             return Ok(quizVm);
         }
@@ -73,7 +73,7 @@ namespace VikingQuiz.Api.Controllers
             AzureBlobService blobService;
             try {
                 blobService = new AzureBlobService(azureContainerName);
-                fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
+                fileUrl = await blobService.UploadPhotoAsync(quizBodyData.Files[0]);
             }
             catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
@@ -90,7 +90,7 @@ namespace VikingQuiz.Api.Controllers
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(createdQuiz);
-            quizVm.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quizVm.PictureUrl);
+            quizVm.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(quizVm.PictureUrl);
 
             return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
         }
@@ -113,8 +113,8 @@ namespace VikingQuiz.Api.Controllers
                 blobService = new AzureBlobService(azureContainerName);
                 var previousQuizState = quizRepository.GetQuizById(id);
 
-                blobService.DeletePhoto(previousQuizState.PictureUrl);
-                fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
+                blobService.DeletePhotoAsync(previousQuizState.PictureUrl);
+                fileUrl = await blobService.UploadPhotoAsync(quizBodyData.Files[0]);
             }
             catch (Exception) {
                 return BadRequest("Image could not be uploaded.");
@@ -132,7 +132,7 @@ namespace VikingQuiz.Api.Controllers
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
-            quizVm.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quizVm.PictureUrl);
+            quizVm.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(quizVm.PictureUrl);
 
 
             return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
@@ -146,7 +146,7 @@ namespace VikingQuiz.Api.Controllers
 
             if (deletedQuiz != null) {
                 AzureBlobService blobService = new AzureBlobService(azureContainerName);
-                blobService.DeletePhoto(deletedQuiz.PictureUrl);
+                blobService.DeletePhotoAsync(deletedQuiz.PictureUrl);
                 return Ok();
             }
             else {
