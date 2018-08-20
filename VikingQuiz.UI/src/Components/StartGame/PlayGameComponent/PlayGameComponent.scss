@@ -12,18 +12,43 @@
         display: block;
         transition: all 0.2s linear;
     }
-    
     .join-button:hover {
         transform: translateY(3px);
     }
-    
     .join-button:active {
         transform: translateY(5px);
     }
-
+    #upload {
+        .preview {
+            margin-top: 10px;
+        }
+        #label-photo-txt {
+            margin: 0 auto;
+            font-weight: 300;
+            color: #5DA9C5;
+            font-size: 20px;
+        }
+        .upload-component {
+            text-align: center;
+            .upload-btn {
+                margin: auto;
+            }
+        }
+    }
+    .error-message {
+        color: #fa1919;
+        font-family: 'Arial-Narrow';
+        font-size: 20px;
+        text-align: left;
+        padding-left: 7px;
+        height: 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0.1em;
+    }
     @media screen and (max-height: 600px) {
         .join-button {
             top: 100px;
         }
     }
-} 
+}

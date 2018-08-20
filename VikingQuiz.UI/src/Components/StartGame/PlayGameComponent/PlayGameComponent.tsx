@@ -1,16 +1,25 @@
 import * as React from 'react';
 import './PlayGameComponent.css';
+import ImageValidator from '../../../entities/Validation/ImageValidator';
 import IInputData from 'src/entities/IInputData';
 import FormInput from '../../FormComponent/FormInput/FormInput';
+import UploadComponent from '../../UploadComponent/UploadComponent';
+import PreviewImageComponent from '../../PreviewImageComponent/PreviewImageComponent';
 
 class PlayGameComponent extends React.Component<any, any> {
+
+    private imageValidator: any = new ImageValidator();
+
    constructor(props: any) {
       super(props);
 
       this.state = {
          inputs: this.props.inputs,
          url: this.props.url,
-         isValid: false
+         isValid: false,
+         imageSource: null,
+         selectedFile: '',
+         imageError: '',
       }
    }
 
@@ -152,11 +161,40 @@ class PlayGameComponent extends React.Component<any, any> {
       return true;
    }
 
+   public successfulUploadHandler = (file: any) => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+            this.setState({
+                imageSource: e.target.result
+            });
+        }
+        
+        reader.readAsDataURL(file);
+        this.setState({
+            imageError: '',
+            selectedFile: file
+        });
+    }
+
+    public errorUploadHandler = () => {
+        this.setState({
+            imageError: this.imageValidator.getErrorMessage(),
+            imageSource: null,
+            selectedFile: null
+        });
+    }
+
 
    public render() {
       return (
          <div className="play-game-form form-body container-fluid">
             {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
+            <div id="upload">
+                <div id="label-photo-txt"> { this.props.editMode ? 'change quiz photo' : this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</div>
+                <UploadComponent disabled={this.state.saved} upload={this.successfulUploadHandler} imageValidator={this.imageValidator} error={this.errorUploadHandler} classes={[]}/>
+                <PreviewImageComponent image={this.state.imageSource} />
+                <div className="error-message">{this.state.imageError}</div>
+            </div>
             <button disabled={!this.state.isValid} className="join-button" onClick={this.submitDataHandler}>{this.props.buttonName}</button>
          </div>
       );

@@ -164,10 +164,6 @@ class StartQuizComponent extends React.Component<IProps, IState>{
                 <div id="upload" className="col-md-5 col-xs-9">
                     <span id="label-photo-txt"> { this.props.editMode ? 'change quiz photo' : this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</span>
                     <UploadComponent disabled={this.state.saved} upload={this.successfulUploadHandler} imageValidator={this.imageValidator} error={this.errorUploadHandler} classes={[]}/>
-                     {/* <input id="file-uploader" type="file" onChange={this.fileSelectHandler} ref={this.fileInputRef} />
-                    // <UploadButton click={this.uploadPhotoHandler} disabled={this.state.saved}/>
-                    // {this.state.selectedFile ? <img id="preview-image" src={require("./../../../media/home.png")} alt="picture" ref={this.previewImageRef} /> : null}
-                    // <div className="error-message">{this.state.imageError}</div> */}
                     <PreviewImageComponent image={this.state.imageSource} />
                     <div className="error-message">{this.state.imageError}</div>
                 </div>
