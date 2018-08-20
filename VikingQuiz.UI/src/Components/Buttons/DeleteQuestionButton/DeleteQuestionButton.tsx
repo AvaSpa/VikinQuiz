@@ -31,17 +31,6 @@ class DeleteQuestionButton extends React.Component<any, any>{
    }
 
    public render() {
-      let confirmDialogBox = null;
-      if (this.state.confirmBoxVisibility) {
-         confirmDialogBox = (
-            <YesNoComponent
-               handleYesClick={this.handleYesClick}
-               handleNoClick={this.handleNoClick}
-               confirmationMessage={"Are you sure you want to delete this question?"}
-            />
-         )
-      }
-
       if (this.props.classNames) {
          this.elementClasses = this.elementClasses.concat(this.props.classNames);
       }
@@ -54,7 +43,7 @@ class DeleteQuestionButton extends React.Component<any, any>{
 
                {this.props.innerText}
             </button>
-            {confirmDialogBox}
+            {this.state.confirmBoxVisibility? (<YesNoComponent handleYesClick={this.handleYesClick} handleNoClick={this.handleNoClick} confirmationMessage={"Are you sure you want to delete this question?"} />):null}
          </div>
 
       );

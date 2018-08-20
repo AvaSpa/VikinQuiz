@@ -6,6 +6,7 @@ import MainQuestionComponent from './MainQuestionComponent/MainQuestionComponent
 import QuestionsListComponent from './QuestionsListComponent/QuestionsListComponent';
 
 import HttpService from '../../services/HttpService';
+import { apiUrl } from '../../constants';
 
 
 
@@ -35,7 +36,7 @@ interface IState {
 class QuestionsComponent extends React.Component<IProps, IState> {
 
    public httpService = new HttpService();
-   public readonly endpointUrl = "http://localhost:60151/api/questions";
+   public readonly endpointUrl = apiUrl + "api/questions";
    public paramsObject = {
       params: {
          quiz: this.props.quizId // quizId 

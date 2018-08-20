@@ -1,12 +1,13 @@
 import axios from 'axios';
 import StorageService from './StorageService';
+import { apiUrl } from '../constants';
 
 class HttpService {
 
     private storageService = new StorageService();
 
     constructor() {
-        axios.defaults.baseURL = "http://localhost:60151/api";
+        axios.defaults.baseURL = apiUrl + "api";
     }
 
     public get = (url: string, options?: any) : any => {
