@@ -93,7 +93,7 @@ class SignUpPage extends React.Component<{}, any> {
         return (<Redirect push={true} to="/login"/>);
       }
       if(this.state.loginRedirect){
-        return (<Redirect push={true} to="/redirect"/>);
+        return (<Redirect push={true} to="/myQuizzes"/>);
       }
       return (
          <div className="register-form">
