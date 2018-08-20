@@ -39,7 +39,8 @@ namespace VikingQuiz.Api.Controllers
             {
                 PlayerId = playergameViewModel.PlayerId, 
                 GameId = playergameViewModel.GameId, 
-                Score = playergameViewModel.Score
+                Score = Convert.ToInt32(playergameViewModel.Score),
+                AverageTime = Convert.ToInt32(playergameViewModel.AverageTime)
             };
 
             PlayerGame newPlayerGame = playergameRepository.Create(playergame);
@@ -58,7 +59,8 @@ namespace VikingQuiz.Api.Controllers
             {
                 PlayerId = playerid, 
                 GameId = gameid,
-                Score = playergame.Score
+                Score = playergame.Score,
+                AverageTime = playergame.AverageTime
             };
 
             PlayerGame updatedPlayerGame = playergameRepository.Update(newPlayerGame);
@@ -75,6 +77,13 @@ namespace VikingQuiz.Api.Controllers
         {
             playergameRepository.Delete(playerid, gameid);
             return Ok();
+        }
+
+        [HttpGet("{gameid}")]
+        public IActionResult ShowRankings(int gameid)
+        {
+            var result = playergameRepository.GetRankingByGameId(gameid);
+            return Ok(result);
         }
     }
 }
