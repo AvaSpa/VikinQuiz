@@ -13,3 +13,5 @@ obj
 packages
 VikingQuiz.UI/src/Components/StartGame/StartGame.tsx
 VikingQuiz.UI/src/Components/StartGame/StartGame.css
+VikingQuiz.DBSchema/VikingQuiz.DBSchema.jfm
+VikingQuiz.DBSchema/VikingQuiz.DBSchema.dbmdl

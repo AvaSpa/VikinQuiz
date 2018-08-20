@@ -33,34 +33,34 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePlayerGame([FromBody]PlayerGameViewModel playergameViewModel)
+        public IActionResult CreatePlayerGame([FromBody]PlayerGameViewModel playerGameViewModel)
         {
-            PlayerGame playergame = new PlayerGame()
+            PlayerGame playerGame = new PlayerGame()
             {
-                PlayerId = playergameViewModel.PlayerId, 
-                GameId = playergameViewModel.GameId, 
-                Score = Convert.ToInt32(playergameViewModel.Score),
-                AverageTime = Convert.ToInt32(playergameViewModel.AverageTime)
+                PlayerId = playerGameViewModel.PlayerId, 
+                GameId = playerGameViewModel.GameId, 
+                Score = Convert.ToInt32(playerGameViewModel.Score),
+                AverageTime = Convert.ToInt32(playerGameViewModel.AverageTime)
             };
 
-            PlayerGame newPlayerGame = playergameRepository.Create(playergame);
+            PlayerGame newPlayerGame = playergameRepository.Create(playerGame);
             if (newPlayerGame == null)
             {
                 return BadRequest("PlayerGame couldn't be created");
             }
-            PlayerGameViewModel playergameVm = entityToVmMapper.Map(playergame);
+            PlayerGameViewModel playergameVm = entityToVmMapper.Map(playerGame);
             return Ok(playergameVm);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePlayerGame(int playerid, int gameid, [FromBody]PlayerGameViewModel playergame)
+        public IActionResult UpdatePlayerGame(int playerId, int gameId, [FromBody]PlayerGameViewModel playerGame)
         {
             PlayerGame newPlayerGame = new PlayerGame()
             {
-                PlayerId = playerid, 
-                GameId = gameid,
-                Score = playergame.Score,
-                AverageTime = playergame.AverageTime
+                PlayerId = playerId, 
+                GameId = gameId,
+                Score = playerGame.Score,
+                AverageTime = playerGame.AverageTime
             };
 
             PlayerGame updatedPlayerGame = playergameRepository.Update(newPlayerGame);
@@ -73,16 +73,16 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletePlayerGame(int playerid, int gameid)
+        public IActionResult DeletePlayerGame(int playerId, int gameId)
         {
-            playergameRepository.Delete(playerid, gameid);
+            playergameRepository.Delete(playerId, gameId);
             return Ok();
         }
 
-        [HttpGet("{gameid}")]
-        public IActionResult ShowRankings(int gameid)
+        [HttpGet("{gameId}")]
+        public IActionResult ShowRankings(int gameId)
         {
-            var result = playergameRepository.GetRankingByGameId(gameid);
+            var result = playergameRepository.GetRankingByGameId(gameId);
             return Ok(result);
         }
     }

@@ -15,27 +15,27 @@ namespace VikingQuiz.Api.Repositories
             this.context = context;
         }
 
-        public PlayerGame Create(PlayerGame playergame)
+        public PlayerGame Create(PlayerGame playerGame)
         {
-            context.Add(playergame);
+            context.Add(playerGame);
             context.SaveChanges();
-            return playergame;
+            return playerGame;
         }
 
-        public PlayerGame Update(PlayerGame playergame)
+        public PlayerGame Update(PlayerGame playerGame)
         {
-            PlayerGame updatedPlayerGame = context.PlayerGame.Find(playergame.PlayerId, playergame.GameId);
-            updatedPlayerGame.PlayerId = playergame.PlayerId;
-            updatedPlayerGame.GameId = playergame.GameId;
-            updatedPlayerGame.Score = Convert.ToInt32(playergame.Score);
-            updatedPlayerGame.AverageTime = Convert.ToInt32(playergame.AverageTime);
+            PlayerGame updatedPlayerGame = context.PlayerGame.Find(playerGame.PlayerId, playerGame.GameId);
+            updatedPlayerGame.PlayerId = playerGame.PlayerId;
+            updatedPlayerGame.GameId = playerGame.GameId;
+            updatedPlayerGame.Score = Convert.ToInt32(playerGame.Score);
+            updatedPlayerGame.AverageTime = Convert.ToInt32(playerGame.AverageTime);
 
             return updatedPlayerGame;
         }
 
-        public void Delete(int playerid, int gameid)
+        public void Delete(int playerId, int gameId)
         {
-            PlayerGame playerGame = new PlayerGame { PlayerId = playerid, GameId = gameid };
+            PlayerGame playerGame = new PlayerGame { PlayerId = playerId, GameId = gameId };
             context.PlayerGame.Remove(playerGame);
             context.SaveChanges();
         }
@@ -45,20 +45,20 @@ namespace VikingQuiz.Api.Repositories
             return context.PlayerGame.ToList();
         }
 
-        public PlayerGame GetPlayerGameByIds(int playerid, int gameid)
+        public PlayerGame GetPlayerGameByIds(int playerId, int gameId)
         {
-            return context.PlayerGame.Find(playerid, gameid);
+            return context.PlayerGame.Find(playerId, gameId);
         }
 
-        public List<PlayerGame> GetPlayerGameByGameId(int gameid)
+        public List<PlayerGame> GetPlayerGameByGameId(int gameId)
         {
-            var playersOfGame = context.PlayerGame.Where(playergame => playergame.GameId == gameid).ToList();
+            var playersOfGame = context.PlayerGame.Where(playergame => playergame.GameId == gameId).ToList();
             return playersOfGame;
         }
 
-        public List<PlayerGame> GetRankingByGameId(int gameid)
+        public List<PlayerGame> GetRankingByGameId(int gameId)
         {
-            List<PlayerGame> playersInGame = this.GetPlayerGameByGameId(gameid);
+            List<PlayerGame> playersInGame = this.GetPlayerGameByGameId(gameId);
 
             return playersInGame.OrderByDescending(player => player.Score).ThenBy(player => player.AverageTime).ToList();
         }
