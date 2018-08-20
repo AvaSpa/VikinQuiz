@@ -3,7 +3,8 @@
   align-items: center; }
   .my-profile-container .my-profile-name {
     font-size: 40px;
-    font-family: 'dk_lemon_yellow_sunregular'; }
+    font-family: 'dk_lemon_yellow_sunregular';
+    margin-left: 15px; }
   .my-profile-container .profile-picture {
     width: 100px;
     border-radius: 50%;
