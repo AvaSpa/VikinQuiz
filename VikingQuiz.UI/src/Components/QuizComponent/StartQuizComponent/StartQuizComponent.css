@@ -33,10 +33,7 @@
   .start-quiz #label-photo-txt {
     margin-right: 10px;
     font-weight: 400; }
-  .start-quiz #preview-image {
-    border-radius: 50%;
-    border: 3px #fff solid;
-    box-sizing: content-box;
+  .start-quiz .preview {
     margin-left: 10px; }
   .start-quiz .error-border .upload-btn,
   .start-quiz .error-border #quiz-title,

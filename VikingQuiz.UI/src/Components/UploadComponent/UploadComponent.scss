@@ -1,24 +1,22 @@
 .upload-component{
     text-align: left;
-    display: flex;
-    align-items: center;
 
     #file-uploader {
         display: none
     }
 }
 
-.upload-component.row {
-    flex-direction: row;
-    .preview-image{
-        margin-left: 10px;
-    }
-}
+// .upload-component.row {
+//     flex-direction: row;
+//     .preview-image{
+//         margin-left: 10px;
+//     }
+// }
 
-.upload-component.column {
-    flex-direction: column;
-    justify-content: flex-start;
-    .preview-image{
-        margin-top: 10px;
-    }
-}
+// .upload-component.column {
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     .preview-image{
+//         margin-top: 10px;
+//     }
+// }
