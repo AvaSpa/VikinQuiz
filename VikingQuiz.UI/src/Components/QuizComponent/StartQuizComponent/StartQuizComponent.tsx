@@ -2,7 +2,7 @@ import * as React from 'react';
 import './StartQuizComponent.css';
 import FormInput from '../../FormComponent/FormInput/FormInput';
 import SubmitButton from '../../Buttons/SubmitButton/SubmitButton';
-import UploadButton from '../../Buttons/UploadButton/UploadButton'
+import UploadButton from '../../Buttons/UploadButton/UploadButton';
 import HttpService from '../../../services/HttpService';
 import SnackbarComponent from '../../SnackbarComponent/SnackbarComponent';
 import ISnackbarData from '../../../entities/SnackBarData';
