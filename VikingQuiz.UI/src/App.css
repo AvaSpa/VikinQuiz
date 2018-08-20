@@ -1,7 +1,13 @@
 @import url('fonts/fonts.css'); 
 @import url('fonts/fontello-embedded.css'); 
+@import url('globalStyles/export.css'); 
 html {
    height: 100%;
+}
+
+.container {
+   width: 95%;
+   max-width: 800px;
 }
 
 body {
@@ -9,15 +15,8 @@ body {
    color: white;
 }
 
-footer {
-    position: absolute;
-    bottom: 0;
- }
-
 .App {
   text-align: center;
-  position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
 }
 
 @media screen and (max-width: 800px) {

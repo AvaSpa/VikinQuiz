@@ -1,30 +1,31 @@
-.signupmsg{
-    margin: 0 auto 2% auto;
-    background-color: #f0cc04;
-    height: 1.4em;
-    color: #115057;
-    font-size: 30px;
-    font-weight: 600;
-    font-family: 'dk_lemon_yellow_sunregular';
-	text-align: center;
-	user-select: none;
-}
+.register-form .signup-msg {
+  margin: 0 auto 2% auto;
+  background-color: #f0cc04;
+  height: 1.4em;
+  color: #115057;
+  font-size: 30px;
+  font-weight: 600;
+  font-family: 'dk_lemon_yellow_sunregular';
+  text-align: center;
+  user-select: none; }
 
-.form-container{
-    margin: auto;
-	border: 2px solid rgb(93, 185, 197);
-	border-color: rgba(93, 185, 197, 0.7);
-    text-align: center;
-}
+.register-form .form-container {
+  margin: auto;
+  border: 2px solid #5db9c5;
+  border-color: rgba(93, 185, 197, 0.7);
+  text-align: center; }
 
-.server-message{
-    text-align: center;
-}
+.register-form .server-message {
+  text-align: center; }
 
-@media screen and (max-height: 800px){
-    .submit-button{
-        width:50px;
-        height:50px;
-	}
-
-}
+.register-form .home-button {
+  width: 150px;
+  height: 150px; }
+  @media screen and (max-width: 800px) {
+    .register-form .home-button {
+      width: 125px;
+      height: 125px; } }
+  @media screen and (max-width: 500px) {
+    .register-form .home-button {
+      width: 100px;
+      height: 100px; } }

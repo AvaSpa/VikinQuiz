@@ -1,0 +1,22 @@
+.form-component-container {
+    margin: auto;
+
+    .submit-button {
+        margin-top: 2em;
+        border-radius: 50%;
+        border: none;
+        width: 70px;
+        height: 70px;
+        background: transparent url(./../../media/checkmark.png) no-repeat;
+        background-size: 100%;
+       transition: all 0.2s ease;
+       :hover {
+          transform: translateY(3px);
+       }
+   
+       :active {
+          transform: translateY(5px);
+       }
+    }
+}
+

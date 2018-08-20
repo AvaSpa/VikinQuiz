@@ -22,7 +22,8 @@ class NewQuizButton extends React.Component<any, any> {
         if(this.state.redirect){
         return (
                 <Redirect
-                    to={{pathname: '/newQuiz',
+                    push={true}
+                    to={{pathname: '/quiz',
                     state: {id: null, editMode: false}
                     }}
                 />      

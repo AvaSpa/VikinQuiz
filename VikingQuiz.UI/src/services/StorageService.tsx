@@ -1,5 +1,4 @@
-
-class StorageService{
+class StorageService {
     public saveItem = (key: string, value: string) => {
         localStorage.setItem(key, value);
     };
@@ -10,6 +9,10 @@ class StorageService{
 
     public itemExists = (key: string) : boolean => {
         return localStorage.hasOwnProperty(key);
+    }
+
+    public removeItem = (key: string) => {
+        localStorage.removeItem(key);
     }
 }
 

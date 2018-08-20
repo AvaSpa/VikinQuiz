@@ -1,0 +1,48 @@
+.quiz-item-container {
+    width: 222%;
+    height: auto;
+    position: relative;
+    margin-top: 1em;
+    .quiz-title {
+        font-family: 'ariblk';
+        font-size: 16px;
+        color: #77a8b7;
+        font-weight: bold;
+        position: relative;
+        padding-top: 0.6em;
+        z-index: 2;
+    }
+    .quiz-photo-container {
+        width: 110px;
+        height: 110px;
+        margin: auto;
+        position: relative;
+        z-index: 1;
+        &:active .manage-quiz,
+        &:hover .manage-quiz {
+            z-index: 1;
+            opacity: 1;
+            width: 100%;
+            height: 100%;
+        }
+        .quiz-photo {
+            border: 12px solid white;
+            box-sizing: border-box;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    @media screen and (min-width: 300px) {
+        width: 50%;
+    }
+    @media screen and (min-width: 500px) {
+        width: 33.3%;
+    }
+    @media screen and (min-width: 800px) {
+        width: 25%;
+    }
+    @media screen and (min-width: 1000px) {
+        width: 20%;
+    }
+}

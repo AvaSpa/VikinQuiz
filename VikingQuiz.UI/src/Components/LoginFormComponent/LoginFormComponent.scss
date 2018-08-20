@@ -1,0 +1,40 @@
+.login-form-container {
+    .forget-pass {
+        font-family: 'dk_lemon_yellow_sunregular';
+        color: #f0cc04;
+        font-size: 20px;
+        text-align: left;
+        padding: 0;
+        &:hover {
+            color: white;
+        }
+    }
+    a:visited {
+        color: rgb(93, 185, 197);
+    }
+    .forget-remember {
+        margin-top: 20px;
+        justify-content: space-between;
+        display: flex;
+    }
+    .custom-checkbox.remember-me-checkbox {
+        border: none;
+        font-family: 'dk_lemon_yellow_sunregular';
+        color: white;
+        font-size: 20px;
+        text-align: right;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        user-select: none;
+
+        .checkbox-display-container {
+            width: 1.3em;
+            height: 1.3em;
+            margin-left: 10px;
+            border: 1px solid #f4c300;
+            position: relative;
+            flex-shrink: 0;
+        }
+    }
+}

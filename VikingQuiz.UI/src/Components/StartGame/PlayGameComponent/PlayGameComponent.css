@@ -1,0 +1,22 @@
+.play-game-form .join-button {
+  border-radius: 50%;
+  border: none;
+  width: 100px;
+  height: 100px;
+  top: 200px;
+  background: transparent url("../../../media/joinbutton.png") no-repeat;
+  background-size: 100%;
+  position: relative;
+  margin: 0 auto;
+  display: block;
+  transition: all 0.2s linear; }
+
+.play-game-form .join-button:hover {
+  transform: translateY(3px); }
+
+.play-game-form .join-button:active {
+  transform: translateY(5px); }
+
+@media screen and (max-height: 600px) {
+  .play-game-form .join-button {
+    top: 100px; } }

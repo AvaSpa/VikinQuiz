@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Redirect } from 'react-router-dom';
-import InputData from 'src/entities/InputData';
 import HomeButton from 'src/Components/Buttons/HomeButton/HomeButton';
 import FormComponent from 'src/Components/FormComponent/FormComponent';
 import './ResetPasswordComponent.css';
@@ -34,14 +33,14 @@ class ResetPasswordComponent extends React.Component<any, any>
             return (<Redirect to='/login' />);
         }
         return (
-            <div className='my-container'>
+           <div className='reset-password-container'>
                 <HomeButton />
                 <div className='yellow-bg-message'>Update password</div>
                 <div className='form-container'>
-                    <FormComponent className='signupForm' inputs={
+                    <FormComponent className='signup-form' inputs={
                         [
-                            new InputData('password', 'password', 'new password', '', 'password', ''),
-                            new InputData('confirm-password', 'password', 'confirm password', '', 'confirm-password', '')
+                       { id: 'password', type: 'password', label: 'new password', errorMessage:'', name:'password', value:''},
+                       { id: 'confirm-password', type: 'password', label: 'confirm password', errorMessage: '', name: 'confirm-password', value:''}
                         ]}
                         url={this.apiAddress}
                         buttonName=''

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import './ManageQuizComponent.css';
 import { Redirect} from 'react-router-dom';
-import axios from '../../../../node_modules/axios';
 import YesNoComponent from '../../YesNoComponent/YesNoComponent';
+import HttpService from '../../../services/HttpService';
 
 class ManageQuizComponent extends React.Component<any, any> { 
     
+    private httpService: HttpService = new HttpService();
     private readonly apiAddress : string = 'http://localhost:60151/api/quizzes/'
     
     constructor(props: any) {
@@ -47,11 +48,11 @@ class ManageQuizComponent extends React.Component<any, any> {
         
         const rerenderParent = this.props.handleChildDelete;
         
-        axios.delete(this.apiAddress + this.props.id)
-            .then(res => {
+        this.httpService.deleteWithToken(this.apiAddress + this.props.id)
+            .then((res: any) => {
                 rerenderParent();
             })
-            .catch(err => console.log(err))  
+            .catch((err: any) => console.log(err))  
     }
 
     public handleEditQuizRedirect(){
@@ -80,7 +81,8 @@ class ManageQuizComponent extends React.Component<any, any> {
         if(this.state.redirectToEdit){  
             return (
                 <Redirect
-                    to={{pathname: '/editQuiz',
+                    push={true}
+                    to={{pathname: '/quiz',
                     state: {id: this.state.id, editMode: true}}}
                 />
             )}
@@ -88,7 +90,8 @@ class ManageQuizComponent extends React.Component<any, any> {
             if(this.state.redirectToPlayGame){
                 return (
                     <Redirect
-                        to={{pathname: '/playGame',
+                        push={true}
+                        to={{pathname: '/startGame',
                         state: {id: this.state.id}}}
                     />
                 )

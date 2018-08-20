@@ -1,35 +1,23 @@
-.not-found {
-    font-family: 'dk_lemon_yellow_sunregular';
-    color: #F2C200;
-    font-size: 25px;
-    text-align: center;
-}
-
-.very-large{
+.not-found-page {
+  font-family: 'dk_lemon_yellow_sunregular';
+  color: #F2C200;
+  font-size: 25px;
+  text-align: center; }
+  .not-found-page .very-large {
     font-size: 2em;
-    font-weight: 500;
-}
-
-.large {
-    font-size: 1.8em;
-}
-
-.small {
-    font-size: 1em;
-}
-
-#not-found-image{
-    background: url('./../../media/not-found.png') no-repeat;
+    font-weight: 500; }
+  .not-found-page .large {
+    font-size: 1.8em; }
+  .not-found-page .small {
+    font-size: 1em; }
+  .not-found-page #not-found-image {
+    background: url("./../../media/not-found.png") no-repeat;
     background-size: contain;
     width: 200px;
     height: 200px;
     margin: 0 auto;
-    margin-top: 100px;
-}
-
-@media screen and (max-width: 500px){
-    .not-found {
-        font-size: 20px;
-        padding: 5px;
-    }
-}
+    margin-top: 100px; }
+  @media screen and (max-width: 500px) {
+    .not-found-page {
+      font-size: 20px;
+      padding: 5px; } }

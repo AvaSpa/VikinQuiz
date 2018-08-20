@@ -1,0 +1,93 @@
+.start-quiz {
+    font-family: 'dk_lemon_yellow_sunregular';
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    font-size: 27px;
+    /* align-items: center; */
+    .form-group {
+        margin: 0;
+        padding: 0;
+
+        .form-label {
+            display: none;
+        }
+    }
+    #quiz-title {
+        background-color: #00333E;
+        border: 0;
+        border-radius: 0;
+        color: #fff;
+        line-height: 37px;
+        font-size: 27px;
+        padding-left: 20px;
+    }
+    &:focus {
+        box-shadow: 0 0 0;
+        border: 0px;
+    }
+    #file-uploader {
+        display: none
+    }
+    #upload {
+        text-align: left;
+    }
+    #label-photo-txt {
+        margin-right: 10px;
+        font-weight: 400;
+    }
+    #preview-image {
+        border-radius: 50%;
+        border: 3px #fff solid;
+        box-sizing: content-box;
+        margin-left: 10px;
+    }
+    .error-border {
+        .upload-btn,
+        #quiz-title,
+        #quiz-title:focus {
+            box-shadow: 0 0 4px 2px #fa1919;
+        }
+    }
+    .error-message {
+        color: #fa1919;
+        font-family: 'Arial-Narrow';
+        font-size: 20px;
+        text-align: left;
+        padding-left: 7px;
+        height: 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0.3em;
+    }
+    .hidden {
+        display: none;
+    }
+    #preview-image,
+    .circle-btn,
+    .submit-button {
+        width: 60px;
+        height: 60px;
+        box-sizing: border-box;
+        flex-shrink: 0;
+    }
+    .success-btn {
+        text-align: right;
+        justify-content: flex-end;
+    }
+    @media screen and (max-width: 575px) {
+        font-family: 'dk_lemon_yellow_sunregular';
+        margin-bottom: 10px;
+        font-size: 20px;
+        #label-photo-txt {
+            display: none;
+        }
+    }
+    .success-btn, #upload, .form-input-container {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 5px;
+        height: 60px;
+    }
+}

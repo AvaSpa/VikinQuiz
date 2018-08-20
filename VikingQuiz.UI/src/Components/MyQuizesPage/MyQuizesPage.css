@@ -1,18 +1,14 @@
-.row{
-    margin-right: 0;
-    margin-left: 0;
-}
+.quiz-page-container .my-quizzes-page-container {
+  margin: 0 7%;
+  margin-top: 40px; }
 
-.quiz-page-container{
-    min-width: 320px;
-}
+.quiz-page-container .row {
+  margin-right: 0;
+  margin-left: 0; }
 
-.my-quizzes-page-container{
-    margin: 0 7%;
-    margin-top: 40px;
-}
+.quiz-page-container .server-message {
+  box-shadow: 0 0 1px 1px #ff4343;
+  color: #ff4343; }
 
-
-
-
-
+.quiz-page-container.container {
+  max-width: 1500px; }

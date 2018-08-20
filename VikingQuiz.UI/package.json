@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material/snackbar": "^0.38.0",
+    "@types/material__snackbar": "^0.35.0",
     "@types/randomstring": "^1.1.6",
     "@types/react-bootstrap": "^0.32.11",
     "@types/react-facebook-login": "^3.6.4",
     "@types/react-router-dom": "^4.3.0",
     "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
+    "node-sass-chokidar": "^1.3.3",
+    "node-snackbar": "^0.1.11",
     "randomstring": "^1.1.5",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
@@ -21,7 +25,9 @@
     "react-scripts-ts": "2.16.0"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start": "react-scripts-ts start | npm run watch-css",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"

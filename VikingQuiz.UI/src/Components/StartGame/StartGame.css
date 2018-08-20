@@ -1,314 +1,131 @@
-.startgame-center-container{
+.startgame-container .home-button {
+  width: 150px;
+  height: 150px; }
+
+.startgame-container .startgame-center-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  width: auto; }
+
+.startgame-container .players-container {
+  top: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; }
+
+.startgame-container .code-label {
+  top: 10px;
+  bottom: 100px;
+  position: relative;
+  font-size: 50px;
+  font-family: 'dk_lemon_yellow_sunregular';
+  text-align: center; }
+
+.startgame-container .code {
+  top: 8px;
+  position: relative;
+  bottom: 100px;
+  background-color: #ffffff;
+  color: #115057;
+  font-size: 50px;
+  font-family: 'dk_lemon_yellow_sunregular';
+  text-align: center;
+  width: auto; }
+
+.startgame-container .cancel-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  font-size: 18px; }
+
+@media screen and (min-width: 450px) {
+  .startgame-container .cancel-button {
+    font-size: 21px; } }
+
+@media screen and (min-width: 650px) {
+  .startgame-container .cancel-button {
+    font-size: 23px; } }
+
+@media screen and (min-width: 1000px) {
+  .startgame-container .cancel-button {
+    font-size: 25px; } }
+
+@media screen and (max-width: 1500px) {
+  .startgame-container .center-container {
+    width: 1300px; } }
+
+@media screen and (max-width: 1050px) {
+  .startgame-container .center-container {
+    width: 800px; }
+  .startgame-container .code-label {
+    font-size: 50px; }
+  .startgame-container .code {
+    height: 70px;
+    font-size: 50px;
+    margin: 10px auto; } }
+
+@media screen and (max-width: 800px) {
+  .startgame-container .code-label {
+    font-size: 40px; }
+  .startgame-container .center-container {
+    width: 200px; }
+  .startgame-container .code {
+    height: 60px; } }
+
+@media screen and (max-width: 700px) {
+  .startgame-container .home-button {
+    width: 100px;
+    height: 100px; } }
+
+@media screen and (max-width: 500px) {
+  .startgame-container .startgame-center-container {
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
-    width: auto;
-}
-
-.players-container{
+    width: auto; }
+  .startgame-container .code-label {
+    bottom: 100px;
+    font-size: 30px; }
+  .startgame-container .code {
+    bottom: 100px;
+    height: 45px;
+    font-size: 30px; }
+  .startgame-container .center-container {
+    width: 200px; }
+  .startgame-container .players-container {
+    bottom: -40px;
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    flex-wrap: wrap;
-}
+    height: 60px; } }
 
-.code-form{
+@media screen and (max-width: 400px) {
+  .startgame-container .code-label {
+    bottom: 90px;
+    font-size: 24px; }
+  .startgame-container .code {
+    bottom: 90px;
+    font-size: 24px;
+    height: 30px; }
+  .startgame-container .center-container {
+    width: 200px; }
+  .startgame-container .players-container {
+    bottom: 90px;
+    display: flex;
     justify-content: center;
-}
-
-.code-label{
-    position: relative;
-    font-size: 50px;
-    font-family: 'dk_lemon_yellow_sunregular';
-    text-align: center;
-}
-
-.home-button{
-    top: 30px;
-    width: 210px;
-    height: 210px;
-}
-
-.code{
-    background-color: #ffffff;
-    color: #115057;
-    font-size: 50px;
-    font-family: 'dk_lemon_yellow_sunregular';
-    text-align: center;
-}
-
-.start-button{
-    position: fixed;
-    top: 70px;
-}
-
-.cancel-button{
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-}
-
-@media screen and (max-width: 800px){
-    .home-button{
-        width:150px;
-        height:240px;
-    }
-    
-    .code-label{
-        position: relative;
-        font-size: 40px;
-        font-family: 'dk_lemon_yellow_sunregular';
-        text-align: center;
-    }
-
-    .center-container{
-        width: 200px;
-    }
-
-    .code-input{
-        height: 60px;
-        width: 170px;
-    }
-}
-
-
-@media screen and (max-width: 500px){
-    .startgame-center-container{
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        width: auto;
-    }
-
-    .home-button{
-        width:130px;
-        height:140px;
-    }
-    
-    .code-label{
-        position: relative;
-        font-size: 30px;
-        font-family: 'dk_lemon_yellow_sunregular';
-        text-align: center;
-    }
-
-    .code{
-        font-size: 30px;
-    }
-
-    .center-container{
-        width: 200px;
-    }
-
-    .players-container{
-        display: flex;
-        justify-content: center;
-        height: 60px;
-    }
-
-    .code-input{
-        height: 45px;
-    }
-}
-
-@media screen and (max-width: 400px){
-    .home-button{
-        width:130px;
-        height:140px;
-    }
-    
-    .code-label{
-        position: relative;
-        font-size: 30px;
-        font-family: 'dk_lemon_yellow_sunregular';
-        text-align: center;
-    }
-
-    .code{
-        font-size: 30px;
-    }
-
-    .center-container{
-        width: 200px;
-    }
-
-    .players-container{
-        display: flex;
-        justify-content: center;
-        height: 120px;
-        margin-top: 20px;
-    }
-
-    .code-input{
-        height: 45px;
-    }
-}
-
-
-@media screen and (max-width: 330px){
-    .home-button{
-        top: 10px;
-        width:70px;
-        height:70px;
-    }
-    
-    .code-label{
-        position: relative;
-        font-size: 25px;
-        font-family: 'dk_lemon_yellow_sunregular';
-        text-align: center;
-    }
-
-    .code{
-        font-size: 25px;
-    }
-
-    .center-container{
-        width: 130px;
-    }
-
-    .container {
-        padding-right: 2px;
-        padding-left: 2px;
-    }
-
-    .players-container{
-        margin-top: 0px;
-    }
-
-    .code-input{
-        height: 40px;
-        width: 100px;
-    }
-}
-
-.player-photo {
-    border-radius: 50%;
-    width: 120px;
     height: 120px;
-    filter: grayscale(100%) brightness(170%);
-    margin-top: 10px;
-}
+    margin-top: 2px; } }
 
-.player-name{
-    position: relative;
-    font-size: 20px;
-    font-family: 'dk_lemon_yellow_sunregular';
-    font-weight: bold;
-    text-align: center;
-    color: #f0cc04;
-    top: 4px;
-}
-
-.player-container{
-    max-width: 120px;
-    width: auto;
-    height:auto;
-    margin-bottom: 20px;
-    margin-right: 20px;
-}
-
-.photo{
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-}
-
-@media screen and (max-width: 800px){
-    .player-photo {
-        width: 90px;
-        height: 90px;
-        margin-top: 10px;
-        margin-left: auto;
-    }
-
-    .player-name{
-        font-size: 20px;
-    }
-
-    .player-container{
-        max-width: 90px;
-        margin-bottom: 20px;
-    }
-    
-    .photo{
-        width: 80px;
-        height: 80px;
-    }
-}
-
-@media screen and (max-width: 500px){
-    .player-photo {
-        width: 50px;
-        height: 50px;
-        margin-top: 10px;
-        margin-left: auto;
-    }
-
-    .player-name{
-        font-size: 10px;
-        margin-left: 10px;
-    }
-
-    .player-container{
-        max-width: 36px;
-        margin-bottom: 20px;
-    }
-    
-    .photo{
-        width: 50px;
-        height: 50px;
-    }
-}
-
-@media screen and (max-width: 400px){
-    .player-photo {
-        width: 35px;
-        height: 35px;
-        margin-top: 20px;
-        margin-left: auto;
-    }
-
-    .player-name{
-        font-size: 8x;
-        top: 20px;
-        margin-left: auto;
-    }
-
-    .player-container{
-        max-width: 35px;
-        margin-bottom: 20px;
-        margin-right: 14px;
-    }
-    
-    .photo{
-        width: 45px;
-        height: 45px;
-    }
-}
-
-@media screen and (max-width: 330px){
-    .player-photo {
-        width: 45px;
-        height: 45px;
-        margin-top: 30px;
-        margin-left: 4px;
-    }
-
-    .player-name{
-        font-size: 10px;
-        top: 10px;
-    }
-
-    .player-container{
-        max-width: 48px;
-        margin-bottom: 20px;
-    }
-    
-    .photo{
-        width: 45px;
-        height: 45px;
-    }
-}
-
-
+@media screen and (max-width: 330px) {
+  .startgame-container .code-label {
+    font-size: 25px; }
+  .startgame-container .code {
+    font-size: 25px; }
+  .startgame-container .center-container {
+    width: 130px; }
+  .startgame-container .container {
+    padding-right: 2px;
+    padding-left: 2px; }
+  .startgame-container .players-container {
+    margin-top: 0px; } }
