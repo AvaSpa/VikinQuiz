@@ -27,7 +27,8 @@ namespace VikingQuiz.Api.Repositories
             PlayerGame updatedPlayerGame = context.PlayerGame.Find(playergame.PlayerId, playergame.GameId);
             updatedPlayerGame.PlayerId = playergame.PlayerId;
             updatedPlayerGame.GameId = playergame.GameId;
-            updatedPlayerGame.Score = playergame.Score;
+            updatedPlayerGame.Score = Convert.ToInt32(playergame.Score);
+            updatedPlayerGame.AverageTime = Convert.ToInt32(playergame.AverageTime);
 
             return updatedPlayerGame;
         }
@@ -53,6 +54,13 @@ namespace VikingQuiz.Api.Repositories
         {
             var playersOfGame = context.PlayerGame.Where(playergame => playergame.GameId == gameid).ToList();
             return playersOfGame;
+        }
+
+        public List<PlayerGame> GetRankingByGameId(int gameid)
+        {
+            List<PlayerGame> playersInGame = this.GetPlayerGameByGameId(gameid);
+
+            return playersInGame.OrderByDescending(player => player.Score).ThenBy(player => player.AverageTime).ToList();
         }
     }
 }
