@@ -38,6 +38,7 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/avatar" component={UserMinimalProfile} />
             <Route exact={true} path="/forgot" component={SendEmailComponent} />
             <Route exact={true} path="/forgot/:token" component={ResetPasswordComponent} />
+            <Route exact={true} path="/playquiz" component={PlayQuiz} />
             <Route exact={true} path="/snackbar" component={SnackbarComponent} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>

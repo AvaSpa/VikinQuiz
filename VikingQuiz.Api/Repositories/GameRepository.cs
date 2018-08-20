@@ -29,6 +29,7 @@ namespace VikingQuiz.Api.Repositories
             Game foundGame = context.Game.Find(game.Id);
             foundGame.QuizId = game.QuizId;
             foundGame.GameDate = game.GameDate;
+            foundGame.Code = game.Code;
             context.SaveChanges();
             return game;
         }

@@ -10,5 +10,6 @@ namespace VikingQuiz.Api.ViewModels
         public int PlayerId { get; set; }
         public int GameId { get; set; }
         public int Score { get; set; }
+        public int AverageTime { get; set; }
     }
 }

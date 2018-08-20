@@ -7,9 +7,10 @@ namespace VikingQuiz.Api.Models
     {
         public int PlayerId { get; set; }
         public int GameId { get; set; }
-        public int Score { get; set; }
+        public int? Score { get; set; }
+        public int? AverageTime { get; set; }
 
-        public Game G { get; set; }
-        public Player P { get; set; }
+        public Game Game { get; set; }
+        public Player Player { get; set; }
     }
 }

@@ -30,6 +30,14 @@ namespace VikingQuiz.Api.Controllers
 
         [Route("current")]
         [HttpGet]
+        public IActionResult GetAll()
+        {
+            var users = userRepository.GetAll();
+            var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
+            return Ok(result);
+        }
+
+        [HttpGet("/current")]
         [Authorize]
         public IActionResult Get()
         {
@@ -45,15 +53,6 @@ namespace VikingQuiz.Api.Controllers
             }
             UserViewModel userVm = this.entityToVmMapper.Map(user);
             return Ok(userVm);
-        }
-
-        [HttpGet]
-        //[Authorize]
-        public IActionResult GetAll()
-        {
-            var users = userRepository.GetAll();
-            var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
-            return Ok(result);
         }
 
         [HttpPost]

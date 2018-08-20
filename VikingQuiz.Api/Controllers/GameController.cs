@@ -52,7 +52,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 QuizId = gameViewModel.QuizId,
                 GameDate = Convert.ToDateTime(gameViewModel.GameDate),
-                Code = code
+                Code = gameViewModel.Code
             };
 
             Game newGame = gameRepository.Create(game);
