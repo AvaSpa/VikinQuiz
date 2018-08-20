@@ -13,6 +13,19 @@
             display: none;
         }
     }
+    #title, #upload {
+        margin-bottom: 1.2em;
+    }
+
+    .preview-image,
+    .circle-btn,
+    .submit-button {
+          width: 60px;
+          height: 60px;
+          box-sizing: border-box;
+          flex-shrink: 0;
+    }
+
     #quiz-title {
         background-color: #00333E;
         border: 0;
@@ -25,12 +38,6 @@
     &:focus {
         box-shadow: 0 0 0;
         border: 0px;
-    }
-    #file-uploader {
-        display: none
-    }
-    #upload {
-        text-align: left;
     }
     #label-photo-txt {
         margin-right: 10px;
@@ -58,19 +65,12 @@
         height: 0;
         width: 100%;
         position: absolute;
-        bottom: 0.3em;
+        bottom: 0.1em;
     }
     .hidden {
         display: none;
     }
-    #preview-image,
-    .circle-btn,
-    .submit-button {
-        width: 60px;
-        height: 60px;
-        box-sizing: border-box;
-        flex-shrink: 0;
-    }
+    
     .success-btn {
         text-align: right;
         justify-content: flex-end;

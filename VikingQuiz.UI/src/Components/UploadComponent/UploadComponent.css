@@ -1,0 +1,17 @@
+.upload-component {
+  text-align: left;
+  display: flex;
+  align-items: center; }
+  .upload-component #file-uploader {
+    display: none; }
+
+.upload-component.row {
+  flex-direction: row; }
+  .upload-component.row .preview-image {
+    margin-left: 10px; }
+
+.upload-component.column {
+  flex-direction: column;
+  justify-content: flex-start; }
+  .upload-component.column .preview-image {
+    margin-top: 10px; }

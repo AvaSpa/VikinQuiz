@@ -1,40 +1,40 @@
+import { invalidFileSizeInMegaBytes, nonExistentFile, fileNotSupported } from "../../commons/commons";
 
+class ImageValidator {
 
-class imageValidator {
+    private errorMessage: string;
 
-    private isImageValid = (fileObject: any): boolean => {
+    public constructor() {
+        this.errorMessage = '';
+    }
+
+    public getErrorMessage = (): string => {
+        return this.errorMessage;
+    }
+
+    public isImageValid = (fileObject: any): boolean => {
 
         if (!this.checkFileExistence(fileObject) || !this.checkFileType(fileObject) || !this.checkFileSize(fileObject)) {
             return false;
         }
 
-        this.setState({
-            imageError: ''
-        });
-        this.removeInvalidClassFromUpload();
+        this.errorMessage = '';
         return true;
     }
 
     private checkFileExistence = (fileObject: any): boolean => {
         if (!fileObject) {
-            this.setState({
-                imageError: 'File doesn\'t exist',
-                selectedFile: ''
-            });
-            this.addInvalidClassToUpload();
+            this.errorMessage = nonExistentFile;
             return false;
         }
         return true;
     }
 
     private checkFileType = (fileObject: any): boolean => {
-        const acceptedFormats: any = ['png', 'jpeg', 'gif'].map((type: string) => 'image/' + type);
+        const acceptedExtensions = ['png', 'jpeg', 'gif'];
+        const acceptedFormats: any = acceptedExtensions.map((type: string) => 'image/' + type);
         if (!acceptedFormats.includes(fileObject.type)) {
-            this.setState({
-                imageError: 'The only supported fomats are: png, jpeg, gif',
-                selectedFile: ''
-            });
-            this.addInvalidClassToUpload();
+            this.errorMessage = fileNotSupported(acceptedExtensions);
             return false;
         }
         return true;
@@ -46,13 +46,11 @@ class imageValidator {
         const numberOfMegabytes: number = 5;
 
         if (fileObject.size / kilobyteSize > megabyteSize * numberOfMegabytes) {
-            this.setState({
-                imageError: 'The size is larger than ' + numberOfMegabytes + ' MBs',
-                selectedFile: ''
-            });
-            this.addInvalidClassToUpload();
+            this.errorMessage = invalidFileSizeInMegaBytes(numberOfMegabytes);
             return false;
         }
         return true;
     }
 }
+
+export default ImageValidator;

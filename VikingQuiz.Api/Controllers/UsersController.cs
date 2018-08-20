@@ -28,16 +28,7 @@ namespace VikingQuiz.Api.Controllers
             this.entityToVmMapper = entityToVmMapper;
         }
 
-        [Route("current")]
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var users = userRepository.GetAll();
-            var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
-            return Ok(result);
-        }
-
-        [HttpGet("/current")]
+        [HttpGet("current")]
         [Authorize]
         public IActionResult Get()
         {
