@@ -4,16 +4,15 @@ import CustomCheckbox from '../../../CustomInputs/Checkbox/Checkbox';
 import FormInput from '../../../FormComponent/FormInput/FormInput';
 
 class SingleAnswer extends React.Component <any, any> {
-      
       public inputChangeHandler = (evt : any) => {
          this.props.inputChangeHandler(this.props.answerId, evt.target.value);
       }
 
-
-
       public checkboxChangeHandler = (evt : any) => {
          this.props.checkboxChangeHandler(this.props.answerId, evt.target.value);
       }
+
+
       
       public render() {
          return (
@@ -28,7 +27,7 @@ class SingleAnswer extends React.Component <any, any> {
                      InputClassName={this.props.checked ? "checked-input " : ""}
                      ContainerClassName="answer-input "
                      InputId={"answer-" + this.props.answerId}
-                     InputLabel={<img className="answer-image" src="http://via.placeholder.com/150x150" />}
+                     InputLabel={<img className="answer-image" src={this.props.imgUrl} />}
                      InputType="text"
                   />
                </div>

@@ -39,10 +39,11 @@ namespace VikingQuiz.Api.Controllers
         public IActionResult GetAll([FromQuery(Name = "quiz")] int quizId)
         {
             var questions = questionRepository.GetAllByQuizId(quizId);
-            var result = questions
+            var results = questions
                         .Select(question => addAnswersToQuestions(question))
                         .ToList();
-            return Ok(result);
+
+            return Ok(results);
         }
 
         [HttpPost]
@@ -156,6 +157,8 @@ namespace VikingQuiz.Api.Controllers
             questionVM.Answers = this.answerRepository.GetAllAnswers(question.Id)
                                                 .Select(answer => this.answerToVmMapper.Map(answer))
                                                 .ToList();
+
+            questionVM.Answers = questionVM.Answers.OrderBy(answer => answer.Id).ToList();
             return questionVM;
         }
     }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VikingQuiz.Api.Mappers;
@@ -10,8 +8,6 @@ using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.ViewModels;
-using System.Security.Claims;
-using VikingQuiz.Api.Utilities;
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -35,12 +31,11 @@ namespace VikingQuiz.Api.Controllers
         public async Task<IActionResult> GetAll() {
             int currentUserId = User.Claims.GetUserId();
 
-            AzureBlobService blobService = new AzureBlobService();
-            await blobService.InitializeBlob();
+            AzureBlobService blobService = new AzureBlobService(azureContainerName);
 
             var quizzes = quizRepository.GetQuizByUserId(currentUserId);
             foreach (var quiz in quizzes) {
-                quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
+                quiz.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quiz.PictureUrl);
             }
 
             return Ok(quizzes.Select(quiz => this.entityToVmMapper.Map(quiz)));
@@ -53,15 +48,12 @@ namespace VikingQuiz.Api.Controllers
         public async Task<IActionResult> GetQuiz(int id) {
             int currentUserId = User.Claims.GetUserId();
 
-            AzureBlobService blobService = new AzureBlobService();
-            await blobService.InitializeBlob();
-
             Quiz quiz = quizRepository.GetQuizById(id);
             if (quiz == null || quiz.UserId != currentUserId) {
                 return NotFound("Quiz doesn't exist");
             }
 
-            quiz.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + quiz.PictureUrl;
+            quiz.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quiz.PictureUrl);
             QuizViewModel quizVm = this.entityToVmMapper.Map(quiz);
             return Ok(quizVm);
         }
@@ -80,8 +72,7 @@ namespace VikingQuiz.Api.Controllers
             string fileUrl;
             AzureBlobService blobService;
             try {
-                blobService = new AzureBlobService();
-                await blobService.InitializeBlob();
+                blobService = new AzureBlobService(azureContainerName);
                 fileUrl = await blobService.UploadPhoto(quizBodyData.Files[0]);
             }
             catch (Exception) {
@@ -99,7 +90,7 @@ namespace VikingQuiz.Api.Controllers
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(createdQuiz);
-            quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileUrl;
+            quizVm.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quizVm.PictureUrl);
 
             return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
         }
@@ -119,8 +110,7 @@ namespace VikingQuiz.Api.Controllers
             string fileUrl;
             AzureBlobService blobService;
             try {
-                blobService = new AzureBlobService();
-                await blobService.InitializeBlob();
+                blobService = new AzureBlobService(azureContainerName);
                 var previousQuizState = quizRepository.GetQuizById(id);
 
                 blobService.DeletePhoto(previousQuizState.PictureUrl);
@@ -142,7 +132,8 @@ namespace VikingQuiz.Api.Controllers
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
-            quizVm.PictureUrl = blobService.urlPath.AbsoluteUri.ToString() + "users/" + fileUrl;
+            quizVm.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, quizVm.PictureUrl);
+
 
             return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
         }
@@ -154,8 +145,7 @@ namespace VikingQuiz.Api.Controllers
             var deletedQuiz = quizRepository.DeleteQuiz(id, currentUserId);
 
             if (deletedQuiz != null) {
-                AzureBlobService blobService = new AzureBlobService();
-                await blobService.InitializeBlob();
+                AzureBlobService blobService = new AzureBlobService(azureContainerName);
                 blobService.DeletePhoto(deletedQuiz.PictureUrl);
                 return Ok();
             }
@@ -163,6 +153,8 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest("Deletion Impossible. Quiz does not exist.");
             }
         }
+
+        private string azureContainerName = "users";
 
         private IActionResult FileValidityChecker(NewQuizViewModel quizBodyData) {
             IActionResult statusCodeResult = Ok();
