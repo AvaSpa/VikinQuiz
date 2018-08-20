@@ -15,7 +15,7 @@ namespace VikingQuiz.Api.Mappers
             {
                 PlayerId = playergame.PlayerId,
                 GameId = playergame.GameId,
-                Score = playergame.Score
+                Score = Convert.ToInt32(playergame.Score)
             };
             return result;
         }
