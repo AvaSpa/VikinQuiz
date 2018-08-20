@@ -16,3 +16,7 @@
 
 .play-game-form .join-button:active {
   transform: translateY(5px); }
+
+@media screen and (max-height: 600px) {
+  .play-game-form .join-button {
+    top: 100px; } }
