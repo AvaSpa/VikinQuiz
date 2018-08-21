@@ -36,7 +36,7 @@ namespace VikingQuiz.Api.Controllers
             }
             if (user.Pass != null)
             {
-                user.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(user.PictureUrl);
+                user.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, user.PictureUrl);
             }
             UserViewModel userVm = this.entityToVmMapper.Map(user);
             return Ok(userVm);
