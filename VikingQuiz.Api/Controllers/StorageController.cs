@@ -11,10 +11,9 @@ namespace VikingQuiz.Api.Controllers
         public IActionResult GetUrlOfContainer(string containerName)
         {
             string containerUrl = new AzureBlobService(containerName).GetFullUrlOfContainer();
-            return Ok( containerUrl );
+            return Ok(containerUrl);
         }
 
 
     }
 }
-

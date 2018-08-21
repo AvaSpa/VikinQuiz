@@ -36,7 +36,7 @@ namespace VikingQuiz.Api.Controllers
             }
             if (user.Pass != null)
             {
-                user.PictureUrl = AzureBlobService.GetFullUrlOfContainer(azureContainerName, user.PictureUrl);
+                user.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(user.PictureUrl);
             }
             UserViewModel userVm = this.entityToVmMapper.Map(user);
             return Ok(userVm);
@@ -71,7 +71,7 @@ namespace VikingQuiz.Api.Controllers
 
             User newUser = userRepository.CreateUser(userToSave);
 
-            if(newUser == null)
+            if (newUser == null)
             {
                 return BadRequest("User couldn't be created");
             }
@@ -89,7 +89,7 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest(errors);
             }
 
-            if(!userRepository.CheckIfUserExists(user.Id))
+            if (!userRepository.CheckIfUserExists(user.Id))
             {
                 return NotFound("User doesn't exist");
             }
