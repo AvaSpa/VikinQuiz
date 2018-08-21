@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,30 +34,43 @@ namespace VikingQuiz.Api.Repositories
         }
 
         public Quiz DeleteQuiz(int id, int userId) {
-            Quiz quiz = new Quiz {
-                Id = id
-            };
-
-
-            var quizMatchingIdAndPlayerId = context.Quiz.Where(dbQuiz => dbQuiz.Id == id && dbQuiz.UserId == userId).ToList();
-            if (quizMatchingIdAndPlayerId.Count == 0) {
+            if (!context.Quiz.Any(dbQuiz => dbQuiz.Id == id && dbQuiz.UserId == userId))
                 return null;
-            }
 
-            /* >>>  the 2 lines below (the attempt to remove games) caused the server to crash 
-             *      (status 500) when trying to delete quizes which had questions assoicated with them 
-             *      (quizzes with no questons were deleted succesfully)
-            var games = context.Game.Where(x => x.QuizId == id).ToList();
-            context.Game.RemoveRange(games);
-            */
+            //identify all Games for a quiz
+            int[] gameIds = context.Game.Where(g => g.QuizId==id).Select(g=> g.Id).ToArray();
 
-            var quizQuestions = context.QuizQuestion.Where(question => question.QuizId == id).ToList();
-            context.QuizQuestion.RemoveRange(quizQuestions);
+            //identify all Players for a game
+            int[] playerIds = context.PlayerGame.Where(pg=> gameIds.Contains(pg.GameId)).Select(pg=>pg.PlayerId).ToArray();
 
-            context.Quiz.Remove(quizMatchingIdAndPlayerId[0]);
+            //remove all playergames connections
+            context.PlayerGame.RemoveRange(context.PlayerGame.Where(pg => gameIds.Contains(pg.GameId)));
+
+            //remove all players
+            context.Player.RemoveRange(context.Player.Where(p => playerIds.Contains(p.Id)));
+
+            //remove all games
+            context.Game.RemoveRange(context.Game.Where(g => gameIds.Contains(g.Id)));
+
+            //##########
+
+            //identify questions
+            int[] questions = context.QuizQuestion.Where(qq => qq.QuizId == id).Select(q=> q.QuestionId).ToArray();
+
+            //delete questions
+            context.Question.RemoveRange(context.Question.Where(q => questions.Contains(q.Id)));
+
+            //remove answers
+            context.Answer.RemoveRange(context.Answer.Where(a => questions.Contains(a.QuestionId.Value)));
+
+            //remove quizQuestions
+            context.QuizQuestion.RemoveRange(context.QuizQuestion.Where(qq => qq.QuizId == id));
+
+            //remove actual quiz
+            context.Quiz.Remove(new Quiz { Id = id });
+
             context.SaveChanges();
-
-            return quizMatchingIdAndPlayerId.FirstOrDefault();
+            return context.Quiz.Where(dbQuiz => dbQuiz.Id == id && dbQuiz.UserId == userId).FirstOrDefault();
         }
 
         public Quiz GetQuizById(int id) {
