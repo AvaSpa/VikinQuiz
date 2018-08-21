@@ -54,5 +54,12 @@ namespace VikingQuiz.Api.Repositories
             var playersOfGame = context.PlayerGame.Where(playergame => playergame.GameId == gameid).ToList();
             return playersOfGame;
         }
+
+        public List<PlayerGame> GetRankingByGameId(int gameId)
+        {
+            List<PlayerGame> playersInGame = this.GetPlayerGameByGameId(gameId);
+
+            return playersInGame.OrderByDescending(player => player.Score).ThenBy(player => player.AverageTime).ToList();
+        }
     }
 }
