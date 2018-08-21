@@ -34,7 +34,7 @@ class QuizItem extends React.Component<any, any>{
 
      public render(){
          return(
-            <div className="quiz-item-container">
+            <div className={"quiz-item-container" + (this.state.isSelected ? " selected-for-deletion" : "")}>
                 <div className="quiz-photo-container" > 
                     <img className="quiz-photo" src={this.props.photo} />
                     <ManageQuizComponent deleteSelection={this.handleDeleteSelection} id={this.state.id} handleChildDelete={this.state.handleChildDelete}
