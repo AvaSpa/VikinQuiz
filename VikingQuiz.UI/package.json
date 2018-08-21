@@ -7,7 +7,6 @@
     "@types/material__snackbar": "^0.35.0",
     "@types/randomstring": "^1.1.6",
     "@types/react-bootstrap": "^0.32.11",
-    "@types/react-facebook-login": "^3.6.4",
     "@types/react-router-dom": "^4.3.0",
     "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
@@ -37,7 +36,7 @@
     "@types/node": "^10.5.2",
     "@types/react": "^16.4.6",
     "@types/react-dom": "^16.0.6",
-    "@types/react-facebook-login": "^3.6.4",
+    "@types/react-facebook-login": "^3.6.5",
     "typescript": "^2.9.2"
   }
 }

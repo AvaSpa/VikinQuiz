@@ -76,5 +76,12 @@ namespace VikingQuiz.Api.Controllers
             playergameRepository.Delete(playerid, gameid);
             return Ok();
         }
+
+        [HttpGet("{gameId}")]
+        public IActionResult ShowRankings(int gameId)
+        {
+            var result = playergameRepository.GetRankingByGameId(gameId);
+            return Ok(result);
+        }
     }
 }
