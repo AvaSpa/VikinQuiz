@@ -1,0 +1,18 @@
+.show-header {
+  margin: 15px 60px;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; }
+  .show-header .show-quiz .profile-picture {
+    transform: scale(0.8); }
+  .show-header .show-quiz .my-profile-name {
+    margin-left: 5px; }
+  .show-header .show-timer {
+    display: flex;
+    align-items: center; }
+    .show-header .show-timer .time-counter {
+      margin-right: 5px;
+      font-size: 50px; }
+    .show-header .show-timer #clock {
+      transform: scale(0.7); }

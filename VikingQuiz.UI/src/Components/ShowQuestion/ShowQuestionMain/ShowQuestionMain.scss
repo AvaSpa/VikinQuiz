@@ -1,0 +1,19 @@
+.show-main{
+    margin: 50px auto;
+    width: 80%;
+
+    .question-text{
+        font-size: 60px;
+        margin-bottom: 20px;
+
+        .number{
+
+        }
+    }
+
+    .answers{
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 50px
+    }
+}

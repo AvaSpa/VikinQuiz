@@ -11,7 +11,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
         return (
             <div className='show-question'>
                 <header className='header'>
-                    <ShowQuestionHeader />
+                    <ShowQuestionHeader timer={20} />
                 </header>
                 <main className='main'>
                     <ShowQuestionMain />

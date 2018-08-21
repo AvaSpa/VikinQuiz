@@ -1,0 +1,36 @@
+.show-header{
+    margin: 15px 60px;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .show-quiz{
+        .profile-picture{
+            transform: scale(0.8)
+        }
+        .my-profile-name{
+            margin-left: 5px;
+        }
+    }
+
+    .show-timer{
+        display: flex;
+        align-items: center;
+
+        .time-counter{
+            margin-right: 5px;
+            font-size: 50px;
+        }
+
+        #clock{
+            transform: scale(0.7);
+            img{
+                
+            }
+
+            span.clock-hand{
+            }
+        }
+    }
+}

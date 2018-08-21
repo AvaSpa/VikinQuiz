@@ -1,5 +1,5 @@
 import * as React from 'react'
-import timeicon from 'src/media/timeicon.png'
+import timeicon from 'src/media/timeicon.png';
 import './TimerComponent.css'
 
 interface ITimerProps {

@@ -1,0 +1,10 @@
+.show-main {
+  margin: 50px auto;
+  width: 80%; }
+  .show-main .question-text {
+    font-size: 60px;
+    margin-bottom: 20px; }
+  .show-main .answers {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 50px; }

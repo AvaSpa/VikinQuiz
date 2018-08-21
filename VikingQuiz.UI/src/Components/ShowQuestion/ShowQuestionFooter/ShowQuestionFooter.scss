@@ -1,5 +1,8 @@
 .show-footer{
-    height: 15%;
+    left: 50%;
+    position: fixed;
+    transform: translateX(-50%);
+    bottom: 80px;
 
     #footer.bigger-than-window{
         text-align: center;
