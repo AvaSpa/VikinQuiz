@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from "react-router-dom";
 import './LoginFormComponent.css';
 import IInputData from 'src/entities/IInputData';
 import FormComponent from '../FormComponent/FormComponent';
@@ -15,7 +16,7 @@ class LoginFormComponent extends FormComponent {
       <div className="form-body container-fluid login-form-container">
         {this.state.inputs.map((input: IInputData) => this.renderInput(input))}
         <div className="forget-remember col-xs-12">
-          <a href="/forgot" className="forget-pass">forgot password</a>
+          <Link to="/forgot" className="forget-pass">forgot password</Link>
         <div className="custom-control custom-checkbox-login">
             <Checkbox
                 labelText="REMEMBER ME"
