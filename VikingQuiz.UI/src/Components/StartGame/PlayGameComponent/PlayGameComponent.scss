@@ -9,16 +9,13 @@
         background-size: 100%;
         margin-top: 20px;
         left: 50%;
-        transform: translateX(-48%);
+        transform: translateX(-46%);
         bottom: 60px;
         display: block;
         transition: all 0.2s linear;
     }
     .join-button:hover {
-        transform: translateY(3px);
-    }
-    .join-button:active {
-        transform: translateY(5px);
+        cursor: pointer
     }
     #upload {
         text-align: center;

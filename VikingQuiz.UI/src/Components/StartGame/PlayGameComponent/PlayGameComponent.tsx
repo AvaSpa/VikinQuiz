@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './PlayGameComponent.css';
-import ImageValidator from '../../../entities/Validation/ImageValidator';
 import IInputData from 'src/entities/IInputData';
+import ImageValidator from 'src/entities/Validation/imageValidator';
 import FormInput from '../../FormComponent/FormInput/FormInput';
 import UploadComponent from '../../UploadComponent/UploadComponent';
 import PreviewImageComponent from '../../PreviewImageComponent/PreviewImageComponent';
@@ -46,10 +46,6 @@ class PlayGameComponent extends React.Component<any, any> {
         const formData: any = this.getFormData();
         const validity = this.getValidityState(false);
 
-        if (this.getValidityState(true)) {
-            this.props.onSubmit(url, formData);
-        }
-
         if(!this.imageValidator.isImageValid(this.state.selectedFile)){
             this.setState({
                 imageError: this.imageValidator.getErrorMessage()
@@ -57,12 +53,18 @@ class PlayGameComponent extends React.Component<any, any> {
             this.addInvalidClassToUpload();
             return;
         }
+        
+        if (this.getValidityState(true)){
+            this.props.onSubmit(url, formData);
+        }
 
         if (validity !== this.state.isValid) {
             this.setState({
                 isValid: validity
             });
         }
+
+        
     }
 
     public getItemById(id: string, inputs: any) {
