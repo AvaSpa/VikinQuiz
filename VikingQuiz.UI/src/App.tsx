@@ -14,6 +14,7 @@ import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPa
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
 import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent';
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
+import ShowQuestionComponent from './Components/ShowQuestion/ShowQuestionComponent';
 import SignalRComponent from './Components/SignalR';
 
 class App extends React.Component<{}, {}> {
@@ -41,6 +42,7 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/forgot/:token" component={ResetPasswordComponent} />
             {/* <Route exact={true} path="/playquiz" component={PlayQuiz} /> */}
             <Route exact={true} path="/snackbar" component={SnackbarComponent} />
+            <Route exact={true} path="/show-question" component={ShowQuestionComponent} />
             <Route exact={true} path="/signalr" component={SignalRComponent} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>
