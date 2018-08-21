@@ -1,37 +1,76 @@
 import * as React from 'react';
 import './StartGame.css';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
-import axios from '../../../node_modules/axios';
 import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 import CancelButton from '../Buttons/CancelButton/CancelButton';
 import StartButton from '../Buttons/StartButton/StartButton';
+import axios from '../../../node_modules/axios';
+import GameDto from '../../entities/GameDto';
+import HttpService from '../../services/HttpService';
 
 class StartGame extends React.Component<any, any> {
+    private httpService: any = new HttpService();
+    
     constructor(props: any) {
       super(props);
 
         this.state = {
             serverMessage: '',
             redirect: false,
+            gameId: null,
             player: [],
             baseUrl : "http:///localhost:60151/api/",
-            endPoint: "player",
-            playersPerLine: 7
+            playerGameEndPoint: "playergame/current/",
+            gameEndPoint: "game",
+            playersPerLine: 7,
+            code: null
         }
     }
 
     public componentWillMount() {
-        axios.get(this.state.baseUrl+this.state.endPoint)
-        .then(response => {
-            console.log(response.data)
-            this.setState({player: response.data})
+        this.createGame();
+        this.getPlayersOfGame();
+        this.getGameCode();
+    }
+
+    public gameDataHandler = (url: string) => {
+        if(!url){
+            return;
+        }
+
+        const component: any = this;
+
+        const quizId = this.props.location.state.id;
+        const date = this.getDate();
+
+        const body: GameDto = new GameDto(quizId, date, "");
+
+        this.httpService.post(url, body)
+        .then((res: any) => {
+            component.setState({
+                redirect: true,
+                gameId: res.data.id
+            });
         })
-        .catch(err => console.log(err))
+        .catch((error: any) => {
+            if(!error){
+                component.setState({
+                    serverMessage: "Couldn't create game"
+                });
+                return;
+            };
+            component.setState({
+                serverMessage: error.response.data
+            });
+            setTimeout(()=>component.setState({
+                serverMessage: ''
+            }), 5000);  
+        });
     }
 
     public render() {
         const displayedMessage = "YOUR CODE";
-        const displayedCode = "code";
+        const displayedCode = this.state.code;
         return (
             <div className="startgame-container container">
                 <div className="startgame-center-container">
@@ -63,7 +102,36 @@ class StartGame extends React.Component<any, any> {
                 <CancelButton/>
             </div>
         ); 
-      }
+    }
+
+    private getDate(){
+        const currentDate = new Date();
+        const date = currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay();
+        return date;
+    }
+
+    private createGame(){
+        this.gameDataHandler(this.state.baseUrl + this.state.gameEndPoint);
+    }
+
+    private getPlayersOfGame(){
+        axios.get(this.state.baseUrl+this.state.playerGameEndPoint+this.state.gameId)
+        .then(response => {
+            console.log(response.data)
+            this.setState({player: response.data})
+        })
+        .catch(err => console.log(err));
+    }
+
+    private getGameCode(){
+        axios.get(this.state.baseUrl+this.state.gameEndPoint+"/current/"+this.state.gameId)
+        .then(response => {
+            console.log(response.data)
+            this.setState({code: response.data})
+        })
+        .catch(err => console.log(err));
+    }
+
 }
 
 export default StartGame;

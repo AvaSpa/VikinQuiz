@@ -91,6 +91,14 @@ namespace VikingQuiz.Api.Controllers
             return Ok();
         }
 
+        [HttpGet("{gameId}")]
+        [Route("current")]
+        public IActionResult getGameCode(int gameId)
+        {
+            Game foundGame = gameRepository.GetGameById(gameId);
+            var gameCode = foundGame.Code;
+            return Ok(gameCode);
+        }
     }
 }
 
