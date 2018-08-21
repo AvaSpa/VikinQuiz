@@ -5,11 +5,7 @@ import ShowQuestionHeader from './ShowQuestionHeader/ShowQuestionHeader';
 import ShowQuestionMain from './ShowQuestionMain/ShowQuestionMain';
 
 
-class ShowQuestionComponent extends React.Component{
-
-    public state = {
-
-    }
+class ShowQuestionComponent extends React.Component<any, any>{
 
     public render(){
         return (
@@ -23,7 +19,6 @@ class ShowQuestionComponent extends React.Component{
                 <footer className='footer'>
                     <ShowQuestionFooter />
                 </footer>
-
             </div>
         )
     }

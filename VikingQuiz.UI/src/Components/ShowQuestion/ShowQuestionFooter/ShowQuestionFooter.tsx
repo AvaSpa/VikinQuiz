@@ -1,8 +1,13 @@
 import * as React from 'react';
 import './ShowQuestionFooter.css'
+import Footer from 'src/Components/Footer/Footer';
 
-class ShowQuestionFooter extends React.Component{
-
+const showQuestionFooter = (props: any) => {
+    return (
+        <div className='show-footer'>
+            <Footer />
+        </div>
+    )
 }
 
-export default ShowQuestionFooter;
+export default showQuestionFooter;
