@@ -6,7 +6,7 @@ import SocialButtonsWrapper from "../socialButtons/socialButtonsWrapper";
 import LoginFormComponent from "../LoginFormComponent/LoginFormComponent";
 import { Redirect } from "react-router-dom";
 import { loginRules } from "../../entities/Validation/rules";
-
+import {apiUrl} from 'src/constants';
 import { loginValidator } from "../../entities/Validation/validators";
 import HttpService from "../../services/HttpService";
 import StorageService from "../../services/StorageService";
@@ -34,7 +34,7 @@ class LoginPage extends React.Component<any, any> {
   private httpService: any = new HttpService();
   private storageService: StorageService = new StorageService();
 
-  private readonly apiAddress: string = "http://localhost:60151/api";
+  private readonly apiAddress: string = apiUrl;
   private readonly apiSessionAddress: string = "/session";
   private readonly apiGoogleAddress: string = "/google";
   private readonly apiFacebookAddress: string = "/facebook";

@@ -3,11 +3,12 @@ import './ManageQuizComponent.css';
 import { Redirect} from 'react-router-dom';
 import YesNoComponent from '../../YesNoComponent/YesNoComponent';
 import HttpService from '../../../services/HttpService';
+import {apiUrl} from 'src/constants';
 
 class ManageQuizComponent extends React.Component<any, any> { 
     
     private httpService: HttpService = new HttpService();
-    private readonly apiAddress : string = 'http://localhost:60151/api/quizzes/'
+    private readonly apiAddress : string = apiUrl + 'api/quizzes/';
     
     constructor(props: any) {
       super(props);

@@ -5,7 +5,7 @@ import QuestionsComponent from '../QuestionsComponent/QuestionsComponent';
 import LogOutButton from 'src/Components/Buttons/LogOutButton/LogOutButton';
 import HttpService from '../../services/HttpService';
 import ProfileAndHomeComponent from 'src/Components/ProfileAndHomeComponent/ProfileAndHomeComponent';
-
+import {apiUrl} from 'src/constants';
 
 interface IState {
     id: number,
@@ -18,7 +18,7 @@ interface IState {
 
 class QuizComponent extends React.Component<any, IState> {
 
-   public readonly apiAddressForUsers = 'http://localhost:60151/api/users/current';
+    public readonly apiAddressForUsers = apiUrl + 'api/users/current';
 
    public httpService = new HttpService();
 

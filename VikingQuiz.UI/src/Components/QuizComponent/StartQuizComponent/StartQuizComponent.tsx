@@ -9,6 +9,7 @@ import ISnackbarData from '../../../entities/SnackBarData';
 import {errorSnackbar, successSnackbar} from '../../../commons/commons';
 import UploadComponent from '../../UploadComponent/UploadComponent';
 import PreviewImageComponent from '../../PreviewImageComponent/PreviewImageComponent';
+import {apiUrl} from 'src/constants';
 
 interface IState {
     title: string,
@@ -28,7 +29,7 @@ interface IProps{
     save: any
 }
 
-const quizzesUrl: string = 'http://localhost:60151/api/quizzes';
+const quizzesUrl: string = apiUrl + 'api/quizzes';
 const initialTitle: string = 'add quiz title';
 
 class StartQuizComponent extends React.Component<IProps, IState>{

@@ -10,6 +10,7 @@ import {signUpRules} from '../../entities/Validation/rules';
 import {signUpValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
 import StorageService from 'src/services/StorageService';
+import {apiUrl} from 'src/constants';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -119,8 +120,8 @@ class SignUpPage extends React.Component<{}, any> {
                         <div className="socials">
                            <SocialButtonsWrapper
                               postURLs={{
-                                facebook: 'http://localhost:60151/api/facebook',
-                                google: 'http://localhost:60151/api/google'
+                                facebook: apiUrl + 'api/facebook',
+                                google: apiUrl + 'api/google'
                               }}
                               clientIds={{
                                  facebook: "1691716487610141",

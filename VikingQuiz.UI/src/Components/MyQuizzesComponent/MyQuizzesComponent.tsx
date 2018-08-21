@@ -4,11 +4,12 @@ import QuizItem from '../QuizItem/QuizItem';
 import NewQuizButton from '../Buttons/NewQuizButton/NewQuizButton';
 import ProfileAndHomeComponent from '../ProfileAndHomeComponent/ProfileAndHomeComponent';
 import HttpService from '../../services/HttpService';
+import {apiUrl} from 'src/constants';
 
 class MyQuizzesComponent extends React.Component<any, any> {
     
-    private readonly apiAddressForQuizzes = 'http:///localhost:60151/api/quizzes/';
-    private readonly apiAddressForUsers = 'http://localhost:60151/api/users/current';
+    private readonly apiAddressForQuizzes = apiUrl + 'api/quizzes/';
+    private readonly apiAddressForUsers = apiUrl + 'api/users/current';
     private httpService: HttpService = new HttpService();
     
     constructor(props: any) {
