@@ -25,6 +25,15 @@ namespace VikingQuiz.Api.Models
         public virtual DbSet<QuizQuestion> QuizQuestion { get; set; }
         public virtual DbSet<User> User { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;");
+            }
+        }
+
         public override int SaveChanges()
         {
             var entities = from e in ChangeTracker.Entries()
@@ -63,6 +72,10 @@ namespace VikingQuiz.Api.Models
 
             modelBuilder.Entity<Game>(entity =>
             {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .IsUnicode(false);
+
                 entity.Property(e => e.GameDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Quiz)
@@ -85,17 +98,17 @@ namespace VikingQuiz.Api.Models
             {
                 entity.HasKey(e => new { e.PlayerId, e.GameId });
 
-                entity.HasOne(d => d.G)
+                entity.HasOne(d => d.Game)
                     .WithMany(p => p.PlayerGame)
                     .HasForeignKey(d => d.GameId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlayerGame__Gid__34C8D9D1");
+                    .HasConstraintName("FK__PlayerGam__GameI__34C8D9D1");
 
-                entity.HasOne(d => d.P)
+                entity.HasOne(d => d.Player)
                     .WithMany(p => p.PlayerGame)
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PlayerGame__Pid__33D4B598");
+                    .HasConstraintName("FK__PlayerGam__Playe__33D4B598");
             });
 
             modelBuilder.Entity<Question>(entity =>
@@ -146,7 +159,7 @@ namespace VikingQuiz.Api.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__User__A9D10534AB60BBF2")
+                    .HasName("UQ__User__A9D10534D776FFCA")
                     .IsUnique();
 
                 entity.Property(e => e.Email).HasMaxLength(100);
@@ -157,7 +170,9 @@ namespace VikingQuiz.Api.Models
 
                 entity.Property(e => e.PictureUrl).HasColumnName("PictureURL");
 
-                entity.Property(e => e.Token).HasMaxLength(100);
+                entity.Property(e => e.Token)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Username).HasMaxLength(100);
             });

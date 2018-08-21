@@ -62,14 +62,6 @@ namespace VikingQuiz.Api.Repositories
             return foundPlayer;
         }
 
-
-        public Game FindGameByCode(string code)
-        {
-            Game foundGame = context.Game.Where(x => x.Code == code).FirstOrDefault();
-
-            return foundGame;
-        }
-
         public PlayerGame CreatePlayerGame(Player player, Game game)
         {
             PlayerGame playergame = new PlayerGame
@@ -80,6 +72,12 @@ namespace VikingQuiz.Api.Repositories
             return playergame;
         }
 
+        public Game FindGameByCode(string code)
+        {
+            Game foundGame = context.Game.Where(x => x.Code == code).FirstOrDefault();
+
+            return foundGame;
+        }
 
     }
 }

@@ -70,9 +70,9 @@ INSERT INTO Player(PictureURL, Name) VALUES ('url1', 'batman'),
 ('url6', 'joker'),
 ('url7', 'thor'), ('url8', 'spiderman'), ('url9', 'loki'), ('url10', 'groot')
 
-INSERT INTO Game(QuizId, GameDate, Code) VALUES (1, '2018-07-07', 'AAAAAA'), (2, '2018-07-10', '123456'), (3, '2018-07-11', 'qwerty')
+INSERT INTO Game(QuizId, GameDate, Code) VALUES (1, '2018-07-07', 'AAAAAA'), (2, '2018-07-10', '123456'), (3, '2018-07-11', 'ABCDEF')
 
-INSERT INTO PlayerGame(Pid, Gid, Score) VALUES (1,1,5), (1,2,7), (2,1,3), (3,1,0), (4,1,10)
+INSERT INTO PlayerGame(PlayerId, GameId, Score, AverageTime) VALUES (1,1,5,3), (1,2,5,2), (2,1,3,4), (3,1,3,1), (4,1,10,5)
 
 SELECT * FROM Quiz;
 SELECT * FROM [User];

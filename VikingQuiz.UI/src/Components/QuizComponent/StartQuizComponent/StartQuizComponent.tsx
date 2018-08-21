@@ -7,6 +7,7 @@ import HttpService from '../../../services/HttpService';
 import SnackbarComponent from '../../SnackbarComponent/SnackbarComponent';
 import ISnackbarData from '../../../entities/SnackBarData';
 import {errorSnackbar, successSnackbar} from '../../../commons/commons';
+import { apiUrl } from '../../../constants';
 
 interface IState {
     title: string,
@@ -25,7 +26,7 @@ interface IProps{
     save: any
 }
 
-const quizzesUrl: string = 'http://localhost:60151/api/quizzes';
+const quizzesUrl: string = apiUrl + 'api/quizzes';
 const initialTitle: string = 'add quiz title';
 
 class StartQuizComponent extends React.Component<IProps, IState>{

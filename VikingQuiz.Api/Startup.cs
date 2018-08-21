@@ -19,6 +19,8 @@ namespace VikingQuiz.Api
 {
     public class Startup
     {
+        private static string sqlConnection;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -53,8 +55,7 @@ namespace VikingQuiz.Api
 
             services.AddMvc();
 
-            var connection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<VikinQuizContext>(options => options.UseSqlServer(sqlConnection));
 
             services.AddScoped<AnswerRepository, AnswerRepository>();
             services.AddScoped<GameRepository, GameRepository>();
@@ -87,6 +88,15 @@ namespace VikingQuiz.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                sqlConnection =  @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
+
+            }
+
+            if (env.IsProduction())
+            {
+                sqlConnection =
+                    @"Server=tcp:intershipwirtek.database.windows.net,1433;Initial Catalog=VikinQuiz;Persist Security Info=False;User ID=intershipwirtek;Password=QAZwsx123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
             }
             app.UseCors("CorsPolicy");
 

@@ -38,7 +38,7 @@ CREATE TABLE Game(
 	Id INT Primary Key IDENTITY,
 	QuizId INT REFERENCES Quiz(Id),
 	GameDate Date NOT NULL,
-	Code CHAR(6)
+	Code varchar(max) NOT NULL
 );
 
 CREATE TABLE Player(
@@ -48,10 +48,11 @@ CREATE TABLE Player(
 );
 
 CREATE TABLE PlayerGame(
-	Pid int REFERENCES Player(Id),
-	Gid int REFERENCES Game(Id),
-	Score int NOT NULL,
-	PRIMARY KEY (Pid, Gid)
+	PlayerId int REFERENCES Player(Id),
+	GameId int REFERENCES Game(Id),
+	Score int,
+	AverageTime int,
+	PRIMARY KEY (PlayerId, GameId)
 );
 
 CREATE TABLE Answer(

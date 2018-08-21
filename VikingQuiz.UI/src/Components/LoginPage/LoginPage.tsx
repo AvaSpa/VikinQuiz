@@ -15,6 +15,7 @@ import "./LoginPage.css";
 
 // import InputData from "../../entities/InputData";
 import { setTimeout } from "timers";
+import { apiUrl } from "../../constants";
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -26,18 +27,18 @@ function responseSuccesfulHandler(res: any): void { console.log("Response succes
 function responseFailureHandler(): void { console.dir("Response failed"); }
 
 interface ILoginCredentials {
-  email: string;
-  password: string;
+  Email: string;
+  Password: string;
 }
 
 class LoginPage extends React.Component<any, any> {
   private httpService: any = new HttpService();
   private storageService: StorageService = new StorageService();
 
-  private readonly apiAddress: string = "http://localhost:60151/api";
-  private readonly apiSessionAddress: string = "/session";
-  private readonly apiGoogleAddress: string = "/google";
-  private readonly apiFacebookAddress: string = "/facebook";
+  private readonly apiAddress: string = apiUrl;
+  private readonly apiSessionAddress: string = "api/session";
+  private readonly apiGoogleAddress: string = "api/google";
+  private readonly apiFacebookAddress: string = "api/facebook";
     private readonly googleAppId: string = "1691716487610141";
     private readonly facebookAppId: string = "973616639194-in3pvi0r75qp73f0d92m034r0nq71iqm.apps.googleusercontent.com";
 
@@ -81,12 +82,12 @@ class LoginPage extends React.Component<any, any> {
     }
 
     const body: ILoginCredentials = {
-      email: formData.Email,
-      password: formData.Password
+      Email: formData.Email,
+      Password: formData.Password
     };
 
-    this.httpService
-      .post(this.apiAddress + this.apiSessionAddress, body)
+    console.log(body);
+    this.httpService.post(this.apiAddress + this.apiSessionAddress, body)
       .then((result: any) => this.onLogInSuccess(result))
       .catch((error: any) => this.onLogInError(error));
   };

@@ -11,6 +11,8 @@ import {signUpValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
 import StorageService from 'src/services/StorageService';
 
+import { apiUrl } from '../../constants';
+
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
 
@@ -51,7 +53,7 @@ class SignUpPage extends React.Component<{}, any> {
 
     this.httpService.post(url, body)
     .then((res: any) => {
-        const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
+        const emailUrl: string  = apiUrl + "api/email/" + res.data.id; 
         this.httpService.get(emailUrl);
         comp.setState({
             redirect: true
@@ -110,7 +112,7 @@ class SignUpPage extends React.Component<{}, any> {
                      <div className="form-container">
                         {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
                         <FormComponent className="signup-form" inputs={signupFormBody}
-                           url="http://localhost:60151/api/users"
+                           url={apiUrl + "api/users"}
                            buttonName=""
                            onSubmit={this.userDataHandler}
                            validator={signUpValidator}
@@ -119,8 +121,8 @@ class SignUpPage extends React.Component<{}, any> {
                         <div className="socials">
                            <SocialButtonsWrapper
                               postURLs={{
-                                facebook: 'http://localhost:60151/api/facebook',
-                                google: 'http://localhost:60151/api/google'
+                                facebook: apiUrl + 'api/facebook',
+                                google: apiUrl + 'api/google'
                               }}
                               clientIds={{
                                  facebook: "1691716487610141",
