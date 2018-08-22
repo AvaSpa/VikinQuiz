@@ -1,0 +1,15 @@
+.answer-component {
+  width: 50%;
+  text-align: left;
+  padding: 20px;
+  padding-left: 10%;
+  display: flex;
+  align-items: center; }
+  .answer-component .answer-picture {
+    border-radius: 50%;
+    width: 130px;
+    height: 130px; }
+  .answer-component .answer-text {
+    margin-left: 25px;
+    font-size: 50px;
+    font-weight: 300; }

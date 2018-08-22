@@ -50,6 +50,13 @@
     bottom: 0.1em; }
   .start-quiz .hidden {
     display: none; }
+  .start-quiz #preview-image,
+  .start-quiz .circle-btn,
+  .start-quiz .submit-button {
+    width: 60px;
+    height: 60px;
+    box-sizing: border-box;
+    flex-shrink: 0; }
   .start-quiz .success-button {
     text-align: right;
     justify-content: flex-end; }
