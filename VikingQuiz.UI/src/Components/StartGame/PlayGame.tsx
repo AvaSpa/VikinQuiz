@@ -12,6 +12,8 @@ import { errorSnackbar } from '../../commons/commons';
 
 class PlayGame extends React.Component<any, any> {
     private httpService: any = new HttpService();
+    private readonly baseUrl = "http://localhost:60151/api";
+    private readonly endPoint = "/player";
 
     constructor(props: any) {
       super(props);
@@ -63,9 +65,6 @@ class PlayGame extends React.Component<any, any> {
     }
 
     public render() {
-        const baseUrl = "http://localhost:60151/api";
-        const endPoint = "/player";
-
         if (this.state.redirect) {
             return (
                 <Redirect to={{ pathname: '/connect', state: { id: this.state.playerId } }} />
@@ -83,7 +82,7 @@ class PlayGame extends React.Component<any, any> {
                     <PlayGameComponent inputs={[
                             { id: "code", type: "text", label: "Enter your code/pin", errorMessage: "", name: "GameCode", value: "" }, 
                             { id: "name", type: "text", label: "Your Name", errorMessage: "", name: "PlayerName", value: "" }]} 
-                        url={baseUrl + endPoint} 
+                        url={this.baseUrl + this.endPoint} 
                         buttonName="" 
                         onSubmit={this.playerDataHandler} 
                         validator={connectValidator} 

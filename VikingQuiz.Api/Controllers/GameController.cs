@@ -96,6 +96,10 @@ namespace VikingQuiz.Api.Controllers
         public IActionResult getGameCode(int gameId)
         {
             Game foundGame = gameRepository.GetGameById(gameId);
+            if(foundGame == null)
+            {
+                return BadRequest("Game couldn't be found");
+            }
             var gameCode = foundGame.Code;
             return Ok(gameCode);
         }
