@@ -16,12 +16,11 @@ class StartGame extends React.Component<any, any> {
 
         this.state = {
             serverMessage: '',
-            redirect: false,
             gameId: null,
             player: [],
-            baseUrl : "http:///localhost:60151/api/",
-            playerGameEndPoint: "playergame/current/",
-            gameEndPoint: "game",
+            baseUrl : "http://localhost:60151/api",
+            playerGameEndPoint: "/playergame/current/",
+            gameEndPoint: "/game",
             playersPerLine: 7,
             code: null
         }
@@ -29,8 +28,6 @@ class StartGame extends React.Component<any, any> {
 
     public componentWillMount() {
         this.createGame();
-        this.getPlayersOfGame();
-        this.getGameCode();
     }
 
     public gameDataHandler = (url: string) => {
@@ -48,9 +45,10 @@ class StartGame extends React.Component<any, any> {
         this.httpService.post(url, body)
         .then((res: any) => {
             component.setState({
-                redirect: true,
-                gameId: res.data.id
-            });
+                gameId: res.data.id,
+                code: res.data.code
+            });  
+            this.getPlayersOfGame();      
         })
         .catch((error: any) => {
             if(!error){
@@ -122,16 +120,6 @@ class StartGame extends React.Component<any, any> {
         })
         .catch(err => console.log(err));
     }
-
-    private getGameCode(){
-        axios.get(this.state.baseUrl+this.state.gameEndPoint+"/current/"+this.state.gameId)
-        .then(response => {
-            console.log(response.data)
-            this.setState({code: response.data})
-        })
-        .catch(err => console.log(err));
-    }
-
 }
 
 export default StartGame;

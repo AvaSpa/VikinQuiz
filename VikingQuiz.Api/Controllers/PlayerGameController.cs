@@ -84,8 +84,7 @@ namespace VikingQuiz.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{gameId}")]
-        [Route("current")]
+        [HttpGet("current/{gameId}")]
         public IActionResult GetPlayersByGameId(int gameId)
         {
             var result = playergameRepository.GetPlayerGameByGameId(gameId);
