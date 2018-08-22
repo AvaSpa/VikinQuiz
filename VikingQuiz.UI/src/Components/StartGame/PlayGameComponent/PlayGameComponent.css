@@ -28,7 +28,7 @@
     display: block; }
   .play-game-form #upload .upload-component {
     text-align: center; }
-    .play-game-form #upload .upload-component .upload-btn {
+    .play-game-form #upload .upload-component .upload-button {
       margin: auto; }
   .play-game-form #upload .error-message {
     text-align: center;
@@ -37,7 +37,7 @@
     font-size: 18px;
     padding-left: 7px;
     width: 100%; }
-  .play-game-form #upload .error-border .upload-btn {
+  .play-game-form #upload .error-border .upload-button {
     box-shadow: 0 0 4px 2px #fa1919; }
 
 @media screen and (max-height: 600px) {

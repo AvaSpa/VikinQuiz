@@ -17,7 +17,7 @@
         margin-bottom: 1.2em;
     }
 
-    .circle-btn,
+    .circle-button,
     .submit-button {
           width: 60px;
           height: 60px;
@@ -46,7 +46,7 @@
         margin-left: 10px;
     }
     .error-border {
-        .upload-btn,
+        .upload-button,
         #quiz-title,
         #quiz-title:focus {
             box-shadow: 0 0 4px 2px #fa1919;
@@ -67,7 +67,7 @@
         display: none;
     }
     
-    .success-btn {
+    .success-button {
         text-align: right;
         justify-content: flex-end;
     }
@@ -79,7 +79,7 @@
             display: none;
         }
     }
-    .success-btn, #upload, .form-input-container {
+    .success-button, #upload, .form-input-container {
         display: flex;
         align-items: center;
         flex-wrap: wrap;

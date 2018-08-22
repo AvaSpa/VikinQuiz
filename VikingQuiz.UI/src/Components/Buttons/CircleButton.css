@@ -1,4 +1,4 @@
-.circle-btn{
+.circle-button{
     border-radius: 50%;
     border: none;
     width:70px;
@@ -7,15 +7,15 @@
     transition: all 0.2s linear;
 }
 
-.circle-btn:hover {
+.circle-button:hover {
     transform: translateY(3px);
 }
-.circle-btn:active {
+.circle-button:active {
     transform: translateY(5px);
 }
 
 @media screen and (max-height: 800px){
-    .circle-btn{
+    .circle-button{
         width:50px;
         height:50px;
     }
