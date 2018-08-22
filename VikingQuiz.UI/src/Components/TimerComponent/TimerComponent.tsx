@@ -1,5 +1,5 @@
 import * as React from 'react'
-import timeicon from 'src/media/timeicon.png';
+import timeicon from 'src/media/time-icon.png';
 import './TimerComponent.css'
 
 interface ITimerProps {
@@ -10,7 +10,7 @@ const TimerComponent = (props: ITimerProps) => {
     return (
         <div id="clock">
             <img src={timeicon} alt="timer" />
-            <span className="clock-hand" style={{ animation: `rotate ${props.seconds}s 1 linear` }} />
+            {/* <span className="clock-hand" /> */}
         </div>
     );
 }

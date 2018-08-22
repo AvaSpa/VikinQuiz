@@ -23,34 +23,29 @@ class ShowQuestionHeader extends React.Component<IProps, any>{
     }
 
     public componentDidMount(){
-        this.interval = setInterval(()=>{
-            let timerCopy: number = this.state.timer;
-            if(timerCopy === 6){
-                this.changeColorOfTimer();
-            }
-            else if(timerCopy === 1){
-                clearInterval(this.interval);
-                this.timeExpired();
-            }
-            timerCopy = timerCopy - 1;
-            this.setState({
-                timer: timerCopy
-            });
-        }, 1000)
+        this.startTimer();
     }
 
     public componentDidUpdate(prevProps: any){
-        if(this.props.timer !== prevProps.timer) 
+        if(this.props.timer !== prevProps.timer)
         {
+            this.removeColorFromTimer();
+            
             if(this.props.timer === -1){
                 clearInterval(this.interval);
-                this.changeColorOfTimer();
+                this.addColorToTimer();
+            }else{
+                this.setState({
+                    timer: this.props.timer
+                })
+                this.startTimer();
             }
+            
         }
     }
 
     public timeExpired = () => {
-        this.changeColorOfTimer();
+        this.addColorToTimer();
         this.props.timeout();
     }
 
@@ -88,9 +83,31 @@ class ShowQuestionHeader extends React.Component<IProps, any>{
         return secondsValue;
     }
 
-    private changeColorOfTimer = () =>{
+    private addColorToTimer = () =>{
         const element: any = document.querySelector('.time-counter');
-        element.className += ' red';
+        element.classList.add('red');
+    }
+
+    private removeColorFromTimer = () =>{
+        const element: any = document.querySelector('.time-counter');
+        element.classList.remove('red');
+    }
+
+    private startTimer = () => {
+        this.interval = setInterval(()=>{
+            let timerCopy: number = this.state.timer;
+            if(timerCopy === 6){
+                this.addColorToTimer();
+            }
+            else if(timerCopy === 1){
+                clearInterval(this.interval);
+                this.timeExpired();
+            }
+            timerCopy = timerCopy - 1;
+            this.setState({
+                timer: timerCopy
+            });
+        }, 1000)
     }
 }
 

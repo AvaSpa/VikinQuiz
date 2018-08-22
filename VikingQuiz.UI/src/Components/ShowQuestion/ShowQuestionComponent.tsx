@@ -3,11 +3,13 @@ import './ShowQuestionComponent.css';
 import ShowQuestionFooter from './ShowQuestionFooter/ShowQuestionFooter';
 import ShowQuestionHeader from './ShowQuestionHeader/ShowQuestionHeader';
 import ShowQuestionMain from './ShowQuestionMain/ShowQuestionMain';
+// import * as SignalR from '@aspnet/signalr'
 
 const QUIZ_URL: string = 'https://vignette.wikia.nocookie.net/the-darkest-minds/images/4/47/Placeholder.png/revision/latest?cb=20160927044640';
 const QUIZ_NAME: string = 'Quiz Title';
 class ShowQuestionComponent extends React.Component<any, any>{
 
+    
     public state = {
         timer: 20,
         showCorrectAnswer: false,
@@ -17,7 +19,17 @@ class ShowQuestionComponent extends React.Component<any, any>{
         }
     }
 
+    // private hubConnection: SignalR.HubConnection = new SignalR.HubConnectionBuilder().withUrl('http://localhost:60151/hello').build();
+    
+
     public componentWillMount(){
+
+        // this.hubConnection.on('GetCurrentQestion', this.foo);
+
+        // this.hubConnection.start()
+        // .then(()=>console.log('SignalR connected successfully'))
+        // .catch(()=>console.log('SignalR failed to connect'));
+        // this.hubConnection.invoke('GetCurrentQuestion').then();
         setTimeout(() => {
             this.setState({
                 timer: -1,
@@ -26,12 +38,27 @@ class ShowQuestionComponent extends React.Component<any, any>{
         }, 5000)
     }
 
+    public nextQuestionHandler = () => {
+        // this.hubConnection.invoke('GetCurrentQuestion');
+        this.setState({
+            timer: 20,
+            showCorrectAnswer: false
+        })
+        setTimeout(() => {
+            this.setState({
+                timer: -1,
+                showCorrectAnswer: true
+            })
+        }, 3000);
+    }
+
     public timeout = () => {
         console.log('Time is Over');
 
-        // make requext for timeout here
+        // make request for timeout here
         this.setState({
-            showCorrectAnswer: true
+            timer: 20,
+            showCorrectAnswer: false
         })
     }
 
@@ -42,14 +69,15 @@ class ShowQuestionComponent extends React.Component<any, any>{
                     <ShowQuestionHeader timer={this.state.timer} timeout={this.timeout} quizName={QUIZ_NAME} quizPicture={QUIZ_URL}/>
                 </header>
                 <main className='main'>
-                    <ShowQuestionMain answers={[{id: 1, text: 'True', pictureUrl: 'http://uploads.friendsresilience.org/wp-content/uploads/2017/01/23002444/Paula-Barrett-Thumbs-Up-Actions.jpg'},
-                                                {id: 2, text: 'False', pictureUrl: 'https://imgix.bustle.com/2017/2/23/19aaee7e-1295-472c-9edd-d55e4a790b0c.jpg'},
-                                                {id: 3, text: 'Very False', pictureUrl: 'https://imgix.bustle.com/2017/2/23/19aaee7e-1295-472c-9edd-d55e4a790b0c.jpg'},
-                                                {id: 4, text: 'More Than False', pictureUrl: 'https://imgix.bustle.com/2017/2/23/19aaee7e-1295-472c-9edd-d55e4a790b0c.jpg'}]}
+                    <ShowQuestionMain answers={[{id: 1, text: 'True', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/1.png'},
+                                                {id: 2, text: 'False', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/2.png'},
+                                                {id: 3, text: 'Very False', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png'},
+                                                {id: 4, text: 'More Than False', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'}]}
                                       correctId={1}
                                       showCorrectAnswer={this.state.showCorrectAnswer}
                                       questionNumber={this.state.question.number}
-                                      questionText={this.state.question.text}/>
+                                      questionText={this.state.question.text}
+                                      next={this.nextQuestionHandler}/>
                 </main>
                 <footer className='footer'>
                     <ShowQuestionFooter />

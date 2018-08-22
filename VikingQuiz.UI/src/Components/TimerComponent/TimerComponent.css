@@ -19,6 +19,11 @@
   /*this should be half of width */
 }
 
+.rotate-animation
+{ 
+  animation: rotate 20s 1s linear 
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
