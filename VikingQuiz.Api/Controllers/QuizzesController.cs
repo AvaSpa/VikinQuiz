@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -14,6 +15,13 @@ namespace VikingQuiz.Api.Controllers
     [Route("api/[controller]")]
     public class QuizzesController : Controller
     {
+
+        class UploadAndDeleteData
+        {
+            public IActionResult HttpResponseResult;
+            public string fileName;
+        }
+
         private readonly QuizRepository quizRepository;
         private readonly IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper;
         private readonly IEntityMapper<Quiz, QuizViewModel> entityToVmMapper;
@@ -113,46 +121,32 @@ namespace VikingQuiz.Api.Controllers
         [Authorize]
         public async Task<IActionResult> Put(NewQuizViewModel quizBodyData, int id)
         {
+
+            IActionResult response = Ok();
             int currentUserId = User.Claims.GetUserId();
+
             IActionResult imageHttpResponse = FileValidityChecker(quizBodyData);
-            if (IActionResult.Equals(imageHttpResponse, Ok()))
+            if (OkResult.Equals(imageHttpResponse, response) )
             {
                 return imageHttpResponse;
             }
 
-            string fileUrl;
-            AzureBlobService blobService;
-            try
+            UploadAndDeleteData uploadAndDeleteResult = await uploadAndDeletePhoto(id, quizBodyData.Files[0]);
+            if (OkResult.Equals(uploadAndDeleteResult.HttpResponseResult, Ok()) )
             {
-                blobService = new AzureBlobService(azureContainerName);
-                var previousQuizState = quizRepository.GetQuizById(id);
-
-                blobService.DeletePhotoAsync(previousQuizState.PictureUrl);
-                fileUrl = await blobService.UploadPhotoAsync(quizBodyData.Files[0]);
-            }
-            catch (Exception)
-            {
-                return BadRequest("Image could not be uploaded.");
+                return uploadAndDeleteResult.HttpResponseResult;
             }
 
-            Quiz updatedQuiz = quizRepository.UpdateQuiz(new Quiz
+   
+            IActionResult updateQuizResult = updateQuiz(new Quiz
             {
                 Title = quizBodyData.Title,
-                PictureUrl = fileUrl,
+                PictureUrl = uploadAndDeleteResult.fileName,
                 UserId = currentUserId,
                 Id = id
             });
 
-            if (updatedQuiz == null)
-            {
-                return BadRequest("Quiz does not exist.");
-            }
-
-            QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
-            quizVm.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(quizVm.PictureUrl);
-
-
-            return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
+            return updateQuizResult;
         }
 
         [HttpDelete("{id}")]
@@ -173,6 +167,48 @@ namespace VikingQuiz.Api.Controllers
                 return BadRequest("Deletion Impossible. Quiz does not exist.");
             }
         }
+
+        private IActionResult updateQuiz(Quiz newQuizData)
+        {
+            IActionResult httpResponseResult = Ok();
+            Quiz updatedQuiz = quizRepository.UpdateQuiz(newQuizData);
+
+            if (updatedQuiz == null)
+            {
+                httpResponseResult =  BadRequest("quiz does not exist.");
+            }
+
+            QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
+            quizVm.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(quizVm.PictureUrl);
+            httpResponseResult = Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
+
+            return httpResponseResult;
+
+        }
+
+
+        private async Task<UploadAndDeleteData> uploadAndDeletePhoto(int quizId, IFormFile fileToUpload)
+        {
+            UploadAndDeleteData result = new UploadAndDeleteData
+            {
+                fileName = "",
+                HttpResponseResult = Ok()
+            };
+            try
+            {
+                var blobService = new AzureBlobService(azureContainerName);
+                var previousQuizState = quizRepository.GetQuizById(quizId);
+
+                blobService.DeletePhotoAsync(previousQuizState.PictureUrl);
+                result.fileName = await blobService.UploadPhotoAsync(fileToUpload);
+                return result;
+            }
+            catch (Exception)
+            {
+                result.HttpResponseResult = BadRequest("The image could not be uploaded");
+                return result;
+            }
+        } 
 
         private string azureContainerName = "users";
 
