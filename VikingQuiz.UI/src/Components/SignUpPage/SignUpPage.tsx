@@ -10,8 +10,7 @@ import {signUpRules} from '../../entities/Validation/rules';
 import {signUpValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
 import StorageService from 'src/services/StorageService';
-
-import { apiUrl } from '../../constants';
+import {apiUrl} from 'src/constants';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -53,7 +52,7 @@ class SignUpPage extends React.Component<{}, any> {
 
     this.httpService.post(url, body)
     .then((res: any) => {
-        const emailUrl: string  = apiUrl + "api/email/" + res.data.id; 
+        const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
         this.httpService.get(emailUrl);
         comp.setState({
             redirect: true
@@ -112,7 +111,7 @@ class SignUpPage extends React.Component<{}, any> {
                      <div className="form-container">
                         {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
                         <FormComponent className="signup-form" inputs={signupFormBody}
-                           url={apiUrl + "api/users"}
+                           url="http://localhost:60151/api/users"
                            buttonName=""
                            onSubmit={this.userDataHandler}
                            validator={signUpValidator}

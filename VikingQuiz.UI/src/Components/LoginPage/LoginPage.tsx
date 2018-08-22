@@ -6,7 +6,7 @@ import SocialButtonsWrapper from "../socialButtons/socialButtonsWrapper";
 import LoginFormComponent from "../LoginFormComponent/LoginFormComponent";
 import { Redirect } from "react-router-dom";
 import { loginRules } from "../../entities/Validation/rules";
-
+import {apiUrl} from 'src/constants';
 import { loginValidator } from "../../entities/Validation/validators";
 import HttpService from "../../services/HttpService";
 import StorageService from "../../services/StorageService";
@@ -15,7 +15,6 @@ import "./LoginPage.css";
 
 // import InputData from "../../entities/InputData";
 import { setTimeout } from "timers";
-import { apiUrl } from "../../constants";
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -27,8 +26,8 @@ function responseSuccesfulHandler(res: any): void { console.log("Response succes
 function responseFailureHandler(): void { console.dir("Response failed"); }
 
 interface ILoginCredentials {
-  Email: string;
-  Password: string;
+  email: string;
+  password: string;
 }
 
 class LoginPage extends React.Component<any, any> {
@@ -36,9 +35,9 @@ class LoginPage extends React.Component<any, any> {
   private storageService: StorageService = new StorageService();
 
   private readonly apiAddress: string = apiUrl;
-  private readonly apiSessionAddress: string = "api/session";
-  private readonly apiGoogleAddress: string = "api/google";
-  private readonly apiFacebookAddress: string = "api/facebook";
+  private readonly apiSessionAddress: string = "/session";
+  private readonly apiGoogleAddress: string = "/google";
+  private readonly apiFacebookAddress: string = "/facebook";
     private readonly googleAppId: string = "1691716487610141";
     private readonly facebookAppId: string = "973616639194-in3pvi0r75qp73f0d92m034r0nq71iqm.apps.googleusercontent.com";
 
@@ -82,12 +81,12 @@ class LoginPage extends React.Component<any, any> {
     }
 
     const body: ILoginCredentials = {
-      Email: formData.Email,
-      Password: formData.Password
+      email: formData.Email,
+      password: formData.Password
     };
 
-    console.log(body);
-    this.httpService.post(this.apiAddress + this.apiSessionAddress, body)
+    this.httpService
+      .post(this.apiAddress + this.apiSessionAddress, body)
       .then((result: any) => this.onLogInSuccess(result))
       .catch((error: any) => this.onLogInError(error));
   };

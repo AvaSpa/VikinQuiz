@@ -1,6 +1,6 @@
 import axios from 'axios';
 import StorageService from './StorageService';
-import { apiUrl } from '../constants';
+import {apiUrl} from 'src/constants';
 
 class HttpService {
 

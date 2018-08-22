@@ -33,3 +33,11 @@ export const successSnackbar: ISnackbarData = {
     message: 'Success',
     duration: 3000
 }
+
+export const invalidFileSizeInMegaBytes = (numberOfMegabytes: number): string => {
+    return 'The size is larger than ' + numberOfMegabytes + ' MBs';
+} 
+export const nonExistentFile: string = 'File doesn\'t exist';
+export const fileNotSupported = (supportedFormnats: string[]): string => {
+    return 'The only supported fomats are: ' + supportedFormnats.join(', ');
+}
