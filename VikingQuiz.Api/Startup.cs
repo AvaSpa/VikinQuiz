@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VikingQuiz.Api.Utilities;
+using VikingQuiz.Api.Controllers;
 
 namespace VikingQuiz.Api
 {
@@ -80,6 +81,7 @@ namespace VikingQuiz.Api
             services.AddScoped<IEntityMapper<PlayerGame, PlayerGameViewModel>, PlayerGameToViewModelMapper>();
             services.AddScoped<IEntityMapper<PlayerGameViewModel, PlayerGame>, PlayerGameViewModelToEntityMapper>();
 
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,9 +106,14 @@ namespace VikingQuiz.Api
 
             app.UseMvc();
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<SignalRPlaceholder>("/hello");
+            });
+
             //TODO:will be used in production
 
-/*
+            /*
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
                 .CreateScope())
