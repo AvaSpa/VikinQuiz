@@ -8,6 +8,8 @@ using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.ViewModels;
 using VikingQuiz.Api.Mappers;
+using Microsoft.AspNetCore.Authorization;
+using VikingQuiz.Api.Utilities;
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -15,12 +17,14 @@ namespace VikingQuiz.Api.Controllers
     public class GameController : Controller
     {
         private readonly GameRepository gameRepository;
+        private readonly QuizRepository quizRepository;
         private IEntityMapper<Game, GameViewModel> entityToVmMapper;
         private IEntityMapper<GameViewModel, Game> vmToEntityMapper;
 
-        public GameController(GameRepository gameRepository, IEntityMapper<Game, GameViewModel> entityToVmMapper, IEntityMapper<GameViewModel, Game> vmToEntityMapper)
+        public GameController(GameRepository gameRepository, QuizRepository quizRepository, IEntityMapper<Game, GameViewModel> entityToVmMapper, IEntityMapper<GameViewModel, Game> vmToEntityMapper)
         {
             this.gameRepository = gameRepository;
+            this.quizRepository = quizRepository;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
         }
@@ -33,7 +37,7 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetAnswerById(int id)
+        public IActionResult GetGameById(int id)
         {
             Game foundGame = gameRepository.GetGameById(id);
             if (foundGame == null)
@@ -42,6 +46,24 @@ namespace VikingQuiz.Api.Controllers
             }
             GameViewModel gameVm = entityToVmMapper.Map(foundGame);
             return Ok(gameVm);
+        }
+
+        [Route("usergames")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetGamesByUserId()
+        {
+            int currentUserId = User.Claims.GetUserId();
+
+            var foundQuizzes = quizRepository.GetQuizByUserId(currentUserId);
+            if (foundQuizzes == null)
+            {
+                return NotFound("No quizzes exist for this user");
+            }
+
+            List<int> foundQuizzesId = foundQuizzes.Select(quizId => quizId.Id).ToList();
+            var foundGames = gameRepository.GetGamesOrderedByDateBasedOnUserId(foundQuizzesId);
+            return Ok(foundGames.Select(gm => this.entityToVmMapper.Map(gm)));
         }
 
         [HttpPost]
