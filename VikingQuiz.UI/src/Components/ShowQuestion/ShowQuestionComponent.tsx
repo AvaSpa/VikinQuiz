@@ -4,7 +4,8 @@ import ShowQuestionFooter from './ShowQuestionFooter/ShowQuestionFooter';
 import ShowQuestionHeader from './ShowQuestionHeader/ShowQuestionHeader';
 import ShowQuestionMain from './ShowQuestionMain/ShowQuestionMain';
 
-
+const QUIZ_URL: string = 'https://vignette.wikia.nocookie.net/the-darkest-minds/images/4/47/Placeholder.png/revision/latest?cb=20160927044640';
+const QUIZ_NAME: string = 'Quiz Title';
 class ShowQuestionComponent extends React.Component<any, any>{
 
     public state = {
@@ -14,6 +15,15 @@ class ShowQuestionComponent extends React.Component<any, any>{
             number: 3,
             text: 'Where is my precious?'
         }
+    }
+
+    public componentWillMount(){
+        setTimeout(() => {
+            this.setState({
+                timer: -1,
+                showCorrectAnswer: true
+            })
+        }, 5000)
     }
 
     public timeout = () => {
@@ -29,7 +39,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
         return (
             <div className='show-question'>
                 <header className='header'>
-                    <ShowQuestionHeader timer={this.state.timer} timeout={this.timeout}/>
+                    <ShowQuestionHeader timer={this.state.timer} timeout={this.timeout} quizName={QUIZ_NAME} quizPicture={QUIZ_URL}/>
                 </header>
                 <main className='main'>
                     <ShowQuestionMain answers={[{id: 1, text: 'True', pictureUrl: 'http://uploads.friendsresilience.org/wp-content/uploads/2017/01/23002444/Paula-Barrett-Thumbs-Up-Actions.jpg'},
