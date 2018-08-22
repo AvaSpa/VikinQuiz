@@ -41,6 +41,8 @@ class ShowQuestionMain extends React.Component<any, any>{
 
     private clickNextHandler = () => {
         console.log('Next Button Clicked!');
+        // make requst to change qustion
+        window.location.reload();
     }
 }
 
