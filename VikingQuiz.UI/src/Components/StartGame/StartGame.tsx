@@ -5,6 +5,8 @@ import CancelButton from '../Buttons/CancelButton/CancelButton';
 import StartButton from '../Buttons/StartButton/StartButton';
 import * as SignalR from '@aspnet/signalr'
 import GameDto from '../../entities/GameDto';
+import PlayerDto from '../../entities/PlayerDto';
+import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 
 class StartGame extends React.Component<any, any> {
     private hubConnection: SignalR.HubConnection;
@@ -14,13 +16,15 @@ class StartGame extends React.Component<any, any> {
 
       this.state = {
           quizId: this.props.location.state.id,
-          code: null
+          code: null,
+          players: []
       }
     }
 
     public componentDidMount() {
         this.hubConnection = new SignalR.HubConnectionBuilder().withUrl('http://localhost:60151/gamemaster').build();
 
+        this.hubConnection.on("NewPlayerHasConnected", this.getPlayer);
 
         this.hubConnection.start()
             .then( ()=> this.hubConnection.invoke("CreateGame", this.state.quizId).then( (Response) => this.getGameDto(Response) ))
@@ -44,7 +48,11 @@ class StartGame extends React.Component<any, any> {
                             <div className="col-sm-auto">
                                 <div className="code"> {displayedCode} </div>
                             </div>
-                            <div className="players-container"/>
+                            <div className="players-container">
+                                {this.state.quiz.map((p:any) => 
+                                    <UserMinimalProfile key={p.name} pictureUrl={p.pictureUrl} name={p.name} />
+                                )}
+                            </div>
                         </div>
                         <div className="startgame-center-container">
                             <StartButton/>
@@ -60,6 +68,15 @@ class StartGame extends React.Component<any, any> {
         this.setState({
             code: gameDto.code
         });
+    }
+
+    private getPlayer = (name: string, pictureUrl: string) => {
+        const playersUpdated : PlayerDto[] = this.state.players;
+        const newPlayer : PlayerDto  = new PlayerDto(pictureUrl, name);
+        playersUpdated.push(newPlayer);
+        this.setState({
+            players: playersUpdated
+        })
     }
 
 }
