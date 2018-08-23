@@ -6,9 +6,14 @@ import { Redirect } from 'react-router-dom';
 import { connectRules } from '../../entities/Validation/rules';
 import { connectValidator } from '../../entities/Validation/validators';
 import PlayGameComponent from './PlayGameComponent/PlayGameComponent';
+import SnackbarComponent from '../SnackbarComponent/SnackbarComponent';
+import ISnackbarData from '../../entities/SnackBarData';
+import { errorSnackbar } from '../../commons/commons';
 
 class PlayGame extends React.Component<any, any> {
     private httpService: any = new HttpService();
+    private readonly baseUrl = "http://localhost:60151/api";
+    private readonly endPoint = "/player";
 
     constructor(props: any) {
       super(props);
@@ -16,7 +21,9 @@ class PlayGame extends React.Component<any, any> {
       this.state = {  
         serverMessage: '',
         redirect: false,
-        playerId: null
+        playerId: null,
+        showSnackbar: false,
+        snackbarData: errorSnackbar
         };
     }
     
@@ -38,26 +45,26 @@ class PlayGame extends React.Component<any, any> {
             });
         })
         .catch((error: any) => {
-            if(!error){
-                component.setState({
-                    serverMessage: "Couldn't connect to the game"
-                });
-                return;
-            };
-            component.setState({
-                serverMessage: error.response.data
-            });
-            setTimeout(()=>component.setState({
-                serverMessage: ''
-            }), 5000);  
+            this.errorHandler(error);
         });
-      }
+    }
     
+      public showSnackbarHandler = (snackbar: ISnackbarData) =>{
+        this.setState({
+            snackbarData: {...snackbar},
+            showSnackbar: true
+        })
+
+        if(this.state.snackbarData.duration > 0){
+            setTimeout(() => {
+                this.setState({
+                    showSnackbar: false
+                });
+            }, this.state.snackbarData.duration);
+        }
+    }
 
     public render() {
-        const baseUrl = "http://localhost:60151/api";
-        const endPoint = "/player";
-
         if (this.state.redirect) {
             return (
                 <Redirect to={{ pathname: '/connect', state: { id: this.state.playerId } }} />
@@ -75,7 +82,7 @@ class PlayGame extends React.Component<any, any> {
                     <PlayGameComponent inputs={[
                             { id: "code", type: "text", label: "Enter your code/pin", errorMessage: "", name: "GameCode", value: "" }, 
                             { id: "name", type: "text", label: "Your Name", errorMessage: "", name: "PlayerName", value: "" }]} 
-                        url={baseUrl + endPoint} 
+                        url={this.baseUrl + this.endPoint} 
                         buttonName="" 
                         onSubmit={this.playerDataHandler} 
                         validator={connectValidator} 
@@ -84,8 +91,15 @@ class PlayGame extends React.Component<any, any> {
                 </div>
               </div>
             </div>
+            <SnackbarComponent data={this.state.snackbarData} show={this.state.showSnackbar} />
           </div>; 
-      }
+    }
+
+    private errorHandler(error: any){
+        const snackbar: ISnackbarData = errorSnackbar;
+        snackbar.message = "Invalid code, please try again";
+        this.showSnackbarHandler(snackbar);
+    }
 }
 
 export default PlayGame;

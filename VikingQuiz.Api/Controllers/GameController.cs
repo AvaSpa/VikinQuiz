@@ -52,7 +52,7 @@ namespace VikingQuiz.Api.Controllers
             {
                 QuizId = gameViewModel.QuizId,
                 GameDate = Convert.ToDateTime(gameViewModel.GameDate),
-                Code = gameViewModel.Code
+                Code = code
             };
 
             Game newGame = gameRepository.Create(game);
@@ -91,6 +91,18 @@ namespace VikingQuiz.Api.Controllers
             return Ok();
         }
 
+        [HttpGet("{gameId}")]
+        [Route("current")]
+        public IActionResult getGameCode(int gameId)
+        {
+            Game foundGame = gameRepository.GetGameById(gameId);
+            if(foundGame == null)
+            {
+                return BadRequest("Game couldn't be found");
+            }
+            var gameCode = foundGame.Code;
+            return Ok(gameCode);
+        }
     }
 }
 

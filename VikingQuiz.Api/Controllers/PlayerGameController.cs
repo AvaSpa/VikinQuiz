@@ -83,5 +83,13 @@ namespace VikingQuiz.Api.Controllers
             var result = playergameRepository.GetRankingByGameId(gameId);
             return Ok(result);
         }
+
+        [HttpGet("current/{gameId}")]
+        public IActionResult GetPlayersByGameId(int gameId)
+        {
+            var result = playergameRepository.GetPlayerGameByGameId(gameId);
+            return Ok(result);
+        }
+
     }
 }

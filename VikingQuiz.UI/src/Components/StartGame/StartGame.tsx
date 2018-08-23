@@ -1,37 +1,39 @@
 import * as React from 'react';
 import './StartGame.css';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
-import axios from '../../../node_modules/axios';
-import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 import CancelButton from '../Buttons/CancelButton/CancelButton';
 import StartButton from '../Buttons/StartButton/StartButton';
+import * as SignalR from '@aspnet/signalr'
+import GameDto from '../../entities/GameDto';
+import PlayerDto from '../../entities/PlayerDto';
+import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 
 class StartGame extends React.Component<any, any> {
+    private hubConnection: SignalR.HubConnection;
+    
     constructor(props: any) {
       super(props);
 
-        this.state = {
-            serverMessage: '',
-            redirect: false,
-            player: [],
-            baseUrl : "http:///localhost:60151/api/",
-            endPoint: "player",
-            playersPerLine: 7
-        }
+      this.state = {
+          quizId: this.props.location.state.id,
+          code: null,
+          players: []
+      }
     }
 
-    public componentWillMount() {
-        axios.get(this.state.baseUrl+this.state.endPoint)
-        .then(response => {
-            console.log(response.data)
-            this.setState({player: response.data})
-        })
-        .catch(err => console.log(err))
+    public componentDidMount() {
+        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl('http://localhost:60151/gamemaster').build();
+
+        this.hubConnection.on("NewPlayerHasConnected", this.getPlayer);
+
+        this.hubConnection.start()
+            .then( ()=> this.hubConnection.invoke("CreateGame", this.state.quizId).then( (Response) => this.getGameDto(Response) ))
+            .catch( ()=>console.log('SignalR failed to connect'));
     }
 
     public render() {
         const displayedMessage = "YOUR CODE";
-        const displayedCode = "code";
+        const displayedCode = this.state.code;
         return (
             <div className="startgame-container container">
                 <div className="startgame-center-container">
@@ -47,11 +49,8 @@ class StartGame extends React.Component<any, any> {
                                 <div className="code"> {displayedCode} </div>
                             </div>
                             <div className="players-container">
-                                {this.state.player.slice(this.state.playersPerLine, this.state.player.length).map((p:any) =>
-                                    <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
-                                )}
-                                {this.state.player.slice(0,this.state.playersPerLine).map((p:any) =>
-                                    <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
+                                {this.state.quiz.map((p:any) => 
+                                    <UserMinimalProfile key={p.name} pictureUrl={p.pictureUrl} name={p.name} />
                                 )}
                             </div>
                         </div>
@@ -63,7 +62,23 @@ class StartGame extends React.Component<any, any> {
                 <CancelButton/>
             </div>
         ); 
-      }
+    }
+
+    private getGameDto = (gameDto: GameDto) => {
+        this.setState({
+            code: gameDto.code
+        });
+    }
+
+    private getPlayer = (name: string, pictureUrl: string) => {
+        const playersUpdated : PlayerDto[] = this.state.players;
+        const newPlayer : PlayerDto  = new PlayerDto(pictureUrl, name);
+        playersUpdated.push(newPlayer);
+        this.setState({
+            players: playersUpdated
+        })
+    }
+
 }
 
 export default StartGame;
