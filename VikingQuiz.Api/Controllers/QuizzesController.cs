@@ -153,12 +153,13 @@ namespace VikingQuiz.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             int currentUserId = User.Claims.GetUserId();
+            string pictureUrl = quizRepository.GetQuizById(id).PictureUrl;
             var deletedQuiz = quizRepository.DeleteQuiz(id, currentUserId);
 
-            if (deletedQuiz != null)
+            if (deletedQuiz)
             {
                 AzureBlobService blobService = new AzureBlobService(azureContainerName);
-                await blobService.DeletePhotoAsync(deletedQuiz.PictureUrl);
+                await blobService.DeletePhotoAsync(pictureUrl);
                 return Ok();
             }
             else

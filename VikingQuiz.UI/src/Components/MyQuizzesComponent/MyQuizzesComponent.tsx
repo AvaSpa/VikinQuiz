@@ -109,13 +109,13 @@ class MyQuizzesComponent extends React.Component<any, any> {
                                 :   (numberOfExistingQuizzes <6 ?
                                         (
                                         this.state.quizzes.map((p: any) =>
-                                            <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.componentWillMount} />)
+                                            <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.props.handleQuizDelete} />)
                                         )
                                         : 
                                         (!this.state.displayAllQuizzes ?
                                             <>
                                                 {this.state.quizzes.slice(0, 5).map((p: any) =>
-                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.componentWillMount} />
+                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.props.handleQuizDelete} />
                                                 )}
                                                 <div className="more-less-button">
                                                     <button className="more-quizzes-button" onClick={this.handleMoreClick}>SHOW ALL</button>
@@ -125,7 +125,7 @@ class MyQuizzesComponent extends React.Component<any, any> {
                                             (
                                             <>
                                                 {this.state.quizzes.map((p: any) =>
-                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.componentWillMount} />)}
+                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.props.handleQuizDelete} />)}
                                                 <div className="more-less-button">
                                                     <button className="more-quizzes-button" onClick={this.handleLessClick}>SHOW LESS</button>
                                                 </div>
