@@ -123,17 +123,46 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// </summary>
         public QuestionViewModel GetCurrentQuestion()
         {
-            string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            int currentQuestionId = RoomService.Rooms[code].CurrentQuestion;
-            GameInstance gameInstance = RoomService.Rooms[code];
-            QuestionViewModel questionViewModel = new QuestionViewModel
+            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            //int currentQuestionId = RoomService.Rooms[code].CurrentQuestion;
+            //GameInstance gameInstance = RoomService.Rooms[code];
+            //QuestionViewModel questionViewModel = new QuestionViewModel
+            //{
+            //    Id = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Id,
+            //    Text = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Text,
+            //    Answers = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item1.Select(a => answerMapper.Map(a)).ToList(),
+            //    CorrectAnswerId = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item2
+            //};
+            //return questionViewModel;
+            List<AnswerViewModel> answers = new List<AnswerViewModel>();
+            answers.Add(new AnswerViewModel()
             {
-                Id = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Id,
-                Text = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Text,
-                Answers = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item1.Select(a => answerMapper.Map(a)).ToList(),
-                CorrectAnswerId = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item2
+                Id = 1,
+                Text = "True"
+            });
+            answers.Add(new AnswerViewModel()
+            {
+                Id = 2,
+                Text = "False"
+            });
+            answers.Add(new AnswerViewModel()
+            {
+                Id = 3,
+                Text = "Very False"
+            });
+            answers.Add(new AnswerViewModel()
+            {
+                Id = 4,
+                Text = "Super False"
+            });
+
+            return new QuestionViewModel()
+            {
+                Id = 1000,
+                Text = "Where is my precious?",
+                CorrectAnswerId = 1,
+                Answers = answers
             };
-            return questionViewModel;
         }
 
         /// <summary>

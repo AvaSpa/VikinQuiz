@@ -9,49 +9,63 @@ import { apiUrl } from '../../constants';
 
 const QUIZ_URL: string = 'https://vignette.wikia.nocookie.net/the-darkest-minds/images/4/47/Placeholder.png/revision/latest?cb=20160927044640';
 const QUIZ_NAME: string = 'Quiz Title';
+const picturesUrls: string[] = [
+    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/1.png',
+    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/2.png',
+    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png',
+    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'
+]
 class ShowQuestionComponent extends React.Component<any, any>{
 
-    
+
     public state = {
         timer: 20,
+        questionNumber: 1,
+        quizUrl: null,
+        quizName: null,
         showCorrectAnswer: false,
         redirect: false,
         question: {
-            number: 3,
-            text: 'Where is my precious?'
+            id: null,
+            text: null,
+            correctAnswerId: null,
+            answers: []
         }
     }
 
-    private hubConnection: SignalR.HubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl).build();
-    
+    private hubConnection: SignalR.HubConnection;
 
-    public componentWillMount(){
 
+    public componentWillMount() {
+
+        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "/gamemaster").build();
+        this.hubConnection.on('EverybodyAnswered', this.endQuestion)
+        this.hubConnection.on('GameIsOver', this.redirectToRankingPage);
         this.hubConnection.start()
-        .then(()=>console.log('SignalR connected successfully'))
-        .catch(()=>console.log('SignalR failed to connect'));
-        this.hubConnection.invoke('GetCurrentQuestion').then();
-        setTimeout(() => {
-            this.setState({
-                timer: -1,
-                showCorrectAnswer: true
+            .then(() => {
+                console.log('SignalR connected successfully')
+                this.getCurrentQuestion();
             })
-        }, 5000)
+            .catch(() => console.log('SignalR failed to connect'));
+        setTimeout(this.endQuestion,5000);
+    }
+
+    public getCurrentQuestion = () => {
+        this.hubConnection.invoke('GetCurrentQuestion').then((res: any) => {
+            this.setState({
+                question: res
+            })
+        });
     }
 
     public nextQuestionHandler = () => {
-        this.hubConnection.invoke('GoToNextQuestion').then();
-        this.hubConnection.invoke('GetCurrentQuestion').then();
+        this.hubConnection.invoke('GoToNextQuestion').then((res: any) => {
+            this.getCurrentQuestion();
+        });
         this.setState({
             timer: 20,
             showCorrectAnswer: false
         })
-        setTimeout(() => {
-            this.setState({
-                timer: -1,
-                showCorrectAnswer: true
-            })
-        }, 3000);
     }
 
     public redirectToRankingPage = () => {
@@ -62,39 +76,47 @@ class ShowQuestionComponent extends React.Component<any, any>{
 
     public timeoutHandler = () => {
         console.log('Time is Over');
-
-        this.hubConnection.invoke('TimeOut').then();
+        this.hubConnection.invoke('AllPlayersAnswered');
         this.setState({
-            timer: 20,
-            showCorrectAnswer: false
+            timer: -1,
+            showCorrectAnswer: true
         })
     }
 
-    public render(){
+    public render() {
+        const newAnswers: any[] = this.state.question.answers.map((answer: any, index: number) => {
+            const newAnswer = { ...answer }
+            newAnswer.pictureUrl = picturesUrls[index];
+            return newAnswer;
+        })
         if (this.state.redirect) {
             return <Redirect push={true} to="/myQuizzes" />;
-          }
+        }
         return (
             <div className='show-question'>
                 <header className='header'>
-                    <ShowQuestionHeader timer={this.state.timer} timeout={this.timeoutHandler} quizName={QUIZ_NAME} quizPicture={QUIZ_URL}/>
+                    <ShowQuestionHeader timer={this.state.timer} timeout={this.timeoutHandler} quizName={QUIZ_NAME} quizPicture={QUIZ_URL} />
                 </header>
                 <main className='main'>
-                    <ShowQuestionMain answers={[{id: 1, text: 'True', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/1.png'},
-                                                {id: 2, text: 'False', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/2.png'},
-                                                {id: 3, text: 'Very False', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png'},
-                                                {id: 4, text: 'More Than False', pictureUrl: 'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'}]}
-                                      correctId={1}
-                                      showCorrectAnswer={this.state.showCorrectAnswer}
-                                      questionNumber={this.state.question.number}
-                                      questionText={this.state.question.text}
-                                      next={this.nextQuestionHandler}/>
+                    <ShowQuestionMain answers={newAnswers}
+                        correctId={1}
+                        showCorrectAnswer={this.state.showCorrectAnswer}
+                        questionNumber={this.state.questionNumber}
+                        questionText={this.state.question.text}
+                        next={this.nextQuestionHandler} />
                 </main>
                 <footer className='footer'>
                     <ShowQuestionFooter />
                 </footer>
             </div>
         )
+    }
+
+    private endQuestion = () => {
+        this.setState({
+            timer: -1,
+            showCorrectAnswer: true
+        })
     }
 }
 

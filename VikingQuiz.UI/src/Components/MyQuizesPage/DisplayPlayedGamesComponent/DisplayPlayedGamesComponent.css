@@ -82,11 +82,8 @@
         min-width: none;
         margin-right: 4%; } }
   @media screen and (min-width: 1400px) {
-    .display-played-games-container .played-games-container {
-      max-width: none; }
-      .display-played-games-container .played-games-container .played-game-item {
-        min-width: none;
-        margin-right: 5%; } }
+    .display-played-games-container .played-games-container .played-game-item {
+      margin-right: 5%; } }
   @media screen and (max-width: 450px) {
     .display-played-games-container .played-games-container {
       max-width: none;
