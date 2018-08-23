@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './DisplayPlayedGamesComponent.css'
 import HttpService from '../../../services/HttpService';
+import { apiUrl } from '../../../constants';
 
 interface IState {
     games: any[]
@@ -18,9 +19,9 @@ interface IGameData {
 
 class DisplayPlayedGamesComponent extends React.Component<any, IState>{
     
-    private readonly apiAddressForGames = 'http://localhost:60151/api/game/usergames';
-    private readonly apiAdressForPlayerGame = 'http://localhost:60151/api/playergame/playersnumber/';
-    private readonly apiAddressForQuizzes = 'http:///localhost:60151/api/quizzes/';
+    private readonly apiAddressForGames = apiUrl + 'api/game/usergames';
+    private readonly apiAdressForPlayerGame = apiUrl + 'api/playergame/playersnumber/';
+    private readonly apiAddressForQuizzes = apiUrl + 'api/quizzes/';
     private httpService: HttpService = new HttpService();
 
     constructor(props: any) {
