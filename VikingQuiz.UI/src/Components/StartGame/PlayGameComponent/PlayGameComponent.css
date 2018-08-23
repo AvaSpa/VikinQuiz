@@ -8,7 +8,7 @@
   background-size: 100%;
   margin-top: 20px;
   left: 50%;
-  transform: translateX(-46%);
+  transform: translateX(-50%);
   bottom: 60px;
   display: block;
   transition: all 0.2s linear; }
@@ -39,7 +39,3 @@
     width: 100%; }
   .play-game-form #upload .error-border .upload-button {
     box-shadow: 0 0 4px 2px #fa1919; }
-
-@media screen and (max-height: 600px) {
-  .play-game-form .join-button {
-    top: 100px; } }
