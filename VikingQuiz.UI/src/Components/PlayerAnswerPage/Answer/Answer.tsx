@@ -11,6 +11,14 @@ const MapStringToNumbers={
     patru: 4
 } 
 
+const MapNumberToString={
+    1: "unu",
+    2: "doi",
+    3: "trei",
+    4: "patru"
+} 
+
+
 class Answer extends React.Component<any, any> {
 
     private hubConnection: SignalR.HubConnection;
@@ -61,12 +69,14 @@ class Answer extends React.Component<any, any> {
         this.setState({redirect: true})
     }
 
-    public handleTimeExpires=(id: string)=>{
+    public handleTimeExpires=(id: number)=>{
         
         const timerIsOver = 20;
         const noAnswerWasSelected = -1;
-        this.hubConnection.invoke('SendChosenAnswerId', noAnswerWasSelected, timerIsOver);
-        this.setState({correctAnswerId: id})
+        this.hubConnection.invoke('PlayerAnsweredQuestion', noAnswerWasSelected, timerIsOver);
+
+        const idConvertedToString = MapNumberToString[id]
+        this.setState({correctAnswerId: idConvertedToString})
 
         const answerButton = document.getElementById(this.state.chosenAnswerId);
         if(answerButton !== null)
@@ -101,7 +111,7 @@ class Answer extends React.Component<any, any> {
         const totalTime = (Date.now() - this.startTimer) / 1000
         this.setState({chosenAnswerExists: true, chosenAnswerId: id})
         const chosenAnswerIdAsInt = MapStringToNumbers[id]
-        this.hubConnection.invoke('SendChosenAnswerId', chosenAnswerIdAsInt, totalTime)
+        this.hubConnection.invoke('PlayerAnsweredQuestion', chosenAnswerIdAsInt, totalTime)
     }
 
     public render(): any {

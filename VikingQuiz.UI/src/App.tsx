@@ -15,6 +15,7 @@ import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailCo
 import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent';
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
 import SignalRComponent from './Components/SignalR';
+import PlayerAnswerPage from './Components/PlayerAnswerPage/PlayerAnswerPage';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -42,6 +43,7 @@ class App extends React.Component<{}, {}> {
             {/* <Route exact={true} path="/playquiz" component={PlayQuiz} /> */}
             <Route exact={true} path="/snackbar" component={SnackbarComponent} />
             <Route exact={true} path="/signalr" component={SignalRComponent} />
+            <Route exact={true} path="/playeranswer" component={PlayerAnswerPage} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>
         </div>
