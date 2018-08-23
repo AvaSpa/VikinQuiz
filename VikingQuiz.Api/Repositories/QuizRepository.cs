@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,12 @@ using VikingQuiz.Api.Models;
 
 namespace VikingQuiz.Api.Repositories
 {
+    public struct QuizQuestionsAnswers
+    {
+        public Quiz quiz;
+        public IList<Question> questions;
+        public IDictionary<int, Tuple<IList<Answer>, int>> answers;
+    }
     public class QuizRepository
     {
         private VikinQuizContext context;
@@ -81,7 +88,7 @@ namespace VikingQuiz.Api.Repositories
             return foundQuiz;
         }
 
-        public List<Quiz> GetQuizByUserId(int id) {
+        public List<Quiz> GetQuizzesByUserId(int id) {
             return context.Quiz.Where(q => q.UserId == id).OrderByDescending(q => q.LastModified).ToList();
 
         }
@@ -89,6 +96,30 @@ namespace VikingQuiz.Api.Repositories
         public IEnumerable<Quiz> GetAll(int userId) {
             var quizzesOfTheUser = context.Quiz.Where(dbQuiz => dbQuiz.UserId == userId).ToList();
             return quizzesOfTheUser;
+        }
+
+        public QuizQuestionsAnswers GetQuizByIdAndAssociatedQuestionsAndAnswers(int id)
+        {
+            IList<int> questionIds = context.QuizQuestion.Where(qq => qq.QuizId == id).Select(qq => qq.QuestionId).ToList();
+            IList<Question> questions = context.Question.Where(q => questionIds.Contains(q.Id)).ToList();
+            IDictionary<int, Tuple<IList<Answer>, int>> answers =
+                (from Questions in context.Question
+                 join Answers in context.Answer on Questions.Id equals Answers.QuestionId
+                 group Answers by new { Id = Questions.Id, CorrectAnsId = Questions.CorrectAnsId } into g
+                 select new
+                 {
+                     key = g.Key.Id,
+                     value = new Tuple<IList<Answer>, int>(g.ToArray(), g.Key.CorrectAnsId)
+                 })
+                 .ToDictionary(t=>t.key, t=>t.value);
+            QuizQuestionsAnswers quizQuestionsAnswers = new QuizQuestionsAnswers
+            {
+                quiz = context.Quiz.FirstOrDefault(q => q.Id == id),
+                questions = questions,
+                answers = answers
+            };
+
+            return quizQuestionsAnswers;
         }
     }
 }
