@@ -16,6 +16,7 @@ using System.Text;
 using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.Controllers;
 using VikingQuiz.Api.Controllers.SignalR.Services;
+using VikingQuiz.Api.Controllers.SignalR;
 
 namespace VikingQuiz.Api
 {
