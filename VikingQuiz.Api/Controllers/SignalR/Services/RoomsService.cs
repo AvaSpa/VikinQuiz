@@ -36,10 +36,10 @@ namespace VikingQuiz.Api.Controllers.SignalR.Services
             set
             {
                 _question = value;
-                if (_question == QuizQuestionsAnswers.questions.Count)
-                {
-                    NoMoreQuestionsCallback(this);
-                }
+                //if (_question == QuizQuestionsAnswers.questions.Count)
+                //{
+                //    NoMoreQuestionsCallback(this);
+                //}
             }
         }
         public int PlayersThatAnsweredCurrentQuestion
@@ -48,10 +48,10 @@ namespace VikingQuiz.Api.Controllers.SignalR.Services
             set
             {
                 _players = value;
-                if (_players == 0)
-                {
-                    AllPlayersAnsweredCallback(this);
-                }
+                //if (_players == 0)
+                //{
+                //    AllPlayersAnsweredCallback(this);
+                //}
             }
         }
         public string GameMasterId;

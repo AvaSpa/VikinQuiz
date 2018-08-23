@@ -7,6 +7,7 @@ import * as SignalR from '@aspnet/signalr'
 import PlayerDto from '../../entities/PlayerDto';
 import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 import { Redirect } from 'react-router-dom';
+import {apiUrl} from "src/constants";
 
 class StartGame extends React.Component<any, any> {
     private hubConnection: SignalR.HubConnection;
@@ -23,21 +24,25 @@ class StartGame extends React.Component<any, any> {
     }
 
     public componentDidMount() {
-        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl('http://localhost:60151/gamemaster').build();
+        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + 'gamemaster').build();
 
-        this.hubConnection.on("NewPlayerHasConnected", this.getPlayer);
-
+        
         this.hubConnection.start()
-            .then(() => this.hubConnection.invoke("CreateGame", this.state.quizId).then((Response) => this.setState({ code: Response })))
-            .catch( ()=>console.log('SignalR failed to connect'));
+        .then(() => {
+            this.hubConnection.on("NewPlayerHasConnected", this.getPlayer);
+            this.hubConnection.invoke("CreateGame", this.state.quizId)
+            .then( (Response : any) => {
+                this.setState({ code: Response })
+            })
+        })
+        .catch( ()=>console.log('SignalR failed to connect'));
     }
 
     public render() {
         const displayedMessage = "YOUR CODE";
         const displayedCode = this.state.code;
         if(this.state.redirect){
-            return (<Redirect push={true} to="/show-question"/>);
-        }
+            return (<Redirect push={true} to={"/show-question/" + this.state.code} />);        }
         return (
             <div className="startgame-container container">
                 <div className="startgame-center-container">
@@ -69,6 +74,7 @@ class StartGame extends React.Component<any, any> {
     }
 
     private startGameHandler = () => {
+        this.hubConnection.invoke("BeginGame", this.state.code);
         this.setState({
             redirect: true
         })

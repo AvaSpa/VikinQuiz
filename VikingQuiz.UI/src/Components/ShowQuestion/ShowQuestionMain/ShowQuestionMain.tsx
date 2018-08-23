@@ -6,26 +6,31 @@ import NextButton from '../../Buttons/NextButton/NextButton';
 class ShowQuestionMain extends React.Component<any, any>{
 
     public renderAnswers(answers: any[]) {
-        return answers.map((answer: any, index: number) =>
-            <AnswerComponent key={answer.id} classes={(index % 2 === 0) ? ['left'] : ['right']} pictureUrl={answer.pictureUrl} answer={answer.text} />
-        );
+        return answers.map((answer: any, index: number) => (
+          <AnswerComponent
+            key={index}
+            classes={index % 2 === 0 ? ["left"] : ["right"]}
+            pictureUrl={answer.pictureUrl}
+            answer={answer.text}
+          />
+        ));
     }
 
     public renderCorrectAnswer(answers: any, correctAnswerId: number) {
+        console.log(answers);
         const correctAnswer: any = answers.find((answer: any) => answer.id === correctAnswerId);
-        return (
-            <>
-                <img className='answer-image' src={correctAnswer.pictureUrl} alt='correct answer' />
-                <div className='answer-text'>{correctAnswer.text}</div>
-                <NextButton clicked={this.clickNextHandler} />
-            </>
-        )
+        console.log(correctAnswer)
+        return <>
+            <img className="answer-image" src={correctAnswer.pictureUrl} alt="correct answer" />
+            <div className="answer-text">{correctAnswer.text}</div>
+            <NextButton clicked={this.clickNextHandler} />
+          </>;
     }
 
     public render() {
         return (
             <div className='show-main'>
-                <div className='question-text'><span className='number'>{this.props.questionNumber}. </span>{this.props.questionText}</div>
+                <div className='question-text'><span className='number'>{this.props.questionNumber} </span>{this.props.questionText}</div>
                 {
                     !this.props.showCorrectAnswer ?
                         <div className='answers'>
@@ -40,7 +45,6 @@ class ShowQuestionMain extends React.Component<any, any>{
     }
 
     private clickNextHandler = () => {
-        console.log('Next Button Clicked!');
         this.props.next();
     }
 }

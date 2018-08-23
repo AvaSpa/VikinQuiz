@@ -17,10 +17,11 @@ const picturesUrls: string[] = [
 ]
 class ShowQuestionComponent extends React.Component<any, any>{
 
-
+	public readonly code = this.props.match.params.code;
+	
     public state = {
         timer: 20,
-        questionNumber: 1,
+        questionNumber: null,
         quizUrl: null,
         quizName: null,
         showCorrectAnswer: false,
@@ -38,11 +39,12 @@ class ShowQuestionComponent extends React.Component<any, any>{
 
     public componentWillMount() {
 
-        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "/gamemaster").build();
-        this.hubConnection.on('EverybodyAnswered', this.endQuestion)
-        this.hubConnection.on('GameIsOver', this.redirectToRankingPage);
+        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "gamemaster").build();
+
         this.hubConnection.start()
             .then(() => {
+				this.hubConnection.on('EverybodyAnswered', this.endQuestion)
+				this.hubConnection.on('GameIsOver', this.redirectToRankingPage);
                 console.log('SignalR connected successfully')
                 this.getCurrentQuestion();
             })
@@ -51,7 +53,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public getCurrentQuestion = () => {
-        this.hubConnection.invoke('GetCurrentQuestion').then((res: any) => {
+		this.hubConnection.invoke('GetCurrentQuestion', this.code).then((res: any) => {
             this.setState({
                 question: res
             })
@@ -59,8 +61,13 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public nextQuestionHandler = () => {
-        this.hubConnection.invoke('GoToNextQuestion').then((res: any) => {
-            this.getCurrentQuestion();
+        this.hubConnection.invoke('GoToNextQuestion', this.code).then((areThereMoreQuestions: any) => {
+			if(areThereMoreQuestions) {
+				this.getCurrentQuestion();
+			}
+			else {
+				this.redirectToRankingPage();
+			}
         });
         this.setState({
             timer: 20,
@@ -69,14 +76,14 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public redirectToRankingPage = () => {
+		console.log("redirectToRanking");
         this.setState({
             redirect: true
         })
     }
 
     public timeoutHandler = () => {
-        console.log('Time is Over');
-        this.hubConnection.invoke('AllPlayersAnswered');
+        this.hubConnection.invoke('GoToNextQuestion');
         this.setState({
             timer: -1,
             showCorrectAnswer: true
@@ -84,13 +91,15 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public render() {
+        
         const newAnswers: any[] = this.state.question.answers.map((answer: any, index: number) => {
             const newAnswer = { ...answer }
-            newAnswer.pictureUrl = picturesUrls[index];
+			newAnswer.pictureUrl = picturesUrls[index];
             return newAnswer;
-        })
+		});
+		console.log(newAnswers);
         if (this.state.redirect) {
-            return <Redirect push={true} to="/rankingPage" />;
+			return <Redirect push={true} to={"/rankingPage/" + this.code} />;
         }
         return (
             <div className='show-question'>
@@ -99,7 +108,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
                 </header>
                 <main className='main'>
                     <ShowQuestionMain answers={newAnswers}
-                        correctId={1}
+                        correctId={this.state.question.correctAnswerId}
                         showCorrectAnswer={this.state.showCorrectAnswer}
                         questionNumber={this.state.questionNumber}
                         questionText={this.state.question.text}

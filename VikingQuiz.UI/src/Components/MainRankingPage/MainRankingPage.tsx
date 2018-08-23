@@ -5,14 +5,16 @@ import WinningPlayerItem from './WinningPlayerItem/WinningPlayerItem';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LogOutButton from '../Buttons/LogOutButton/LogOutButton';
 import { apiUrl } from "../../constants";
-import * as SignalR from '@aspnet/signalr';
 import { Link } from 'react-router-dom';
+import * as SignalR from "@aspnet/signalr";
+
 
 
 
 class MainRankingPage extends React.Component <any, any> {
    public httpService : HttpService = new HttpService();
    public playersApiAdress = apiUrl + "api/player"; 
+    public readonly code = this.props.match.params.code;
    // public photoStorageUrlEndpoint = apiUrl + "api/storage";
    public hubConnection: SignalR.HubConnection;
 
@@ -78,8 +80,8 @@ class MainRankingPage extends React.Component <any, any> {
       
       
 
-      this.hubConnection.invoke('GetWinners').then( (succesfulResponse : any) => {
-         this.playersList = succesfulResponse; // the response data
+      this.hubConnection.invoke('GetWinners', this.code).then( (succesfulResponse : any) => {
+         this.playersList = succesfulResponse.winners; // the response data
 
          this.addRankingsToPlayerList();
          this.reverseFirstTwoMembersOfThePlayersList();
@@ -104,6 +106,7 @@ class MainRankingPage extends React.Component <any, any> {
 
    // WORKS THE SAME
    public constructWinners() {
+       console.log(this.state, this);
       return (
          <>
             {
@@ -128,6 +131,7 @@ class MainRankingPage extends React.Component <any, any> {
 
 
    public render() {
+       console.log(this.state, this);
       return (
          <div className="main-ranking-page-container">
             <LogOutButton /> 

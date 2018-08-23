@@ -1,7 +1,8 @@
 import * as React from 'react';
 import './Answer.css';
-import * as SignalR from '@aspnet/signalr';
 import { Redirect} from 'react-router-dom';
+import SignalRSingleton from "src/hubSingleton";
+
 
 
 const MapStringToNumbers={
@@ -16,12 +17,12 @@ const MapNumberToString={
     2: "doi",
     3: "trei",
     4: "patru"
-} 
+};
 
 
 class Answer extends React.Component<any, any> {
 
-    private hubConnection: SignalR.HubConnection;
+    public hubConnection : any = SignalRSingleton.connection;
     private startTimer = Date.now();
 
     constructor(props: any) {
@@ -48,7 +49,7 @@ class Answer extends React.Component<any, any> {
 
     public componentDidMount()
     {
-        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl("http://localhost:60151/gamemaster").build();
+    
         this.hubConnection.on('SendCorrectAnswerId', this.handleTimeExpires);
         this.hubConnection.on('ProceedToNextAnswers', this.proceedToNextAnswers);
         this.hubConnection.on('GameIsOver', this.handleGameIsOver);

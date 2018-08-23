@@ -51,21 +51,27 @@ namespace VikingQuiz.Api.Controllers.SignalR
         public void AllPlayersAnswered(GameInstance gameInstance)
         {
             string code = RoomService.PlayersToRooms[gameInstance.GameMasterId];
-            Clients.Client(gameInstance.GameMasterId).SendAsync("EverybodyAnswered");
+            Clients.Group(code).SendAsync("NextQuestion");
             Clients.GroupExcept(code, gameInstance.GameMasterId).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2);
         }
+
+
+
+
+
+
 
         /// <summary>
         /// !Event! When the controller detects that a game has come to an end
         /// this method is called and announces everybody that the game has ended
         /// </summary>
-        public void NoMoreQuestions(GameInstance gameInstance)
-        {
+        public async void NoMoreQuestions(GameInstance gameInstance) {
             string code = RoomService.PlayersToRooms[gameInstance.GameMasterId];
-            Clients.Group(code).SendAsync("GameIsOver");
             GameInstance instance = RoomService.Rooms[code];
             instance.OrderedPlayers = OrderPlayers(RoomService.Rooms[code].Players.Values);
             RoomService.Rooms[code] = instance;
+
+            await Clients.Group(code).SendAsync("GameIsOver");
         }
 
         /// <summary>
@@ -76,11 +82,14 @@ namespace VikingQuiz.Api.Controllers.SignalR
         public async Task<string> CreateGame(int quizId)
         {
             string code = GenerateCode();
+
             await Groups.AddToGroupAsync(Context.ConnectionId, code);
-            Game game = new Game { QuizId = quizId, GameDate = DateTime.Now, Code = "mock" };
+            Game game = new Game { QuizId = quizId, GameDate = DateTime.Now, Code = code };
             gameRepository.Create(game);
+
             QuizQuestionsAnswers quizQuestionsAnswers = quizRepository.GetQuizByIdAndAssociatedQuestionsAndAnswers(quizId);
             GameInstance gameInstance = new GameInstance(quizQuestionsAnswers, Context.ConnectionId, AllPlayersAnswered, NoMoreQuestions, game.Id);
+
             RoomService.Rooms.Add(code, gameInstance);
             RoomService.PlayersToRooms.Add(Context.ConnectionId, code);
             return code;
@@ -90,10 +99,11 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// When an administrator presses start game
         /// this method tells all players that the game has started
         /// </summary>
-        public Task BeginGame()
+        public void BeginGame(string code)
         {
-            string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            return Clients.Groups(code).SendAsync("GameStarted");
+            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            //Clients.All.SendAsync("GameStarted");
+            Clients.Groups(code).SendAsync("GameStarted");
         }
 
         /// <summary>
@@ -113,14 +123,15 @@ namespace VikingQuiz.Api.Controllers.SignalR
             player = await Task.Run(() => playerRepository.AddPlayer(player, instance.GameId));
 
             //add player to room
-            Groups.AddToGroupAsync(Context.ConnectionId, Code);
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, Code);
             GamePlayer gamePlayer = new GamePlayer(player.Id, player.Name, player.PictureUrl);
             RoomService.Rooms[Code].Players.Add(Context.ConnectionId, gamePlayer);
             RoomService.PlayersToRooms.Add(Context.ConnectionId, Code);
 
             //notify GM that a new player entered
             string gameMaster = RoomService.Rooms[Code].GameMasterId;
-            Clients.Client(gameMaster).SendAsync("NewPlayerHasConnected", Name, PictureUrl);
+            await Clients.Client(gameMaster).SendAsync("NewPlayerHasConnected", Name, PictureUrl);
             return player.Id;
         }
 
@@ -128,63 +139,59 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// When the gamemaster moves to a new question
         /// he makes a request for the data for that question
         /// </summary>
-        public QuestionViewModel GetCurrentQuestion()
+        public QuestionViewModel GetCurrentQuestion(string code)
         {
-            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            //int currentQuestionId = RoomService.Rooms[code].CurrentQuestion;
-            //GameInstance gameInstance = RoomService.Rooms[code];
-            //QuestionViewModel questionViewModel = new QuestionViewModel
-            //{
-            //    Id = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Id,
-            //    Text = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Text,
-            //    Answers = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item1.Select(a => answerMapper.Map(a)).ToList(),
-            //    CorrectAnswerId = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item2
-            //};
-            //return questionViewModel;
-            List<AnswerViewModel> answers = new List<AnswerViewModel>();
-            answers.Add(new AnswerViewModel()
-            {
-                Id = 1,
-                Text = "True"
-            });
-            answers.Add(new AnswerViewModel()
-            {
-                Id = 2,
-                Text = "False"
-            });
-            answers.Add(new AnswerViewModel()
-            {
-                Id = 3,
-                Text = "Very False"
-            });
-            answers.Add(new AnswerViewModel()
-            {
-                Id = 4,
-                Text = "Super False"
-            });
+            int currentQuestionId = RoomService.Rooms[code].CurrentQuestion;
+            GameInstance gameInstance = RoomService.Rooms[code];
 
-            return new QuestionViewModel()
-            {
-                Id = 1000,
-                Text = "Where is my precious?",
-                CorrectAnswerId = 1,
-                Answers = answers
+            int realQuestionIndex = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Id; // get the id of the actual question from the DB
+            int realAnswersKey = 0; 
+
+            foreach(var answer in gameInstance.QuizQuestionsAnswers.answers) {
+                var questionId = answer.Value.Item1[0].QuestionId;
+                if (questionId == realQuestionIndex) {
+                    realAnswersKey = answer.Key;
+                }
+                
+            }
+
+            QuestionViewModel questionViewModel = new QuestionViewModel {
+                Id = realQuestionIndex,
+                Text = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Text,
+                Answers = gameInstance.QuizQuestionsAnswers.answers[realAnswersKey].Item1.Select(a => answerMapper.Map(a)).ToList(),
+                CorrectAnswerId = gameInstance.QuizQuestionsAnswers.answers[realAnswersKey].Item2
             };
+
+            return questionViewModel;
+
         }
 
         /// <summary>
         /// When the gamemaster decides to move on to the next question
         /// this method tells all players in the room to move on as well
         /// </summary>
-        public void GoToNextQuestion()
+        public bool GoToNextQuestion(string code)
         {
-            string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            Clients.Group(code).SendAsync("NextQuestion");
+            bool areThereMoreQuestions = false;
+            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+
             GameInstance gameInstance = RoomService.Rooms[code];
-            gameInstance.CurrentQuestion++;
+            gameInstance.CurrentQuestion = ++gameInstance.CurrentQuestion;
             gameInstance.PlayersThatAnsweredCurrentQuestion = gameInstance.Players.Count;
             RoomService.Rooms[code] = gameInstance;
+            if(!checkIfThereAreNoMoreQuestions(gameInstance)) {
+                areThereMoreQuestions = true;
+                Clients.Group(code).SendAsync("NextQuestion");
+            }
+            return areThereMoreQuestions;
+
         }
+
+
+
+
+
+
 
         /// <summary>
         /// When a player answers a question, the front end sends the answer and the time
@@ -196,13 +203,25 @@ namespace VikingQuiz.Api.Controllers.SignalR
             string code = RoomService.PlayersToRooms[Context.ConnectionId];
             GameInstance gameInstance = RoomService.Rooms[code];
             GamePlayer gamePlayer = gameInstance.Players[Context.ConnectionId];
+
+
             int scoreToAdd = gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2 == chosenAnswer ? 10 : 0;
+
             gamePlayer.score += scoreToAdd;
             gamePlayer.time += time;
+
             gameInstance.Players[Context.ConnectionId] = gamePlayer;
             gameInstance.PlayersThatAnsweredCurrentQuestion--;
+            checkIfAllPlayersAnswered(gameInstance);
+
             RoomService.Rooms[code] = gameInstance;
+
         }
+
+
+
+
+
 
         /// <summary>
         /// When a player gets to the end screen he makes a request to see how he ranked
@@ -224,23 +243,36 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// <summary>
         /// When the gamemaster gets to the end screen he makes a request to get the top 3 players
         /// </summary>
-        public dynamic GetWinners()
+        public WinnersDTO GetWinners(string code )
         {
             //string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            //PlayerDTO[] top3Players = RoomService.Rooms[code]
-            //    .OrderedPlayers
-            //    .Take(3)
-            //    .Select(dto => new PlayerDTO { name = dto.name, pictureUrl = dto.pictureUrl })
-            //    .ToArray();
-            //WinnersDTO winners = new WinnersDTO(top3Players);
-            //return winners;
-            var pList = new List<PlayerDTO>();
-            pList.Add(new PlayerDTO { name = "Jon", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
-            pList.Add(new PlayerDTO { name = "Tyrion", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
+            PlayerDTO[] top3Players = RoomService.Rooms[code]
+                .OrderedPlayers
+                .Take(3)
+                .Select(dto => new PlayerDTO { name = dto.name, pictureUrl = dto.pictureUrl })
+                .ToArray();
+            WinnersDTO winners = new WinnersDTO(top3Players);
+            return winners;
 
-            pList.Add(new PlayerDTO { name = "Tywin", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
-            return pList;
         }
+
+        private bool checkIfAllPlayersAnswered(GameInstance instance) 
+        {
+            bool condition = instance.PlayersThatAnsweredCurrentQuestion == 0;
+            if (condition) {
+                AllPlayersAnswered(instance);
+            }
+            return condition;
+        }
+
+        private bool checkIfThereAreNoMoreQuestions(GameInstance instance) {
+            bool condition = instance.CurrentQuestion == instance.QuizQuestionsAnswers.questions.Count;
+            if (instance.CurrentQuestion == instance.QuizQuestionsAnswers.questions.Count) {
+                NoMoreQuestions(instance);
+            }
+            return condition;
+        }
+
 
         public IOrderedEnumerable<GamePlayer> OrderPlayers(IEnumerable<GamePlayer> players)
         {
@@ -248,3 +280,18 @@ namespace VikingQuiz.Api.Controllers.SignalR
         }
     }
 }
+
+
+
+/*
+                 if (_players == 0)
+                {
+                    AllPlayersAnsweredCallback(this);
+                }
+
+                    _question = value;
+                if (_question == QuizQuestionsAnswers.questions.Count)
+                {
+                    NoMoreQuestionsCallback(this);
+                }
+     */
