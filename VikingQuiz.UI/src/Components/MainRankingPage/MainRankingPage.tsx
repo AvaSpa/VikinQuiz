@@ -78,7 +78,7 @@ class MainRankingPage extends React.Component <any, any> {
       
       
 
-      this.hubConnection.invoke('/getRankings').then( (succesfulResponse : any) => {
+      this.hubConnection.invoke('GetWinners').then( (succesfulResponse : any) => {
          this.playersList = succesfulResponse; // the response data
 
          this.addRankingsToPlayerList();
@@ -92,7 +92,7 @@ class MainRankingPage extends React.Component <any, any> {
    }
 
    public componentWillMount() {
-      this.hubConnection = new SignalR.HubConnectionBuilder().withUrl('apiUrl').build();
+      this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "gamemaster").build();
 
       this.hubConnection.start()
          .then(() => {
