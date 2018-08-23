@@ -1,0 +1,31 @@
+.show-main {
+  margin: 50px auto;
+  width: 80%; }
+  .show-main .question-text {
+    font-size: 70px;
+    margin-bottom: 20px;
+    color: #5db9c5; }
+  .show-main .answers {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 50px;
+    width: 80%;
+    margin: 0 auto; }
+    .show-main .answers .left {
+      padding-left: 15%; }
+    .show-main .answers .right {
+      padding-left: 10%; }
+  .show-main .correct-answer .answer-image {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    margin-top: 25px; }
+  .show-main .correct-answer .answer-text {
+    margin-top: 25px;
+    margin-bottom: 50px;
+    font-size: 50px;
+    font-weight: 300; }
+  .show-main .correct-answer .switch-button {
+    position: static;
+    font-size: 35px;
+    width: 100px; }

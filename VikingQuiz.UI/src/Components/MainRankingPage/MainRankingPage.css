@@ -1,0 +1,24 @@
+.main-ranking-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-family: "dk_lemon_yellow_sunregular", sans-serif;
+  font-size: 25px; }
+  .main-ranking-page .winning-player-item:nth-child(1),
+  .main-ranking-page .winning-player-item:nth-child(3) {
+    margin-top: 50px; }
+  @media screen and (min-width: 500px) {
+    .main-ranking-page .winning-player-item:nth-child(1),
+    .main-ranking-page .winning-player-item:nth-child(3) {
+      margin-top: 80px; } }
+
+.main-ranking-page-container .home-button {
+  width: 100px;
+  height: 100px; }
+  @media screen and (min-width: 1000px) {
+    .main-ranking-page-container .home-button {
+      width: 120px;
+      height: 120px; } }
+
+.main-ranking-page-container .winning-player-item:nth-child(2) {
+  margin-top: 10px; }

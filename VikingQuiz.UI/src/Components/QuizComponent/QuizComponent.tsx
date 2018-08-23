@@ -61,6 +61,7 @@ class QuizComponent extends React.Component<any, IState> {
               <ProfileAndHomeComponent 
                  profileName={this.state.profileName}
                  profilePictureUrl={this.state.profilePictureUrl}
+                 buttonIsDisabled={false}
                >
                   {
                      this.state.editMode ? 

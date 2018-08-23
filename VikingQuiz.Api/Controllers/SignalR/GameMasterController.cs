@@ -123,17 +123,46 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// </summary>
         public QuestionViewModel GetCurrentQuestion()
         {
-            string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            int currentQuestionId = RoomService.Rooms[code].CurrentQuestion;
-            GameInstance gameInstance = RoomService.Rooms[code];
-            QuestionViewModel questionViewModel = new QuestionViewModel
+            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            //int currentQuestionId = RoomService.Rooms[code].CurrentQuestion;
+            //GameInstance gameInstance = RoomService.Rooms[code];
+            //QuestionViewModel questionViewModel = new QuestionViewModel
+            //{
+            //    Id = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Id,
+            //    Text = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Text,
+            //    Answers = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item1.Select(a => answerMapper.Map(a)).ToList(),
+            //    CorrectAnswerId = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item2
+            //};
+            //return questionViewModel;
+            List<AnswerViewModel> answers = new List<AnswerViewModel>();
+            answers.Add(new AnswerViewModel()
             {
-                Id = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Id,
-                Text = gameInstance.QuizQuestionsAnswers.questions[currentQuestionId].Text,
-                Answers = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item1.Select(a => answerMapper.Map(a)).ToList(),
-                CorrectAnswerId = gameInstance.QuizQuestionsAnswers.answers[currentQuestionId].Item2
+                Id = 1,
+                Text = "True"
+            });
+            answers.Add(new AnswerViewModel()
+            {
+                Id = 2,
+                Text = "False"
+            });
+            answers.Add(new AnswerViewModel()
+            {
+                Id = 3,
+                Text = "Very False"
+            });
+            answers.Add(new AnswerViewModel()
+            {
+                Id = 4,
+                Text = "Super False"
+            });
+
+            return new QuestionViewModel()
+            {
+                Id = 1000,
+                Text = "Where is my precious?",
+                CorrectAnswerId = 1,
+                Answers = answers
             };
-            return questionViewModel;
         }
 
         /// <summary>
@@ -188,16 +217,22 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// <summary>
         /// When the gamemaster gets to the end screen he makes a request to get the top 3 players
         /// </summary>
-        public WinnersDTO GetWinners()
+        public dynamic GetWinners()
         {
-            string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            PlayerDTO[] top3Players = RoomService.Rooms[code]
-                .OrderedPlayers
-                .Take(3)
-                .Select(dto => new PlayerDTO { name = dto.name, pictureUrl = dto.pictureUrl })
-                .ToArray();
-            WinnersDTO winners = new WinnersDTO(top3Players);
-            return winners;
+            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            //PlayerDTO[] top3Players = RoomService.Rooms[code]
+            //    .OrderedPlayers
+            //    .Take(3)
+            //    .Select(dto => new PlayerDTO { name = dto.name, pictureUrl = dto.pictureUrl })
+            //    .ToArray();
+            //WinnersDTO winners = new WinnersDTO(top3Players);
+            //return winners;
+            var pList = new List<PlayerDTO>();
+            pList.Add(new PlayerDTO { name = "Jon", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
+            pList.Add(new PlayerDTO { name = "Tyrion", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
+
+            pList.Add(new PlayerDTO { name = "Tywin", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
+            return pList;
         }
 
         public IOrderedEnumerable<GamePlayer> OrderPlayers(IEnumerable<GamePlayer> players)

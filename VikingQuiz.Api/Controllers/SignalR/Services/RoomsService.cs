@@ -87,6 +87,7 @@ namespace VikingQuiz.Api.Controllers.SignalR.Services
         public RoomsService()
         {
             this.Rooms = new Dictionary<string, GameInstance>();
+            this.Rooms.Add("123456", new GameInstance());
             this.PlayersToRooms = new Dictionary<string, string>();
         }
     }

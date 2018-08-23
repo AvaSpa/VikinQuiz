@@ -98,7 +98,7 @@ class SignUpPage extends React.Component<{}, any> {
          <div className="register-form">
             <div className="container">
                <LoginButton />
-               <HomeButton />
+               <HomeButton buttonIsDisabled={true} />
                <div className="row">
                   <div>
                      <div className="signup-msg">

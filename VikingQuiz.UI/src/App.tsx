@@ -14,7 +14,11 @@ import ResetPasswordComponent from './Components/ForgotPasswordComponent/ResetPa
 import SendEmailComponent from './Components/ForgotPasswordComponent/SendEmailComponent/SendEmailComponent';
 import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent';
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
+import ShowQuestionComponent from './Components/ShowQuestion/ShowQuestionComponent';
 import SignalRComponent from './Components/SignalR';
+import PlayerAnswerPage from './Components/PlayerAnswerPage/PlayerAnswerPage';
+
+import MainRankingPage from './Components/MainRankingPage/MainRankingPage';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -41,7 +45,10 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/forgot/:token" component={ResetPasswordComponent} />
             {/* <Route exact={true} path="/playquiz" component={PlayQuiz} /> */}
             <Route exact={true} path="/snackbar" component={SnackbarComponent} />
+            <Route exact={true} path="/show-question" component={ShowQuestionComponent} />
             <Route exact={true} path="/signalr" component={SignalRComponent} />
+            <Route exact={true} path="/rankingPage" component={MainRankingPage} />
+            <Route exact={true} path="/playeranswer" component={PlayerAnswerPage} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>
         </div>

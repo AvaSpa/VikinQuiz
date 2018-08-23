@@ -1,0 +1,115 @@
+.block-screen{
+    background-color: gray;
+    opacity: 0.0;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    position: fixed;
+    padding: 0;
+    z-index: 100;
+}
+
+.answers-container{
+    width: 100%;
+    justify-content: flex-start;
+    z-index: 99;
+
+    .answer-photo{
+        border: none;
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-bottom: 10%;
+        &:focus 
+            {outline-color: transparent;}
+            
+        @media screen and (min-width: 300px){
+            width: 100px;
+            height: 100px;
+            margin-left: 5%;
+            margin-right: 5%; 
+        }
+
+        @media screen and (min-width: 370px){
+            width: 120px;
+            height: 120px;
+            margin-left: 5%;
+            margin-right: 5%; 
+        }
+
+        @media screen and (min-width: 660px){
+            width: 100px;
+            height: 100px;
+            margin-left: 10%;
+             margin-right: 10%; 
+        }
+
+        @media screen and (min-width: 700px){
+            width: 250px;
+            height: 250px;
+            margin-left: 3%;
+            margin-right: 3%; 
+        }
+
+        @media screen and (min-width: 850px){
+            width: 150px;
+            height: 150px;
+            margin-left: 10%;
+            margin-right: 10%;
+            margin-bottom: 3%; 
+        }
+
+        @media screen and (min-width: 1000px) and (min-height: 1100px){
+            width: 260px;
+            height: 260px;
+            margin-left: 8%;
+            margin-right: 8%;       
+        }
+
+        @media screen and (min-width: 1400px){
+            width: 230px;
+            height: 230px;
+            margin-left: 10%;
+            margin-right: 10%; 
+        }
+    }
+
+    #unu{
+        background: transparent url("https://intershipwirtekblob.blob.core.windows.net/answer-pictures/1.png") no-repeat;
+        background-size: 100%; 
+        border: none;
+    }
+
+    #doi{
+        background: transparent url('https://intershipwirtekblob.blob.core.windows.net/answer-pictures/2.png') no-repeat;
+        background-size: 100%; 
+        border: none;
+    }
+
+    #trei{
+        background: transparent url('https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png') no-repeat;
+        background-size: 100%; 
+        border: none;
+    }
+
+    #patru{
+        background: transparent url('https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png') no-repeat;
+        background-size: 100%; 
+        border: none;
+    }
+
+    .correct_answer_message{
+        color: green;
+        font-family: 'dk_lemon_yellow_sunregular';
+        font-size: 40px;
+    }
+
+    .wrong_answer_message{
+        color: red;
+        font-family: 'dk_lemon_yellow_sunregular';
+        font-size: 40px;
+    }   
+}

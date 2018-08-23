@@ -66,7 +66,14 @@
     .hidden {
         display: none;
     }
-    
+    #preview-image,
+    .circle-btn,
+    .submit-button {
+        width: 60px;
+        height: 60px;
+        box-sizing: border-box;
+        flex-shrink: 0;
+    }
     .success-button {
         text-align: right;
         justify-content: flex-end;
