@@ -3,16 +3,33 @@ import './StartGame.css';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import CancelButton from '../Buttons/CancelButton/CancelButton';
 import StartButton from '../Buttons/StartButton/StartButton';
+import * as SignalR from '@aspnet/signalr'
+import GameDto from '../../entities/GameDto';
 
 class StartGame extends React.Component<any, any> {
+    private hubConnection: SignalR.HubConnection;
     
     constructor(props: any) {
       super(props);
+
+      this.state = {
+          quizId: this.props.location.state.id,
+          code: null
+      }
+    }
+
+    public componentDidMount() {
+        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl('http://localhost:60151/gamemaster').build();
+
+
+        this.hubConnection.start()
+            .then( ()=> this.hubConnection.invoke("CreateGame", this.state.quizId).then( (Response) => this.getGameDto(Response) ))
+            .catch( ()=>console.log('SignalR failed to connect'));
     }
 
     public render() {
         const displayedMessage = "YOUR CODE";
-        const displayedCode = this.props.location.state.code;
+        const displayedCode = this.state.code;
         return (
             <div className="startgame-container container">
                 <div className="startgame-center-container">
@@ -38,6 +55,13 @@ class StartGame extends React.Component<any, any> {
             </div>
         ); 
     }
+
+    private getGameDto = (gameDto: GameDto) => {
+        this.setState({
+            code: gameDto.code
+        });
+    }
+
 }
 
 export default StartGame;

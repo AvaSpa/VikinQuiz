@@ -79,5 +79,14 @@ namespace VikingQuiz.Api.Repositories
             return foundGame;
         }
 
+        public Player AssignRandomPhoto(Player player)
+        {
+            Random random = new Random();
+            int number = random.Next(1, 6);
+            Player foundPlayer = context.Player.FirstOrDefault(p => p.Id == player.Id);
+            foundPlayer.PictureUrl = number + ".png";
+            context.SaveChanges();
+            return player;
+        }
     }
 }

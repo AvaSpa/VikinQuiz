@@ -52,6 +52,11 @@ namespace VikingQuiz.Api.Controllers
                 Name = playercode.Name
             };
 
+            if(createdPlayer.PictureUrl == "")
+            {
+                createdPlayer = playerRepository.AssignRandomPhoto(createdPlayer);
+            }
+
             Player newPlayer = playerRepository.AddPlayer(createdPlayer, playercode.Code);
             if(newPlayer == null)
             {
