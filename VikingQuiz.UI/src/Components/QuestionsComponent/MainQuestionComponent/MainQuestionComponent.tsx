@@ -5,9 +5,10 @@ import SubmitButton from '../../Buttons/SubmitButton/SubmitButton';
 import SingleAnswer from './SingleAnswer/SingleAnswer';
 import GenericButton from '../../Buttons/GenericButton/GenericButton';
 import HttpService from 'src/services/HttpService';
+import {apiUrl} from "src/constants";
 
 class MainQuestionComponent extends React.Component<any, any> {
-   public apiEndpoint = "http://localhost:60151/api/storage/";
+   public apiEndpoint = apiUrl + "api/storage/";
    public containerName: string = "answer-pictures";
    public httpService: HttpService = new HttpService();
 

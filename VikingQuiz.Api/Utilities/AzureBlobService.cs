@@ -29,7 +29,7 @@ namespace VikingQuiz.Api.Utilities
             }
 
             string contentType = file.ContentType;
-            var extension = getFileExtension(contentType);
+            var extension = GetFileExtension(contentType);
             string imageFileName = Guid.NewGuid().ToString() + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds + extension;
 
             CloudBlockBlob cloudBlockBlob = userContainer.GetBlockBlobReference(imageFileName);
@@ -129,7 +129,7 @@ namespace VikingQuiz.Api.Utilities
             return serviceProperties;
         }
 
-        private string getFileExtension(string contentType)
+        private string GetFileExtension(string contentType)
         {
             Dictionary<string, string> extensions = new Dictionary<string, string>();
 
