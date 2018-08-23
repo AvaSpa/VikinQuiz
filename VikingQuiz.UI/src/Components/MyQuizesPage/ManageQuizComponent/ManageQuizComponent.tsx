@@ -3,7 +3,7 @@ import './ManageQuizComponent.css';
 import { Redirect} from 'react-router-dom';
 import YesNoComponent from '../../YesNoComponent/YesNoComponent';
 import HttpService from '../../../services/HttpService';
-import { apiUrl } from '../../../constants';
+import {apiUrl} from 'src/constants';
 
 class ManageQuizComponent extends React.Component<any, any> { 
     

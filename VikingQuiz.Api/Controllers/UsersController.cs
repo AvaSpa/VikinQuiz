@@ -42,15 +42,6 @@ namespace VikingQuiz.Api.Controllers
             return Ok(userVm);
         }
 
-        [HttpGet]
-        //[Authorize]
-        public IActionResult GetAll()
-        {
-            var users = userRepository.GetAll();
-            var result = users.Select(user => this.entityToVmMapper.Map(user)).ToList();
-            return Ok(result);
-        }
-
         [HttpPost]
         public IActionResult Add([FromBody]UserViewModel user)
         {
