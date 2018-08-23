@@ -10,7 +10,7 @@ namespace VikingQuiz.Api.Utilities
     {
         public static int GetUserId(this IEnumerable<Claim> user)
         {
-            var userId = user.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier).Value;
+            string userId = user.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier).Value;
             return int.Parse(userId);
         }
     }

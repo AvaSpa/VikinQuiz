@@ -4,7 +4,7 @@ import QuizItem from '../QuizItem/QuizItem';
 import NewQuizButton from '../Buttons/NewQuizButton/NewQuizButton';
 import ProfileAndHomeComponent from '../ProfileAndHomeComponent/ProfileAndHomeComponent';
 import HttpService from '../../services/HttpService';
-import { apiUrl } from '../../constants';
+import {apiUrl} from 'src/constants';
 
 class MyQuizzesComponent extends React.Component<any, any> {
     

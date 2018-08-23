@@ -6,7 +6,7 @@ import MainQuestionComponent from './MainQuestionComponent/MainQuestionComponent
 import QuestionsListComponent from './QuestionsListComponent/QuestionsListComponent';
 
 import HttpService from '../../services/HttpService';
-import { apiUrl } from '../../constants';
+import {apiUrl} from 'src/constants';
 
 
 

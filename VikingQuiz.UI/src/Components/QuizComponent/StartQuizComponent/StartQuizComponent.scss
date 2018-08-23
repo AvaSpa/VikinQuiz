@@ -13,6 +13,18 @@
             display: none;
         }
     }
+    #title, #upload {
+        margin-bottom: 1.2em;
+    }
+
+    .circle-button,
+    .submit-button {
+          width: 60px;
+          height: 60px;
+          box-sizing: border-box;
+          flex-shrink: 0;
+    }
+
     #quiz-title {
         background-color: #00333E;
         border: 0;
@@ -26,24 +38,15 @@
         box-shadow: 0 0 0;
         border: 0px;
     }
-    #file-uploader {
-        display: none
-    }
-    #upload {
-        text-align: left;
-    }
     #label-photo-txt {
         margin-right: 10px;
         font-weight: 400;
     }
-    #preview-image {
-        border-radius: 50%;
-        border: 3px #fff solid;
-        box-sizing: content-box;
+    .preview {
         margin-left: 10px;
     }
     .error-border {
-        .upload-btn,
+        .upload-button,
         #quiz-title,
         #quiz-title:focus {
             box-shadow: 0 0 4px 2px #fa1919;
@@ -58,20 +61,13 @@
         height: 0;
         width: 100%;
         position: absolute;
-        bottom: 0.3em;
+        bottom: 0.1em;
     }
     .hidden {
         display: none;
     }
-    #preview-image,
-    .circle-btn,
-    .submit-button {
-        width: 60px;
-        height: 60px;
-        box-sizing: border-box;
-        flex-shrink: 0;
-    }
-    .success-btn {
+    
+    .success-button {
         text-align: right;
         justify-content: flex-end;
     }
@@ -83,7 +79,7 @@
             display: none;
         }
     }
-    .success-btn, #upload, .form-input-container {
+    .success-button, #upload, .form-input-container {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
