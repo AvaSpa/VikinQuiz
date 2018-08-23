@@ -217,16 +217,22 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// <summary>
         /// When the gamemaster gets to the end screen he makes a request to get the top 3 players
         /// </summary>
-        public WinnersDTO GetWinners()
+        public dynamic GetWinners()
         {
-            string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            PlayerDTO[] top3Players = RoomService.Rooms[code]
-                .OrderedPlayers
-                .Take(3)
-                .Select(dto => new PlayerDTO { name = dto.name, pictureUrl = dto.pictureUrl })
-                .ToArray();
-            WinnersDTO winners = new WinnersDTO(top3Players);
-            return winners;
+            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            //PlayerDTO[] top3Players = RoomService.Rooms[code]
+            //    .OrderedPlayers
+            //    .Take(3)
+            //    .Select(dto => new PlayerDTO { name = dto.name, pictureUrl = dto.pictureUrl })
+            //    .ToArray();
+            //WinnersDTO winners = new WinnersDTO(top3Players);
+            //return winners;
+            var pList = new List<PlayerDTO>();
+            pList.Add(new PlayerDTO { name = "Jon", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
+            pList.Add(new PlayerDTO { name = "Tyrion", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
+
+            pList.Add(new PlayerDTO { name = "Tywin", pictureUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUaAlWcJATcU2JvkQSHXVX84UFzSPiLHNKfWXouz8l8gtI87YI" });
+            return pList;
         }
 
         public IOrderedEnumerable<GamePlayer> OrderPlayers(IEnumerable<GamePlayer> players)

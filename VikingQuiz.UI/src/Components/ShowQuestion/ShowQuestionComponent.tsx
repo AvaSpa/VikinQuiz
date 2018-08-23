@@ -70,7 +70,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 
     public redirectToRankingPage = () => {
         this.setState({
-            redirct: true
+            redirect: true
         })
     }
 
@@ -90,7 +90,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
             return newAnswer;
         })
         if (this.state.redirect) {
-            return <Redirect push={true} to="/myQuizzes" />;
+            return <Redirect push={true} to="/rankingPage" />;
         }
         return (
             <div className='show-question'>
