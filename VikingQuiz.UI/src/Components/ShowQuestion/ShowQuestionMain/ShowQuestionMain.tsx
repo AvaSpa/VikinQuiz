@@ -41,7 +41,7 @@ class ShowQuestionMain extends React.Component<any, any>{
 
     private clickNextHandler = () => {
         console.log('Next Button Clicked!');
-        // make requst to change qustion
+        this.hubConnection.invoke('GoToNextQuestion').then();
         this.props.next();
     }
 }
