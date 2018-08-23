@@ -26,7 +26,7 @@ class PlayerAnswerPage extends React.Component<any, any>{
                     <div className='participant-container'>
                         PARTICIPANT
                     </div>
-                    <MyProfileComponent />
+                    <MyProfileComponent profilePictureUrl={this.props.profilePictureUrl} profileName={this.props.profileName} children={null} />
                 </div>
                 <div className='answer-container'>
                     <Answer />

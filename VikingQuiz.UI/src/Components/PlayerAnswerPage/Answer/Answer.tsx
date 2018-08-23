@@ -29,6 +29,10 @@ class Answer extends React.Component<any, any> {
             answerMessageFontColor: null,
         }
 
+        this.setupHandlers();
+    }
+
+    public setupHandlers(){
         this.handleUserSelection = this.handleUserSelection.bind(this);
         this.proceedToNextAnswers = this.proceedToNextAnswers.bind(this);
         this.handleGameIsOver = this.handleGameIsOver.bind(this);
@@ -95,7 +99,6 @@ class Answer extends React.Component<any, any> {
         }
 
         const totalTime = (Date.now() - this.startTimer) / 1000
-        console.log(totalTime)
         this.setState({chosenAnswerExists: true, chosenAnswerId: id})
         const chosenAnswerIdAsInt = MapStringToNumbers[id]
         this.hubConnection.invoke('SendChosenAnswerId', chosenAnswerIdAsInt, totalTime)
