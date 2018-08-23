@@ -57,28 +57,28 @@ namespace VikingQuiz.Api.Controllers
             return Ok(playerVm);
         }
 
-        [HttpPost]
-        public IActionResult CreatePlayer([FromBody]PlayerCodeViewModel playercode)
-        {
-            Player createdPlayer = new Player()
-            {
-                PictureUrl = playercode.PictureUrl,
-                Name = playercode.Name
-            };
+        //[HttpPost]
+        //public IActionResult CreatePlayer([FromBody]PlayerCodeViewModel playercode)
+        //{
+        //    Player createdPlayer = new Player()
+        //    {
+        //        PictureUrl = playercode.PictureUrl,
+        //        Name = playercode.Name
+        //    };
 
-            if(createdPlayer.PictureUrl == "")
-            {
-                createdPlayer = playerRepository.AssignRandomPhoto(createdPlayer);
-            }
+        //    if(createdPlayer.PictureUrl == "")
+        //    {
+        //        createdPlayer = playerRepository.AssignRandomPhoto(createdPlayer);
+        //    }
 
-            Player newPlayer = playerRepository.AddPlayer(createdPlayer, playercode.Code);
-            if(newPlayer == null)
-            {
-                return BadRequest("Player couldn't be created");
-            }
-            PlayerViewModel playerVm = entityToVmMapper.Map(newPlayer);
-            return Ok(playerVm);
-        }
+        //    Player newPlayer = playerRepository.AddPlayer(createdPlayer);
+        //    if(newPlayer == null)
+        //    {
+        //        return BadRequest("Player couldn't be created");
+        //    }
+        //    PlayerViewModel playerVm = entityToVmMapper.Map(newPlayer);
+        //    return Ok(playerVm);
+        //}
 
         [HttpPut("{id}")]
         public IActionResult UpdatePlayer(int id, [FromBody]PlayerViewModel player)

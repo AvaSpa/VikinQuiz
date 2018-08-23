@@ -8,12 +8,8 @@ class StartButton extends React.Component<any, any> {
 
     public render() {
         return (
-            <button className="start-button" onClick={this.handleClick} />
+            <button className="start-button" onClick={this.props.clicked} />
         );
-    }
-
-    public handleClick() {
-        alert("Button Clicked");
     }
 }
 

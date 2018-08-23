@@ -9,6 +9,7 @@ class ManageQuizComponent extends React.Component<any, any> {
     
     private httpService: HttpService = new HttpService();
     private readonly apiAddress : string = apiUrl + 'api/quizzes/';
+    private readonly gameAdress: string = apiUrl + 'api/game/'
     
     constructor(props: any) {
       super(props);
@@ -62,7 +63,13 @@ class ManageQuizComponent extends React.Component<any, any> {
     }
 
     public handlePlayGameButtonClick(){
-        this.setState({redirectToPlayGame: true})
+        const body = {quizId: this.props.id};
+        this.httpService.postWithToken(this.gameAdress, body)
+          .then( (res: any) => {
+            this.setState({redirectToPlayGame: true})
+          })
+          .catch((err: any) => console.log(err))
+        
     }
 
     public render(): any {

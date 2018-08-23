@@ -19,7 +19,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Game Create(Game game)
         {
-            context.Add(game);
+            context.Game.Add(game);
             context.SaveChanges();
             return game;
         }

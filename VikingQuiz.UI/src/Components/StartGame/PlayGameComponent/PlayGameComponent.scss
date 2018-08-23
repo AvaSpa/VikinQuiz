@@ -9,7 +9,7 @@
         background-size: 100%;
         margin-top: 20px;
         left: 50%;
-        transform: translateX(-46%);
+        transform: translateX(-50%);
         bottom: 60px;
         display: block;
         transition: all 0.2s linear;
@@ -50,9 +50,4 @@
         }
     }
     
-    @media screen and (max-height: 600px) {
-        .join-button {
-            top: 100px;
-        }
-    }
 }

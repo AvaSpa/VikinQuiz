@@ -10,6 +10,7 @@ using VikingQuiz.Api.ViewModels;
 using VikingQuiz.Api.Mappers;
 using Microsoft.AspNetCore.Authorization;
 using VikingQuiz.Api.Utilities;
+using VikingQuiz.Api.ViewModels.SimpleViewModels;
 
 namespace VikingQuiz.Api.Controllers
 {
@@ -67,14 +68,13 @@ namespace VikingQuiz.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGame([FromBody]GameViewModel gameViewModel)
+        public IActionResult CreateGame([FromBody]IdViewModel idViewModel)
         {
-            string code = gameRepository.GenerateCode();
             Game game = new Game()
             {
-                QuizId = gameViewModel.QuizId,
-                GameDate = Convert.ToDateTime(gameViewModel.GameDate),
-                Code = code
+                QuizId = idViewModel.quizId,
+                GameDate = DateTime.Now,
+                Code = "1"
             };
 
             Game newGame = gameRepository.Create(game);

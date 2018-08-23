@@ -55,17 +55,18 @@ namespace VikingQuiz.Api.Controllers.SignalR.Services
             }
         }
         public string GameMasterId;
+        public int GameId;
         private int _players;
         private int _question;
         private Action<GameInstance> AllPlayersAnsweredCallback;
         private Action<GameInstance> NoMoreQuestionsCallback;
-
-        public GameInstance(QuizQuestionsAnswers QuizQuestionsAnswers, string GameMasterId, Action<GameInstance> AllPlayersAnsweredCallback, Action<GameInstance> NoMoreQuestionsCallback)
+        public GameInstance(QuizQuestionsAnswers QuizQuestionsAnswers, string GameMasterId, Action<GameInstance> AllPlayersAnsweredCallback, Action<GameInstance> NoMoreQuestionsCallback, int GameId)
         {
             this.QuizQuestionsAnswers = QuizQuestionsAnswers;
             this.GameMasterId = GameMasterId;
             this.AllPlayersAnsweredCallback = AllPlayersAnsweredCallback;
             this.NoMoreQuestionsCallback = NoMoreQuestionsCallback;
+            this.GameId = GameId;
             this.Players = new Dictionary<string, GamePlayer>();
             this._question = 0;
             this._players = 0;
