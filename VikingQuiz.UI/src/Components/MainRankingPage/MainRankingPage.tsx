@@ -5,31 +5,27 @@ import WinningPlayerItem from './WinningPlayerItem/WinningPlayerItem';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LogOutButton from '../Buttons/LogOutButton/LogOutButton';
 import { apiUrl } from "../../constants";
+import * as SignalR from '@aspnet/signalr';
+import { Link } from '../../../node_modules/@types/react-router-dom';
 
 
-interface IMainRankingPageProps {
-   gameId: number;
-}
 
-class MainRankingPage extends React.Component <IMainRankingPageProps, any> {
+class MainRankingPage extends React.Component <any, any> {
    public httpService : HttpService = new HttpService();
    public playersApiAdress = apiUrl + "api/player"; 
-   public playGameApiAdress = apiUrl + "api/playergame";
-   public photoStorageUrlEndpoint = apiUrl + "api/storage";
-   public winningPhotoUrlBase : string; 
+   // public photoStorageUrlEndpoint = apiUrl + "api/storage";
+   public hubConnection: SignalR.HubConnection;
+
+   
+   // public winningPhotoUrlBase : string; 
    public winners : any = null;
-   public showWinners : boolean = false;
 
    public playersList : any[] = new Array();
    
    public state = {
    };
-   /* 
-   winningUrl : string;
-   winningPosition: string;
-   playerPhoto : string;
-   playerName: string;
-   */
+
+   
   public pictureSuffixMap = [
      {
         suffix: "st",
@@ -45,6 +41,8 @@ class MainRankingPage extends React.Component <IMainRankingPageProps, any> {
       }
    ];
    
+
+   // WORK THE SAME
    public addRankingsToPlayerList = () => {
       this.playersList = this.playersList.map((player, index) => {
          player.ranking = index;
@@ -52,51 +50,73 @@ class MainRankingPage extends React.Component <IMainRankingPageProps, any> {
       });
    }
 
+   // WORKS THE SAME
    public reverseFirstTwoMembersOfThePlayersList = () => {
       const firstPlayer = this.playersList[0];
       this.playersList[0] = this.playersList[1];
       this.playersList[1] = firstPlayer;
    }
 
-   public getPlayersDataAndAddThemToThePlayerList = () => {
-      this.httpService.get(this.playGameApiAdress + "/" + 1).then((succesfulResponse: any) => {
-
-         this.playersList = succesfulResponse.data.slice(0, 3);
-         this.addRankingsToPlayerList();
-         this.reverseFirstTwoMembersOfThePlayersList();
-
-
-
-         this.playersList.forEach((player, index) => {
-            const playerRequest = this.httpService.get(this.playersApiAdress + "/" + player.playerId);
-            playerRequest.then((playerData: any) => {
-               this.playersList[index].playerPhoto = playerData.data.pictureUrl
-               this.playersList[index].playerName = playerData.data.name
-            });
-
-            playersDataRequests.push(playerRequest);
-         });
-
-         Promise.all(
-            playersDataRequests
-         ).then(() => {
-            this.showWinners = true;
-            this.winners = this.constructWinners();
-            this.setState(this.playersList);
-         });
+   public playersIdsArrayToObject = () => {
+      this.playersList = this.playersList.map((playerId: number) => {
+         return ({ playerId });
       });
    }
 
-   public componentWillMount() {
-      const playersDataRequests : any[] = new Array();
-      
-      
+   public getPlayersData = () => {
+      const playersDataRequests: any[] = new Array();
+      this.playersList.forEach((player, index) => {
+         const playerRequest = this.httpService.get(this.playersApiAdress + "/" + player.playerId);
 
-      
+         playerRequest.then((playerData: any) => {
+            this.playersList[index].playerPhoto = playerData.data.pictureUrl
+            this.playersList[index].playerName = playerData.data.name
+         });
 
-      
+         playersDataRequests.push(playerRequest);
+      });
+      return playersDataRequests;
    }
 
+   public getPlayersDataAndAddThemToThePlayerList = () => {
+      
+      
+
+      this.hubConnection.invoke('/getRankings').then(succesfulResponse => {
+         this.playersList = succesfulResponse.data; // the response data
+
+         this.playersIdsArrayToObject();
+         this.addRankingsToPlayerList();
+         this.reverseFirstTwoMembersOfThePlayersList();
+
+         const playersDataRequest = this.getPlayersData();
+
+         Promise.all(  
+            playersDataRequest 
+         )
+         .then(() => {
+            this.winners = this.constructWinners();
+            this.setState(this.playersList);
+         });
+
+      }).catch(errorResponse => {
+         // 
+      });
+
+   }
+
+   public componentWillMount() {
+      this.hubConnection = new SignalR.HubConnectionBuilder().withUrl('apiUrl').build();
+
+      this.hubConnection.start()
+         .then(() => {
+            this.getPlayersDataAndAddThemToThePlayerList();
+         })
+         .catch(() => console.log('SignalR failed to connect'));
+   }
+
+
+   // WORKS THE SAME
    public constructWinners() {
       return (
          <>
@@ -104,7 +124,7 @@ class MainRankingPage extends React.Component <IMainRankingPageProps, any> {
                this.playersList.map( (winner, index) => {
                   return (
                      <WinningPlayerItem
-                        key={index}
+                        key={winner.playerId}
                         winningPhotoUrl={this.pictureSuffixMap[winner.ranking].pictureUrl}
                         winningPositionNumber={winner.ranking + 1}
                         positionSuffix={this.pictureSuffixMap[winner.ranking].suffix}
@@ -119,21 +139,15 @@ class MainRankingPage extends React.Component <IMainRankingPageProps, any> {
       );
    }
 
-   /* 
-         public int PlayerId { get; set; }
-         public int GameId { get; set; }
-         public int? Score { get; set; }
-         public int? AverageTime { get; set; }
 
 
-         //HttpGet
-   */
    public render() {
-      console.log(this.state);
       return (
          <div className="main-ranking-page-container">
             <LogOutButton /> 
-            <HomeButton />
+            <Link to="/">
+               <HomeButton />
+            </Link>
             <div className="main-ranking-page">
                {this.winners}
             </div>       

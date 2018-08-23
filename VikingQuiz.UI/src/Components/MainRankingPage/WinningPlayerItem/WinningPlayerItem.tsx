@@ -10,7 +10,6 @@ interface IWinningPlayerItemProps {
 }
 
 const WinningPlayerItem = function (props: IWinningPlayerItemProps) {
-
    return (
       <div className="winning-player-item">
          <img className="winning-image" src={props.winningPhotoUrl} />

@@ -24,7 +24,11 @@
 
 .main-ranking-page-container {
    .home-button {
-      width: 145px;
-      height: 145px;
+      width: 100px;
+      height: 100px;
+      @media screen and (min-width: 1000px) {
+         width: 140px;
+         height: 140px;
+      }
    }
 }
