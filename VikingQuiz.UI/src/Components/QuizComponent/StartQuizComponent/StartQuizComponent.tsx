@@ -214,7 +214,11 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
     private successfulSaveHandler(response: any){
         const snackbar: ISnackbarData = successSnackbar;
-        snackbar.message = "Quiz created";
+        if(!this.props.editMode){
+            snackbar.message = "Quiz created";
+        }else{
+            snackbar.message = "Quiz updated";
+        }
         this.showSnackbarHandler(snackbar);
         const id: number = response.data.id;
         const successButtonElement: any = document.querySelector(".success-btn");
