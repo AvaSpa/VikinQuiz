@@ -35,9 +35,9 @@ class LoginPage extends React.Component<any, any> {
   private storageService: StorageService = new StorageService();
 
   private readonly apiAddress: string = apiUrl;
-  private readonly apiSessionAddress: string = "/session";
-  private readonly apiGoogleAddress: string = "/google";
-  private readonly apiFacebookAddress: string = "/facebook";
+  private readonly apiSessionAddress: string = "api/session";
+  private readonly apiGoogleAddress: string = "api/google";
+  private readonly apiFacebookAddress: string = "api/facebook";
     private readonly googleAppId: string = "1691716487610141";
     private readonly facebookAppId: string = "973616639194-in3pvi0r75qp73f0d92m034r0nq71iqm.apps.googleusercontent.com";
 

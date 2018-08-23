@@ -55,7 +55,7 @@ namespace VikingQuiz.Api.Controllers
         {
             int currentUserId = User.Claims.GetUserId();
 
-            var foundQuizzes = quizRepository.GetQuizByUserId(currentUserId);
+            var foundQuizzes = quizRepository.GetQuizzesByUserId(currentUserId);
             if (foundQuizzes == null)
             {
                 return NotFound("No quizzes exist for this user");
