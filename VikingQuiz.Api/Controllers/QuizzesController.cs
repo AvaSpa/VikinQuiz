@@ -16,11 +16,7 @@ namespace VikingQuiz.Api.Controllers
     public class QuizzesController : Controller
     {
 
-        class UploadAndDeleteData
-        {
-            public IActionResult HttpResponseResult;
-            public string fileName;
-        }
+
 
         private readonly QuizRepository quizRepository;
         private readonly IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper;
@@ -101,7 +97,8 @@ namespace VikingQuiz.Api.Controllers
             {
                 Title = quizBodyData.Title,
                 PictureUrl = fileUrl,
-                UserId = currentUserId
+                UserId = currentUserId,
+                LastModified = DateTime.Now
             });
             if (createdQuiz == null)
             {
@@ -111,7 +108,7 @@ namespace VikingQuiz.Api.Controllers
             QuizViewModel quizVm = entityToVmMapper.Map(createdQuiz);
             quizVm.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(quizVm.PictureUrl);
 
-            return Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
+            return Ok(quizVm);
         }
 
 
@@ -119,7 +116,7 @@ namespace VikingQuiz.Api.Controllers
         [HttpPost("{id}")]
         [RequestSizeLimit(5_000_000)]
         [Authorize]
-        public async Task<IActionResult> Put(NewQuizViewModel quizBodyData, int id)
+        public async Task<IActionResult> UpdateQuiz(NewQuizViewModel quizBodyData, int id)
         {
 
             IActionResult response = Ok();
@@ -143,7 +140,8 @@ namespace VikingQuiz.Api.Controllers
                 Title = quizBodyData.Title,
                 PictureUrl = uploadAndDeleteResult.fileName,
                 UserId = currentUserId,
-                Id = id
+                Id = id,
+                LastModified = DateTime.Now
             });
 
             return updateQuizResult;
@@ -180,7 +178,7 @@ namespace VikingQuiz.Api.Controllers
 
             QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
             quizVm.PictureUrl = new AzureBlobService(azureContainerName).GetFullUrlOfFileName(quizVm.PictureUrl);
-            httpResponseResult = Ok(new { quizVm.Id, quizVm.Title, quizVm.PictureUrl });
+            httpResponseResult = Ok(quizVm);
 
             return httpResponseResult;
 
