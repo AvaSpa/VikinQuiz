@@ -7,9 +7,9 @@ const ProfileAndHomeComponent = (props: any) => {
 
     return(
         <div className="profile-container">
-            <HomeButton />
+            <HomeButton buttonIsDisabled={props.buttonIsDisabled} />
             <div className="profile-details">
-                <MyProfileComponent profilePictureUrl={props.profilePictureUrl} profileName={props.profileName}>
+                <MyProfileComponent  profilePictureUrl={props.profilePictureUrl} profileName={props.profileName}>   
                   {props.children}
                 </MyProfileComponent>
             </div>
