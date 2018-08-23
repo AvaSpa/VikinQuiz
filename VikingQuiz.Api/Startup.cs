@@ -80,6 +80,7 @@ namespace VikingQuiz.Api
             services.AddScoped<IEntityMapper<Quiz, QuizViewModel>, QuizToViewModelMapper>();
             services.AddScoped<IEntityMapper<PlayerGame, PlayerGameViewModel>, PlayerGameToViewModelMapper>();
             services.AddScoped<IEntityMapper<PlayerGameViewModel, PlayerGame>, PlayerGameViewModelToEntityMapper>();
+            services.AddScoped<AzureBlobService, AzureBlobService>();
 
             services.AddSignalR();
         }

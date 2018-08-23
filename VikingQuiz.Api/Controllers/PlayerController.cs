@@ -5,6 +5,9 @@ using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.ViewModels;
+using VikingQuiz.Api.Utilities;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,12 +19,14 @@ namespace VikingQuiz.Api.Controllers
         private readonly PlayerRepository playerRepository;
         private readonly IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
         private readonly IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
+        private readonly AzureBlobService blobService;
 
         public PlayerController(PlayerRepository playerRepository, IEntityMapper<Player, PlayerViewModel> entityToVmMapper, IEntityMapper<PlayerViewModel, Player> vmToEntityMapper)
         {
             this.playerRepository = playerRepository;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
+            this.blobService = new AzureBlobService("players");
         }
 
         [HttpGet]
@@ -29,6 +34,15 @@ namespace VikingQuiz.Api.Controllers
         {
             var result = playerRepository.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
             return Ok(result);
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadPhoto(ImageViewModel image)
+        {
+            string uploadedFileName = await this.blobService.UploadPhotoAsync(image.Files[0]);
+            string fullFileUrl = blobService.GetFullUrlOfFileName(uploadedFileName);
+            return Ok(fullFileUrl);
+            
         }
 
         [HttpGet("{id}")]

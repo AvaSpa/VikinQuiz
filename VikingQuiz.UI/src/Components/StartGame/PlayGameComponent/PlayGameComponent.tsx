@@ -53,6 +53,8 @@ class PlayGameComponent extends React.Component<any, any> {
             this.addInvalidClassToUpload();
             return;
         }
+
+        formData.image = this.state.selectedFile;
         
         if (this.getValidityState(true)){
             this.props.onSubmit(url, formData);
