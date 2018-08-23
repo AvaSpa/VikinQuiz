@@ -40,44 +40,29 @@ namespace VikingQuiz.Api.Repositories
             return quiz;
         }
 
-        public Quiz DeleteQuiz(int id, int userId) {
+        public bool DeleteQuiz(int id, int userId) {
             if (!context.Quiz.Any(dbQuiz => dbQuiz.Id == id && dbQuiz.UserId == userId))
-                return null;
+                return false;
 
-            //identify all Games for a quiz
             int[] gameIds = context.Game.Where(g => g.QuizId==id).Select(g=> g.Id).ToArray();
 
-            //identify all Players for a game
             int[] playerIds = context.PlayerGame.Where(pg=> gameIds.Contains(pg.GameId)).Select(pg=>pg.PlayerId).ToArray();
 
-            //remove all playergames connections
             context.PlayerGame.RemoveRange(context.PlayerGame.Where(pg => gameIds.Contains(pg.GameId)));
 
-            //remove all players
-            context.Player.RemoveRange(context.Player.Where(p => playerIds.Contains(p.Id)));
-
-            //remove all games
             context.Game.RemoveRange(context.Game.Where(g => gameIds.Contains(g.Id)));
 
-            //##########
-
-            //identify questions
             int[] questions = context.QuizQuestion.Where(qq => qq.QuizId == id).Select(q=> q.QuestionId).ToArray();
 
-            //delete questions
             context.Question.RemoveRange(context.Question.Where(q => questions.Contains(q.Id)));
 
-            //remove answers
             context.Answer.RemoveRange(context.Answer.Where(a => questions.Contains(a.QuestionId.Value)));
 
-            //remove quizQuestions
             context.QuizQuestion.RemoveRange(context.QuizQuestion.Where(qq => qq.QuizId == id));
 
-            //remove actual quiz
             context.Quiz.Remove(new Quiz { Id = id });
-
             context.SaveChanges();
-            return context.Quiz.Where(dbQuiz => dbQuiz.Id == id && dbQuiz.UserId == userId).FirstOrDefault();
+            return true;
         }
 
         public Quiz GetQuizById(int id) {
