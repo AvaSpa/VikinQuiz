@@ -6,7 +6,7 @@ import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LogOutButton from '../Buttons/LogOutButton/LogOutButton';
 import { apiUrl } from "../../constants";
 import * as SignalR from '@aspnet/signalr';
-import { Link } from '../../../node_modules/@types/react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
@@ -16,6 +16,21 @@ class MainRankingPage extends React.Component <any, any> {
    // public photoStorageUrlEndpoint = apiUrl + "api/storage";
    public hubConnection: SignalR.HubConnection;
 
+
+   // public dummyData : any = [
+   //    {
+   //       name: "John",
+   //       pictureUrl: "https://www.theloop.ca/wp-content/uploads/2017/08/IKEA-released-instructions-on-how-to-make-your-own-Jon-Snow-cape.jpg"
+   //    },
+   //    {
+   //       name: "Tyrion",
+   //       pictureUrl: "https://media.gq.com/photos/599eeb4460e09b56c787029d/master/pass/tyrion_tout-2.jpg"
+   //    },
+   //    {
+   //       name: "Tywin",
+   //       pictureUrl: "http://20.theladbiblegroup.com/s3/content/808x455/47bf5ac55a0b292e7c833f789d33b77f.png"
+   //    },
+   // ]
    
    // public winningPhotoUrlBase : string; 
    public winners : any = null;
@@ -57,51 +72,22 @@ class MainRankingPage extends React.Component <any, any> {
       this.playersList[1] = firstPlayer;
    }
 
-   public playersIdsArrayToObject = () => {
-      this.playersList = this.playersList.map((playerId: number) => {
-         return ({ playerId });
-      });
-   }
 
-   public getPlayersData = () => {
-      const playersDataRequests: any[] = new Array();
-      this.playersList.forEach((player, index) => {
-         const playerRequest = this.httpService.get(this.playersApiAdress + "/" + player.playerId);
-
-         playerRequest.then((playerData: any) => {
-            this.playersList[index].playerPhoto = playerData.data.pictureUrl
-            this.playersList[index].playerName = playerData.data.name
-         });
-
-         playersDataRequests.push(playerRequest);
-      });
-      return playersDataRequests;
-   }
 
    public getPlayersDataAndAddThemToThePlayerList = () => {
       
       
 
-      this.hubConnection.invoke('/getRankings').then(succesfulResponse => {
-         this.playersList = succesfulResponse.data; // the response data
+      this.hubConnection.invoke('/getRankings').then( (succesfulResponse : any) => {
+         this.playersList = succesfulResponse; // the response data
 
-         this.playersIdsArrayToObject();
          this.addRankingsToPlayerList();
          this.reverseFirstTwoMembersOfThePlayersList();
 
-         const playersDataRequest = this.getPlayersData();
-
-         Promise.all(  
-            playersDataRequest 
-         )
-         .then(() => {
-            this.winners = this.constructWinners();
+         this.winners = this.constructWinners();
             this.setState(this.playersList);
          });
 
-      }).catch(errorResponse => {
-         // 
-      });
 
    }
 
@@ -121,7 +107,7 @@ class MainRankingPage extends React.Component <any, any> {
       return (
          <>
             {
-               this.playersList.map( (winner, index) => {
+               this.playersList.map( (winner : any, index : number) => {
                   return (
                      <WinningPlayerItem
                         key={winner.playerId}
@@ -129,7 +115,7 @@ class MainRankingPage extends React.Component <any, any> {
                         winningPositionNumber={winner.ranking + 1}
                         positionSuffix={this.pictureSuffixMap[winner.ranking].suffix}
                         playerPhoto={winner.pictureUrl}
-                        playerName={winner.playerName}
+                        playerName={winner.name}
                      />
                   );
                })

@@ -14,12 +14,7 @@
          margin-top: 80px;
       }
    }
-   @media screen and (min-width: 800px) {
-      .winning-player-item:nth-child(1),
-      .winning-player-item:nth-child(3) {
-         margin-top: 120px;
-      }
-   }
+   @media screen and (min-width: 900px) {}
 }
 
 .main-ranking-page-container {
@@ -27,8 +22,11 @@
       width: 100px;
       height: 100px;
       @media screen and (min-width: 1000px) {
-         width: 140px;
-         height: 140px;
+         width: 120px;
+         height: 120px;
       }
+   }
+   .winning-player-item:nth-child(2) {
+      margin-top: 10px;
    }
 }
