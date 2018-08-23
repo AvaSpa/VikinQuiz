@@ -21,6 +21,7 @@ namespace VikingQuiz.Api.Controllers
         private readonly QuizRepository quizRepository;
         private readonly IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper;
         private readonly IEntityMapper<Quiz, QuizViewModel> entityToVmMapper;
+        private string azureContainerName = "users";
 
         public QuizzesController(QuizRepository quizRepository, IEntityMapper<QuizViewModel, Quiz> vmToEntityMapper, IEntityMapper<Quiz, QuizViewModel> entityToVmMapper)
         {
@@ -38,7 +39,7 @@ namespace VikingQuiz.Api.Controllers
 
             AzureBlobService blobService = new AzureBlobService(azureContainerName);
 
-            var quizzes = quizRepository.GetQuizByUserId(currentUserId);
+            var quizzes = quizRepository.GetQuizzesByUserId(currentUserId);
             foreach (var quiz in quizzes)
             {
 
@@ -52,12 +53,12 @@ namespace VikingQuiz.Api.Controllers
         // Get a specific quiz id only if it belongs to that user
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetQuiz(int id)
+        public IActionResult GetQuiz(int id)
         {
             int currentUserId = User.Claims.GetUserId();
 
             Quiz quiz = quizRepository.GetQuizById(id);
-            if (quiz == null || quiz.UserId != currentUserId)
+            if (quiz == null )
             {
                 return NotFound("Quiz doesn't exist");
             }
@@ -128,7 +129,7 @@ namespace VikingQuiz.Api.Controllers
                 return imageHttpResponse;
             }
 
-            UploadAndDeleteData uploadAndDeleteResult = await uploadAndDeletePhoto(id, quizBodyData.Files[0]);
+            UploadAndDeleteData uploadAndDeleteResult = await DeleteAndUpload(id, quizBodyData.Files[0]);
             if (OkResult.Equals(uploadAndDeleteResult.HttpResponseResult, Ok()) )
             {
                 return uploadAndDeleteResult.HttpResponseResult;
@@ -157,7 +158,7 @@ namespace VikingQuiz.Api.Controllers
             if (deletedQuiz != null)
             {
                 AzureBlobService blobService = new AzureBlobService(azureContainerName);
-                blobService.DeletePhotoAsync(deletedQuiz.PictureUrl);
+                await blobService.DeletePhotoAsync(deletedQuiz.PictureUrl);
                 return Ok();
             }
             else
@@ -173,7 +174,7 @@ namespace VikingQuiz.Api.Controllers
 
             if (updatedQuiz == null)
             {
-                httpResponseResult =  BadRequest("quiz does not exist.");
+                httpResponseResult =  BadRequest("Quiz failed to update.");
             }
 
             QuizViewModel quizVm = entityToVmMapper.Map(updatedQuiz);
@@ -185,7 +186,7 @@ namespace VikingQuiz.Api.Controllers
         }
 
 
-        private async Task<UploadAndDeleteData> uploadAndDeletePhoto(int quizId, IFormFile fileToUpload)
+        private async Task<UploadAndDeleteData> DeleteAndUpload(int quizId, IFormFile fileToUpload)
         {
             UploadAndDeleteData result = new UploadAndDeleteData
             {
@@ -197,7 +198,7 @@ namespace VikingQuiz.Api.Controllers
                 var blobService = new AzureBlobService(azureContainerName);
                 var previousQuizState = quizRepository.GetQuizById(quizId);
 
-                blobService.DeletePhotoAsync(previousQuizState.PictureUrl);
+                await blobService.DeletePhotoAsync(previousQuizState.PictureUrl);
                 result.fileName = await blobService.UploadPhotoAsync(fileToUpload);
                 return result;
             }
@@ -208,7 +209,6 @@ namespace VikingQuiz.Api.Controllers
             }
         } 
 
-        private string azureContainerName = "users";
 
         private IActionResult FileValidityChecker(NewQuizViewModel quizBodyData)
         {
