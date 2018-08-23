@@ -19,7 +19,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Game Create(Game game)
         {
-            context.Add(game);
+            context.Game.Add(game);
             context.SaveChanges();
             return game;
         }
@@ -62,18 +62,6 @@ namespace VikingQuiz.Api.Repositories
                 .FirstOrDefault();
 
             return foundGame;
-        }
-
-        public string GenerateCode()
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            string code = "";
-            for(int i = 0; i < codeLength; i++)
-            {
-                code += chars[random.Next(0, chars.Length)];
-            }
-
-            return code;
         }
     }
 }

@@ -19,14 +19,16 @@ namespace VikingQuiz.Api.Controllers.SignalR
         private IRoomService RoomService;
         private QuizRepository quizRepository;
         private PlayerRepository playerRepository;
+        private GameRepository gameRepository;
         IEntityMapper<Answer, AnswerViewModel> answerMapper;
         private const uint CodeLength = 6;
 
-        public GameMasterController(IRoomService Rooms, QuizRepository quizRepository, PlayerRepository playerRepository, IEntityMapper<Answer, AnswerViewModel> answerMapper)
+        public GameMasterController(IRoomService Rooms, QuizRepository quizRepository, PlayerRepository playerRepository, GameRepository gameRepository, IEntityMapper<Answer, AnswerViewModel> answerMapper)
         {
             this.RoomService = Rooms;
             this.quizRepository = quizRepository;
             this.playerRepository = playerRepository;
+            this.gameRepository = gameRepository;
             this.answerMapper = answerMapper;
         }
 
@@ -75,8 +77,10 @@ namespace VikingQuiz.Api.Controllers.SignalR
         {
             string code = GenerateCode();
             await Groups.AddToGroupAsync(Context.ConnectionId, code);
+            Game game = new Game { QuizId = quizId, GameDate = DateTime.Now, Code = "mock" };
+            gameRepository.Create(game);
             QuizQuestionsAnswers quizQuestionsAnswers = quizRepository.GetQuizByIdAndAssociatedQuestionsAndAnswers(quizId);
-            GameInstance gameInstance = new GameInstance(quizQuestionsAnswers, Context.ConnectionId, AllPlayersAnswered, NoMoreQuestions);
+            GameInstance gameInstance = new GameInstance(quizQuestionsAnswers, Context.ConnectionId, AllPlayersAnswered, NoMoreQuestions, game.Id);
             RoomService.Rooms.Add(code, gameInstance);
             RoomService.PlayersToRooms.Add(Context.ConnectionId, code);
             return code;
@@ -96,15 +100,17 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// When a player introduces his game code and presses start
         /// this method connects him to the correct game room
         /// </summary>
-        public async void ConnectToGame(string Code, string Name, string PictureUrl)
+        public async Task<int> ConnectToGame(string Code, string Name, string PictureUrl)
         {
             //save the player
+            GameInstance instance = RoomService.Rooms[Code];
+
             Player player = new Player
             {
                 Name = Name,
                 PictureUrl = PictureUrl
             };
-            player = await Task.Run(() => playerRepository.AddPlayer(player, Code));
+            player = await Task.Run(() => playerRepository.AddPlayer(player, instance.GameId));
 
             //add player to room
             Groups.AddToGroupAsync(Context.ConnectionId, Code);
@@ -115,6 +121,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
             //notify GM that a new player entered
             string gameMaster = RoomService.Rooms[Code].GameMasterId;
             Clients.Client(gameMaster).SendAsync("NewPlayerHasConnected", Name, PictureUrl);
+            return player.Id;
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 import * as React from 'react';
+import * as SignalR from '@aspnet/signalr';
 import './PlayGame.css';
 import HttpService from '../../services/HttpService';
-import PlayerCodeDto from '../../entities/PlayerCodeDto';
 import { Redirect } from 'react-router-dom';
 import { connectRules } from '../../entities/Validation/rules';
 import { connectValidator } from '../../entities/Validation/validators';
@@ -29,36 +29,26 @@ class PlayGame extends React.Component<any, any> {
     }
 
     public playerDataHandler = (url: string, formData: any) => {
-        console.log(formData);
         if (!url || !formData) {
             return;
         }
-
-        const component: any = this;
 
         const uploadUrl = apiUrl + 'api/player/upload';
         const formFile = new FormData();
 
         formFile.append('files', formData.image);
         this.httpService.post(uploadUrl, formFile)
-            .then((response: any) => {
-                console.log(response);
+            .then((response: any) => { this.registerUser(formData.PlayerName, response.data, formData.GameCode) });
+    }
 
-                const body: PlayerCodeDto = new PlayerCodeDto(response.data, formData.PlayerName, formData.GameCode);
-
-                this.httpService.post(url, body)
-                    .then((res: any) => {
-                        component.setState({
-                            redirect: true,
-                            playerId: res.data.id
-                        });
-                    })
-                    .catch((error: any) => {
-                        this.errorHandler(error);
-                    });
-            });
-
-
+    public registerUser = (playerName: string, pictureUrl: string, gameCode: string) => {
+        const hubConnection = new SignalR.HubConnectionBuilder().withUrl("http://localhost:60151/gamemaster").build();
+        hubConnection.start()
+        .then(()=>{
+            hubConnection.invoke("ConnectToGame", gameCode, playerName, pictureUrl)
+            .then((responseId)=>this.setState({redirect: true, playerId: responseId}))
+        })
+        .catch((error)=>console.log(error))
     }
 
     public showSnackbarHandler = (snackbar: ISnackbarData) => {
@@ -107,11 +97,11 @@ class PlayGame extends React.Component<any, any> {
         </div>;
     }
 
-    private errorHandler(error: any) {
-        const snackbar: ISnackbarData = errorSnackbar;
-        snackbar.message = "Invalid code, please try again";
-        this.showSnackbarHandler(snackbar);
-    }
+    // private errorHandler(error: any) {
+    //     const snackbar: ISnackbarData = errorSnackbar;
+    //     snackbar.message = "Invalid code, please try again";
+    //     this.showSnackbarHandler(snackbar);
+    // }
 }
 
 export default PlayGame;
