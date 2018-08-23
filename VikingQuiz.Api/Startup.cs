@@ -111,7 +111,7 @@ namespace VikingQuiz.Api
             app.UseSignalR(routes =>
             {
                 routes.MapHub<SignalRPlaceholder>("/hello");
-                routes.MapHub<GameMasterController>("/controller");
+                routes.MapHub<GameMasterController>("/gamemaster");
             });
 
             //TODO:will be used in production
