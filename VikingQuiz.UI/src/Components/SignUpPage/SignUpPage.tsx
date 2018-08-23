@@ -52,7 +52,7 @@ class SignUpPage extends React.Component<{}, any> {
 
     this.httpService.post(url, body)
     .then((res: any) => {
-        const emailUrl: string  = "http://localhost:60151/api/email/" + res.data.id; 
+        const emailUrl: string  = apiUrl + "api/email/" + res.data.id; 
         this.httpService.get(emailUrl);
         comp.setState({
             redirect: true
@@ -111,7 +111,7 @@ class SignUpPage extends React.Component<{}, any> {
                      <div className="form-container">
                         {this.state.showErrorMessage ? (<div className="message server-message">{this.state.serverErrorMessage}</div>) : null}
                         <FormComponent className="signup-form" inputs={signupFormBody}
-                           url="http://localhost:60151/api/users"
+                           url={apiUrl + "api/users"}
                            buttonName=""
                            onSubmit={this.userDataHandler}
                            validator={signUpValidator}
