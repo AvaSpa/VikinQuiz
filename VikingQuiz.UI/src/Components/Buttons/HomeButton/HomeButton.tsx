@@ -13,7 +13,7 @@ class HomeButton extends React.Component<any, any> {
     }
 
     public handleClick() {
-        alert("Button Clicked");
+        //
     }
 }
 
