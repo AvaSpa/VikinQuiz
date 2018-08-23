@@ -47,6 +47,7 @@ class ManageQuizComponent extends React.Component<any, any> {
 
     public handleQuizDeleteYesClick(props: any){
         
+        this.setState({isHidden: true})
         const rerenderParent = this.props.handleChildDelete;
         
         this.httpService.deleteWithToken(this.apiAddress + this.props.id)
