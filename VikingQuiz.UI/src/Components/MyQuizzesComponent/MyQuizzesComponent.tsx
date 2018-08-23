@@ -74,17 +74,17 @@ class MyQuizzesComponent extends React.Component<any, any> {
 
         if (!numberOfExistingQuizzes) {
             addButtonForExistingQuizzes = null
-            addButtonForZeroQuizzes = <NewQuizButton />
+            addButtonForZeroQuizzes = <NewQuizButton buttonIsDisabled={true} />
         }
         else {
             addButtonForZeroQuizzes = null
-            addButtonForExistingQuizzes = <NewQuizButton />
+            addButtonForExistingQuizzes = <NewQuizButton buttonIsDisabled={true} />
         }
 
         return (
             <>
             <div className="my-quizzes-profile-container">
-                    <ProfileAndHomeComponent profilePictureUrl ={this.state.profilePictureUrl} profileName={this.state.username}/>  
+                    <ProfileAndHomeComponent profilePictureUrl ={this.state.profilePictureUrl} profileName={this.state.username} buttonIsDisabled={true}/>  
                     {addButtonForExistingQuizzes}
             </div>
                 <div className="display-quizzes-container">

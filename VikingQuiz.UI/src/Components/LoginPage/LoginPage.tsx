@@ -140,7 +140,7 @@ class LoginPage extends React.Component<any, any> {
       <div className="register-form login-page-container">
         <div className="container">
           <SignUpButton />
-          <HomeButton />
+          <HomeButton buttonIsDisabled={true} />
           <div className="row">
             <div>
               <div className="login-msg">LOG IN</div>

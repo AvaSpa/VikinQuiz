@@ -16,6 +16,7 @@ import SnackbarComponent from './Components/SnackbarComponent/SnackbarComponent'
 import RedirectComponent from './Components/RedirectComponent/RedirectComponent';
 import ShowQuestionComponent from './Components/ShowQuestion/ShowQuestionComponent';
 import SignalRComponent from './Components/SignalR';
+import PlayerAnswerPage from './Components/PlayerAnswerPage/PlayerAnswerPage';
 
 import MainRankingPage from './Components/MainRankingPage/MainRankingPage';
 
@@ -47,6 +48,7 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/show-question" component={ShowQuestionComponent} />
             <Route exact={true} path="/signalr" component={SignalRComponent} />
             <Route exact={true} path="/rankingPage" component={MainRankingPage} />
+            <Route exact={true} path="/playeranswer" component={PlayerAnswerPage} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>
         </div>
