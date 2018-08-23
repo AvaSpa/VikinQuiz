@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.Controllers;
+using VikingQuiz.Api.Controllers.SignalR.Services;
+using VikingQuiz.Api.Controllers.SignalR;
 
 namespace VikingQuiz.Api
 {
@@ -81,6 +83,8 @@ namespace VikingQuiz.Api
             services.AddScoped<IEntityMapper<PlayerGame, PlayerGameViewModel>, PlayerGameToViewModelMapper>();
             services.AddScoped<IEntityMapper<PlayerGameViewModel, PlayerGame>, PlayerGameViewModelToEntityMapper>();
             services.AddScoped<AzureBlobService, AzureBlobService>();
+            services.AddSingleton<IRoomService, RoomsService>();
+
 
             services.AddSignalR();
         }
@@ -110,6 +114,7 @@ namespace VikingQuiz.Api
             app.UseSignalR(routes =>
             {
                 routes.MapHub<SignalRPlaceholder>("/hello");
+                routes.MapHub<GameMasterController>("/gamemaster");
             });
 
             //TODO:will be used in production
