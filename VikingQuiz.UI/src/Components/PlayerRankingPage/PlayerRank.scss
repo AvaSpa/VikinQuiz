@@ -17,7 +17,7 @@
         top: 20px;
         color: #f0cc04;
         position: relative;
-        left: 30px;
+        left: 70px;
     }
 
     .prize-helmet {
@@ -54,6 +54,42 @@
         color: #ffffff;
         position: relative;
         top: 200px;
+    }
+
+    @media screen and (max-width: 1600px) {
+        .participant-label {
+            font-size: 50px;
+            top: 20px;
+        }
+    
+        .participant-name-label {
+            font-size: 50px;
+            top: 20px;
+            left: 180px;
+        }
+    
+        .prize-helmet {
+            position: relative;
+            top: 80px;
+            width: 150px;
+            height: 150px;
+        }
+    
+        .player-profile {
+            width: 200px;
+            height: 200px;
+            top: 100px;
+        }
+
+        .place-out-of {
+            font-size: 70px;
+            top: 120px;
+        }
+    
+        .message {
+            font-size: 90px;
+            top: 500px;
+        }
     }
 
     @media screen and (max-width: 1200px) {
