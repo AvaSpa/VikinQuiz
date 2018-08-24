@@ -66,7 +66,7 @@ namespace VikingQuiz.Api.Repositories
 
         public List<Game> GetGamesOrderedByDateBasedOnUserId(List<int> id)
         {
-            var gamesOrderedByDate = context.Game.Where(game => id.Contains(game.QuizId ?? default(int))).OrderByDescending(game => game.GameDate).ToList();
+            var gamesOrderedByDate = context.Game.Where(game => id.Contains(game.QuizId ?? default(int))).OrderByDescending(game => game.GameDate).Take(5).ToList();
             return gamesOrderedByDate;
         }
 

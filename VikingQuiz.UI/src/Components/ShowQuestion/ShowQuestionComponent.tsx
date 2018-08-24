@@ -9,123 +9,123 @@ import SignalRSingleton from "src/hubSingleton";
 const QUIZ_URL: string = 'https://vignette.wikia.nocookie.net/the-darkest-minds/images/4/47/Placeholder.png/revision/latest?cb=20160927044640';
 const QUIZ_NAME: string = 'Quiz Title';
 const picturesUrls: string[] = [
-    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/1.png',
-    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/2.png',
-    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png',
-    'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'
+   'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/1.png',
+   'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/2.png',
+   'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png',
+   'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'
 ]
-const TIMER = 3;
+const TIMER = 10;
 class ShowQuestionComponent extends React.Component<any, any>{
-    public hubConnection: any;
-	public readonly code = this.props.match.params.code;
-	
-    public state = {
-        timer: TIMER,
-        questionNumber: 1,
-        quizUrl: null,
-        quizName: null,
-        showCorrectAnswer: false,
-        redirect: false,
-        question: {
-            id: null,
-            text: null,
-            correctAnswerId: null,
-            answers: []
-        }
-    }
+   public hubConnection: any;
+   public readonly code = this.props.match.params.code;
 
-    constructor(props : any) {
-        super(props);
-        this.hubConnection = SignalRSingleton;
-    }
+   public state = {
+      timer: TIMER,
+      questionNumber: 1,
+      quizUrl: null,
+      quizName: null,
+      showCorrectAnswer: false,
+      redirect: false,
+      question: {
+         id: null,
+         text: null,
+         correctAnswerId: null,
+         answers: []
+      }
+   }
+
+   constructor(props: any) {
+      super(props);
+      this.hubConnection = SignalRSingleton;
+   }
 
 
-    public componentDidMount() {
-        console.log(this.hubConnection);
-       this.hubConnection.connection.on('SendCorrectAnswerId', this.endQuestion)
-        this.hubConnection.connection.on('GameIsOver', this.redirectToRankingPage);
-        this.getCurrentQuestion();
+   public componentDidMount() {
+      console.log(this.hubConnection);
+      this.hubConnection.connection.on('SendCorrectAnswerId', this.endQuestion)
+      this.hubConnection.connection.on('GameIsOver', this.redirectToRankingPage);
+      this.getCurrentQuestion();
 
-        // setTimeout(this.endQuestion,5000);
-    }
+      // setTimeout(this.endQuestion,5000);
+   }
 
-    public getCurrentQuestion = () => {
-		this.hubConnection.connection.invoke('GetCurrentQuestion').then((res: any) => {
-            this.setState({
-                question: res
-            })
-        });
-    }
+   public getCurrentQuestion = () => {
+      this.hubConnection.connection.invoke('GetCurrentQuestion').then((res: any) => {
+         this.setState({
+            question: res
+         })
+      });
+   }
 
-    public nextQuestionHandler = () => {
-        this.hubConnection.connection.invoke('GoToNextQuestion').then((areThereMoreQuestions: any) => {
-            console.log("HERE is MY ANSWER: ", areThereMoreQuestions);
-			if(areThereMoreQuestions) {
-				this.getCurrentQuestion();
-			}
-			else {
-				this.redirectToRankingPage();
-			}
-        });
-        this.setState({
-            questionNumber: this.state.questionNumber+1,
-            timer: TIMER,
-            showCorrectAnswer: false
-        })
-    }
+   public nextQuestionHandler = () => {
+      this.hubConnection.connection.invoke('GoToNextQuestion').then((areThereMoreQuestions: any) => {
+         console.log("HERE is MY ANSWER: ", areThereMoreQuestions);
+         if (areThereMoreQuestions) {
+            this.getCurrentQuestion();
+         }
+         else {
+            this.redirectToRankingPage();
+         }
+      });
+      this.setState({
+         questionNumber: this.state.questionNumber + 1,
+         timer: TIMER,
+         showCorrectAnswer: false
+      })
+   }
 
-    public redirectToRankingPage = () => {
-		console.log("redirectToRanking");
-        this.setState({
-            redirect: true
-        })
-    }
+   public redirectToRankingPage = () => {
+      console.log("redirectToRanking");
+      this.setState({
+         redirect: true
+      })
+   }
 
-    public timeoutHandler = () => {
-        this.setState({
-            timer: -1,
-            showCorrectAnswer: true
-        })
-    }
+   public timeoutHandler = () => {
+      this.setState({
+         timer: -1,
+         showCorrectAnswer: true
+      })
+   }
 
-    public endQuestion = () => {
-        console.log("questions ended");
-        this.setState({
-            timer: -1,
-            showCorrectAnswer: true
-        })
-    }
+   public endQuestion = () => {
+      console.log("questions ended");
+      this.setState({
+         timer: -1,
+         showCorrectAnswer: true
+      })
+   }
 
-    public render() {
-        
-        const newAnswers: any[] = this.state.question.answers.map((answer: any, index: number) => {
-            const newAnswer = { ...answer }
-			newAnswer.pictureUrl = picturesUrls[index];
-            return newAnswer;
-		});
-		console.log(newAnswers);
-        if (this.state.redirect) {
-			return <Redirect push={true} to={"/rankingPage"} />;
-        }
-        return (
-            <div className='show-question'>
-                <header className='header'>
-                    <ShowQuestionHeader timer={this.state.timer} timeout={this.timeoutHandler} quizName={QUIZ_NAME} quizPicture={QUIZ_URL} />
-                </header>
-                <main className='main'>
-                    <ShowQuestionMain answers={newAnswers}
-                        correctId={this.state.question.correctAnswerId}
-                        showCorrectAnswer={this.state.showCorrectAnswer}
-                        questionNumber={this.state.questionNumber}
-                        questionText={this.state.question.text}
-                        next={this.nextQuestionHandler} />
-                </main>
-                <footer className='footer'>
-                    <ShowQuestionFooter />
-                </footer>
-            </div>
-        )
-    }
+   public render() {
+
+      const newAnswers: any[] = this.state.question.answers.map((answer: any, index: number) => {
+         const newAnswer = { ...answer }
+         newAnswer.pictureUrl = picturesUrls[index];
+         return newAnswer;
+      });
+      console.log(newAnswers);
+      if (this.state.redirect) {
+         return <Redirect push={true} to={"/rankingPage"} />;
+      }
+      return (
+         <div className='show-question'>
+            <header className='header'>
+               <ShowQuestionHeader timer={this.state.timer} timeout={this.timeoutHandler} quizName={QUIZ_NAME} quizPicture={QUIZ_URL} />
+            </header>
+            <main className='main'>
+               <ShowQuestionMain answers={newAnswers}
+                  correctId={this.state.question.correctAnswerId}
+                  showCorrectAnswer={this.state.showCorrectAnswer}
+                  questionNumber={this.state.questionNumber}
+                  questionText={this.state.question.text}
+                  next={this.nextQuestionHandler} />
+            </main>
+            <footer className='footer'>
+               <ShowQuestionFooter />
+            </footer>
+         </div>
+      )
+   }
 
 
 }
