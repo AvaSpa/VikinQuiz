@@ -1,2 +1,4 @@
 .show-question {
   font-family: "dk_lemon_yellow_sunregular"; }
+  .show-question .footer {
+    display: none; }
