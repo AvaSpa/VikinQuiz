@@ -38,10 +38,20 @@ class PlayGame extends React.Component<any, any> {
     const uploadUrl = apiUrl + "api/player/upload";
     const formFile = new FormData();
 
-    formFile.append("files", formData.image);
-    this.httpService.post(uploadUrl, formFile).then((response: any) => {
-      this.registerUser(formData.PlayerName, response.data, formData.GameCode);
-    });
+    if(formData.image)
+    {
+      formFile.append("files", formData.image);
+      this.httpService.post(uploadUrl, formFile).then((response: any) => {
+        this.registerUser(formData.PlayerName, response.data, formData.GameCode);
+      });
+    }else{
+      const max = 5;
+      const min = 1;
+      const randomPicture = Math.floor(Math.random() * (max - min + 1)) + min;
+      const pictureUrl: string = "https://intershipwirtekblob.blob.core.windows.net/users-pictures/" + randomPicture + ".png";
+      
+      this.registerUser(formData.PlayerName, pictureUrl, formData.GameCode);
+    }
   };
 
   public registerUser = (
@@ -58,11 +68,14 @@ class PlayGame extends React.Component<any, any> {
             this.connectionSingleton.connection
             .invoke("ConnectToGame", gameCode, playerName, pictureUrl)
             .then((responseId: any) => {
-                console.log(this.connectionSingleton.connection);
-              this.setState({ redirect: true, playerId: responseId });
-            });
+                console.log("I am here");
+                this.setState({ 
+                  redirect: true, 
+                  playerId: responseId 
+                });
+            }).catch((error: any) => this.errorHandler(error));
         })
-        .catch((error: any) => console.log(error));
+        
   };
 
 
@@ -88,6 +101,7 @@ class PlayGame extends React.Component<any, any> {
     if (this.state.redirect) {
       return (
         <Redirect
+          push={true}
           to={{
             pathname: "/connect",
             state: { id: this.state.playerId}
@@ -142,11 +156,16 @@ class PlayGame extends React.Component<any, any> {
     );
   }
 
-  // private errorHandler(error: any) {
-  //     const snackbar: ISnackbarData = errorSnackbar;
-  //     snackbar.message = "Invalid code, please try again";
-  //     this.showSnackbarHandler(snackbar);
-  // }
+  private errorHandler = (error: any) => {
+      const snackbar: ISnackbarData = errorSnackbar;
+      snackbar.message = "Invalid code, please try again";
+      snackbar.action.actionHandler = () => {
+        this.setState({
+          showSnackbar: false
+        })
+      }
+      this.showSnackbarHandler(snackbar);
+  }
 }
 
 export default PlayGame;

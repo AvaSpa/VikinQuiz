@@ -46,12 +46,14 @@ class PlayGameComponent extends React.Component<any, any> {
         const formData: any = this.getFormData();
         const validity = this.getValidityState(false);
 
-        if(!this.imageValidator.isImageValid(this.state.selectedFile)){
-            this.setState({
-                imageError: this.imageValidator.getErrorMessage()
-            })
-            this.addInvalidClassToUpload();
-            return;
+        if(this.imageValidator.doesFileExist(this.state.selectedFile)){
+            if(!this.imageValidator.isOptionalImageValid(this.state.selectedFile)){
+                this.setState({
+                    imageError: this.imageValidator.getErrorMessage()
+                })
+                this.addInvalidClassToUpload();
+                return;
+            }
         }
 
         formData.image = this.state.selectedFile;

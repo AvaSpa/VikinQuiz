@@ -22,6 +22,19 @@ class ImageValidator {
         return true;
     }
 
+    public isOptionalImageValid = (fileObject: any): boolean => {
+        if (!this.checkFileType(fileObject) || !this.checkFileSize(fileObject)) {
+            return false;
+        }
+
+        this.errorMessage = '';
+        return true;
+    }
+    
+    public doesFileExist = (fileObject: any): boolean => {
+        return this.checkFileExistence(fileObject);
+    }
+
     private checkFileExistence = (fileObject: any): boolean => {
         if (!fileObject) {
             this.errorMessage = nonExistentFile;
