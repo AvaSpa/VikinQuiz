@@ -24,10 +24,10 @@ class PlayerRank extends React.Component<any, any> {
 
     public render() {
         const role = "participant";
-        const hardcodedName = "Veronika";
+      //   const hardcodedName = "Veronika";
         const hardcodedHelmetPicture = "https://vignette.wikia.nocookie.net/clubpenguin/images/9/99/Solid_Gold_Viking_Helmet_clothing_icon_ID_1734.PNG/revision/latest?cb=20160228013022";
-        const hardcodedPlayerPicture = "https://png.pngtree.com/element_origin_min_pic/16/10/29/3fcafedec46c93b1c2fc2dbc98a4c71d.jpg";
-        const placeOutOf = this.state.playerPlace + " out of " + this.state.numberOfPlayers;
+      //   const hardcodedPlayerPicture = "https://png.pngtree.com/element_origin_min_pic/16/10/29/3fcafedec46c93b1c2fc2dbc98a4c71d.jpg";
+        const placeOutOf = (this.state.playerPlace + 1) + " out of " + this.state.numberOfPlayers;
         const message = "congratulations!";
 
         return (
@@ -37,14 +37,14 @@ class PlayerRank extends React.Component<any, any> {
                             <div className="participant-label">{role}</div>
                         </div>
                         <div className="col-xs-1">
-                            <div className="participant-name-label">{hardcodedName}</div>
+                            <div className="participant-name-label">{this.state.playerName}</div>
                         </div>
                     </div>
                     <div className="row">
                         <img className="prize-helmet" src={hardcodedHelmetPicture}/>
                     </div>
                     <div className="row">
-                        <img className="player-profile" src={hardcodedPlayerPicture}/>
+                        <img className="player-profile" src={this.state.playerPictureUrl}/>
                     </div>
                     <div className="row">
                         <div className="place-out-of"> 
@@ -61,6 +61,7 @@ class PlayerRank extends React.Component<any, any> {
     }
 
     private getPlayerRankDto = (playerRank: any) => {
+       console.log(playerRank);
         this.setState({
             playerName: playerRank.name,
             playerPictureUrl: playerRank.pictureUrl,
