@@ -15,7 +15,7 @@
   top: 20px;
   color: #f0cc04;
   position: relative;
-  left: 30px; }
+  left: 70px; }
 
 .player-rank-container .prize-helmet {
   position: relative;
@@ -48,6 +48,30 @@
   color: #ffffff;
   position: relative;
   top: 200px; }
+
+@media screen and (max-width: 1600px) {
+  .player-rank-container .participant-label {
+    font-size: 50px;
+    top: 20px; }
+  .player-rank-container .participant-name-label {
+    font-size: 50px;
+    top: 20px;
+    left: 180px; }
+  .player-rank-container .prize-helmet {
+    position: relative;
+    top: 80px;
+    width: 150px;
+    height: 150px; }
+  .player-rank-container .player-profile {
+    width: 200px;
+    height: 200px;
+    top: 100px; }
+  .player-rank-container .place-out-of {
+    font-size: 70px;
+    top: 120px; }
+  .player-rank-container .message {
+    font-size: 90px;
+    top: 500px; } }
 
 @media screen and (max-width: 1200px) {
   .player-rank-container .participant-label {

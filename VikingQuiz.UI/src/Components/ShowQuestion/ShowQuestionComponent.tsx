@@ -14,7 +14,7 @@ const picturesUrls: string[] = [
     'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png',
     'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'
 ]
-const TIMER = 3;
+const TIMER = 10;
 class ShowQuestionComponent extends React.Component<any, any>{
     public hubConnection: any;
 	public readonly code = this.props.match.params.code;
