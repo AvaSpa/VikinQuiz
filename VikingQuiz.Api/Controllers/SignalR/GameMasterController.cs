@@ -54,12 +54,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
         {
             string code = RoomService.PlayersToRooms[gameInstance.GameMasterId];
             // Clients.GroupExcept(code, gameInstance.GameMasterId).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id);
-            Clients.Group(code).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id);
-
-            Clients.Group(code).SendAsync("NextQuestion");
-            // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
-            // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
-            // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
+            Clients.Group(code).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id + 1);
         }
 
 
