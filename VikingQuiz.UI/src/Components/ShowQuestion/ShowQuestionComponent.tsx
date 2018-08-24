@@ -41,7 +41,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 
     public componentDidMount() {
         console.log(this.hubConnection);
-        this.hubConnection.connection.on('EverybodyAnswered', this.endQuestion)
+       this.hubConnection.connection.on('SendCorrectAnswerId', this.endQuestion)
         this.hubConnection.connection.on('GameIsOver', this.redirectToRankingPage);
         this.getCurrentQuestion();
 

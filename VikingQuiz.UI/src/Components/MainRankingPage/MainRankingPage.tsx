@@ -88,6 +88,7 @@ class MainRankingPage extends React.Component <any, any> {
 
       this.hubConnection.connection.invoke('GetWinners').then( (succesfulResponse : any) => {
          this.playersList = succesfulResponse.winners; // the response data
+         console.log(succesfulResponse);
 
          this.addRankingsToPlayerList();
          this.reverseFirstTwoMembersOfThePlayersList();

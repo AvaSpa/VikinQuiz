@@ -49,6 +49,8 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/signalr" component={SignalRComponent} />
             <Route exact={true} path="/rankingPage/:code" component={MainRankingPage} />
             <Route exact={true} path="/playeranswer" component={PlayerAnswerPage} />
+            {/* <Route exact={true} path="/playerranking" component={} /> */}
+
             <Route path="*" component={NotFoundComponent} />
         </Switch>
         </div>

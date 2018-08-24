@@ -95,7 +95,7 @@ namespace VikingQuiz.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                sqlConnection = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=VikinQuiz;Integrated Security=True";
+                sqlConnection = @"Data Source=(localdb)\MSSQLLocalDb;Initial Catalog=VikinQuiz;Integrated Security=True";
 
             }
 

@@ -53,11 +53,13 @@ namespace VikingQuiz.Api.Controllers.SignalR
         public void AllPlayersAnswered(GameInstance gameInstance)
         {
             string code = RoomService.PlayersToRooms[gameInstance.GameMasterId];
+            // Clients.GroupExcept(code, gameInstance.GameMasterId).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id);
+            Clients.Group(code).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id);
+
             Clients.Group(code).SendAsync("NextQuestion");
             // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
             // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
             // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
-            Clients.GroupExcept(code, gameInstance.GameMasterId).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2);
         }
 
 
@@ -161,8 +163,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
                 var questionId = answer.Value.Item1[0].QuestionId;
                 if (questionId == realQuestionIndex) {
                     realAnswersKey = answer.Key;
-                }
-                
+                }     
             }
 
             QuestionViewModel questionViewModel = new QuestionViewModel {
@@ -218,8 +219,11 @@ namespace VikingQuiz.Api.Controllers.SignalR
 
             var currentQuestion = gameInstance.QuizQuestionsAnswers.questions[gameInstance.CurrentQuestion];
             var isSame = currentQuestion.CorrectAnsId == currentQuestion.Id;
-            //int scoreToAdd = gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2 == chosenAnswer ? 10 : 0;
-            int scoreToAdd = isSame ? 10 : 0;
+            //int scoreToAdd = gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2 == chosenAnswer ? 10 : 0;\
+            int scoreToAdd = gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion)
+                .Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion)
+                .Item1[0].Id == chosenAnswer ? 10 : 0;
+            //int scoreToAdd = isSame ? 10 : 0;
             gamePlayer.score += scoreToAdd;
             gamePlayer.time += time;
 
@@ -289,6 +293,17 @@ namespace VikingQuiz.Api.Controllers.SignalR
                 NoMoreQuestions(instance);
             }
             return condition;
+        }
+
+        public PlayerDTO GetPlayerDetails()
+        {
+            string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            PlayerDTO player = new PlayerDTO
+            {
+                name = RoomService.Rooms[code].Players[Context.ConnectionId].name,
+                pictureUrl = RoomService.Rooms[code].Players[Context.ConnectionId].pictureUrl
+            };
+            return player;
         }
 
 

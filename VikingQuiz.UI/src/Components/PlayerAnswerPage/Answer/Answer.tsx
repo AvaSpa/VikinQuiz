@@ -49,21 +49,33 @@ class Answer extends React.Component<any, any> {
 
     public componentDidMount()
     {
-    
+
         this.hubConnection.connection.on('SendCorrectAnswerId', this.handleTimeExpires);
-        this.hubConnection.connection.on('ProceedToNextAnswers', this.proceedToNextAnswers);
+        this.hubConnection.connection.on('NextQuestion', this.proceedToNextAnswers);
         this.hubConnection.connection.on('GameIsOver', this.handleGameIsOver);
-        this.hubConnection.connection.start()
-            .then(()=>console.log('SignalR connected successfully'))
-            .catch(()=>console.log('SignalR failed to connect'));
     }
 
     public componentDidUpdate(){
         this.startTimer = Date.now();
     }
 
-    public proceedToNextAnswers(){
-        this.forceUpdate();
+    public proceedToNextAnswers() {
+       const elements = document.querySelectorAll(".answers-container button") as HTMLCollectionOf<HTMLElement>;
+      //  const elements = document.getElementsByClassName("answers-container");
+       // tslint:disable-next-line:prefer-for-of
+       for(let i = 0; i < elements.length; i++) {
+          elements[i].style.border = "0px solid transparent";
+       }
+       console.log("SIGNAL R INVOKED PROCEED TO NEXT ANSWERS IN THE ANSWERS.tsx");
+        this.setState({
+              redirect: false,
+              chosenAnswerExists: false,
+              chosenAnswerId: null,
+              correctAnswerId: null,
+              answerMessage: null,
+              answerMessageFontColor: null,
+           
+        });
     }
 
     public handleGameIsOver(){
@@ -71,6 +83,9 @@ class Answer extends React.Component<any, any> {
     }
 
     public handleTimeExpires=(id: number)=>{
+
+       console.log("SIGNAL R INVOKED SEND CORRECT ANSWER ID.tsx");
+
         
         const timerIsOver = 20;
         const noAnswerWasSelected = -1;
@@ -84,6 +99,7 @@ class Answer extends React.Component<any, any> {
         {
             answerButton.style.border = "3px solid red";         
         }
+
 
         const correctAnswerButton = document.getElementById(this.state.correctAnswerId);
         if(correctAnswerButton !== null)

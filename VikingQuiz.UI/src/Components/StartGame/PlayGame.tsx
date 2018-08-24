@@ -84,7 +84,7 @@ class PlayGame extends React.Component<any, any> {
   };
 
   public render() {
-      console.log(SignalRSingleton);
+      console.log(this.state, this);
     if (this.state.redirect) {
       return (
         <Redirect

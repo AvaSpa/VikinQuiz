@@ -90,6 +90,7 @@ namespace VikingQuiz.Api.Repositories
             IDictionary<int, Tuple<IList<Answer>, int>> answers =
                 (from Questions in context.Question
                  join Answers in context.Answer on Questions.Id equals Answers.QuestionId
+                 where questionIds.Contains(Answers.QuestionId??default(int))
                  group Answers by new { Id = Questions.Id, CorrectAnsId = Questions.CorrectAnsId } into g
                  select new
                  {
