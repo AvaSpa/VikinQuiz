@@ -30,7 +30,7 @@ class ShowQuestionMain extends React.Component<any, any>{
     public render() {
         return (
             <div className='show-main'>
-                <div className='question-text'><span className='number'>{this.props.questionNumber} </span>{this.props.questionText}</div>
+                <div className='question-text'><span className='number'>{this.props.questionNumber}. </span>{this.props.questionText}</div>
                 {
                     !this.props.showCorrectAnswer ?
                         <div className='answers'>

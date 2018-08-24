@@ -149,8 +149,9 @@ namespace VikingQuiz.Api.Controllers.SignalR
         /// When the gamemaster moves to a new question
         /// he makes a request for the data for that question
         /// </summary>
-        public QuestionViewModel GetCurrentQuestion(string code)
+        public QuestionViewModel GetCurrentQuestion()
         {
+            string code = RoomService.PlayersToRooms[Context.ConnectionId];
             int currentQuestionId = RoomService.Rooms[code].CurrentQuestion;
             GameInstance gameInstance = RoomService.Rooms[code];
 

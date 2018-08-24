@@ -20,7 +20,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 	
     public state = {
         timer: 20,
-        questionNumber: null,
+        questionNumber: 1,
         quizUrl: null,
         quizName: null,
         showCorrectAnswer: false,
@@ -49,7 +49,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public getCurrentQuestion = () => {
-		this.hubConnection.connection.invoke('GetCurrentQuestion', this.code).then((res: any) => {
+		this.hubConnection.connection.invoke('GetCurrentQuestion').then((res: any) => {
             this.setState({
                 question: res
             })
@@ -58,6 +58,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 
     public nextQuestionHandler = () => {
         this.hubConnection.connection.invoke('GoToNextQuestion').then((areThereMoreQuestions: any) => {
+            console.log(areThereMoreQuestions);
 			if(areThereMoreQuestions) {
 				this.getCurrentQuestion();
 			}
@@ -66,6 +67,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 			}
         });
         this.setState({
+            questionNumber: this.state.questionNumber+1,
             timer: 20,
             showCorrectAnswer: false
         })
@@ -103,7 +105,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 		});
 		console.log(newAnswers);
         if (this.state.redirect) {
-			return <Redirect push={true} to={"/rankingPage/" + this.code} />;
+			return <Redirect push={true} to={"/rankingPage"} />;
         }
         return (
             <div className='show-question'>

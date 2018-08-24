@@ -5,6 +5,8 @@
     font-size: 70px;
     margin-bottom: 20px;
     color: #5db9c5; }
+    .show-main .question-text .number {
+      font-family: 'Arial Narrow', Arial, sans-serif; }
   .show-main .answers {
     display: flex;
     flex-wrap: wrap;

@@ -45,9 +45,9 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/forgot/:token" component={ResetPasswordComponent} />
             {/* <Route exact={true} path="/playquiz" component={PlayQuiz} /> */}
             <Route exact={true} path="/snackbar" component={SnackbarComponent} />
-            <Route exact={true} path="/show-question/:code" component={ShowQuestionComponent} />
+            <Route exact={true} path="/show-question" component={ShowQuestionComponent} />
             <Route exact={true} path="/signalr" component={SignalRComponent} />
-            <Route exact={true} path="/rankingPage/:code" component={MainRankingPage} />
+            <Route exact={true} path="/rankingPage" component={MainRankingPage} />
             <Route exact={true} path="/playeranswer" component={PlayerAnswerPage} />
             <Route path="*" component={NotFoundComponent} />
         </Switch>
