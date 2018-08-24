@@ -4,8 +4,7 @@ import ShowQuestionFooter from './ShowQuestionFooter/ShowQuestionFooter';
 import ShowQuestionHeader from './ShowQuestionHeader/ShowQuestionHeader';
 import ShowQuestionMain from './ShowQuestionMain/ShowQuestionMain';
 import { Redirect } from "react-router-dom";
-import * as SignalR from '@aspnet/signalr'
-import { apiUrl } from '../../constants';
+import SignalRSingleton from "src/hubSingleton";
 
 const QUIZ_URL: string = 'https://vignette.wikia.nocookie.net/the-darkest-minds/images/4/47/Placeholder.png/revision/latest?cb=20160927044640';
 const QUIZ_NAME: string = 'Quiz Title';
@@ -16,7 +15,7 @@ const picturesUrls: string[] = [
     'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'
 ]
 class ShowQuestionComponent extends React.Component<any, any>{
-
+    public hubConnection: any;
 	public readonly code = this.props.match.params.code;
 	
     public state = {
@@ -34,26 +33,23 @@ class ShowQuestionComponent extends React.Component<any, any>{
         }
     }
 
-    private hubConnection: SignalR.HubConnection;
+    constructor(props : any) {
+        super(props);
+        this.hubConnection = SignalRSingleton;
+    }
 
 
-    public componentWillMount() {
+    public componentDidMount() {
+        console.log(this.hubConnection);
+        this.hubConnection.connection.on('EverybodyAnswered', this.endQuestion)
+        this.hubConnection.connection.on('GameIsOver', this.redirectToRankingPage);
+        this.getCurrentQuestion();
 
-        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "gamemaster").build();
-
-        this.hubConnection.start()
-            .then(() => {
-				this.hubConnection.on('EverybodyAnswered', this.endQuestion)
-				this.hubConnection.on('GameIsOver', this.redirectToRankingPage);
-                console.log('SignalR connected successfully')
-                this.getCurrentQuestion();
-            })
-            .catch(() => console.log('SignalR failed to connect'));
         setTimeout(this.endQuestion,5000);
     }
 
     public getCurrentQuestion = () => {
-		this.hubConnection.invoke('GetCurrentQuestion', this.code).then((res: any) => {
+		this.hubConnection.connection.invoke('GetCurrentQuestion', this.code).then((res: any) => {
             this.setState({
                 question: res
             })
@@ -61,7 +57,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public nextQuestionHandler = () => {
-        this.hubConnection.invoke('GoToNextQuestion', this.code).then((areThereMoreQuestions: any) => {
+        this.hubConnection.connection.invoke('GoToNextQuestion').then((areThereMoreQuestions: any) => {
 			if(areThereMoreQuestions) {
 				this.getCurrentQuestion();
 			}
@@ -83,7 +79,15 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public timeoutHandler = () => {
-        this.hubConnection.invoke('GoToNextQuestion');
+        this.hubConnection.connection.invoke('GoToNextQuestion');
+        this.setState({
+            timer: -1,
+            showCorrectAnswer: true
+        })
+    }
+
+    public endQuestion = () => {
+        console.log("questions ended");
         this.setState({
             timer: -1,
             showCorrectAnswer: true
@@ -121,12 +125,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
         )
     }
 
-    private endQuestion = () => {
-        this.setState({
-            timer: -1,
-            showCorrectAnswer: true
-        })
-    }
+
 }
 
 export default ShowQuestionComponent;

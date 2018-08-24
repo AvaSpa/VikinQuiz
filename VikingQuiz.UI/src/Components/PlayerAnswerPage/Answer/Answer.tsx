@@ -22,12 +22,12 @@ const MapNumberToString={
 
 class Answer extends React.Component<any, any> {
 
-    public hubConnection : any = SignalRSingleton.connection;
+    public hubConnection : any;
     private startTimer = Date.now();
 
     constructor(props: any) {
         super(props);
-
+        this.hubConnection = SignalRSingleton;
         this.state = {
             serverMessage: '',
             redirect: false,
@@ -50,10 +50,10 @@ class Answer extends React.Component<any, any> {
     public componentDidMount()
     {
     
-        this.hubConnection.on('SendCorrectAnswerId', this.handleTimeExpires);
-        this.hubConnection.on('ProceedToNextAnswers', this.proceedToNextAnswers);
-        this.hubConnection.on('GameIsOver', this.handleGameIsOver);
-        this.hubConnection.start()
+        this.hubConnection.connection.on('SendCorrectAnswerId', this.handleTimeExpires);
+        this.hubConnection.connection.on('ProceedToNextAnswers', this.proceedToNextAnswers);
+        this.hubConnection.connection.on('GameIsOver', this.handleGameIsOver);
+        this.hubConnection.connection.start()
             .then(()=>console.log('SignalR connected successfully'))
             .catch(()=>console.log('SignalR failed to connect'));
     }
@@ -74,7 +74,7 @@ class Answer extends React.Component<any, any> {
         
         const timerIsOver = 20;
         const noAnswerWasSelected = -1;
-        this.hubConnection.invoke('PlayerAnsweredQuestion', noAnswerWasSelected, timerIsOver);
+        this.hubConnection.connection.invoke('PlayerAnsweredQuestion', noAnswerWasSelected, timerIsOver);
 
         const idConvertedToString = MapNumberToString[id]
         this.setState({correctAnswerId: idConvertedToString})
@@ -112,7 +112,7 @@ class Answer extends React.Component<any, any> {
         const totalTime = (Date.now() - this.startTimer) / 1000
         this.setState({chosenAnswerExists: true, chosenAnswerId: id})
         const chosenAnswerIdAsInt = MapStringToNumbers[id]
-        this.hubConnection.invoke('PlayerAnsweredQuestion', chosenAnswerIdAsInt, totalTime)
+        this.hubConnection.connection.invoke('PlayerAnsweredQuestion', chosenAnswerIdAsInt, totalTime)
     }
 
     public render(): any {

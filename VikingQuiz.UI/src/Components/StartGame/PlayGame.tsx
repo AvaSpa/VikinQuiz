@@ -16,7 +16,6 @@ import SignalRSingleton from "src/hubSingleton";
 class PlayGame extends React.Component<any, any> {
     public connectionSingleton: any = SignalRSingleton;
   private httpService: any = new HttpService();
-  private readonly baseUrl = "http://localhost:60151/api";
   private readonly endPoint = "/player";
 
   constructor(props: any) {
@@ -51,7 +50,7 @@ class PlayGame extends React.Component<any, any> {
     gameCode: string
   ) => {
       this.connectionSingleton.connection = new SignalR.HubConnectionBuilder()
-      .withUrl("http://localhost:60151/gamemaster")
+      .withUrl(apiUrl + "gamemaster")
       .build();
       this.connectionSingleton.connection
         .start()
@@ -125,7 +124,7 @@ class PlayGame extends React.Component<any, any> {
                       value: ""
                     }
                   ]}
-                  url={this.baseUrl + this.endPoint}
+                  url={apiUrl + "api" + this.endPoint}
                   buttonName=""
                   onSubmit={this.playerDataHandler}
                   validator={connectValidator}

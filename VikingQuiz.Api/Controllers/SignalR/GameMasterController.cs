@@ -32,6 +32,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
             this.answerMapper = answerMapper;
         }
 
+        // WORKS FINE
         private string GenerateCode()
         {
             Random random = new Random();
@@ -45,6 +46,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
             return code;
         }
 
+        // IT DOES NOT WORK
         /// <summary>
         /// !Event! When the controller detects that there are no more 
         /// </summary>
@@ -52,6 +54,9 @@ namespace VikingQuiz.Api.Controllers.SignalR
         {
             string code = RoomService.PlayersToRooms[gameInstance.GameMasterId];
             Clients.Group(code).SendAsync("NextQuestion");
+            // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
+            // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
+            // !!! DOES NOT SEND THE ANSWER BECAUSED IT TRIES TO ACCESS IT THE WRONG WAY!!!!
             Clients.GroupExcept(code, gameInstance.GameMasterId).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2);
         }
 
@@ -60,7 +65,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
 
 
 
-
+        // NEEDS TESTING
         /// <summary>
         /// !Event! When the controller detects that a game has come to an end
         /// this method is called and announces everybody that the game has ended
@@ -74,6 +79,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
             await Clients.Group(code).SendAsync("GameIsOver");
         }
 
+        // WORKS FINE
         /// <summary>
         /// When an administrator decides to create a room
         /// this method generates a code, a room 
@@ -95,17 +101,19 @@ namespace VikingQuiz.Api.Controllers.SignalR
             return code;
         }
 
+        // WORKS FINE
         /// <summary>
         /// When an administrator presses start game
         /// this method tells all players that the game has started
         /// </summary>
-        public void BeginGame(string code)
+        public void BeginGame()
         {
-            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
-            //Clients.All.SendAsync("GameStarted");
+            string code = RoomService.PlayersToRooms[Context.ConnectionId];
+           //Clients.All.SendAsync("GameStarted");
             Clients.Groups(code).SendAsync("GameStarted");
         }
 
+        // WORKS FINE
         /// <summary>
         /// When a player introduces his game code and presses start
         /// this method connects him to the correct game room
@@ -135,6 +143,8 @@ namespace VikingQuiz.Api.Controllers.SignalR
             return player.Id;
         }
 
+
+        // WORKS FINE
         /// <summary>
         /// When the gamemaster moves to a new question
         /// he makes a request for the data for that question
@@ -166,20 +176,22 @@ namespace VikingQuiz.Api.Controllers.SignalR
 
         }
 
+
+        // NEEDS TESTINGS, BUT MOSTLY WORKS FINE
         /// <summary>
         /// When the gamemaster decides to move on to the next question
         /// this method tells all players in the room to move on as well
         /// </summary>
-        public bool GoToNextQuestion(string code)
+        public bool GoToNextQuestion()
         {
             bool areThereMoreQuestions = false;
-            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            string code = RoomService.PlayersToRooms[Context.ConnectionId];
 
             GameInstance gameInstance = RoomService.Rooms[code];
-            gameInstance.CurrentQuestion = ++gameInstance.CurrentQuestion;
-            gameInstance.PlayersThatAnsweredCurrentQuestion = gameInstance.Players.Count;
+            gameInstance.CurrentQuestion++;
+            gameInstance.PlayersThatAnsweredCurrentQuestion = 0;
             RoomService.Rooms[code] = gameInstance;
-            if(!checkIfThereAreNoMoreQuestions(gameInstance)) {
+            if(!areThereNoMoreQuestions(gameInstance)) {
                 areThereMoreQuestions = true;
                 Clients.Group(code).SendAsync("NextQuestion");
             }
@@ -204,15 +216,16 @@ namespace VikingQuiz.Api.Controllers.SignalR
             GameInstance gameInstance = RoomService.Rooms[code];
             GamePlayer gamePlayer = gameInstance.Players[Context.ConnectionId];
 
-
-            int scoreToAdd = gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2 == chosenAnswer ? 10 : 0;
-
+            var currentQuestion = gameInstance.QuizQuestionsAnswers.questions[gameInstance.CurrentQuestion];
+            var isSame = currentQuestion.CorrectAnsId == currentQuestion.Id;
+            //int scoreToAdd = gameInstance.QuizQuestionsAnswers.answers[gameInstance.CurrentQuestion].Item2 == chosenAnswer ? 10 : 0;
+            int scoreToAdd = isSame ? 10 : 0;
             gamePlayer.score += scoreToAdd;
             gamePlayer.time += time;
 
             gameInstance.Players[Context.ConnectionId] = gamePlayer;
-            gameInstance.PlayersThatAnsweredCurrentQuestion--;
-            checkIfAllPlayersAnswered(gameInstance);
+            gameInstance.PlayersThatAnsweredCurrentQuestion++;
+            didAllPlayersAnswer(gameInstance);
 
             RoomService.Rooms[code] = gameInstance;
 
@@ -222,7 +235,7 @@ namespace VikingQuiz.Api.Controllers.SignalR
 
 
 
-
+        // ITS NOT USED BECAUSE NO FRONT END COMPONENT
         /// <summary>
         /// When a player gets to the end screen he makes a request to see how he ranked
         /// </summary>
@@ -240,12 +253,14 @@ namespace VikingQuiz.Api.Controllers.SignalR
             return playerRank;
         }
 
+
+        // WORKS FINE
         /// <summary>
         /// When the gamemaster gets to the end screen he makes a request to get the top 3 players
         /// </summary>
-        public WinnersDTO GetWinners(string code )
+        public WinnersDTO GetWinners( )
         {
-            //string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            string code = RoomService.PlayersToRooms[Context.ConnectionId];
             PlayerDTO[] top3Players = RoomService.Rooms[code]
                 .OrderedPlayers
                 .Take(3)
@@ -256,16 +271,19 @@ namespace VikingQuiz.Api.Controllers.SignalR
 
         }
 
-        private bool checkIfAllPlayersAnswered(GameInstance instance) 
+        // WORKS FINE
+        private bool didAllPlayersAnswer(GameInstance instance) 
         {
-            bool condition = instance.PlayersThatAnsweredCurrentQuestion == 0;
+            bool condition = instance.PlayersThatAnsweredCurrentQuestion == instance.Players.Count;
             if (condition) {
                 AllPlayersAnswered(instance);
             }
             return condition;
         }
 
-        private bool checkIfThereAreNoMoreQuestions(GameInstance instance) {
+
+        // NEEDS TESTING
+        private bool areThereNoMoreQuestions(GameInstance instance) {
             bool condition = instance.CurrentQuestion == instance.QuizQuestionsAnswers.questions.Count;
             if (instance.CurrentQuestion == instance.QuizQuestionsAnswers.questions.Count) {
                 NoMoreQuestions(instance);

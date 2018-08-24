@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './DisplayPlayedGamesComponent.css'
-import HttpService from '../../../services/HttpService';
-import { apiUrl } from '../../../constants';
+// import HttpService from '../../../services/HttpService';
+// import { apiUrl } from '../../../constants';
 
 interface IState {
     games: any[]
@@ -19,10 +19,10 @@ interface IGameData {
 
 class DisplayPlayedGamesComponent extends React.Component<any, IState>{
     
-    private readonly apiAddressForGames = apiUrl + 'api/game/usergames';
-    private readonly apiAdressForPlayerGame = apiUrl + 'api/playergame/playersnumber/';
-    private readonly apiAddressForQuizzes = apiUrl + 'api/quizzes/';
-    private httpService: HttpService = new HttpService();
+    // private readonly apiAddressForGames = apiUrl + 'api/game/usergames';
+    // private readonly apiAdressForPlayerGame = apiUrl + 'api/playergame/playersnumber/';
+    // private readonly apiAddressForQuizzes = apiUrl + 'api/quizzes/';
+    // private httpService: HttpService = new HttpService();
 
     constructor(props: any) {
         super(props);
@@ -50,35 +50,35 @@ class DisplayPlayedGamesComponent extends React.Component<any, IState>{
     }
 
     public getPlayedGames(){
-        this.httpService.getWithToken(this.apiAddressForGames)
-        .then((response: any) => {
-            this.setState({ games: response.data }) 
-            response.data.forEach((game: any) => {
-                let gameNumberOfPlayers:any;
-                let quizDetails: any;                   
-                this.httpService.getWithToken(this.apiAdressForPlayerGame + game.id) 
-                    .then((result: any) => {
-                        gameNumberOfPlayers = result.data   
-                        const gameDataCopy = this.state.gameData;
-                        this.httpService.getWithToken(this.apiAddressForQuizzes + game.quizId)
-                            .then((res: any) => {
-                                quizDetails = res.data                                                 
-                                gameDataCopy.push({
-                                    numberOfPlayers: gameNumberOfPlayers,
-                                    gameDate: game.gameDate,
-                                    quizTitle: quizDetails.title,
-                                    quizPhoto: quizDetails.pictureUrl
-                                    })     
-                                    this.setState({
-                                        gameData: gameDataCopy,
-                                        noGamesPlayed: false
-                                    })     
-                                    this.sortPlayedGamesByDate();                                                                                          
-                            });  
-                    })
-            })
-        })
-        .catch((error: any) => console.log(error))  
+        // this.httpService.getWithToken(this.apiAddressForGames)
+        // .then((response: any) => {
+        //     this.setState({ games: response.data }) 
+        //     response.data.forEach((game: any) => {
+        //         let gameNumberOfPlayers:any;
+        //         let quizDetails: any;                   
+        //         this.httpService.getWithToken(this.apiAdressForPlayerGame + game.id) 
+        //             .then((result: any) => {
+        //                 gameNumberOfPlayers = result.data   
+        //                 const gameDataCopy = this.state.gameData;
+        //                 this.httpService.getWithToken(this.apiAddressForQuizzes + game.quizId)
+        //                     .then((res: any) => {
+        //                         quizDetails = res.data                                                 
+        //                         gameDataCopy.push({
+        //                             numberOfPlayers: gameNumberOfPlayers,
+        //                             gameDate: game.gameDate,
+        //                             quizTitle: quizDetails.title,
+        //                             quizPhoto: quizDetails.pictureUrl
+        //                             })     
+        //                             this.setState({
+        //                                 gameData: gameDataCopy,
+        //                                 noGamesPlayed: false
+        //                             })     
+        //                             this.sortPlayedGamesByDate();                                                                                          
+        //                     });  
+        //             })
+        //     })
+        // })
+        // .catch((error: any) => console.log(error))  
     }
 
     public sortPlayedGamesByDate()

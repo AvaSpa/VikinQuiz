@@ -6,7 +6,7 @@ import HomeButton from '../Buttons/HomeButton/HomeButton';
 import LogOutButton from '../Buttons/LogOutButton/LogOutButton';
 import { apiUrl } from "../../constants";
 import { Link } from 'react-router-dom';
-import * as SignalR from "@aspnet/signalr";
+import SignalRSingleton from "src/hubSingleton";
 
 
 
@@ -16,7 +16,34 @@ class MainRankingPage extends React.Component <any, any> {
    public playersApiAdress = apiUrl + "api/player"; 
     public readonly code = this.props.match.params.code;
    // public photoStorageUrlEndpoint = apiUrl + "api/storage";
-   public hubConnection: SignalR.HubConnection;
+   public hubConnection : any;
+
+   public winners : any = null;
+
+   public playersList : any[] = new Array();
+   
+   public state = {
+   };
+   public pictureSuffixMap = [
+      {
+         suffix: "st",
+         pictureUrl: "https://intershipwirtekblob.blob.core.windows.net/winning-pictures/1.png" 
+       },
+      {
+         suffix: "nd",
+         pictureUrl: "https://intershipwirtekblob.blob.core.windows.net/winning-pictures/2.png"
+       },
+      {
+         suffix: "rd",
+         pictureUrl: "https://intershipwirtekblob.blob.core.windows.net/winning-pictures/3.png"
+       }
+    ];
+    
+   constructor(props : any) {
+       super(props);
+        this.hubConnection = SignalRSingleton;
+
+   }
 
 
    // public dummyData : any = [
@@ -35,28 +62,7 @@ class MainRankingPage extends React.Component <any, any> {
    // ]
    
    // public winningPhotoUrlBase : string; 
-   public winners : any = null;
 
-   public playersList : any[] = new Array();
-   
-   public state = {
-   };
-
-   
-  public pictureSuffixMap = [
-     {
-        suffix: "st",
-        pictureUrl: "https://intershipwirtekblob.blob.core.windows.net/winning-pictures/1.png" 
-      },
-     {
-        suffix: "nd",
-        pictureUrl: "https://intershipwirtekblob.blob.core.windows.net/winning-pictures/2.png"
-      },
-     {
-        suffix: "rd",
-        pictureUrl: "https://intershipwirtekblob.blob.core.windows.net/winning-pictures/3.png"
-      }
-   ];
    
 
    // WORK THE SAME
@@ -80,7 +86,7 @@ class MainRankingPage extends React.Component <any, any> {
       
       
 
-      this.hubConnection.invoke('GetWinners', this.code).then( (succesfulResponse : any) => {
+      this.hubConnection.connection.invoke('GetWinners').then( (succesfulResponse : any) => {
          this.playersList = succesfulResponse.winners; // the response data
 
          this.addRankingsToPlayerList();
@@ -94,13 +100,7 @@ class MainRankingPage extends React.Component <any, any> {
    }
 
    public componentWillMount() {
-      this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "gamemaster").build();
-
-      this.hubConnection.start()
-         .then(() => {
-            this.getPlayersDataAndAddThemToThePlayerList();
-         })
-         .catch(() => console.log('SignalR failed to connect'));
+        this.getPlayersDataAndAddThemToThePlayerList();
    }
 
 

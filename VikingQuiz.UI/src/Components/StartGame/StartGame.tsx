@@ -3,14 +3,16 @@ import './StartGame.css';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
 import CancelButton from '../Buttons/CancelButton/CancelButton';
 import StartButton from '../Buttons/StartButton/StartButton';
-import * as SignalR from '@aspnet/signalr'
 import PlayerDto from '../../entities/PlayerDto';
 import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 import { Redirect } from 'react-router-dom';
 import {apiUrl} from "src/constants";
+import SignalRSingleton from "src/hubSingleton";
+import * as SignalR from "@aspnet/signalr";
+
 
 class StartGame extends React.Component<any, any> {
-    private hubConnection: SignalR.HubConnection;
+    public hubConnection : any = SignalRSingleton;
     
     constructor(props: any) {
       super(props);
@@ -24,16 +26,14 @@ class StartGame extends React.Component<any, any> {
     }
 
     public componentDidMount() {
-        this.hubConnection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + 'gamemaster').build();
+        this.hubConnection.connection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "gamemaster").build();
 
-        
-        this.hubConnection.start()
-        .then(() => {
-            this.hubConnection.on("NewPlayerHasConnected", this.getPlayer);
-            this.hubConnection.invoke("CreateGame", this.state.quizId)
+        this.hubConnection.connection.start().then(() => {
+            this.hubConnection.connection.on("NewPlayerHasConnected", this.getPlayer);
+            this.hubConnection.connection.invoke("CreateGame", this.state.quizId)
             .then( (Response : any) => {
                 this.setState({ code: Response })
-            })
+            });
         })
         .catch( ()=>console.log('SignalR failed to connect'));
     }
@@ -74,14 +74,13 @@ class StartGame extends React.Component<any, any> {
     }
 
     private startGameHandler = () => {
-        this.hubConnection.invoke("BeginGame", this.state.code);
+        this.hubConnection.connection.invoke("BeginGame");
         this.setState({
             redirect: true
-        })
+        });
     }
 
     private getPlayer = (name: string, pictureUrl: string) => {
-        console.log(name, pictureUrl);
         const playersUpdated : PlayerDto[] = this.state.players;
         const newPlayer : PlayerDto  = new PlayerDto(pictureUrl, name);
         playersUpdated.push(newPlayer);
