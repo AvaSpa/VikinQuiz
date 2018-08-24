@@ -110,10 +110,12 @@ class Answer extends React.Component<any, any> {
         if(this.state.correctAnswerId === this.state.chosenAnswerId)
         {
             this.setState({answerMessage: 'RIGHT!', answerMessageFontColor: 'correct_answer_message'});
+           console.log(this.state.answerMessageFontColor)
         }
         if((this.state.chosenAnswerId !== null) && (this.state.correctAnswerId !== this.state.chosenAnswerId))
         {
             this.setState({answerMessage: 'WRONG!', answerMessageFontColor: 'wrong_answer_message'});
+           console.log(this.state.answerMessageFontColor)
         }
     }
 

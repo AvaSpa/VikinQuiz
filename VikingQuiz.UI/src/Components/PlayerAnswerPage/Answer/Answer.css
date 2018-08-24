@@ -82,11 +82,13 @@
     background: transparent url("https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png") no-repeat;
     background-size: 100%;
     border: none; }
-  .answers-container .correct_answer_message {
-    color: green;
-    font-family: 'dk_lemon_yellow_sunregular';
-    font-size: 40px; }
-  .answers-container .wrong_answer_message {
-    color: red;
-    font-family: 'dk_lemon_yellow_sunregular';
-    font-size: 40px; }
+
+.wrong_answer_message {
+  color: red;
+  font-family: 'dk_lemon_yellow_sunregular';
+  font-size: 40px; }
+
+.correct_answer_message {
+  color: green;
+  font-family: 'dk_lemon_yellow_sunregular';
+  font-size: 40px; }
