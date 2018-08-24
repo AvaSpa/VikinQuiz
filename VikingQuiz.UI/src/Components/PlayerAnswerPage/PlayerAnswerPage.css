@@ -1,0 +1,57 @@
+.player-answer-page-container .profile-details-container {
+  display: inline-flex;
+  width: 80%;
+  margin-top: 3%; }
+  .player-answer-page-container .profile-details-container .participant-container {
+    font-family: "dk_lemon_yellow_sunregular";
+    font-size: 52px;
+    margin-top: 25px; }
+    @media screen and (max-width: 415px) {
+      .player-answer-page-container .profile-details-container .participant-container {
+        font-size: 20px;
+        margin-top: 17px; } }
+  .player-answer-page-container .profile-details-container .my-profile-figure {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%; }
+  .player-answer-page-container .profile-details-container .profile-picture {
+    width: 130px;
+    height: 130px; }
+    @media screen and (max-width: 415px) {
+      .player-answer-page-container .profile-details-container .profile-picture {
+        width: 65px;
+        height: 65px; } }
+  .player-answer-page-container .profile-details-container .user-name-container {
+    color: #f0cc04;
+    font-size: 52px; }
+    @media screen and (max-width: 415px) {
+      .player-answer-page-container .profile-details-container .user-name-container {
+        font-size: 20px; } }
+
+.player-answer-page-container .answer-container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 80%;
+  height: 40%; }
+  @media screen and (min-height: 300px) {
+    .player-answer-page-container .answer-container {
+      margin-top: 20%; } }
+  @media screen and (min-height: 600px) {
+    .player-answer-page-container .answer-container {
+      margin-top: 20%; } }
+  @media screen and (min-height: 661px) {
+    .player-answer-page-container .answer-container {
+      margin-top: 5%; } }
+  @media screen and (min-height: 700px) {
+    .player-answer-page-container .answer-container {
+      margin-top: 25%; } }
+  @media screen and (min-height: 825px) {
+    .player-answer-page-container .answer-container {
+      margin-top: 10%; } }
+  @media screen and (min-height: 900px) {
+    .player-answer-page-container .answer-container {
+      margin-top: 7%; } }
+  @media screen and (min-height: 1000px) {
+    .player-answer-page-container .answer-container {
+      margin-top: 20%; } }

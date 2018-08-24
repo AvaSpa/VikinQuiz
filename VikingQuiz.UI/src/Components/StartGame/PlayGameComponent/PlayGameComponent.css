@@ -3,20 +3,39 @@
   border: none;
   width: 100px;
   height: 100px;
-  top: 200px;
+  position: fixed;
   background: transparent url("../../../media/joinbutton.png") no-repeat;
   background-size: 100%;
-  position: relative;
-  margin: 0 auto;
+  margin-top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 60px;
   display: block;
   transition: all 0.2s linear; }
 
 .play-game-form .join-button:hover {
-  transform: translateY(3px); }
+  cursor: pointer; }
 
-.play-game-form .join-button:active {
-  transform: translateY(5px); }
-
-@media screen and (max-height: 600px) {
-  .play-game-form .join-button {
-    top: 100px; } }
+.play-game-form #upload {
+  text-align: center; }
+  .play-game-form #upload .preview {
+    margin-top: 10px; }
+  .play-game-form #upload #label-photo-txt {
+    margin: 0 auto;
+    font-weight: 300;
+    color: #5DA9C5;
+    font-size: 20px;
+    display: block; }
+  .play-game-form #upload .upload-component {
+    text-align: center; }
+    .play-game-form #upload .upload-component .upload-button {
+      margin: auto; }
+  .play-game-form #upload .error-message {
+    text-align: center;
+    color: #fa1919;
+    font-family: 'Arial-Narrow';
+    font-size: 18px;
+    padding-left: 7px;
+    width: 100%; }
+  .play-game-form #upload .error-border .upload-button {
+    box-shadow: 0 0 4px 2px #fa1919; }

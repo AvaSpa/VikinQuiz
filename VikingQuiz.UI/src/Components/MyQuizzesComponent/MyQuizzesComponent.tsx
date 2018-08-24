@@ -4,7 +4,7 @@ import QuizItem from '../QuizItem/QuizItem';
 import NewQuizButton from '../Buttons/NewQuizButton/NewQuizButton';
 import ProfileAndHomeComponent from '../ProfileAndHomeComponent/ProfileAndHomeComponent';
 import HttpService from '../../services/HttpService';
-import { apiUrl } from '../../constants';
+import {apiUrl} from 'src/constants';
 
 class MyQuizzesComponent extends React.Component<any, any> {
     
@@ -74,17 +74,17 @@ class MyQuizzesComponent extends React.Component<any, any> {
 
         if (!numberOfExistingQuizzes) {
             addButtonForExistingQuizzes = null
-            addButtonForZeroQuizzes = <NewQuizButton />
+            addButtonForZeroQuizzes = <NewQuizButton buttonIsDisabled={true} />
         }
         else {
             addButtonForZeroQuizzes = null
-            addButtonForExistingQuizzes = <NewQuizButton />
+            addButtonForExistingQuizzes = <NewQuizButton buttonIsDisabled={true} />
         }
 
         return (
             <>
             <div className="my-quizzes-profile-container">
-                    <ProfileAndHomeComponent profilePictureUrl ={this.state.profilePictureUrl} profileName={this.state.username}/>  
+                    <ProfileAndHomeComponent profilePictureUrl ={this.state.profilePictureUrl} profileName={this.state.username} buttonIsDisabled={true}/>  
                     {addButtonForExistingQuizzes}
             </div>
                 <div className="display-quizzes-container">
@@ -109,13 +109,13 @@ class MyQuizzesComponent extends React.Component<any, any> {
                                 :   (numberOfExistingQuizzes <6 ?
                                         (
                                         this.state.quizzes.map((p: any) =>
-                                            <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.componentWillMount} />)
+                                            <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.props.handleQuizDelete} />)
                                         )
                                         : 
                                         (!this.state.displayAllQuizzes ?
                                             <>
                                                 {this.state.quizzes.slice(0, 5).map((p: any) =>
-                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.componentWillMount} />
+                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.props.handleQuizDelete} />
                                                 )}
                                                 <div className="more-less-button">
                                                     <button className="more-quizzes-button" onClick={this.handleMoreClick}>SHOW ALL</button>
@@ -125,7 +125,7 @@ class MyQuizzesComponent extends React.Component<any, any> {
                                             (
                                             <>
                                                 {this.state.quizzes.map((p: any) =>
-                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.componentWillMount} />)}
+                                                    <QuizItem key={p.id} title={p.title} photo={p.pictureUrl} id={p.id} handleChildDelete={this.props.handleQuizDelete} />)}
                                                 <div className="more-less-button">
                                                     <button className="more-quizzes-button" onClick={this.handleLessClick}>SHOW LESS</button>
                                                 </div>

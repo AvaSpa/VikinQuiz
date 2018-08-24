@@ -1,37 +1,48 @@
 import * as React from 'react';
 import './StartGame.css';
 import HomeButton from '../Buttons/HomeButton/HomeButton';
-import axios from '../../../node_modules/axios';
-import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
 import CancelButton from '../Buttons/CancelButton/CancelButton';
 import StartButton from '../Buttons/StartButton/StartButton';
+import PlayerDto from '../../entities/PlayerDto';
+import UserMinimalProfile from '../UserMinimalProfile/UserMinimalProfile';
+import { Redirect } from 'react-router-dom';
+import {apiUrl} from "src/constants";
+import SignalRSingleton from "src/hubSingleton";
+import * as SignalR from "@aspnet/signalr";
+
 
 class StartGame extends React.Component<any, any> {
+    public hubConnection : any = SignalRSingleton;
+    
     constructor(props: any) {
       super(props);
 
-        this.state = {
-            serverMessage: '',
-            redirect: false,
-            player: [],
-            baseUrl : "http:///localhost:60151/api/",
-            endPoint: "player",
-            playersPerLine: 7
-        }
+      this.state = {
+          redirect: false,
+          quizId: this.props.location.state.id,
+          code: null,
+          players: []
+      }
     }
 
-    public componentWillMount() {
-        axios.get(this.state.baseUrl+this.state.endPoint)
-        .then(response => {
-            console.log(response.data)
-            this.setState({player: response.data})
+    public componentDidMount() {
+        this.hubConnection.connection = new SignalR.HubConnectionBuilder().withUrl(apiUrl + "gamemaster").build();
+
+        this.hubConnection.connection.start().then(() => {
+            this.hubConnection.connection.on("NewPlayerHasConnected", this.getPlayer);
+            this.hubConnection.connection.invoke("CreateGame", this.state.quizId)
+            .then( (Response : any) => {
+                this.setState({ code: Response })
+            });
         })
-        .catch(err => console.log(err))
+        .catch( ()=>console.log('SignalR failed to connect'));
     }
 
     public render() {
         const displayedMessage = "YOUR CODE";
-        const displayedCode = "code";
+        const displayedCode = this.state.code;
+        if(this.state.redirect){
+            return (<Redirect push={true} to={"/show-question"} />);        }
         return (
             <div className="startgame-container container">
                 <div className="startgame-center-container">
@@ -47,23 +58,35 @@ class StartGame extends React.Component<any, any> {
                                 <div className="code"> {displayedCode} </div>
                             </div>
                             <div className="players-container">
-                                {this.state.player.slice(this.state.playersPerLine, this.state.player.length).map((p:any) =>
-                                    <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
-                                )}
-                                {this.state.player.slice(0,this.state.playersPerLine).map((p:any) =>
-                                    <UserMinimalProfile key={p.name} name={p.name} photo={p.pictureUrl} />
+                                {this.state.players.map((p:any) => 
+                                    <UserMinimalProfile key={p.name} photo={p.pictureUrl} name={p.name} />
                                 )}
                             </div>
                         </div>
                         <div className="startgame-center-container">
-                            <StartButton/>
+                            <StartButton clicked = {this.startGameHandler}/>
                         </div>
                     </div>
                 </div>                        
                 <CancelButton/>
             </div>
         ); 
-      }
+    }
+
+    private startGameHandler = () => {
+        this.hubConnection.connection.invoke("BeginGame");
+        this.setState({
+            redirect: true
+        });
+    }
+
+    private getPlayer = (name: string, pictureUrl: string) => {
+        const playersUpdated : PlayerDto[] = this.state.players;
+        const newPlayer : PlayerDto  = new PlayerDto(pictureUrl, name);
+        playersUpdated.push(newPlayer);
+        this.setState({ players: playersUpdated })
+    }
+
 }
 
 export default StartGame;

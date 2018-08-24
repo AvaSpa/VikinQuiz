@@ -1,4 +1,4 @@
-class PlayerCodeDto{
+class PlayerDto{
     public id: number;
     public pictureUrl: string;
     public name: string;
@@ -11,4 +11,4 @@ class PlayerCodeDto{
     }
 };
 
-export default PlayerCodeDto;
+export default PlayerDto;

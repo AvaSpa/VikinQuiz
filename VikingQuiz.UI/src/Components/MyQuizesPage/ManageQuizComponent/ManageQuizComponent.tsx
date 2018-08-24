@@ -3,12 +3,13 @@ import './ManageQuizComponent.css';
 import { Redirect} from 'react-router-dom';
 import YesNoComponent from '../../YesNoComponent/YesNoComponent';
 import HttpService from '../../../services/HttpService';
-import { apiUrl } from '../../../constants';
+import {apiUrl} from 'src/constants';
 
 class ManageQuizComponent extends React.Component<any, any> { 
     
     private httpService: HttpService = new HttpService();
     private readonly apiAddress : string = apiUrl + 'api/quizzes/';
+    private readonly gameAdress: string = apiUrl + 'api/game/'
     
     constructor(props: any) {
       super(props);
@@ -47,6 +48,7 @@ class ManageQuizComponent extends React.Component<any, any> {
 
     public handleQuizDeleteYesClick(props: any){
         
+        this.setState({isHidden: true})
         const rerenderParent = this.props.handleChildDelete;
         
         this.httpService.deleteWithToken(this.apiAddress + this.props.id)
@@ -61,7 +63,13 @@ class ManageQuizComponent extends React.Component<any, any> {
     }
 
     public handlePlayGameButtonClick(){
-        this.setState({redirectToPlayGame: true})
+        const body = {quizId: this.props.id};
+        this.httpService.postWithToken(this.gameAdress, body)
+          .then( (res: any) => {
+            this.setState({redirectToPlayGame: true})
+          })
+          .catch((err: any) => console.log(err))
+        
     }
 
     public render(): any {

@@ -19,7 +19,7 @@ namespace VikingQuiz.Api.Repositories
 
         public Game Create(Game game)
         {
-            context.Add(game);
+            context.Game.Add(game);
             context.SaveChanges();
             return game;
         }
@@ -62,6 +62,12 @@ namespace VikingQuiz.Api.Repositories
                 .FirstOrDefault();
 
             return foundGame;
+        }
+
+        public List<Game> GetGamesOrderedByDateBasedOnUserId(List<int> id)
+        {
+            var gamesOrderedByDate = context.Game.Where(game => id.Contains(game.QuizId ?? default(int))).OrderByDescending(game => game.GameDate).ToList();
+            return gamesOrderedByDate;
         }
 
         public string GenerateCode()

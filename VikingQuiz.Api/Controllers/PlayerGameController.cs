@@ -32,6 +32,20 @@ namespace VikingQuiz.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("playersnumber/{id}")]
+        public IActionResult GetGameTotalNumberOfPlayersByGameId(int id)
+        {
+            var playerGame = playergameRepository.GetPlayerGameByGameId(id);
+            if(playerGame == null)
+            {
+                int noRecordsFound = 0;
+                return Ok(noRecordsFound);
+            }
+
+            var playersNumberForAGame = playerGame.Count();
+            return Ok(playersNumberForAGame);
+        }
+
         [HttpPost]
         public IActionResult CreatePlayerGame([FromBody]PlayerGameViewModel playergameViewModel)
         {
@@ -83,5 +97,13 @@ namespace VikingQuiz.Api.Controllers
             var result = playergameRepository.GetRankingByGameId(gameId);
             return Ok(result);
         }
+
+        [HttpGet("current/{gameId}")]
+        public IActionResult GetPlayersByGameId(int gameId)
+        {
+            var result = playergameRepository.GetPlayerGameByGameId(gameId);
+            return Ok(result);
+        }
+
     }
 }

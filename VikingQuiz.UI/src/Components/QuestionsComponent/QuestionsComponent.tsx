@@ -16,7 +16,7 @@ interface IProps {
 interface IAnswerDto {
    text: string,
    id: number,
-   isChecked? : boolean,
+   isChecked?: boolean,
    errorMessage?: string
 }
 interface IQuestionDto {
@@ -45,20 +45,20 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    public state = {
       isEditMode: false,
       activeQuizId: this.props.quizId, // this.props.quizId
-      currentActiveQuestion: 
-         {
-            id: -1, 
-            text: "",
-            titleErrorMessage: "",
-            correctAnswerId: 1,
-            index: 0,
-            answers: [
-                  { text: "", id: 1, isChecked: true, errorMessage: ""},
-                  { text: "", id: 2, isChecked: false, errorMessage: ""},
-                  { text: "", id: 3, isChecked: false, errorMessage: ""},
-                  { text: "", id: 4, isChecked: false, errorMessage: ""}
-               ]
-         }
+      currentActiveQuestion:
+      {
+         id: -1,
+         text: "",
+         titleErrorMessage: "",
+         correctAnswerId: 1,
+         index: 0,
+         answers: [
+            { text: "", id: 1, isChecked: true, errorMessage: "" },
+            { text: "", id: 2, isChecked: false, errorMessage: "" },
+            { text: "", id: 3, isChecked: false, errorMessage: "" },
+            { text: "", id: 4, isChecked: false, errorMessage: "" }
+         ]
+      }
    }
    public refreshQuestionList = {
       refresh: new Function()
@@ -69,7 +69,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    public createQuestionRequestObject = () => {
       const currentQuestion = this.state.currentActiveQuestion;
 
-      const body : any = {
+      const body: any = {
          id: currentQuestion.id,
          correctAnswerId: currentQuestion.correctAnswerId,
          text: currentQuestion.text,
@@ -78,7 +78,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
 
       for (const answer of currentQuestion.answers) {
          body.answers.push({
-            text : answer.text,
+            text: answer.text,
             id: answer.id
          });
       }
@@ -88,24 +88,24 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    public getReferenceToRefreshQuestionList = () => {
       return this.refreshQuestionList;
    }
-   public isQuestionInputValid ( question : IQuestionDto ) : boolean {
+   public isQuestionInputValid(question: IQuestionDto): boolean {
       this.combinedInputValidators();
       const questionAnswers = question.answers;
       const conditions: boolean[] = [];
 
       conditions.push(question.text !== "");
-      
-      for(const answer of questionAnswers) {
+
+      for (const answer of questionAnswers) {
          conditions.push(answer.text !== "");
       }
 
-      conditions.push( questionAnswers.filter(answer => {
+      conditions.push(questionAnswers.filter(answer => {
          return answer.id === question.correctAnswerId
       }).length === 1);
 
-      const finalCondition = conditions.reduce( (sum, next) =>  sum && next );
+      const finalCondition = conditions.reduce((sum, next) => sum && next);
 
-      return finalCondition; 
+      return finalCondition;
    }
 
 
@@ -120,10 +120,10 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          currentActiveQuestion.titleErrorMessage = "";
       }
    }
-   public singleInputValidator = (id : number) => {
+   public singleInputValidator = (id: number) => {
       const currentActiveQuestion = this.state.currentActiveQuestion;
       for (const answer of currentActiveQuestion.answers) {
-         if(answer.id === id) {
+         if (answer.id === id) {
             if (answer.text.length === 0) {
                answer.errorMessage = "This field is required.";
             }
@@ -166,7 +166,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
 
 
 
-   
+
 
 
    public createNewQuestionRequest = (newQuestionData: IQuestionDto) => {
@@ -175,7 +175,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
          const request = this.httpService.post(reqUrl, newQuestionData);
          if (request) {
             request
-               .then((succesfulRes : any) => {
+               .then((succesfulRes: any) => {
                   this.resetQuestionsData();
                   this.refreshQuestionList.refresh()
                })
@@ -201,7 +201,7 @@ class QuestionsComponent extends React.Component<IProps, IState> {
                   console.log(failedRes.data);
                });
          }
-        
+
       }
       else {
          this.refreshQuestionList.refresh()
@@ -211,7 +211,6 @@ class QuestionsComponent extends React.Component<IProps, IState> {
    public deleteQuestionRequest = (questionId: number) => {
       const reqUrl = `${this.endpointUrl}/${questionId}/?quiz=${this.props.quizId}`;
       const request = this.httpService.deleteWithToken(reqUrl);
-      console.log(reqUrl);
       if (request) {
          request
             .then((succesfulRes: any) => {

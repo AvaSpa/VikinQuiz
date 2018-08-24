@@ -5,6 +5,9 @@ using VikingQuiz.Api.Models;
 using VikingQuiz.Api.Repositories;
 using VikingQuiz.Api.Mappers;
 using VikingQuiz.Api.ViewModels;
+using VikingQuiz.Api.Utilities;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,12 +19,14 @@ namespace VikingQuiz.Api.Controllers
         private readonly PlayerRepository playerRepository;
         private readonly IEntityMapper<Player, PlayerViewModel> entityToVmMapper;
         private readonly IEntityMapper<PlayerViewModel, Player> vmToEntityMapper;
+        private readonly AzureBlobService blobService;
 
         public PlayerController(PlayerRepository playerRepository, IEntityMapper<Player, PlayerViewModel> entityToVmMapper, IEntityMapper<PlayerViewModel, Player> vmToEntityMapper)
         {
             this.playerRepository = playerRepository;
             this.entityToVmMapper = entityToVmMapper;
             this.vmToEntityMapper = vmToEntityMapper;
+            this.blobService = new AzureBlobService("players");
         }
 
         [HttpGet]
@@ -29,6 +34,15 @@ namespace VikingQuiz.Api.Controllers
         {
             var result = playerRepository.GetAll().Select(s => entityToVmMapper.Map(s)).ToList();
             return Ok(result);
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadPhoto(ImageViewModel image)
+        {
+            string uploadedFileName = await this.blobService.UploadPhotoAsync(image.Files[0]);
+            string fullFileUrl = blobService.GetFullUrlOfFileName(uploadedFileName);
+            return Ok(fullFileUrl);
+            
         }
 
         [HttpGet("{id}")]
@@ -43,23 +57,28 @@ namespace VikingQuiz.Api.Controllers
             return Ok(playerVm);
         }
 
-        [HttpPost]
-        public IActionResult CreatePlayer([FromBody]PlayerCodeViewModel playercode)
-        {
-            Player createdPlayer = new Player()
-            {
-                PictureUrl = playercode.PictureUrl,
-                Name = playercode.Name
-            };
+        //[HttpPost]
+        //public IActionResult CreatePlayer([FromBody]PlayerCodeViewModel playercode)
+        //{
+        //    Player createdPlayer = new Player()
+        //    {
+        //        PictureUrl = playercode.PictureUrl,
+        //        Name = playercode.Name
+        //    };
 
-            Player newPlayer = playerRepository.AddPlayer(createdPlayer, playercode.Code);
-            if(newPlayer == null)
-            {
-                return BadRequest("Player couldn't be created");
-            }
-            PlayerViewModel playerVm = entityToVmMapper.Map(newPlayer);
-            return Ok(playerVm);
-        }
+        //    if (createdPlayer.PictureUrl == "")
+        //    {
+        //        createdPlayer = playerRepository.AssignRandomPhoto(createdPlayer);
+        //    }
+
+        //    Player newPlayer = playerRepository.AddPlayer(createdPlayer);
+        //    if (newPlayer == null)
+        //    {
+        //        return BadRequest("Player couldn't be created");
+        //    }
+        //    PlayerViewModel playerVm = entityToVmMapper.Map(newPlayer);
+        //    return Ok(playerVm);
+        //}
 
         [HttpPut("{id}")]
         public IActionResult UpdatePlayer(int id, [FromBody]PlayerViewModel player)

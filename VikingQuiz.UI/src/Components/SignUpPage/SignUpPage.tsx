@@ -10,8 +10,7 @@ import {signUpRules} from '../../entities/Validation/rules';
 import {signUpValidator} from '../../entities/Validation/validators';
 import HttpService from '../../services/HttpService';
 import StorageService from 'src/services/StorageService';
-
-import { apiUrl } from '../../constants';
+import {apiUrl} from 'src/constants';
 
 function popupClosedHandler(): void { console.log("Popup closed"); }
 function popupOpenHandler(): void { console.log("Popup opened"); }
@@ -99,7 +98,7 @@ class SignUpPage extends React.Component<{}, any> {
          <div className="register-form">
             <div className="container">
                <LoginButton />
-               <HomeButton />
+               <HomeButton buttonIsDisabled={true} />
                <div className="row">
                   <div>
                      <div className="signup-msg">

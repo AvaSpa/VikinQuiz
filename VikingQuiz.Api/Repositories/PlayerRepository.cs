@@ -15,16 +15,13 @@ namespace VikingQuiz.Api.Repositories
             this.context = context;
         }
 
-        public Player AddPlayer(Player player, string code)
+        public Player AddPlayer(Player player, int gameId)
         {
-            if (FindGameByCode(code) == null)
-                return null;
-            Game foundGame = FindGameByCode(code);
             context.Player.Add(player);
             context.SaveChanges();
             PlayerGame newPlayerGame = new PlayerGame
             {
-                GameId = foundGame.Id,
+                GameId = gameId,
                 PlayerId = player.Id,
                 Score = 0
             };
@@ -79,5 +76,14 @@ namespace VikingQuiz.Api.Repositories
             return foundGame;
         }
 
+        public Player AssignRandomPhoto(Player player)
+        {
+            Random random = new Random();
+            int number = random.Next(1, 6);
+            Player foundPlayer = context.Player.FirstOrDefault(p => p.Id == player.Id);
+            foundPlayer.PictureUrl = number + ".png";
+            context.SaveChanges();
+            return player;
+        }
     }
 }

@@ -1,0 +1,51 @@
+.show-main{
+    margin: 50px auto;
+    width: 80%;
+
+    .question-text{
+        .number {
+            font-family: 'Arial Narrow', Arial, sans-serif;
+        }
+
+        font-size: 70px;
+        margin-bottom: 20px;
+        color: #5db9c5;
+    }
+
+    .answers{
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 50px;
+        width: 80%;
+        margin: 0 auto;
+
+        .left{
+            padding-left: 15%;
+        }
+        .right{
+            padding-left: 10%;
+        }
+    }
+
+    .correct-answer{
+        .answer-image{
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-top: 25px;
+        }
+    
+        .answer-text{
+            margin-top: 25px;
+            margin-bottom: 50px;
+            font-size: 50px;
+            font-weight: 300;
+        }
+
+        .switch-button{
+            position: static;
+            font-size: 35px;
+            width: 100px;
+        }
+    }
+}

@@ -15,6 +15,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using VikingQuiz.Api.Utilities;
 using VikingQuiz.Api.Controllers;
+using VikingQuiz.Api.Controllers.SignalR.Services;
+using VikingQuiz.Api.Controllers.SignalR;
 
 namespace VikingQuiz.Api
 {
@@ -43,7 +45,8 @@ namespace VikingQuiz.Api
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
-                    options.TokenValidationParameters = new TokenValidationParameters {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
@@ -80,6 +83,9 @@ namespace VikingQuiz.Api
             services.AddScoped<IEntityMapper<Quiz, QuizViewModel>, QuizToViewModelMapper>();
             services.AddScoped<IEntityMapper<PlayerGame, PlayerGameViewModel>, PlayerGameToViewModelMapper>();
             services.AddScoped<IEntityMapper<PlayerGameViewModel, PlayerGame>, PlayerGameViewModelToEntityMapper>();
+            services.AddScoped<AzureBlobService, AzureBlobService>();
+            services.AddSingleton<IRoomService, RoomsService>();
+
 
             services.AddSignalR();
         }
@@ -90,7 +96,7 @@ namespace VikingQuiz.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                sqlConnection =  @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
+                sqlConnection = @"Server=(localdb)\MSSQLLocalDB;Database=VikinQuiz;Trusted_Connection=True;ConnectRetryCount=0";
 
             }
 
@@ -109,12 +115,12 @@ namespace VikingQuiz.Api
             app.UseSignalR(routes =>
             {
                 routes.MapHub<SignalRPlaceholder>("/hello");
+                routes.MapHub<GameMasterController>("/gamemaster");
             });
 
             //TODO:will be used in production
 
             /*
-
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
                 .CreateScope())
             {

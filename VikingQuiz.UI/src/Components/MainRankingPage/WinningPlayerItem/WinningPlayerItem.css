@@ -1,0 +1,46 @@
+.winning-player-item {
+  width: 150px;
+  height: 300px;
+  margin: 40px;
+  text-align: center; }
+  .winning-player-item .winning-image {
+    width: 80px;
+    height: 80px;
+    margin: 20px auto; }
+  .winning-player-item .image-container {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid white; }
+    .winning-player-item .image-container .player-photo {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin: auto; }
+    .winning-player-item .image-container .winning-position {
+      display: block;
+      font-size: 30px;
+      margin-top: 10px;
+      color: #f0cc04;
+      font-size: 1.8em; }
+  @media screen and (max-width: 800px) {
+    .winning-player-item {
+      margin: 0; } }
+  @media screen and (max-width: 500px) {
+    .winning-player-item {
+      width: 120px; }
+      .winning-player-item .image-container .player-photo {
+        width: 70px;
+        height: 70px; } }
+  @media screen and (min-width: 1200px) {
+    .winning-player-item {
+      width: 200px; }
+      .winning-player-item .image-container .player-photo {
+        width: 120px;
+        height: 120px; }
+      .winning-player-item .image-container .winning-position {
+        font-size: 2.3em; }
+      .winning-player-item .player-name {
+        font-size: 1.4em; }
+      .winning-player-item .winning-image {
+        width: 100px;
+        height: 100px; } }

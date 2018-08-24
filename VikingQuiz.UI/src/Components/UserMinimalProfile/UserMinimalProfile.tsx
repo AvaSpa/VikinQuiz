@@ -15,7 +15,7 @@ class UserMinimalProfile extends React.Component<any, any>{
         return (
             <div className="player-container single-player-container"> 
                     <div className="player-photo">
-                        <img className="photo" src="http://mythologian.net/wp-content/uploads/2017/02/real-floki-from-vikings-1024x657.jpg"/>                      
+                        <img className="photo" src={this.props.photo}/>                      
                     </div>
                     <div className="player-name">
                         {this.props.name}
