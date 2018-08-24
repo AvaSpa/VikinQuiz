@@ -79,7 +79,6 @@ class MainRankingPage extends React.Component<any, any> {
     this.playersList[0] = this.playersList[1];
     this.playersList[1] = firstPlayer;
   }
-         console.log(succesfulResponse);
 
 
 
