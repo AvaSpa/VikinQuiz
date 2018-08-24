@@ -1,0 +1,298 @@
+.player-rank-container {
+    .participant-label {
+        font-size: 50px;
+        font-weight: normal;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+        top: 20px;
+        color: #ffffff;
+        position: relative;
+    }
+
+    .participant-name-label {
+        font-size: 50px;
+        font-weight: normal;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+        top: 20px;
+        color: #f0cc04;
+        position: relative;
+        left: 70px;
+    }
+
+    .prize-helmet {
+        position: relative;
+        top: 100px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .player-profile {
+        width: 200px;
+        height: 200px;
+        border: 10px solid white;
+        border-radius: 50%;
+        position: relative;
+        top: 120px;
+    }
+
+    .place-out-of {
+        font-size: 50px;
+        font-weight: normal;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+        color: #f0cc04;
+        position: relative;
+        top: 120px;
+    }
+
+    .message {
+        font-size: 70px;
+        font-weight: normal;
+        font-family: 'dk_lemon_yellow_sunregular';
+        text-align: center;
+        color: #ffffff;
+        position: relative;
+        top: 200px;
+    }
+
+    @media screen and (max-width: 1600px) {
+        .participant-label {
+            font-size: 50px;
+            top: 20px;
+        }
+    
+        .participant-name-label {
+            font-size: 50px;
+            top: 20px;
+            left: 180px;
+        }
+    
+        .prize-helmet {
+            position: relative;
+            top: 80px;
+            width: 150px;
+            height: 150px;
+        }
+    
+        .player-profile {
+            width: 200px;
+            height: 200px;
+            top: 100px;
+        }
+
+        .place-out-of {
+            font-size: 70px;
+            top: 120px;
+        }
+    
+        .message {
+            font-size: 90px;
+            top: 500px;
+        }
+    }
+
+    @media screen and (max-width: 1200px) {
+        .participant-label {
+            font-size: 50px;
+            top: 20px;
+        }
+    
+        .participant-name-label {
+            font-size: 50px;
+            top: 20px;
+            left: 140px;
+        }
+    
+        .prize-helmet {
+            position: relative;
+            top: 80px;
+            width: 150px;
+            height: 150px;
+        }
+    
+        .player-profile {
+            width: 200px;
+            height: 200px;
+            top: 100px;
+        }
+
+        .place-out-of {
+            font-size: 70px;
+            top: 120px;
+        }
+    
+        .message {
+            font-size: 90px;
+            top: 500px;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .participant-label {
+            font-size: 50px;
+            top: 20px;
+        }
+    
+        .participant-name-label {
+            font-size: 50px;
+            top: 20px;
+            left: 120px;
+        }
+    
+        .prize-helmet {
+            position: relative;
+            top: 80px;
+            width: 100px;
+            height: 100px;
+        }
+    
+        .player-profile {
+            width: 150px;
+            height: 150px;
+            top: 100px;
+        }
+
+        .place-out-of {
+            font-size: 60px;
+            top: 120px;
+        }
+    
+        .message {
+            font-size: 80px;
+            top: 300px;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .participant-label {
+            font-size: 30px;
+            top: 20px;
+        }
+    
+        .participant-name-label {
+            font-size: 30px;
+            top: 20px;
+            left: 70px;
+        }
+    
+        .prize-helmet {
+            position: relative;
+            top: 80px;
+            width: 70px;
+            height: 70px;
+        }
+    
+        .player-profile {
+            width: 100px;
+            height: 100px;
+            top: 100px;
+        }
+
+        .place-out-of {
+            font-size: 40px;
+            top: 120px;
+        }
+    
+        .message {
+            font-size: 50px;
+            top: 300px;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .participant-label {
+            font-size: 20px;
+            top: 20px;
+        }
+    
+        .participant-name-label {
+            font-size: 20px;
+            top: 20px;
+            left: 50px;
+        }
+    
+        .prize-helmet {
+            position: relative;
+            top: 80px;
+            width: 70px;
+            height: 70px;
+        }
+    
+        .player-profile {
+            width: 100px;
+            height: 100px;
+            top: 100px;
+        }
+
+        .place-out-of {
+            font-size: 40px;
+            top: 120px;
+        }
+    
+        .message {
+            font-size: 50px;
+            top: 200px;
+        }
+    }
+
+    @media screen and (max-width: 350px) {
+        .participant-label {
+            font-size: 30px;
+            top: 20px;
+        }
+    
+        .participant-name-label {
+            font-size: 30px;
+            top: 20px;
+            left: 90px;
+        }
+    
+        .prize-helmet {
+            position: relative;
+            top: 80px;
+            width: 70px;
+            height: 70px;
+        }
+    
+        .player-profile {
+            width: 100px;
+            height: 100px;
+            top: 100px;
+        }
+
+        .place-out-of {
+            font-size: 40px;
+            top: 120px;
+        }
+    
+        .message {
+            font-size: 50px;
+            top: 150px;
+        }
+    }
+
+    @media screen and (max-height: 1800px) {
+        .message {
+            top: 800px;
+        }
+    }
+
+    @media screen and (max-height: 1400px) {
+        .message {
+            top: 600px;
+        }
+    }
+
+    @media screen and (max-height: 1100px) {
+        .message {
+            top: 450px;
+        }
+    }
+
+    @media screen and (max-height: 1000px) {
+        .message {
+            top: 300px;
+        }
+    }
+}

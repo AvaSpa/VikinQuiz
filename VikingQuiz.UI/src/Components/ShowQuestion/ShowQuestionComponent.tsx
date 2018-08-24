@@ -82,11 +82,14 @@ class ShowQuestionComponent extends React.Component<any, any>{
    }
 
    public timeoutHandler = () => {
+
+      this.hubConnection.connection.invoke("ItsOver");
       this.setState({
          timer: -1,
          showCorrectAnswer: true
       })
    }
+
 
    public endQuestion = () => {
       console.log("questions ended");

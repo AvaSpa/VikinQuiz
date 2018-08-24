@@ -19,6 +19,7 @@ import SignalRComponent from './Components/SignalR';
 import PlayerAnswerPage from './Components/PlayerAnswerPage/PlayerAnswerPage';
 
 import MainRankingPage from './Components/MainRankingPage/MainRankingPage';
+import PlayerRank from './Components/PlayerRankingPage/PlayerRank';
 
 class App extends React.Component<{}, {}> {
   constructor(props: any) {
@@ -49,8 +50,10 @@ class App extends React.Component<{}, {}> {
             <Route exact={true} path="/signalr" component={SignalRComponent} />
             <Route exact={true} path="/rankingPage" component={MainRankingPage} />
             <Route exact={true} path="/playeranswer" component={PlayerAnswerPage} />
-            {/* <Route exact={true} path="/playerranking" component={} /> */}
-
+            {/* <Route exact={true} path="/playeranswer" component={PlayerAnswerPage} /> */}
+            <Route exact={true} path="/playerranking" component={PlayerRank} />
+            
+    
             <Route path="*" component={NotFoundComponent} />
         </Switch>
         </div>

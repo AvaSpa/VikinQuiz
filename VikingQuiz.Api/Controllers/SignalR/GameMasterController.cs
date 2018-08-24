@@ -57,6 +57,13 @@ namespace VikingQuiz.Api.Controllers.SignalR
             Clients.Group(code).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id + 1);
         }
 
+        public void ItsOver()
+        {
+            string code = RoomService.PlayersToRooms[Context.ConnectionId];
+            GameInstance gameInstance = RoomService.Rooms[code];
+            // Clients.GroupExcept(code, gameInstance.GameMasterId).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id);
+            Clients.Group(code).SendAsync("SendCorrectAnswerId", gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item2 - gameInstance.QuizQuestionsAnswers.answers.Values.ElementAt(gameInstance.CurrentQuestion).Item1[0].Id + 1);
+        }
 
 
 
