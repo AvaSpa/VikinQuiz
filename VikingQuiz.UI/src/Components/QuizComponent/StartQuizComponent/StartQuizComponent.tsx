@@ -6,10 +6,10 @@ import ImageValidator from '../../../entities/Validation/imageValidator';
 import HttpService from '../../../services/HttpService';
 import SnackbarComponent from '../../SnackbarComponent/SnackbarComponent';
 import ISnackbarData from '../../../entities/SnackBarData';
-import {errorSnackbar, successSnackbar} from '../../../commons/commons';
+import { errorSnackbar, successSnackbar } from '../../../commons/commons';
 import UploadComponent from '../../UploadComponent/UploadComponent';
 import PreviewImageComponent from '../../PreviewImageComponent/PreviewImageComponent';
-import {apiUrl} from 'src/constants';
+import { apiUrl } from 'src/constants';
 
 interface IState {
     title: string,
@@ -23,7 +23,7 @@ interface IState {
     imageSource: any
 }
 
-interface IProps{
+interface IProps {
     editMode: boolean
     quizId: number,
     save: any
@@ -52,13 +52,13 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     private httpService: any = new HttpService();
     private imageValidator: any = new ImageValidator();
 
-    public showSnackbarHandler = (snackbar: ISnackbarData) =>{
+    public showSnackbarHandler = (snackbar: ISnackbarData) => {
         this.setState({
-            snackbarData: {...snackbar},
+            snackbarData: { ...snackbar },
             showSnackbar: true
         })
 
-        if(this.state.snackbarData.duration > 0){
+        if (this.state.snackbarData.duration > 0) {
             setTimeout(() => {
                 this.setState({
                     showSnackbar: false
@@ -67,17 +67,17 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         }
     }
 
-    public componentWillMount(){
-        
-        if(this.props.editMode){
-            const getQuizUrl: string =  quizzesUrl + '/' + this.props.quizId; 
+    public componentWillMount() {
+
+        if (this.props.editMode) {
+            const getQuizUrl: string = quizzesUrl + '/' + this.props.quizId;
             this.httpService.getWithToken(getQuizUrl)
-            .then((response: any) => {
-                const imageUrl: string = response.data.pictureUrl;
-                const titleValue: string = response.data.title;
-                this.getImageBlobFromURL(imageUrl, titleValue);
-            })
-            .catch((error: any) => console.log(error));
+                .then((response: any) => {
+                    const imageUrl: string = response.data.pictureUrl;
+                    const titleValue: string = response.data.title;
+                    this.getImageBlobFromURL(imageUrl, titleValue);
+                })
+                .catch((error: any) => console.log(error));
         }
     }
 
@@ -90,7 +90,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     public focusTitleHandler = () => {
-        if(this.state.title === initialTitle){
+        if (this.state.title === initialTitle) {
             this.setState({
                 title: ''
             })
@@ -105,7 +105,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
                 imageSource: e.target.result
             });
         }
-        
+
         reader.readAsDataURL(file);
         this.setState({
             imageError: '',
@@ -130,15 +130,15 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     public saveQuizHandler = () => {
         const formData = new FormData();
 
-        if(!this.isQuizValid()){
+        if (!this.isQuizValid()) {
             return;
         }
-        
+
         formData.append('files', this.state.selectedFile);
         formData.append('title', this.state.title.toUpperCase());
 
         let url: string = quizzesUrl;
-        if(this.props.editMode){
+        if (this.props.editMode) {
             url = url + '/' + this.props.quizId;
         }
 
@@ -147,29 +147,29 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
     public saveQuizRequest = (url: string, body: any) => {
         this.httpService.postWithToken(url, body)
-        .then((response: any) => {
-            this.successfulSaveHandler(response);
-        })
-        .catch((error: any) => {
-            this.errorHandler(error);
-        });
+            .then((response: any) => {
+                this.successfulSaveHandler(response);
+            })
+            .catch((error: any) => {
+                this.errorHandler(error);
+            });
     }
 
     public render() {
-        return ( 
-            <div className = "start-quiz row">
+        return (
+            <div className="start-quiz row">
                 <div id="title" className="col-md-5 col-xs-12" >
-                    <FormInput InputId="quiz-title" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler} readonly={this.state.saved}/>
+                    <FormInput InputId="quiz-title" InputType="text" name="quizTitle" value={this.state.title} changed={this.changeTitleHandler} focus={this.focusTitleHandler} readonly={this.state.saved} />
                     <div className="error-message">{this.state.titleError}</div>
                 </div>
                 <div id="upload" className="col-md-5 col-xs-9">
-                    <span id="label-photo-txt"> { this.props.editMode ? 'change quiz photo' : this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</span>
-                    <UploadComponent disabled={this.state.saved} upload={this.successfulUploadHandler} imageValidator={this.imageValidator} error={this.errorUploadHandler} classes={[]}/>
+                    <span id="label-photo-txt"> {this.props.editMode ? 'change quiz photo' : this.state.selectedFile ? "edit quiz photo" : "upload quiz photo"}</span>
+                    <UploadComponent disabled={this.state.saved} upload={this.successfulUploadHandler} imageValidator={this.imageValidator} error={this.errorUploadHandler} classes={[]} />
                     <PreviewImageComponent image={this.state.imageSource} />
                     <div className="error-message">{this.state.imageError}</div>
                 </div>
                 <div className="success-btn col-md-2 col-xs-3">
-                    <SubmitButton click={this.saveQuizHandler}/>
+                    <SubmitButton click={this.saveQuizHandler} />
                 </div>
                 <SnackbarComponent data={this.state.snackbarData} show={this.state.showSnackbar} />
             </div>
@@ -178,7 +178,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
     private isTitleValid = (currentTitle: string): boolean => {
 
-        if(currentTitle === initialTitle || !currentTitle){
+        if (currentTitle === initialTitle || !currentTitle) {
             this.setState({
                 titleError: 'Please add a title'
             });
@@ -194,11 +194,10 @@ class StartQuizComponent extends React.Component<IProps, IState>{
 
     private isQuizValid = (): boolean => {
         let validity: boolean = true;
-        if(!this.isTitleValid(this.state.title))
-        {
+        if (!this.isTitleValid(this.state.title)) {
             validity = false;
         }
-        if(!this.imageValidator.isImageValid(this.state.selectedFile)){
+        if (!this.imageValidator.isImageValid(this.state.selectedFile)) {
             this.setState({
                 imageError: this.imageValidator.getErrorMessage()
             })
@@ -212,11 +211,11 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         return validity;
     }
 
-    private successfulSaveHandler(response: any){
+    private successfulSaveHandler(response: any) {
         const snackbar: ISnackbarData = successSnackbar;
-        if(!this.props.editMode){
+        if (!this.props.editMode) {
             snackbar.message = "Quiz created";
-        }else{
+        } else {
             snackbar.message = "Quiz updated";
         }
         this.showSnackbarHandler(snackbar);
@@ -229,9 +228,14 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         this.props.save(id);
     }
 
-    private errorHandler(error: any){
+    private errorHandler(error: any) {
         const snackbar: ISnackbarData = errorSnackbar;
         snackbar.message = "Cannot create quiz, please try again";
+        snackbar.action.actionHandler = () => {
+            this.setState({
+                showSnackbar: false
+            })
+        }
         this.showSnackbarHandler(snackbar);
     }
 
@@ -239,7 +243,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         const errorClassName: string = "error-border";
         const uploadElement: any = document.querySelector(".upload-component");
         uploadElement.classList.add(errorClassName);
-        setTimeout(()=>{
+        setTimeout(() => {
             this.setState({
                 imageError: ''
             })
@@ -256,7 +260,7 @@ class StartQuizComponent extends React.Component<IProps, IState>{
         const errorClassName: string = "error-border";
         const titleElement: any = document.querySelector("#title");
         titleElement.classList.add(errorClassName);
-        setTimeout(()=>{
+        setTimeout(() => {
             this.setState({
                 titleError: ''
             })
@@ -270,23 +274,23 @@ class StartQuizComponent extends React.Component<IProps, IState>{
     }
 
     private getImageBlobFromURL = (imageUrl: any, titleValue: any) => {
-        this.httpService.get(imageUrl, { responseType:"blob" })
-                .then((res: any) =>{
+        this.httpService.get(imageUrl, { responseType: "blob" })
+            .then((res: any) => {
+                this.setState({
+                    selectedFile: res.data,
+                    title: titleValue
+                });
+                const reader = new FileReader();
+
+                reader.onload = (e: any) => {
                     this.setState({
-                        selectedFile: res.data,
-                        title: titleValue
-                    });
-                    const reader = new FileReader();
-        
-                    reader.onload = (e: any) => {
-                        this.setState({
-                            imageSource: e.target.result
-                        }) 
-                     }
-        
-                    reader.readAsDataURL(res.data);
-                })
-                .catch((error: any)=>console.log(error.data))
+                        imageSource: e.target.result
+                    })
+                }
+
+                reader.readAsDataURL(res.data);
+            })
+            .catch((error: any) => console.log(error.data))
     }
 
 }

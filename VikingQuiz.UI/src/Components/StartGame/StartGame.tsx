@@ -42,7 +42,7 @@ class StartGame extends React.Component<any, any> {
         const displayedMessage = "YOUR CODE";
         const displayedCode = this.state.code;
         if(this.state.redirect){
-            return (<Redirect push={true} to={"/show-question/" + this.state.code} />);        }
+            return (<Redirect push={true} to={"/show-question"} />);        }
         return (
             <div className="startgame-container container">
                 <div className="startgame-center-container">

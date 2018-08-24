@@ -14,13 +14,14 @@ const picturesUrls: string[] = [
     'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/3.png',
     'https://intershipwirtekblob.blob.core.windows.net/answer-pictures/4.png'
 ]
+const TIMER = 3;
 class ShowQuestionComponent extends React.Component<any, any>{
     public hubConnection: any;
 	public readonly code = this.props.match.params.code;
 	
     public state = {
-        timer: 20,
-        questionNumber: null,
+        timer: TIMER,
+        questionNumber: 1,
         quizUrl: null,
         quizName: null,
         showCorrectAnswer: false,
@@ -45,11 +46,11 @@ class ShowQuestionComponent extends React.Component<any, any>{
         this.hubConnection.connection.on('GameIsOver', this.redirectToRankingPage);
         this.getCurrentQuestion();
 
-        setTimeout(this.endQuestion,5000);
+        // setTimeout(this.endQuestion,5000);
     }
 
     public getCurrentQuestion = () => {
-		this.hubConnection.connection.invoke('GetCurrentQuestion', this.code).then((res: any) => {
+		this.hubConnection.connection.invoke('GetCurrentQuestion').then((res: any) => {
             this.setState({
                 question: res
             })
@@ -58,6 +59,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 
     public nextQuestionHandler = () => {
         this.hubConnection.connection.invoke('GoToNextQuestion').then((areThereMoreQuestions: any) => {
+            console.log("HERE is MY ANSWER: ", areThereMoreQuestions);
 			if(areThereMoreQuestions) {
 				this.getCurrentQuestion();
 			}
@@ -66,7 +68,8 @@ class ShowQuestionComponent extends React.Component<any, any>{
 			}
         });
         this.setState({
-            timer: 20,
+            questionNumber: this.state.questionNumber+1,
+            timer: TIMER,
             showCorrectAnswer: false
         })
     }
@@ -79,7 +82,6 @@ class ShowQuestionComponent extends React.Component<any, any>{
     }
 
     public timeoutHandler = () => {
-        this.hubConnection.connection.invoke('GoToNextQuestion');
         this.setState({
             timer: -1,
             showCorrectAnswer: true
@@ -103,7 +105,7 @@ class ShowQuestionComponent extends React.Component<any, any>{
 		});
 		console.log(newAnswers);
         if (this.state.redirect) {
-			return <Redirect push={true} to={"/rankingPage/" + this.code} />;
+			return <Redirect push={true} to={"/rankingPage"} />;
         }
         return (
             <div className='show-question'>

@@ -66,13 +66,13 @@ namespace VikingQuiz.Api.Controllers
         //        Name = playercode.Name
         //    };
 
-        //    if(createdPlayer.PictureUrl == "")
+        //    if (createdPlayer.PictureUrl == "")
         //    {
         //        createdPlayer = playerRepository.AssignRandomPhoto(createdPlayer);
         //    }
 
         //    Player newPlayer = playerRepository.AddPlayer(createdPlayer);
-        //    if(newPlayer == null)
+        //    if (newPlayer == null)
         //    {
         //        return BadRequest("Player couldn't be created");
         //    }
